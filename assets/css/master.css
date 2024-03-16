@@ -1,0 +1,11 @@
+
+body {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.dark {
+    background-color: #1e2124;
+    color: #ffffff;
+}
