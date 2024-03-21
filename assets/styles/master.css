@@ -1,0 +1,16 @@
+
+body {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg-primary: #112e58;
+    --bg-secondary: #214577;
+}
+
+.dark {
+    background-color: #1e2124;
+    color: #ffffff;
+}

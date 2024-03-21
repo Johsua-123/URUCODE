@@ -1,0 +1,73 @@
+ 
+:root {
+    --bg-primary: #112e58;
+    --bg-secondary: #4c6da5;
+}
+
+@media screen and  (min-width: 1024px) {
+ 
+    .navbar {
+        width: 70vw; /* ancho ajustable al 70% del de la ventana */
+        margin: 0 auto; /* centrar horizontalmemte el contenido */
+        display: flex; /* aplicamos flexbox para el diseño */
+        background-color: var(--bg-primary); /* color de fondo con la variable */
+    }
+
+    .navbar-container {
+        width: 100%; /* le damos todo al ancho disponible */
+        margin: 0 5vw; /* margenes laterales ajustable al 5% del ancho de la ventana */
+        display: flex; /* aplicamos flexbox para el diseño */
+        justify-content: space-between; /* distribuimos elementos con espacios entre ellos */
+    }
+
+    .navbar-brand img {
+        width: 70px; /* establemos ancho de 70 pixeles */
+        height: 70px; /* establemos altura de 70 pixeles */
+    }
+
+    .navbar-search {
+        display: flex; /* aplicamos flexbox para el diseño */
+        align-items: center; /* Centra verticalmente los elementos hijos */
+    }
+
+    .navbar-search input {
+        width: 20vw; /* establecemos ancho al 20% del tamaño del dispositivo */
+        height: 26px; /* establemos altura de 26 pixeles */
+        outline: none; /* quitamos el contorno */
+        border: 3.7px solid var(--bg-secondary); /* aplicamos un borde */
+    }
+
+    .navbar-search svg {
+        width: 32px; /* establemos ancho de 32 pixeles */
+        height: 32px; /* establemos altura de 32 pixeles */
+    }
+
+    .navbar-extra {
+        display: flex; /* aplicamos flexbox para el diseño */
+        align-items: center; /* Centra verticalmente los elementos hijos */
+    }
+
+    .profile-icon {
+        width: 36px; /* establemos ancho de 36 pixeles */
+        height: 36px; /* establemos altura de 36 pixeles */
+        cursor: pointer; /* establecemos el cursor a pointer */
+        margin: 0 2vw; /* le damos un margen al icono de perfil*/
+    }
+    
+    .navbar-cart {
+        cursor: pointer; /* establecemos el cursor a pointer */
+    }
+
+    .navbar-cart svg {
+        width: 36px; /* establemos ancho de 36 pixeles */
+        height: 36px; /* establemos altura de 36 pixeles */
+    }
+
+    .navbar-cart span {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        top: 10px;
+        position: absolute;
+        padding-left: 40px;
+        font-size: 18px;
+    }
+}
