@@ -7,7 +7,7 @@
 @media screen and  (min-width: 1024px) {
  
     .navbar {
-        width: 70vw; /* ancho ajustable al 70% del de la ventana */
+        width: 100%; /* ancho ajustable al 70% del de la ventana */
         margin: 0 auto; /* centrar horizontalmemte el contenido */
         display: flex; /* aplicamos flexbox para el diseño */
         background-color: var(--bg-primary); /* color de fondo con la variable */
@@ -72,4 +72,14 @@
         font-size: 18px;
     }
 
+    .links-container {
+        margin: 0 auto;
+        width: 100%;
+    }
+
+    .links {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 }

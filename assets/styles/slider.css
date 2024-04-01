@@ -1,0 +1,49 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: lato;
+}
+
+.slider-container{
+    width: 100vw;
+    height: auto;
+    margin: 50px auto 0;
+    overflow: hidden;
+
+    
+}
+
+.slider-container ul{
+    display: flex;
+    padding: 0;
+    width: 500%;
+
+    animation: slide 15s infinite alternate ease-in-out; /*establece nombre, duración y cantidad de veces q se repite la animacion*/
+}
+
+.slider-container li{
+    list-style: none; /*quita la apariencia de lista*/
+    width: 100%;
+}
+
+.slider-container img{
+    width: 100%;
+}
+
+@keyframes slide{ /*establece como se van a mover las imagenes*/
+    0%{margin-left: 0%;}
+    15%{margin-left: 0%;}
+
+    20%{margin-left: -100%;}
+    35%{margin-left: -100%;}
+
+    40%{margin-left: -200%;}        /*establece cuanto tiempo se va a ver cada imagen*/
+    55%{margin-left: -200%;}
+
+    60%{margin-left: -300%;}
+    75%{margin-left: -300%;}
+
+    80%{margin-left: -400%;}
+    95%{margin-left: -400%;}
+    
+}
