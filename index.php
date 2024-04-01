@@ -20,7 +20,9 @@
                 <li><img src="public/banners/slider-5.png" alt=""></li>
             </ul>         
         </div>
-        
+        <div class="background-celeste">
+
+</div>
         
     </body> 
 </html>

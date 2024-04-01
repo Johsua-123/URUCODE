@@ -31,19 +31,13 @@
 }
 
 @keyframes slide{ /*establece como se van a mover las imagenes*/
-    0%{margin-left: 0%;}
-    15%{margin-left: 0%;}
-
-    20%{margin-left: -100%;}
-    35%{margin-left: -100%;}
-
-    40%{margin-left: -200%;}        /*establece cuanto tiempo se va a ver cada imagen*/
-    55%{margin-left: -200%;}
-
-    60%{margin-left: -300%;}
-    75%{margin-left: -300%;}
-
-    80%{margin-left: -400%;}
-    95%{margin-left: -400%;}
+    
+        0% { margin-left: 0%; }
+        16% { margin-left: 0%; }
+        33% { margin-left: -100%; }
+        50% { margin-left: -100%; }
+        66% { margin-left: -200%; }
+        83% { margin-left: -200%; }
+        100% { margin-left: -300%; }
     
 }
