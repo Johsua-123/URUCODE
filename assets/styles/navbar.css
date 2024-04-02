@@ -4,64 +4,66 @@
     --bg-secondary: #4c6da5;
 }
 
-@media screen and  (min-width: 1024px) {
- 
+@media screen and (min-width: 1024px) {
+
     .navbar {
-        width: 100%; /* ancho ajustable al 70% del de la ventana */
-        margin: 0 auto; /* centrar horizontalmemte el contenido */
-        display: flex; /* aplicamos flexbox para el diseño */
-        background-color: var(--bg-primary); /* color de fondo con la variable */
+        width: 100%;
+        margin: 0 auto; 
+        padding: 10px 0;
+        display: flex;
+        background-color: var(--bg-primary); 
     }
 
     .navbar-container {
-        width: 100%; /* le damos todo al ancho disponible */
-        margin: 0 5vw; /* margenes laterales ajustable al 5% del ancho de la ventana */
-        display: flex; /* aplicamos flexbox para el diseño */
-        justify-content: space-between; /* distribuimos elementos con espacios entre ellos */
+        width: 100%; 
+        margin: 0 10vw; 
+        display: flex;
+        justify-content: space-between; 
     }
 
     .navbar-brand img {
-        width: 70px; /* establemos ancho de 70 pixeles */
-        height: 70px; /* establemos altura de 70 pixeles */
+        width: 70px; 
+        height: 70px; 
     }
 
     .navbar-search {
-        display: flex; /* aplicamos flexbox para el diseño */
-        align-items: center; /* Centra verticalmente los elementos hijos */
+        display: flex; 
+        align-items: center; 
+       
     }
 
     .navbar-search input {
-        width: 20vw; /* establecemos ancho al 20% del tamaño del dispositivo */
-        height: 26px; /* establemos altura de 26 pixeles */
-        outline: none; /* quitamos el contorno */
-        border: 3.7px solid var(--bg-secondary); /* aplicamos un borde */
+        width: 30vw; 
+        height: 26px; 
+        outline: none; 
+        border: 3.7px solid var(--bg-secondary); 
     }
 
     .navbar-search svg {
-        width: 32px; /* establemos ancho de 32 pixeles */
-        height: 32px; /* establemos altura de 32 pixeles */
-        cursor: pointer; /* establecemos el cursor a pointer */
+        width: 32px;
+        height: 32px; 
+        cursor: pointer;
     }
 
     .navbar-extra {
-        display: flex; /* aplicamos flexbox para el diseño */
-        align-items: center; /* Centra verticalmente los elementos hijos */
+        display: flex; 
+        align-items: center; 
     }
 
     .profile-icon {
-        width: 36px; /* establemos ancho de 36 pixeles */
-        height: 36px; /* establemos altura de 36 pixeles */
-        cursor: pointer; /* establecemos el cursor a pointer */
-        margin: 0 2vw; /* le damos un margen al icono de perfil*/
+        width: 36px; 
+        height: 36px; 
+        cursor: pointer; 
+        margin: 0 2vw; 
     }
     
     .navbar-cart {
-        cursor: pointer; /* establecemos el cursor a pointer */
+        cursor: pointer;
     }
 
     .navbar-cart svg {
-        width: 36px; /* establemos ancho de 36 pixeles */
-        height: 36px; /* establemos altura de 36 pixeles */
+        width: 36px; 
+        height: 36px; 
     }
 
     .navbar-cart span {
@@ -72,14 +74,104 @@
         font-size: 18px;
     }
 
-    .links-container {
-        margin: 0 auto;
+    .navbar-header {
         width: 100%;
+        padding: 10px 0;
+        display: flex;
+        justify-content: center;
+        background-color: var(--bg-primary);
+        border-top: 2px solid var(--bg-secondary);
+        border-bottom: 1px solid var(--bg-secondary);
     }
-
-    .links {
+    
+    .header-container {
+        width: 70vw;
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: space-between;
     }
+
+    .header-catalogue {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+    }
+    
+    .header-links {
+        display: flex;
+        align-items: center;
+    }
+
+    .header-links a { 
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        margin: 0 5px;
+    }
+
+    .header-container span {
+        font-size: 24px;
+        color: white;
+        margin: 0 3px;
+    }
+
+    .navbar-header svg {
+        width: 32px;
+        height: 32px;
+        color: white;
+    }
+}
+
+@media screen and (min-width: 360px) and (max-width: 1023px) {
+
+    .navbar {
+        width: 100%;
+        background-color: var(--bg-primary);
+    }
+
+    .navbar-container {
+        display: flex;
+        margin: 0 20px;
+        align-items: center;
+    }
+
+    .navbar-brand img {
+        width: 50px; 
+        height: 50px;
+    }
+
+    .navbar-search {
+        display: none;
+    }
+
+    .profile-icon {
+        display: none;
+    }
+
+    .navbar-extra {
+        margin-left: auto;
+    }
+
+    .navbar-cart {
+        cursor: pointer;
+    }
+
+    .navbar-cart svg {
+        width: 30px; 
+        height: 30px; 
+    }
+
+    .navbar-cart span {
+        font-family: Arial, Helvetica, sans-serif;
+        top: 8px;
+        position: absolute;
+        padding-left: 32px;
+        font-size: 10px;
+    }
+
+    .navbar-links {
+       width: 100%;
+       
+    }
+
 }
