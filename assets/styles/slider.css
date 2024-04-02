@@ -1,43 +1,5 @@
-*{
-    margin: 0;
-    padding: 0;
-    font-family: lato;
-}
 
-.slider-container{
-    width: 100vw;
-    height: auto;
-    margin: 50px auto 0;
-    overflow: hidden;
-
-    
-}
-
-.slider-container ul{
-    display: flex;
-    padding: 0;
-    width: 500%;
-
-    animation: slide 15s infinite alternate ease-in-out; /*establece nombre, duración y cantidad de veces q se repite la animacion*/
-}
-
-.slider-container li{
-    list-style: none; /*quita la apariencia de lista*/
+.slider-container {
     width: 100%;
 }
 
-.slider-container img{
-    width: 100%;
-}
-
-@keyframes slide{ /*establece como se van a mover las imagenes*/
-    
-        0% { margin-left: 0%; }
-        16% { margin-left: 0%; }
-        33% { margin-left: -100%; }
-        50% { margin-left: -100%; }
-        66% { margin-left: -200%; }
-        83% { margin-left: -200%; }
-        100% { margin-left: -300%; }
-    
-}

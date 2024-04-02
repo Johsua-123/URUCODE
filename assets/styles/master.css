@@ -3,6 +3,7 @@ body {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    color: white;
 }
 
 :root {
@@ -11,7 +12,5 @@ body {
 }
 
 .dark {
-    background-color: #1e2124;
-    color: #ffffff;
+    background-color: #dae6ff;
 }
-
