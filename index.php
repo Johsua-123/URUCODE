@@ -10,16 +10,19 @@
     </head>
     <body class="dark">
         <?php include "reusables/navbar.html" ?>
-        <!--
         <div class="slider-container">
-            <ul>
-                <li><img src="public/banners/slider-1.png" alt=""></li>
-                <li><img src="public/banners/slider-2.png" alt=""></li>
-                <li><img src="public/banners/slider-3.png" alt=""></li>
-                <li><img src="public/banners/slider-4.png" alt=""></li>
-                <li><img src="public/banners/slider-5.png" alt=""></li>
-            </ul>         
+            <div class ="slider" id="slider">
+<div class="slider__section"><img src="public/banners/slider-1.png" alt="" class="slider__"></div>
+<div class="slider__section"><img src="public/banners/slider-2.png" alt="" class="slider__"></div>
+<div class="slider__section"><img src="public/banners/slider-3.png" alt="" class="slider__"></div>
+<div class="slider__section"><img src="public/banners/slider-4.png" alt="" class="slider__"></div>
+<div class="slider__section"><img src="public/banners/slider-5.png" alt="" class="slider__"></div>
+
+            </div>
+            <div class="slider__btn slider__btn--right">&#60;</div>
+            <div class="slider__btn slider__btn--left">&#62;</div>
         </div>
-        -->
+        <script type="application/javascript" src="slider.js"></script>
+    
     </body> 
 </html>
