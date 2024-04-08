@@ -17,7 +17,6 @@
 <div class="slider__section"><img src="public/banners/slider-3.png" alt="" class="slider__"></div>
 <div class="slider__section"><img src="public/banners/slider-4.png" alt="" class="slider__"></div>
 <div class="slider__section"><img src="public/banners/slider-5.png" alt="" class="slider__"></div>
-
             </div>
             <div class="slider__btn slider__btn--right">&#60;</div>
             <div class="slider__btn slider__btn--left">&#62;</div>
