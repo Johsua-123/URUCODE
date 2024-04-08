@@ -29,7 +29,6 @@
     .navbar-search {
         display: flex; 
         align-items: center; 
-       
     }
 
     .navbar-search input {
@@ -85,28 +84,25 @@
     }
     
     .header-container {
-        width: 70vw;
+        width: 100%;
         display: flex;
-        align-items: center;
-        justify-content: space-between;
     }
 
-    .header-catalogue {
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-    }
-    
     .header-links {
         display: flex;
         align-items: center;
+        margin: 0 8.3vw;
+        padding: 10px 0;
     }
 
     .header-links a { 
         display: flex;
         align-items: center;
         text-decoration: none;
-        margin: 0 5px;
+        margin: 0 20px;
+        color: white;
+        font-size: 25px;
+        font-weight: 700;
     }
 
     .header-container span {
