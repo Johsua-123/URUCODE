@@ -1,4 +1,5 @@
 
+/*
 document.addEventListener("DOMContentLoaded", () => {
 
     const open = document.getElementById("hamburguer-open");
@@ -15,3 +16,5 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 })
+
+*/

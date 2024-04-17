@@ -1,32 +1,17 @@
-.slider{
-    width: 75vw;
-    height: auto;
-    margin: auto;
-    overflow: hidden;
-}
-
-.slider .slide-track{
+.slider {
     display: flex;
-    animation: scroll 40s linear infinite;
--webkit-animation: scroll 40s linear infinite;
-width: calc(200px *8);
-}
-
-.slider .slide {
-    width: 200px;
-}
-
-.slider .slide img{
     width: 100%;
+    overflow-x: hidden;
 }
 
-@keyframes scroll{
-    0%{
--webkit-transform: translateX(0);
-transform:translateX(0);
-    } 
-    100%{
-        -webkit-transform: translateX(calc(-200px *4));
-        transform:translateX(calc(-200px *4));
-            }
+.slider img {
+    display: none; /* Oculta todas las imágenes por defecto */
+    height: 60%;
+    width: 100%;
+    /* transition: opacity 5s ease; /* Transición suave al cambiar de imagen */
+    /* transform: translateX(100%); */
+}
+
+.slider img.active {
+    display: block; /* Muestra la imagen con la clase "active" */
 }
