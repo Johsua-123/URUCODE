@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const slider = document.getElementById("slider");
     const slides = slider.children;
     let index = 0;
-    
+
     function showSlide() {
         for (let i = 0; i < slides.length; i++) {
             slides[i].style.display = "none";

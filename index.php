@@ -11,7 +11,7 @@
     </head>
     <body class="dark">
         <?php include "reusables/navbar.html" ?>
-        <div id="slider" class="slider">
+        <div id="slider" class="slider-container">
             <img src="public/banners/slider-1.png" alt="">
             <img src="public/banners/slider-2.png" alt="">
             <img src="public/banners/slider-3.png" alt="">

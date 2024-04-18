@@ -1,17 +1,14 @@
 .slider {
-    display: flex;
     width: 100%;
-    overflow-x: hidden;
-}
-
-.slider img {
-    display: none; /* Oculta todas las imágenes por defecto */
-    height: 60%;
-    width: 100%;
-    /* transition: opacity 5s ease; /* Transición suave al cambiar de imagen */
-    /* transform: translateX(100%); */
-}
-
-.slider img.active {
-    display: block; /* Muestra la imagen con la clase "active" */
-}
+        overflow-x: hidden;
+    }
+    .slider img {
+        display: none; /* Oculta todas las imágenes por defecto /
+        height: 60%;
+        width: 100%;
+        / transition: opacity 5s ease; /* Transición suave al cambiar de imagen /
+        / transform: translateX(100%); */
+    }
+    .slider img.active {
+        display: block; /* Muestra la imagen con la clase "active" */
+    }
