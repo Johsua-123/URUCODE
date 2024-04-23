@@ -11,6 +11,7 @@
     </head>
     <body class="dark">
         <?php include "reusables/navbar.html" ?>
+        <?php include "reusables/footer.php" ?>
         </div>
     </body> 
 </html>

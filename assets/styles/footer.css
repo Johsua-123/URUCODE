@@ -5,7 +5,17 @@
     box-sizing: border-box;
     font-family: 'Open Sans', sans-serif;
 }
+body {
+    position: relative;
+    height: 100vh;
+}
 
+footer {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
 .pie-pagina{
     width: 100%;
     background-color: #0a141d;

@@ -4,18 +4,16 @@
     <meta charset="UTF-8">
     <title>Pie de pagina</title>
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <link rel="stylesheet" href="footer.css">
-<!--Iconos-->
+    <link rel="stylesheet" href="assets/styles/footer.css">
     <script src="https://kit.fontawesome.com/eb496ab1a0.js" crossorigin="anonymous"></script>
 </head>
 <body>
-<!--::::Pie de Pagina::::::-->
     <footer class="pie-pagina">
         <div class="grupo-1">
             <div class="box">
                 <figure>
                     <a href="#">
-                        <img src="errea-logo.png" alt="Logo de errea">
+                        <img src="public/errea-logo.png" alt="Logo de errea">
                     </a>
                 </figure>
             </div>
