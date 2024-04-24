@@ -19,8 +19,7 @@
             </div>
             <div class="box">
                 <h2>SOBRE NOSOTROS</h2>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, ipsa?</p>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, ipsa?</p>
+                <p>En ERREA, nos dedicamos apasionadamente al comercio de productos informáticos para satisfacer las necesidades tecnológicas de nuestros clientes. Desde nuestra fundación en 2009, hemos trabajado arduamente para convertirnos en líderes en el sector, brindando soluciones innovadoras y un servicio excepcional.</p>
             </div>
             <div class="box">
                 <h2>SIGUENOS</h2>
@@ -30,6 +29,7 @@
                     <a href="#" class="fa fa-twitter"></a>
                     <a href="#" class="fa fa-youtube"></a>
                 </div>
+                <div class="metodos"><img src="" alt="pagos"></div>
             </div>
         </div>
         <div class="grupo-2">
