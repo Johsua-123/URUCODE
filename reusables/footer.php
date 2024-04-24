@@ -24,12 +24,14 @@
             <div class="box">
                 <h2>SIGUENOS</h2>
                 <div class="red-social">
-                    <a href="#" class="fa fa-facebook"></a>
-                    <a href="#" class="fa fa-instagram"></a>
+                    <a href="https://www.facebook.com/ErreaInformatica/?locale=es_LA" class="fa fa-facebook" target="_blank"></a>
+                    <a href="https://www.instagram.com/erreainformatica/?img_index=1" class="fa fa-instagram" target="_blank"></a>
                     <a href="#" class="fa fa-twitter"></a>
-                    <a href="#" class="fa fa-youtube"></a>
+                    <a href="#" class="fa fa-youtube"></a><br>
+                    <h3>Donde estamos: </h3>
+                    <p>Artigas 502, 50000 Salto, Departamento de Salto</p>
                 </div>
-                <div class="metodos"><img src="" alt="pagos"></div>
+                
             </div>
         </div>
         <div class="grupo-2">
