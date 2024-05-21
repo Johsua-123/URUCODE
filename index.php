@@ -11,7 +11,6 @@
     </head>
     <body class="dark">
         <?php include "reusables/navbar.html" ?>
-        
         <div class="slider" id="slider">
             <div class="slides" id="slides">
                 <div class="slide">
@@ -31,6 +30,6 @@
                 </div>
             </div>
         </div>
-        
+        <?php include "reusables/footer.php" ?>
     </body> 
 </html>

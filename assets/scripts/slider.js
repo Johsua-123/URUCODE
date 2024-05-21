@@ -1,6 +1,4 @@
-
 document.addEventListener("DOMContentLoaded", () => {
-    const slider = document.getElementById("slider");
     const slides = document.getElementById("slides");
     const time = 2800;
     let index = 0;
@@ -26,4 +24,3 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 });
-
