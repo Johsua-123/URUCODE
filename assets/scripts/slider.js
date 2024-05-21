@@ -1,17 +1,29 @@
+
 document.addEventListener("DOMContentLoaded", () => {
     const slider = document.getElementById("slider");
-    const slides = slider.children;
+    const slides = document.getElementById("slides");
+    const time = 2800;
     let index = 0;
 
-    function showSlide() {
-        for (let i = 0; i < slides.length; i++) {
-            slides[i].style.display = "none";
+    function show(){
+        index++;
+        if (index >= slides.children.length) {
+            index = -1;
+            slides.style.transform = "translateX(0)";
+        } else {
+            slides.style.transform = `translateX(${-index * slides.children[0].offsetWidth}px)`;
         }
-        slides[index].style.display = "block";
-        console.info("Imagen " + index + " mostrada");
-        index = (index + 1) % slides.length;
     }
 
-    slides[0].style.display = "block";
-    setInterval(showSlide, 2500);
+    let timer = setInterval(show, time);
+
+    slides.addEventListener("mouseenter", () => {
+        clearInterval(timer);
+     });
+
+    slides.addEventListener("mouseleave", () => {
+        timer = setInterval(show, time);
+    });
+
 });
+
