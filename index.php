@@ -10,6 +10,7 @@
         <title>Inicio - Errea</title>
     </head>
     <body class="dark">
+<div>
         <?php include "reusables/navbar.html" ?>
         <div class="slider" id="slider">
             <div class="slides" id="slides">
@@ -30,6 +31,7 @@
                 </div>
             </div>
         </div>
+</div>
         <?php include "reusables/footer.php" ?>
     </body> 
 </html>

@@ -24,12 +24,12 @@
             <div class="box">
                 <h2>SIGUENOS</h2>
                 <div class="red-social">
-                    <a href="#" class="fa fa-facebook"></a>
-                    <a href="#" class="fa fa-instagram"></a>
+                    <a href="https://www.facebook.com/ErreaInformatica/?locale=es_LA" class="fa fa-facebook"></a>
+                    <a href="https://www.instagram.com/erreainformatica/" class="fa fa-instagram"></a>
                     <a href="#" class="fa fa-twitter"></a>
-                    <a href="#" class="fa fa-youtube"></a>
+                    <a href="https://www.youtube.com/watch?v=8r5FyPMFwFQ" class="fa fa-youtube"></a>
                 </div>
-                <div class="metodos"><img src="" alt="pagos"></div>
+                <!-- <div class="metodos"><img src="public/metodos.jpg" alt="pagos"></div> <br> -->
             </div>
         </div>
         <div class="grupo-2">
