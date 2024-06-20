@@ -4,14 +4,13 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="public/errea-logo.png" type="image/x-icon">
-        <link rel="stylesheet" href="assets/styles/master.css">
+        <link rel="stylesheet" href="assets/styles/module.css">
         <link rel="stylesheet" href="assets/styles/slider.css">
         <script src="assets/scripts/slider.js"></script>
         <title>Inicio - Errea</title>
     </head>
-    <body class="dark">
-<div>
-        <?php include "reusables/navbar.html" ?>
+    <body>
+        <?php include "reusables/navbar.php" ?>
         <div class="slider" id="slider">
             <div class="slides" id="slides">
                 <div class="slide">
@@ -31,7 +30,6 @@
                 </div>
             </div>
         </div>
-</div>
         <?php include "reusables/footer.php" ?>
     </body> 
 </html>
