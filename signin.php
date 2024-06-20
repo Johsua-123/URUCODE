@@ -19,12 +19,12 @@
         <div class="container">
             <form class="card" method="POST">
                 <div class="card-header">
-                    <h1>Incio de sesión</h1>
+                    <h1>Inicio de sesión</h1>
                 </div>
                 <div class="card-items">
                     <div>
                         <label for="email">email</label>
-                        <input id="email" type="text" name="email" placeholder="92279321" autocomplete="off">
+                        <input id="email" type="text" name="email" placeholder="ejemplo@gmail.com" autocomplete="off">
                     </div>
                     <div>
                         <label for="password">Password</label>
@@ -33,11 +33,11 @@
                 </div>
                 <div class="card-footer">
                     <div>
-                        <button type="submit">Signin</button>
+                        <button type="submit">Iniciar Sesión</button>
                     </div>
                     <div>
-                        <p>No tienes una cuenta?</p>
-                        <a href="signup.php">Registate</a>
+                        <p>¿No tienes una cuenta?</p>
+                        <a href="signup.php">Registrate</a>
                     </div>
                 </div>
             </form>

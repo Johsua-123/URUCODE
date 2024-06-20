@@ -37,10 +37,10 @@
                 </div>
                 <div class="card-footer">
                     <div>
-                        <button type="submit">Signup</button>
+                        <button type="submit">Registro</button>
                     </div>
                     <div>
-                        <p>Ya tienes una cuenta?</p>
+                        <p>¿Ya tienes una cuenta?</p>
                         <a href="signin.php">Iniciar</a>
                     </div>
                 </div>
