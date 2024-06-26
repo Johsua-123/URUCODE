@@ -1,0 +1,136 @@
+:root {
+
+    --color-blue-100: #122D57;
+    --color-gray-100: #FCFDFE;
+
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    color: black;
+    box-sizing: border-box;
+    background-color: var(--color-gray-100);
+}
+
+ul {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+.container {
+    height: 100vh;
+    display: flex;
+    overflow: hidden;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal {
+    z-index: 10;
+    padding: 20px 10px;
+    display: none;
+    border-radius: 10px;
+    flex-direction: column;
+    justify-content: center;
+    background-color: white;
+}
+
+.modal div {
+    display: flex;
+    justify-content: center;
+}
+
+.modal div button {
+    margin: 10px 0;
+}
+
+.card {
+    z-index: 0;
+    width: 320px;
+    height: 450px;
+    display: flex;
+    position: absolute;
+    border-radius: 10px;
+    flex-direction: column;
+    justify-content: center;
+    background-color: var(--color-blue-100);
+}
+
+.card-header {
+    font-weight: 100;
+    text-align: center;
+    color: var(--color-gray-100);
+}
+
+.card-items {
+    display: flex;
+    padding: 20px 40px;
+    flex-direction: column;
+}
+
+.card-items div {
+    display: flex;
+    margin: 10px 0;
+    flex-direction: column;
+}
+
+.card-items div label {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.card-items div input {
+    padding: 5px;
+    outline: none;
+    border-radius: 10px;
+    color: var(--color-gray-100);
+    border: 1px white solid;
+    background-color: var(--color-gray-400);
+}
+
+.card-footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.card-footer div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-footer div:nth-child(1) button {
+    border: none;
+    outline: none;
+    padding: 10px 40px;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: 600;
+    border-radius: 10px;
+    color: var(--color-gray-100);
+    background-color: #132744;
+}
+ 
+.card-footer div:nth-child(1)  button:hover {
+    background-color: var(--color-blue-100);
+}
+
+.card-footer div:nth-child(2) {
+    margin: 20px 0;
+    gap: 5px;
+}
+
+.card-footer div:nth-child(2) p {
+    color: var(--color-gray-100);
+}
+
+.card-footer div:nth-child(2) a {
+    font-size: 22px;
+    font-weight: bold;
+    color: var(--color-blue-200);
+}
