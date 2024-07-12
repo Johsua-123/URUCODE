@@ -1,26 +1,54 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const slides = document.getElementById("slides");
-    const time = 2800;
-    let index = 0;
 
-    function show(){
+document.addEventListener("DOMContentLoaded", () => {
+    const slider = document.getElementById("slider");
+    const speed = 4;
+    let index = 0;
+    let timer1;
+    let timer2;
+
+    if (!slider) return;
+
+    slider.appendChild(slider.children[0].cloneNode(false));
+
+    function show(element) {
+        slider.style.transition = "transform 0.5s ease";
+        slider.style.transform = `translateX(${-index * slider.offsetWidth}px)`;
+        index = element;
+    }
+
+    function next() {
         index++;
-        if (index >= slides.children.length) {
-            index = -1;
-            slides.style.transform = "translateX(0)";
-        } else {
-            slides.style.transform = `translateX(${-index * slides.children[0].offsetWidth}px)`;
+        show(index);
+        if (index >= slider.children.length - 1)  {
+            index = 0;
+            timer2 = setTimeout(() => {
+                slider.style.transition = 'none';
+                slider.style.transform = `translateX(${+index * slider.offsetWidth}px)`;
+            }, 500)
         }
     }
 
-    let timer = setInterval(show, time);
-
-    slides.addEventListener("mouseenter", () => {
-        clearInterval(timer);
-     });
-
-    slides.addEventListener("mouseleave", () => {
-        timer = setInterval(show, time);
+    // Computer devices
+    slider.addEventListener("mouseenter", () => {
+        clearInterval(timer1);
+        clearInterval(timer2);
     });
 
+    slider.addEventListener("mouseleave", () => {
+        timer1 = setInterval(next, speed * 1000);
+    });
+
+    // Mobile devices
+    slider.addEventListener("touchstart", () => {
+        clearInterval(timer1);
+        clearInterval(timer2);
+    });
+
+    slider.addEventListener("touchend", () => {
+        timer1 = setInterval(next, speed * 1000);
+    })
+
+    timer1 = setInterval(next, speed * 1000);
+    show(index);
+    
 });
