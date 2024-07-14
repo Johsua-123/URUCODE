@@ -1,182 +1,80 @@
- 
-body {
-padding: 0;
-margin: 0;
-background-color: #dae6ff;
-color: white;
+
+.navbar header {
+    display: flex;
+    justify-content: center;
+    background-color: var(--color-blue-900);
 }
 
-:root {
-    --bg-primary: #112e58;
-    --bg-secondary: #4c6da5;
+.navbar-header {
+    width: 100%;
+    display: flex;
+    margin: 0 10px;
+    padding: 2px 0;
+    align-items: center;
 }
 
-@media screen and (min-width: 1024px) {
+.navbar-header svg {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    color: white;
+}
 
-    .navbar {
-        width: 100%;
-        margin: 0 auto; 
-        padding: 10px 0;
-        display: flex;
-        background-color: var(--bg-primary); 
-    }
+.navbar-brand img {
+    width: 50px;
+    height: 50px;
+}
 
-    .navbar-container {
-        width: 100%; 
-        margin: 0 10vw; 
-        display: flex;
-        justify-content: space-between; 
-    }
+.navbar-search, .users-icon {
+    display: none;
+}
 
-    .navbar-brand img {
-        width: 70px; 
-        height: 70px; 
-    }
+.navbar-extras {
+    display: flex;
+    margin-left: auto;
+    align-items: center;
+}
 
-    .navbar-search {
-        display: flex; 
-        align-items: center; 
-    }
+.navbar-extras svg {
+    margin: 0 10px;
+}
 
-    .navbar-search input {
-        width: 20vw; 
-        height: 26px; 
-        outline: none; 
-        border: 3.7px solid var(--bg-secondary); 
-    }
+/* Navbar links */
+.navbar nav {
+    display: none;
+    justify-content: center;
+    background-color: var(--color-blue-900);
+}
 
-    .navbar-search svg {
-        width: 32px;
-        height: 32px; 
-        cursor: pointer;
-        padding: 0;
-        
-    }
+.navbar-wrapper {
+    display: flex;
+    align-items: center;
+}
 
-    .navbar-extra {
-        display: flex; 
-        align-items: center; 
-    }
+.navbar-wrapper a {
+    padding: 10px 15px;
+}
 
-    .profile-icon {
-        width: 36px; 
-        height: 36px; 
-        cursor: pointer; 
-        margin: 0 2vw; 
-    }
-    
-    .navbar-cart {
-        cursor: pointer;
-    }
-
-    .navbar-cart svg {
-        width: 36px; 
-        height: 36px; 
-    }
-
-    .navbar-cart span {
-        font-family: Arial, Helvetica, sans-serif;
-        top: 10px;
-        position: absolute;
-        padding-left: 40px;
-        font-size: 18px;
-    }
+@media screen and (min-width: 769px) {
 
     .navbar-header {
-        width: 100%;
-        padding: 10px 0;
-        display: flex;
-        justify-content: center;
-        background-color: var(--bg-primary);
-        border-top: 2px solid var(--bg-secondary);
-        border-bottom: 1px solid var(--bg-secondary);
-    }
-    
-    .header-container {
-        width: 100%;
-        display: flex;
-    }
-
-    .header-links {
-        display: flex;
-        align-items: center;
-        margin: 0 8.3vw;
-        padding: 10px 0;
-    }
-
-    .header-links a { 
-        display: flex;
-        align-items: center;
-        text-decoration: none;
-        margin: 0 20px;
-        color: white;
-        font-size: 25px;
-        font-weight: 700;
-    }
-
-    .header-container span {
-        font-size: 24px;
-        color: white;
-        margin: 0 3px;
-    }
-
-    .navbar-header svg {
-        width: 32px;
-        height: 32px;
-        color: white;
-    }
-}
-
-@media screen and (min-width: 360px) and (max-width: 1023px) {
-
-    .navbar {
-        width: 100%;
-        background-color: var(--bg-primary);
-    }
-
-    .navbar-container {
-        display: flex;
-        margin: 0 20px;
-        align-items: center;
-    }
-
-    .navbar-brand img {
-        width: 50px; 
-        height: 50px;
+        margin: 0 10vw;
+        justify-content: space-between;
     }
 
     .navbar-search {
-        display: none;
+        display: flex;
+    }
+    
+    .navbar-extras {
+        margin-left: 0;
     }
 
-    .profile-icon {
-        display: none;
+    .users-icon {
+        display: flex;
     }
-
-    .navbar-extra {
-        margin-left: auto;
+    
+    .navbar nav {
+        display: flex;
     }
-
-    .navbar-cart {
-        cursor: pointer;
-    }
-
-    .navbar-cart svg {
-        width: 30px; 
-        height: 30px; 
-    }
-
-    .navbar-cart span {
-        font-family: Arial, Helvetica, sans-serif;
-        top: 8px;
-        position: absolute;
-        padding-left: 32px;
-        font-size: 10px;
-    }
-
-    .navbar-links {
-       width: 100%;
-       
-    }
-
 }

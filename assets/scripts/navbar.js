@@ -1,20 +1,20 @@
 
-/*
 document.addEventListener("DOMContentLoaded", () => {
+    const navbar = document.getElementById("nav-bar");
+    const navHeader = document.getElementById("nav-header");
 
-    const open = document.getElementById("hamburguer-open");
-    const close = document.getElementById("hamburguer-close");
+    /*
+    document.addEventListener("scroll", () => {
 
-    open.addEventListener("click", () => {
-        open.classList.add("hide");
-        close.classList.remove("hide");
-    });
+        if (window.scrollY > 0) {
+            navbar.classList.add("navbar-fixed");
+            navHeader.style.display = "none";
+            return;
+        }
+        navbar.classList.remove("navbar-fixed");
+        navHeader.style.display = "flex";
 
-    close.addEventListener("click", () => {
-        close.classList.add("hide");
-        open.classList.remove("hide");
-    });
+    })
+    */
 
 })
-
-*/
