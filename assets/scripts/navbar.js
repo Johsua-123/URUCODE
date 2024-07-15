@@ -1,20 +1,26 @@
 
 document.addEventListener("DOMContentLoaded", () => {
-    const navbar = document.getElementById("nav-bar");
-    const navHeader = document.getElementById("nav-header");
+    const open = document.getElementById("nav-open");
+    const navbar = document.getElementById("navbar");
+    const header = document.getElementById("header");
+    const search = document.getElementById("search");
+    const close = document.getElementById("nav-close");
 
     /*
-    document.addEventListener("scroll", () => {
+    open.addEventListener("click", () => {
 
-        if (window.scrollY > 0) {
-            navbar.classList.add("navbar-fixed");
-            navHeader.style.display = "none";
-            return;
-        }
-        navbar.classList.remove("navbar-fixed");
-        navHeader.style.display = "flex";
+    })
+
+    close.addEventListener("click", () => {
 
     })
     */
+
+    search.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        console.log("");
+
+    })
 
 })

@@ -1,13 +1,13 @@
 :root {
-
+    --color-blue: #122d57;
+    --color-gray: #8B8D98;
 }
 
 body {
     margin: 0;
     padding: 0;
-    color: black;
     box-sizing: border-box;
-    background-color: var(--color-gray-100);
+    background-color: var(--color-blue-100);
 }
 
 ul {
@@ -15,13 +15,17 @@ ul {
 }
 
 a {
-    color: white;
     text-decoration: none;
 }
 
+h1, h2, h3 {
+    margin: 0;
+}
+
 .light-theme {
-    --color-gray-100: #F6FAFF;
+    --color-blue-100: #F6FAFF;
     --color-blue-900: #122d57;
+    --color-blue-400: #25416D;
 }
 
 .container {

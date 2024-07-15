@@ -1,9 +1,6 @@
 
 <?php 
     session_start();
-    if (!isset($_SESSION["user_code"])) {
-        // header("Location: signin.php");
-    }
 ?>
 
 <!DOCTYPE html>
