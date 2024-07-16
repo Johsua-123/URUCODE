@@ -1,87 +1,52 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Open Sans', sans-serif;
-}
-body {
-    position: relative;
-    height: 100vh;
+footer{
+    display: flex;
+    justify-content: space-around;
+    align-items: start;
+    padding: 0 0 30px;
 }
 
-footer {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-}
-.pie-pagina{
-    width: 100%;
-    background-color: #112e58;
-}
-.pie-pagina .grupo-1{
-    width: 100%;
-    max-width: 1200px;
-    margin: auto;
-    display:grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap:50px;
-    padding: 45px 0px;
-}
-.pie-pagina .grupo-1 .box figure{
-    width: 100%;
-    height: 100%;
+footer .logo{
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-flow: column nowrap;
 }
-.pie-pagina .grupo-1 .box figure img{
-    width: 250px;
+
+footer .logo img{
+    max-width:280px;
 }
-.pie-pagina .grupo-1 .box h2{
-    color: #fff;
-    margin-bottom: 25px;
-    font-size: 20px;
-}
-.pie-pagina .grupo-1 .box p{
-    color: #efefef;
-    margin-bottom: 10px;
-}
-.pie-pagina .grupo-1 .red-social a{
-    display: inline-block;
-    text-decoration: none;
-    width: 45px;
-    height: 45px;
-    line-height: 45px;
-    color: #fff;
-    margin-right: 10px;
-    background-color: #0a1a2a;
+
+footer .logo .text p{
+    color: white;
     text-align: center;
-    transition: all 300ms ease;
+    font-size: 14px;
+    margin-top: -2px;
 }
-.pie-pagina .grupo-1 .red-social a:hover{
-    color: aqua;
+
+footer .logo .text span{
+    font-weight: 700;
 }
-.pie-pagina .grupo-2{
-    background-color: #0a1a2a;
-    padding: 15px 10px;
-    text-align: center;
-    color: #fff;
+
+footer .footer-column{
+    display: flex;
+    flex-flow: column wrap;
+
 }
-.pie-pagina .grupo-2 small{
+
+footer .footer-column h1{
+    font-size: 18px;
+    color: white;
+    font-weight: 600;
+}
+
+footer .footer-column a{
     font-size: 15px;
+    color: rgb(207, 149, 149);
+    text-decoration: none;
+    line-height: 40px;
+    transition: transform 300ms ease;
 }
-@media screen and (max-width:800px){
-    .pie-pagina .grupo-1{
-        width: 90%;
-        grid-template-columns: repeat(1, 1fr);
-        grid-gap:30px;
-        padding: 35px 0px;
-    }
-}
-/*
-.metodos{
-height: 100px;
-width: 100px;
+
+footer .footer-column a:hover{
+    transform: translateX(10px);
 }

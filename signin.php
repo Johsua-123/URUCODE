@@ -34,12 +34,13 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <div>
-                        <button type="submit">Iniciar</button>
-                    </div>
+
                     <div>
                         <p>¿No tienes una cuenta?</p>
                         <a href="signup.php">Registrate</a>
+                    </div>
+                    <div >
+                        <button type="submit">Iniciar</button>
                     </div>
                 </div>
             </form>

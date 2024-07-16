@@ -19,9 +19,9 @@
     </head>
     <body class="light-theme">
         <div class="container">
-            <form id="signup" class="card" method="POST">
+            <form id="signup" class="card" method="POST" style="height: 550px;">
                 <div class="card-header">
-                    <h1 style="margin-top: 20px">Registro de cuenta</h1>
+                    <h1>Registro de cuenta</h1>
                 </div>
                 <div class="card-items">
                     <div>
@@ -39,12 +39,13 @@
                 </div>
                 <div class="card-footer">
                     <div>
-                        <button type="submit">Registrar</button>
-                    </div>
-                    <div>
                         <p>¿Tienes una cuenta?</p>
                         <a href="signin.php">Iniciar</a>
                     </div>
+                    <div>
+                        <button type="submit">Registrar</button>
+                    </div>
+                    
                 </div>
             </form>
             <div id="signup-modal" data-redirect="signin.php" class="modal">

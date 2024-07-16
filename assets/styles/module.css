@@ -1,12 +1,16 @@
 :root {
     --color-blue: #122d57;
-    --color-gray: #8B8D98;
+
+    --color-blue-100: #F6FAFF;
+    --color-blue-900: #122d57;
+    --color-blue-400: #25416D;
 }
 
 body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: sans-serif;
     background-color: var(--color-blue-100);
 }
 
@@ -22,10 +26,8 @@ h1, h2, h3 {
     margin: 0;
 }
 
-.light-theme {
-    --color-blue-100: #F6FAFF;
-    --color-blue-900: #122d57;
-    --color-blue-400: #25416D;
+input {
+    outline: none;
 }
 
 .container {
@@ -34,4 +36,12 @@ h1, h2, h3 {
     overflow: hidden;
     align-items: center;
     justify-content: center;
+}
+
+.show {
+    display: flex;
+}
+
+.hide {
+    display: none;
 }

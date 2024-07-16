@@ -1,3 +1,4 @@
+-- SQLBook: Code
 
 START TRANSACTION;
 
@@ -17,13 +18,16 @@ CREATE TABLE users (
     updated_at DATETIME
 );
 
-CREATE TABLE productos (
+CREATE TABLE products (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    nombre VARCHAR(30),
-    precio INT,
-    imagen INT,
-    descripcion TEXT,
-    marca VARCHAR (30),
-    modelo VARCHAR (30),
+    name VARCHAR(30),
+    image INT,
+    price INT,
+    description TEXT,
+    brand VARCHAR (30),
+    model VARCHAR (30),
+    created_at DATETIME,
+    updated_at DATETIME
 );
+
 COMMIT;

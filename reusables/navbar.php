@@ -1,5 +1,3 @@
-<link rel="stylesheet" href="assets/styles/navbar.css">
-<script src="assets/scripts/navbar.js"></script>
 
 <div class="navbar">
     <header>
@@ -43,26 +41,6 @@
                     src="<?php if (isset($_SESSION["image"])) echo $_SESSION["image"]; ?>"
                     alt="imagen de perfil"
                 >
-                <!-- Icono de apertura del sidebar mobile -->
-                <svg 
-                    id="nav-open"
-                    fill="none" 
-                    stroke-width="1.5" 
-                    stroke="currentColor" 
-                    viewBox="0 0 24 24"
-                >
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
-                </svg>
-                <!-- Icono de cierre del sidebar -->
-                <svg 
-                    id="nav-close"
-                    fill="none" 
-                    stroke-width="1.5" 
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                >
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
-                </svg>
                 <!-- Icono de carrito -->
                 <div class="navbar-product">
                     <span id="cart-counter"></span>
@@ -77,6 +55,14 @@
                         </path>
                     </svg>
                 </div>
+                <!-- Icono de apertura del sidebar mobile -->
+                <svg id="nav-open" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
+                </svg>
+                <!-- Icono de cierre del sidebar -->
+                <svg id="nav-close" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
+                </svg>
             </div>
         </div>
     </header>

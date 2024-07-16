@@ -1,0 +1,40 @@
+
+main {
+    height: 80vh;
+}
+
+.slider {
+    overflow: hidden;
+}
+
+.slides {
+    width: 100%;
+    display: flex;
+    flex: 0 0 auto;
+}
+
+.slides img {
+    width: 100%;
+    height: auto;
+}
+
+.products {
+    margin: 5vh 10vw;
+    display: flex;
+    color: black;
+    flex-direction: column;
+}
+
+.products h1 {
+    font-size: 25px;
+}
+
+.product-items {
+    height: 300px;
+    display: flex;
+    margin: 10px 0;
+    align-items: center;
+    justify-content: center;
+    border: 2px var(--color-blue-900) solid;
+}
+

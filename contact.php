@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contáctanos | Errea</title>
+    <link rel="stylesheet" href="assets/styles/module.css">
     <link rel="stylesheet" href="assets/styles/estilos.css">
+    <title>Contáctanos | Errea</title>
 </head>
-<body>
-<?php include 'reusables/navbar.php';
-?>
+<body class="light-theme">
+    <?php include 'reusables/navbar.php'; ?>
+
     <div class="contact-container">
         <div class="contact-form">
             <h2>Contáctanos</h2>
@@ -20,7 +21,6 @@
                 $asunto = $_POST['asunto'];
                 $correo = $_POST['correo'];
                 $mensaje = $_POST['mensaje'];
-
 
                 $destinatario = "juancruzpirotto0805@gmail.com";
                 $cabeceras = "De: " . $correo . "\r\n";
