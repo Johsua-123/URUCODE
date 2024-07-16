@@ -92,12 +92,14 @@
 
     .navbar-search form input {
         width: 30vw;
+        outline: none;
+        border: 2px #0a1a2a solid;
     }
 
     .navbar-search form button {
         border: none;
         outline: none;
-        background-color: red;
+        background-color: #0a1a2a;
     }    
     
     .navbar-extras {

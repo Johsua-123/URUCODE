@@ -17,4 +17,13 @@ CREATE TABLE users (
     updated_at DATETIME
 );
 
+CREATE TABLE productos (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nombre VARCHAR(30),
+    precio INT,
+    imagen INT,
+    descripcion TEXT,
+    marca VARCHAR (30),
+    modelo VARCHAR (30),
+);
 COMMIT;

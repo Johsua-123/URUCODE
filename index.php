@@ -27,10 +27,6 @@
         </div>
     </div>
 
-    <div class="contact-link-wrapper" style="text-align: center; margin-top: 20px;">
-        <a href="contact.php" class="contact-link" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 4px; font-size: 16px;">Contáctanos</a>
-    </div>
-
-    <?php include "reusables/footer.php"; ?>
+    <?php // include "reusables/footer.php"; ?>
 </body> 
 </html>
