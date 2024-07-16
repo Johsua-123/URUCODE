@@ -42,7 +42,7 @@
                         <button type="submit">Registrar</button>
                     </div>
                     <div>
-                        <p>¿Ttienes una cuenta?</p>
+                        <p>¿Tienes una cuenta?</p>
                         <a href="signin.php">Iniciar</a>
                     </div>
                 </div>
