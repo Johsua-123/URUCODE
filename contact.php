@@ -4,44 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="assets/styles/module.css">
-    <link rel="stylesheet" href="assets/styles/estilos.css">
-    <title>Contáctanos | Errea</title>
+    <link rel="stylesheet" href="assets/styles/navbar.css">
+    <link rel="stylesheet" href="assets/styles/footer.css">
+    <link rel="stylesheet" href="assets/styles/contact.css">
+    <script src="assets/scripts/navbar.js"></script>
+    <title>Contacto | Errea</title>
 </head>
 <body class="light-theme">
     <?php include 'reusables/navbar.php'; ?>
-
-    <div class="contact-container">
-        <div class="contact-form">
-            <h2>Contáctanos</h2>
-
-            <?php
-            if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    
-                $nombre = $_POST['nombre'];
-                $asunto = $_POST['asunto'];
-                $correo = $_POST['correo'];
-                $mensaje = $_POST['mensaje'];
-
-                $destinatario = "juancruzpirotto0805@gmail.com";
-                $cabeceras = "De: " . $correo . "\r\n";
-                $mensajeCompleto = "Nombre: " . $nombre . "\nCorreo: " . $correo . "\n\nMensaje:\n" . $mensaje;
-
-                if (mail($destinatario, $asunto, $mensajeCompleto, $cabeceras)) {
-                    echo "<p style='color: green;'>Mensaje enviado exitosamente.</p>";
-                } else {
-                    echo "<p style='color: red;'>Error al enviar el mensaje.</p>";
-                }
-            }
-            ?>
-
-            <form action="contact.php" method="POST">
-                <input type="text" name="nombre" placeholder="Nombre" required>
-                <input type="text" name="asunto" placeholder="Asunto" required>
-                <input type="email" name="correo" placeholder="Correo electrónico" required>
-                <textarea name="mensaje" rows="5" placeholder="Mensaje" required></textarea>
+    <div class="container">
+        <form id="contact" class="card" method="POST">
+            <div class="card-header">
+                <h1>Ponte en contacto con nostros</h1>
+            </div>
+            <div class="card-items">
+                <div>
+                    <label for="correo">Nombre</label>
+                    <input id="correo" name="correo" type="email" autocomplete="off">
+                </div>
+                <div>
+                    <label for="nombre">Nombre</label>
+                    <input id="nombre" name="nombre" type="text" autocomplete="off">
+                </div>
+                <div>
+                    <label for="mensaje">Mensaje</label>
+                    <textarea id="mensaje" name="mensaje" cols="30" rows="10" ></textarea>
+                </div>
+            </div>
+            <div class="card-footer">
                 <button type="submit">Enviar</button>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
+    <?php include "reusables/footer.php"; ?>
 </body>
 </html>

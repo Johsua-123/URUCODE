@@ -70,7 +70,7 @@
         <div id="navbar-links" class="navbar-wrapper">
            <a id="home" href="http://localhost/URUCODE/">Inicio</a>
            <a id="store" href="http://localhost/URUCODE/store.php">Tienda</a>
-           <a id="contact" href="http://localhost/URUCODE/contact.php">Contáctanos</a>
+           <a id="contact" href="http://localhost/URUCODE/contact.php">Contacto</a>
         </div>
     </nav>
 </div>
