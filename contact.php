@@ -15,15 +15,16 @@
     <div class="container">
         <form id="contact" class="card" method="POST">
             <div class="card-header">
-                <h1>Ponte en contacto con nostros</h1>
+                <h1>Ponte en contacto con nosotros</h1>
             </div>
             <div class="card-items">
                 <div>
+                    <label for="correo">Correo electrónico</label>
                     <label for="correo">Correo</label>
                     <input id="correo" name="correo" type="email" autocomplete="off">
                 </div>
                 <div>
-                    <label for="nombre">Nombre</label>
+                    <label for="nombre">Nombre </label>
                     <input id="nombre" name="nombre" type="text" autocomplete="off">
                 </div>
                 <div>
@@ -38,7 +39,7 @@
         <div id="modal" class="modal">
             <span id="status"></span>
             <div>
-                <button type="button">Acceptar</button>
+                <button type="button">Aceptar</button>
             </div>
         </div>
     </div>
