@@ -1,6 +1,7 @@
 
+
 main {
-    height: 80vh;
+    height: 100vh;
 }
 
 .slider {
@@ -19,7 +20,7 @@ main {
 }
 
 .products {
-    margin: 5vh 10vw;
+    margin: 4vh 10vw;
     display: flex;
     color: black;
     flex-direction: column;
@@ -30,7 +31,7 @@ main {
 }
 
 .product-items {
-    height: 300px;
+    height: 360px;
     display: flex;
     margin: 10px 0;
     align-items: center;
@@ -38,3 +39,71 @@ main {
     border: 2px var(--color-blue-900) solid;
 }
 
+.product-items > div {
+    margin: 0 20px;
+}
+
+.product-card {
+    width: 200px;
+    height: 290px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+}
+
+.card-header {
+    margin: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.card-header img {
+    width: 100%;
+    height: 140px;
+}
+
+.card-items {
+    margin: 5px 0;
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+}
+
+.card-items h1, h2 {
+    font-size: 16px;
+}
+
+.card-items h1 {
+    margin-top: 10px;
+}
+
+.card-items h2 {
+    margin-top: 10px;
+    font-weight: 600;
+}
+
+.card-footer {
+    display: flex;
+    margin: 5px 0;
+    justify-content: center;
+}
+
+.card-footer button {
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 2px;
+    padding: 10px 15px;
+    border-radius: 7px;
+    color: var(--color-blue-100);
+    background-color: var(--color-blue-900);
+}
+
+@media screen and (max-width: 480px) {
+    
+}
+
+@media screen and (max-width: 768px) {
+
+}

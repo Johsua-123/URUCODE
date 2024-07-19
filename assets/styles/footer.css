@@ -1,52 +1,85 @@
-footer{
+
+.footer {
     display: flex;
-    justify-content: space-around;
-    align-items: start;
-    padding: 0 0 30px;
+    flex-direction: column;
+    color: var(--color-blue-100);
 }
 
-footer .logo{
+.footer a {
+    color: var(--color-blue-100);
+}
+
+.footer .section-1 {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-flow: column nowrap;
+    padding: 2vh 10vw;
+    justify-content: space-between;
+    background-color: var(--color-blue-900);
 }
 
-footer .logo img{
-    max-width:280px;
+.footer .section-1 > div {
+    padding: 50px 150px;
 }
 
-footer .logo .text p{
-    color: white;
-    text-align: center;
-    font-size: 14px;
-    margin-top: -2px;
+.footer h2 {
+    font-size: 25px;
+    margin-bottom: 20px;
 }
 
-footer .logo .text span{
-    font-weight: 700;
+.footer .section-1 .column-1 img {
+    width: 170px;
+    height: 170px;
 }
 
-footer .footer-column{
-    display: flex;
-    flex-flow: column wrap;
-
-}
-
-footer .footer-column h1{
+.footer .section-1 .column-2 p {
     font-size: 18px;
-    color: white;
+}
+
+.footer .section-1 .column-3 {
+    display: flex;
+    flex-direction: column;
+}
+
+.footer .section-1 .column-3 .social-links {
+    display: flex;
+    margin: 15px 0;
+    align-items: center;
+}
+
+.footer .section-1 .column-3 .social-links a {
+    margin: 0 15px;
+}
+
+.footer .section-1 .column-3 .about-us {
+    display: flex;
+    margin-top: 20px;
+    align-items: center;
+}
+
+.footer .section-1 .column-3 .about-us span {
+    font-size: 18px;
     font-weight: 600;
 }
 
-footer .footer-column a{
-    font-size: 15px;
-    color: rgb(207, 149, 149);
-    text-decoration: none;
-    line-height: 40px;
-    transition: transform 300ms ease;
+.footer .section-1 .column-3 .about-us svg {
+    width: 30px;
+    height: 30px;
+    margin-left: 5px;
 }
 
-footer .footer-column a:hover{
-    transform: translateX(10px);
+.footer .section-2 {
+    display: flex;
+    padding: 25px 0;
+    justify-content: center;
+    background-color: #0a1a2a;
+}
+
+.footer .section-2 span {
+    display: flex;
+    font-size: 20px;
+    align-items: center;
+}
+
+.footer .section-2 span p {
+    margin: 0 5px;
+    font-weight: bold;
 }

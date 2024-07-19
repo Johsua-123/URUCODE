@@ -17,7 +17,7 @@
         <script src="assets/scripts/auth/signup.js"></script>
         <title>Registro | Errea</title>
     </head>
-    <body class="light-theme">
+    <body>
         <div class="container">
             <form id="signup" class="card" method="POST" style="height: 550px;">
                 <div class="card-header">
