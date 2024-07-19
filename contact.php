@@ -20,7 +20,6 @@
             <div class="card-items">
                 <div>
                     <label for="correo">Correo electrónico</label>
-                    <label for="correo">Correo</label>
                     <input id="correo" name="correo" type="email" autocomplete="off">
                 </div>
                 <div>
