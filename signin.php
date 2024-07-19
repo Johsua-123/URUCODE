@@ -17,7 +17,7 @@
         <script src="assets/scripts/auth/signin.js"></script>
         <title>Inicio Sesión | Errea</title>
     </head>
-    <body class="light-theme">
+    <body>
         <div class="container">
             <form id="signin" class="card" method="POST">
                 <div class="card-header">

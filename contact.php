@@ -10,7 +10,7 @@
     <script src="assets/scripts/navbar.js"></script>
     <title>Contacto | Errea</title>
 </head>
-<body class="light-theme">
+<body>
     <?php include 'reusables/navbar.php'; ?>
     <div class="container">
         <form id="contact" class="card" method="POST">
@@ -35,6 +35,12 @@
                 <button type="submit">Enviar</button>
             </div>
         </form>
+        <div id="modal" class="modal">
+            <span id="status"></span>
+            <div>
+                <button type="button">Acceptar</button>
+            </div>
+        </div>
     </div>
     <?php include "reusables/footer.php"; ?>
 </body>

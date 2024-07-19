@@ -8,8 +8,13 @@ document.addEventListener("DOMContentLoaded", () => {
     contact.addEventListener("submit", async (event) => {
         event.preventDefault();
 
-        
+        status.textContent = "Funcionalidad aun no implementada";
+        modal.style.display = "flex";
 
+        button.addEventListener("click", () => {
+            modal.style.display = "none";
+        })
+        
     })
 
 })
