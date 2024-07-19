@@ -25,11 +25,11 @@
                 </div>
                 <div class="card-items">
                     <div>
-                        <label for="email">Email</label>
+                        <label for="email">Correo electrónico</label>
                         <input id="email" type="text" name="email" placeholder="ejemplo@gmail.com" autocomplete="off">
                     </div>
                     <div>
-                        <label for="password">Password</label>
+                        <label for="password">Contraseña</label>
                         <input id="password" type="password" name="password" placeholder="********" autocomplete="off">
                     </div>
                 </div>

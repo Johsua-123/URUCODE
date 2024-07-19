@@ -14,7 +14,7 @@
             </p>
         </div>
         <div class="column-3">
-            <h2>Siguenos</h2>
+            <h2>Síguenos</h2>
             <div class="social-links">
                 <a href="https://www.facebook.com/ErreaInformatica/?locale=es_LA" class="fa fa-facebook"></a>
                 <a href="https://www.instagram.com/erreainformatica/" class="fa fa-instagram"></a>
