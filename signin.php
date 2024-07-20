@@ -37,7 +37,7 @@
 
                     <div>
                         <p>¿No tienes una cuenta?</p>
-                        <a href="signup.php">Registrate</a>
+                        <a href="signup.php">Regístrate</a>
                     </div>
                     <div >
                         <button type="submit">Iniciar</button>
