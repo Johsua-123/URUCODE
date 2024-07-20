@@ -1,4 +1,29 @@
 
 main {
-    height: 80vh;
+    height: 100vh;
+}
+
+.about-us {
+    display: flex;
+    margin: 100px 30vw;
+    flex-direction: column;
+}
+
+.about-us h1 {
+   display: flex;
+   margin-bottom: 40px;
+   justify-content: center;
+   color: var(--color-blue-900);
+}
+
+.about-us section {
+    margin: 20px 0;
+}
+
+.about-us section h2 {
+    margin-bottom: 15px;
+}
+
+.about-us section p {
+    margin: 0;
 }
