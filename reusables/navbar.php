@@ -21,9 +21,14 @@
                     <a href="http://localhost/URUCODE/signin.php">Iniciar</a>
                     <a href="http://localhost/URUCODE/signup.php">Registrar</a>
                 </div>
+                <!-- Dropdown del perfil usuario -->
+                <div id="nav-dropdown" class="nav-dropdown">
+                    <a href="http://localhost/URUCODE/">Ajustes</a>
+                    <a href="http://localhost/URUCODE/logout.php">Salir</a>
+                </div>
                 <!-- Imagen de perfil por defecto -->
                 <svg
-                    id="users-icon" 
+                    id="nav-profile" 
                     class="users-icon" 
                     style="<?php echo (isset($_SESSION["code"]) && !isset($_SESSION["image"])) ? "display: block" : "display: none" ?>"
                     fill="none" 
@@ -37,6 +42,7 @@
                 <!-- Imagen de perfil del usuario -->
                 </span>
                 <img 
+                    id="nav-profile"
                     style="<?php echo !(isset($_SESSION["code"]) && isset($_SESSION["image"])) ? "display: none": "display: block"; ?>"
                     src="<?php if (isset($_SESSION["image"])) echo $_SESSION["image"]; ?>"
                     alt="imagen de perfil"
