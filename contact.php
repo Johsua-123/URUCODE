@@ -13,12 +13,13 @@
     <link rel="stylesheet" href="assets/styles/footer.css">
     <link rel="stylesheet" href="assets/styles/contact.css">
     <script src="assets/scripts/navbar.js"></script>
+    <script src="assets/scripts/contact.js"></script>
     <title>Contacto | Errea</title>
 </head>
 <body>
     <?php include 'reusables/navbar.php'; ?>
     <div class="container">
-        <form id="contact" class="card" method="POST">
+        <form id="contact-form" class="card" method="POST">
             <div class="card-header">
                 <h1>Ponte en contacto con nosotros</h1>
             </div>
@@ -28,7 +29,7 @@
                     <input id="correo" name="correo" type="email" autocomplete="off">
                 </div>
                 <div>
-                    <label for="nombre">Nombre </label>
+                    <label for="nombre">Nombre</label>
                     <input id="nombre" name="nombre" type="text" autocomplete="off">
                 </div>
                 <div>
@@ -43,7 +44,7 @@
         <div id="modal" class="modal">
             <span id="status"></span>
             <div>
-                <button type="button">Aceptar</button>
+                <button id="button" type="button">Aceptar</button>
             </div>
         </div>
     </div>

@@ -1,6 +1,6 @@
 
 document.addEventListener("DOMContentLoaded", () => {
-    const contact = document.getElementById("contact");
+    const contact = document.getElementById("contact-form");
     const modal = document.getElementById("modal");
     const status = modal.querySelector("#status");
     const button = modal.querySelector("#button");
@@ -8,7 +8,13 @@ document.addEventListener("DOMContentLoaded", () => {
     contact.addEventListener("submit", async (event) => {
         event.preventDefault();
 
-        status.textContent = "Funcionalidad aun no implementada";
+        const request = await fetch("http://localhost/URUCODE/api/contact.php", {
+            method: "POST",
+        });
+
+        const response = await request.json();
+
+        status.textContent = response.text;
         modal.style.display = "flex";
 
         button.addEventListener("click", () => {
