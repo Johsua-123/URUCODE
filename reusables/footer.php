@@ -16,10 +16,10 @@
         <div class="column-3">
             <h2>Síguenos</h2>
             <div class="social-links">
-                <a href="https://www.facebook.com/ErreaInformatica/?locale=es_LA" class="fa fa-facebook"></a>
-                <a href="https://www.instagram.com/erreainformatica/" class="fa fa-instagram"></a>
+                <a href="https://www.facebook.com/ErreaInformatica/?locale=es_LA" target="_blank" class="fa fa-facebook"></a>
+                <a href="https://www.instagram.com/erreainformatica/" target="_blank" class="fa fa-instagram"></a>
                 <a href="#" class="fa fa-twitter"></a>
-                <a href="https://www.youtube.com/watch?v=8r5FyPMFwFQ" class="fa fa-youtube"></a>
+                <a href="https://www.youtube.com/watch?v=8r5FyPMFwFQ" target="_blank" class="fa fa-youtube"></a>
             </div>
             <a class="aboutus" href="http://localhost/URUCODE/about-us.php">
                 <span>Sobre Nosotros</span>
