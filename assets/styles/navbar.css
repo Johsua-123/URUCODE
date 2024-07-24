@@ -1,183 +1,192 @@
- 
-body {
-padding: 0;
-margin: 0;
-background-color: #dae6ff;
-color: white;
+.navbar a {
+    border: none;
+    color: var(--color-blue-100);
 }
 
-:root {
-    --bg-primary: #112e58;
-    --bg-secondary: #4c6da5;
+.navbar header {
+    display: flex;
+    padding: 10px 0;
+    justify-content: center;
+    background-color: var(--color-blue-900);
+    border-bottom: 1px solid #315791;
+}
+
+.navbar-header {
+    width: 100%;
+    display: flex;
+    margin: 0 10px;
+    padding: 2px 0;
+    align-items: center;
+}
+
+.navbar-header svg {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    color: white;
+}
+
+.navbar-brand img {
+    width: 50px;
+    height: 50px;
+}
+
+.navbar-search {
+    display: none;
+}
+
+.navbar-extras {
+    display: flex;
+    margin-left: auto;
+    position: relative;
+    align-items: center;
+}
+
+.navbar-extras svg {
+    margin: 0 10px;
+}
+
+.navbar-extras #nav-close {
+    display: none;
+}
+
+.navbar-extras #nav-dropdown {
+    z-index: 20;
+    width: 100px;
+    height: 120px;
+    display: none;
+    margin-top: 155px;
+    position: absolute;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #0a1a2a;
+}
+
+.navbar-extras #nav-dropdown a {
+    margin: 8px 0;
+    font-size: 16px;
+}
+
+@media screen and (max-width: 768px) {
+
+    .navbar nav {
+        display: none;
+    }
+
+    .show {
+        display: none;
+    }
+
 }
 
 @media screen and (min-width: 1024px) {
 
-    .navbar {
-        width: 100%;
-        margin: 0 auto; 
-        padding: 10px 0;
-        display: flex;
-        background-color: var(--bg-primary); 
-    }
-
-    .navbar-container {
-        width: 100%; 
-        margin: 0 10vw; 
-        display: flex;
-        justify-content: space-between; 
-    }
-
-    .navbar-brand img {
-        width: 70px; 
-        height: 70px; 
-    }
-
-    .navbar-search {
-        display: flex; 
-        align-items: center; 
-    }
-
-    .navbar-search input {
-        width: 20vw; 
-        height: 26px; 
-        outline: none; 
-        border: 3.7px solid var(--bg-secondary); 
-    }
-
-    .navbar-search svg {
-        width: 32px;
-        height: 32px; 
-        cursor: pointer;
-        padding: 0;
-        
-    }
-
-    .navbar-extra {
-        display: flex; 
-        align-items: center; 
-    }
-
-    .profile-icon {
-        width: 36px; 
-        height: 36px; 
-        cursor: pointer; 
-        margin: 0 2vw; 
-        color: white;
-    }
-    
-    .navbar-cart {
-        cursor: pointer;
-    }
-
-    .navbar-cart svg {
-        width: 36px; 
-        height: 36px; 
-    }
-
-    .navbar-cart span {
-        font-family: Arial, Helvetica, sans-serif;
-        top: 10px;
-        position: absolute;
-        padding-left: 40px;
-        font-size: 18px;
-    }
-
     .navbar-header {
-        width: 100%;
-        padding: 10px 0;
-        display: flex;
-        justify-content: center;
-        background-color: var(--bg-primary);
-        border-top: 2px solid var(--bg-secondary);
-        border-bottom: 1px solid var(--bg-secondary);
-    }
-    
-    .header-container {
-        width: 100%;
-        display: flex;
-    }
-
-    .header-links {
-        display: flex;
-        align-items: center;
-        margin: 0 8.3vw;
-        padding: 10px 0;
-    }
-
-    .header-links a { 
-        display: flex;
-        align-items: center;
-        text-decoration: none;
-        margin: 0 20px;
-        color: white;
-        font-size: 25px;
-        font-weight: 700;
-    }
-
-    .header-container span {
-        font-size: 24px;
-        color: white;
-        margin: 0 3px;
-    }
-
-    .navbar-header svg {
-        width: 32px;
-        height: 32px;
-        color: white;
-    }
-}
-
-@media screen and (min-width: 360px) and (max-width: 1023px) {
-
-    .navbar {
-        width: 100%;
-        background-color: var(--bg-primary);
-    }
-
-    .navbar-container {
-        display: flex;
-        margin: 0 20px;
-        align-items: center;
+        margin: 0 10vw;
+        justify-content: space-between;
     }
 
     .navbar-brand img {
-        width: 50px; 
-        height: 50px;
+        width: 70px;
+        height: 70px;
     }
 
     .navbar-search {
+        display: flex;
+        padding: 20px 0;
+        align-items: center;
+    }
+
+    .navbar-search form {
+        display: flex;
+        width: 100%;
+    }
+
+    .navbar-search form input {
+        width: 25vw;
+        height: 30px;
+        border-radius: 7px;
+        outline: none;
+        border: 2px var(--color-blue-100) solid;
+    }
+
+    .navbar-search form button {
+        border: none;
+        outline: none;
+        border-radius: 7px;
+        margin-left: -10px;
+        background-color: var(--color-blue-100);
+    }
+
+    .navbar-search form button svg {
+        color: var(--color-blue-900);
+        height: 20px;
+    }
+
+    .navbar-extras {
+        margin-left: 0;
+    }
+
+    .navbar-extras #nav-open,
+    .navbar-extras #nav-close {
         display: none;
     }
 
-    .profile-icon {
-        display: none;
+    .navbar-auth {
+        align-items: center;
     }
 
-    .navbar-extra {
-        margin-left: auto;
+    .navbar-auth>* {
+        height: 30px;
+        width: 100px;
+        margin: 0 5px;
     }
 
-    .navbar-cart {
-        cursor: pointer;
+    .navbar-auth a {
+        display: flex;
+        font-size: 16px;
+        font-weight: 700;
+        border-radius: 10px;
+        align-items: center;
+        justify-content: center;
+        color: var(--color-blue-900);
+        background-color: var(--color-blue-100);
     }
 
-    .navbar-cart svg {
-        width: 30px; 
-        height: 30px; 
+    .users-icon {
+        display: flex;
     }
 
-    .navbar-cart span {
-        font-family: Arial, Helvetica, sans-serif;
-        top: 8px;
-        position: absolute;
-        padding-left: 32px;
-        font-size: 10px;
+    /* Navbar links */
+    .navbar nav {
+        display: flex;
+        padding: 20px 0;
+        justify-content: center;
+        background-color: var(--color-blue-900);
     }
 
-    .navbar-links {
-       width: 100%;
-       
+    .navbar-wrapper {
+        display: flex;
+        align-items: center;
+    }
+
+    .navbar-wrapper a {
+        height: 30px;
+        width: 120px;
+        display: flex;
+        margin: 0 20px;
+        font-size: 16px;
+        font-weight: 700;
+        border-radius: 10px;
+        align-items: center;
+        justify-content: center;
+        color: var(--color-blue-900);
+        background-color: var(--color-blue-100);
+    }
+
+    .show {
+        display: flex;
     }
 
 }

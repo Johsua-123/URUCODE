@@ -1,3 +1,7 @@
+<?php
+    session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="es">
     <head>
@@ -5,31 +9,104 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="public/errea-logo.png" type="image/x-icon">
         <link rel="stylesheet" href="assets/styles/module.css">
-        <link rel="stylesheet" href="assets/styles/slider.css">
+        <link rel="stylesheet" href="assets/styles/navbar.css">
+        <link rel="stylesheet" href="assets/styles/footer.css">
+        <link rel="stylesheet" href="assets/styles/master.css">
+        <script src="assets/scripts/navbar.js"></script>
         <script src="assets/scripts/slider.js"></script>
+        <script src="https://kit.fontawesome.com/eb496ab1a0.js"></script>
         <title>Inicio - Errea</title>
     </head>
     <body>
-        <?php include "reusables/navbar.php" ?>
-        <div class="slider" id="slider">
-            <div class="slides" id="slides">
-                <div class="slide">
-                    <img src="public/banners/slider-1.png" alt="imagen 1 del slider">
-                </div>
-                <div class="slide">
-                    <img src="public/banners/slider-2.png" alt="imagen 2 del slider">
-                </div>
-                <div class="slide">
-                    <img src="public/banners/slider-3.png" alt="imagen 3 del slider">
-                </div>
-                <div class="slide">
-                    <img src="public/banners/slider-4.png" alt="imagen 4 del slider">
-                </div>
-                <div class="slide">
-                    <img src="public/banners/slider-5.png" alt="imagen 5 del sdelier">
+        <?php include "reusables/navbar.php"; ?>
+        <main>
+            <div class="slider">
+                <div id="slider" class="slides">
+                    <img src="public/banners/slider-1.png" alt="slider imagen 1">
+                    <img src="public/banners/slider-2.png" alt="slider imagen 2">
+                    <img src="public/banners/slider-3.png" alt="slider imagen 3">
+                    <img src="public/banners/slider-4.png" alt="slider imagen 4">
+                    <img src="public/banners/slider-5.png" alt="slider imagen 5">
                 </div>
             </div>
-        </div>
-        <?php include "reusables/footer.php" ?>
-    </body> 
+            <div class="products">
+                <h1>Destacados</h1>
+                <div class="product-items">
+                    <div class="product-card">
+                        <div class="card-header">
+                           <img src="https://via.placeholder.com/100x100?text=Imagen+del+Producto" alt="imagen producto 1">
+                        </div>
+                        <div class="card-items">
+                            <h1>Lenovo Gamer LQQ</h1>
+                            <h2>U$S 1.499</h2>
+                        </div>
+                        <div class="card-footer">
+                            <button type="button">Ver detalles</button>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="card-header">
+                           <img src="https://via.placeholder.com/100x100?text=Imagen+del+Producto" alt="imagen producto 1">
+                        </div>
+                        <div class="card-items">
+                            <h1>Lenovo Gamer LQQ</h1>
+                            <h2>U$S 1.499</h2>
+                        </div>
+                        <div class="card-footer">
+                            <button type="button">Ver detalles</button>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="card-header">
+                           <img src="https://via.placeholder.com/100x100?text=Imagen+del+Producto" alt="imagen producto 1">
+                        </div>
+                        <div class="card-items">
+                            <h1>Lenovo Gamer LQQ</h1>
+                            <h2>U$S 1.499</h2>
+                        </div>
+                        <div class="card-footer">
+                            <button type="button">Ver detalles</button>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="card-header">
+                           <img src="https://via.placeholder.com/100x100?text=Imagen+del+Producto" alt="imagen producto 1">
+                        </div>
+                        <div class="card-items">
+                            <h1>Lenovo Gamer LQQ</h1>
+                            <h2>U$S 1.499</h2>
+                        </div>
+                        <div class="card-footer">
+                            <button type="button">Ver detalles</button>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="card-header">
+                           <img src="https://via.placeholder.com/100x100?text=Imagen+del+Producto" alt="imagen producto 1">
+                        </div>
+                        <div class="card-items">
+                            <h1>Lenovo Gamer LQQ</h1>
+                            <h2>U$S 1.499</h2>
+                        </div>
+                        <div class="card-footer">
+                            <button type="button">Ver detalles</button>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="card-header">
+                           <img src="https://via.placeholder.com/100x100?text=Imagen+del+Producto" alt="imagen producto 1">
+                        </div>
+                        <div class="card-items">
+                            <h1>Lenovo Gamer LQQ</h1>
+                            <h2>U$S 1.499</h2>
+                        </div>
+                        <div class="card-footer">
+                            <button type="button">Ver detalles</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <?php include "reusables/footer.php"; ?>
+    </body>
 </html>

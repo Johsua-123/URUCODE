@@ -1,16 +1,31 @@
+-- SQLBook: Code
 
 START TRANSACTION;
 
-SET time_zone = "+00:00";
+CREATE DATABASE IF NOT EXISTS urucode;
 
-CREATE DATABASE urucode;
 USE urucode;
 
-CREATE TABLE usuarios (
+DROP TABLE IF EXISTS users;
+
+CREATE TABLE users (
     code INT PRIMARY KEY AUTO_INCREMENT,
     email VARCHAR(120) UNIQUE,
+    image INT,
     username VARCHAR(30),
     password VARCHAR(30),
+    created_at DATETIME,
+    updated_at DATETIME
+);
+
+CREATE TABLE products (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(30),
+    image INT,
+    price INT,
+    description TEXT,
+    brand VARCHAR (30),
+    model VARCHAR (30),
     created_at DATETIME,
     updated_at DATETIME
 );

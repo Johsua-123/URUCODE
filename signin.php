@@ -11,37 +11,39 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="public/errea-logo.png" type="image/x-icon">
         <link rel="stylesheet" href="assets/styles/module.css">
-        <script src="assets/scripts/modal.js"></script>
-        <title>Inicio | Errea</title>
+        <link rel="stylesheet" href="assets/styles/auth.css">
+        <script src="assets/scripts/auth/signin.js"></script>
+        <title>Inicio Sesión | Errea</title>
     </head>
     <body>
         <div class="container">
-            <form class="card" method="POST">
+            <form id="signin" class="card" method="POST">
                 <div class="card-header">
                     <h1>Inicio de sesión</h1>
                 </div>
                 <div class="card-items">
                     <div>
-                        <label for="email">email</label>
+                        <label for="email">Correo electrónico</label>
                         <input id="email" type="text" name="email" placeholder="ejemplo@gmail.com" autocomplete="off">
                     </div>
                     <div>
-                        <label for="password">Password</label>
+                        <label for="password">Contraseña</label>
                         <input id="password" type="password" name="password" placeholder="********" autocomplete="off">
                     </div>
                 </div>
                 <div class="card-footer">
                     <div>
-                        <button type="submit">Iniciar Sesión</button>
+                        <p>¿No tienes una cuenta?</p>
+                        <a href="signup.php">Regístrate</a>
                     </div>
                     <div>
-                        <p>¿No tienes una cuenta?</p>
-                        <a href="signup.php">Registrate</a>
+                        <button type="submit">Iniciar</button>
                     </div>
                 </div>
             </form>
-            <div id="modal" data-redirect="index.php" class="modal">
+            <div id="signin-modal" data-redirect="index.php" class="modal">
                 <p id="status"></p>
                 <div>
                     <button id="button" type="button">Aceptar</button>
@@ -51,40 +53,3 @@
     </body>
 </html>
 
-<?php 
-
-    if ($_SERVER["REQUEST_METHOD"] != "POST") {
-        exit;
-    }
-    if (!isset($_POST["email"]) || !isset($_POST["password"])) {
-        exit;
-    }
-    if (empty(trim($_POST["email"])) || empty(trim($_POST["password"]))) {
-        header("Location: signin.php?status=" . urldecode("Porfavor completa todos los campos"));
-        exit;
-    }
-
-    $email = $_POST["email"];
-    $password = $_POST["password"];
-    require "mysql.php";
-    
-    $query = mysqli_query($mysql, "SELECT * FROM usuarios WHERE email='$email' AND password='$password'");
-    $results = [];
-    while ($result = mysqli_fetch_assoc($query)) {
-        $results[] = $result;
-    }
-    
-    if (empty($results)) {
-        header("Location: signin.php?status=" . urldecode("Email o contraseña invalidos"));   
-        exit;
-    }
-
-    $user = $results[0];
-
-    $_SESSION["code"] = $user["code"];
-    $_SESSION["email"] = $email;
-    $_SESSION["username"] = $user["username"];
-
-    header("Location: signin.php?status=" . urldecode("Has sido autenticado exitosamente"));
-
-?>

@@ -1,0 +1,113 @@
+
+.card {
+    z-index: 0;
+    width: 450px;
+    height: 600px;
+    display: flex;
+    position: absolute;
+    border-radius: 30px;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #122d57;
+}
+
+.card-header {
+    font-weight: 100;
+    text-align: center;
+    color: var(--color-blue-100);
+}
+
+.card-items {
+    display: flex;
+    padding: 20px 40px;
+    flex-direction: column;
+}
+
+.card-items div {
+    display: flex;
+    margin: 10px 0;
+    flex-direction: column;
+}
+
+.card-items div label {
+    font-size: 18px;
+    margin-bottom: 10px;
+    font-weight: 550;
+    color: var(--color-blue-100);
+}
+
+.card-items div input, textarea {
+    outline: none;
+    border-radius: 10px;
+    border: 1px #3F6CB2 solid;
+    color: var(--color-blue-100);
+    background-color: var(--color-gray-100);
+}
+
+.card-items div input {
+    padding: 10px;
+}
+
+.card-items div input::placeholder {
+    color: var(--color-blue-100);
+}
+
+.card-footer {
+    display: flex;
+    justify-content: center;
+}
+
+.card-footer button {
+    border: none;
+    outline: none;
+    padding: 10px 60px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 10px;
+    color: var(--color-blue-100);
+    background-color: #27497D;
+}
+
+.card-footer div:nth-child(1) {
+    margin: 20px 0;
+    margin-top: -15px;
+    gap: 5px;
+}
+
+.card-footer div:nth-child(1) p {
+    font-size: 16px;
+    color: var(--color-blue-100);
+}
+
+.card-footer div:nth-child(1) a {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--color-blue-100);
+}
+
+.modal {
+    z-index: 10;
+    display: none;
+    padding: 60px 20px;
+    border-radius: 10px;
+    flex-direction: column;
+    justify-content: center;
+    color: var(--color-blue-100);
+    background-color: var(--color-blue-400);
+}
+
+.modal div {
+    display: flex;
+    justify-content: center;
+}
+
+.modal div button {
+    border: none;
+    margin: 10px 0;
+    font-size: 20px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    color: var(--color-blue-100);
+    background-color: var(--color-blue-900);
+}
