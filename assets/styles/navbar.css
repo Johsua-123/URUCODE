@@ -38,6 +38,7 @@
 .navbar-extras {
     display: flex;
     margin-left: auto;
+    position: relative;
     align-items: center;
 }
 
@@ -49,8 +50,23 @@
     display: none;
 }
 
+.navbar-extras #nav-dropdown {
+    z-index: 20;
+    width: 100px;
+    height: 120px;
+    display: none;
+    margin-top: 155px;
+    position: absolute;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #0a1a2a;
+}
 
-
+.navbar-extras #nav-dropdown a {
+    margin: 8px 0;
+    font-size: 16px;
+}
 
 @media screen and (max-width: 768px) {
 

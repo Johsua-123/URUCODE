@@ -93,11 +93,8 @@
     border-radius: 10px;
     flex-direction: column;
     justify-content: center;
-    background-color: var(--color-blue-400);
-}
-
-.modal p {
     color: var(--color-blue-100);
+    background-color: var(--color-blue-400);
 }
 
 .modal div {
