@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
     signup.addEventListener("submit", async (event) => {
         event.preventDefault();
     
-        const request = await fetch("http://localhost/URUCODE/api/signup.php", {
+        const request = await fetch("api/signup.php", {
             method: "POST",
             body: new FormData(signup)
         })
