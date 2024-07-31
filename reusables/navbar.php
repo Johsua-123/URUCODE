@@ -23,7 +23,7 @@
                 </div>
                 <!-- Dropdown del perfil usuario -->
                 <div id="nav-dropdown" class="nav-dropdown">
-                    <a href="/">Ajustes</a>
+                    <a href="index.php">Ajustes</a>
                     <a href="logout.php">Salir</a>
                 </div>
                 <!-- Imagen de perfil por defecto -->
