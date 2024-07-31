@@ -2,7 +2,7 @@
 <div class="navbar">
     <header>
         <div class="navbar-header">
-            <a class="navbar-brand" href="http://localhost/URUCODE/">
+            <a class="navbar-brand" href="index.php">
                 <img src="public/errea-logo.png" alt="logo de errea">
             </a>
             <div class="navbar-search">
@@ -18,13 +18,13 @@
             <div class="navbar-extras">
                 <!-- Botones de autenticacion -->
                 <div class="<?php echo isset($_SESSION["code"]) ? "hide" : "show"; ?> navbar-auth">
-                    <a href="http://localhost/URUCODE/signin.php">Iniciar</a>
-                    <a href="http://localhost/URUCODE/signup.php">Registrar</a>
+                    <a href="signin.php">Iniciar</a>
+                    <a href="signup.php">Registrar</a>
                 </div>
                 <!-- Dropdown del perfil usuario -->
                 <div id="nav-dropdown" class="nav-dropdown">
-                    <a href="http://localhost/URUCODE/">Ajustes</a>
-                    <a href="http://localhost/URUCODE/logout.php">Salir</a>
+                    <a href="/">Ajustes</a>
+                    <a href="logout.php">Salir</a>
                 </div>
                 <!-- Imagen de perfil por defecto -->
                 <svg
@@ -74,9 +74,9 @@
     </header>
     <nav>
         <div id="navbar-links" class="navbar-wrapper">
-           <a id="home" href="http://localhost/URUCODE/">Inicio</a>
-           <a id="store" href="http://localhost/URUCODE/store.php">Tienda</a>
-           <a id="contact" href="http://localhost/URUCODE/contact.php">Contacto</a>
+           <a id="home" href="index.php">Inicio</a>
+           <a id="store" href="store.php">Tienda</a>
+           <a id="contact" href="contact.php">Contacto</a>
         </div>
     </nav>
 </div>
