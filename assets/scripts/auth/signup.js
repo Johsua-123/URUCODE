@@ -17,6 +17,9 @@ document.addEventListener("DOMContentLoaded", () => {
             body: new FormData(signup)
         })
 
+        /*console.log(await request.text());*/
+
+        
         const response = await request.json();
 
         status.textContent = response.text;
@@ -26,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (response.code && response.code == 200) return window.location.href = `${basePath}${redirect}`;
             modal.style.display = "none";
         })
-
+        
     })
     
 })

@@ -4,7 +4,7 @@
     session_start();
 
     if (isset($_SESSION["code"]) && isset($_SESSION["email"]) && isset($_SESSION["username"])) {
-        header("Location: http://localhost/URUCODE/");
+        header("Location: index.php");
     }
 
     if ($_SERVER["REQUEST_METHOD"] != "POST") {

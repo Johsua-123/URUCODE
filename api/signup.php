@@ -4,7 +4,7 @@
     session_start();
 
     if (isset($_SESSION["code"]) && isset($_SESSION["email"]) && isset($_SESSION["username"])) {
-        header("Location: http://localhost/URUCODE/");
+        header("Location: index.php");
     }
 
     if (!isset($_POST["email"]) || !isset($_POST["username"]) || !isset($_POST["password"])) {
@@ -40,7 +40,7 @@
         exit;
     }
 
-    $user = mysqli_query($mysql, "INSERT INTO users (email, username, password, created_at, updated_at) VALUES ('$email', '$username', '$password', '$date', '$date')");
+    $user = mysqli_query($mysql, "INSERT INTO users (email, nombre, password, creation_date, update_date) VALUES ('$email', '$username', '$password', '$date', '$date')");
 
     if (!$user) {
         echo json_encode([ "code" => 500, "text" => "Ha ocurrido error, contacta un administrador"]);
