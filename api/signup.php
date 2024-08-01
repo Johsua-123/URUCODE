@@ -40,7 +40,7 @@
         exit;
     }
 
-    $user = mysqli_query($mysql, "INSERT INTO users (email, nombre, password, creation_date, update_date) VALUES ('$email', '$username', '$password', '$date', '$date')");
+    $user = mysqli_query($mysql, "INSERT INTO users (email, nombre, password, created_at, updated_at) VALUES ('$email', '$username', '$password', '$date', '$date')");
 
     if (!$user) {
         echo json_encode([ "code" => 500, "text" => "Ha ocurrido error, contacta un administrador"]);
