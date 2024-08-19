@@ -3,7 +3,7 @@
     <header>
         <div class="navbar-header">
             <a class="navbar-brand" href="index.php">
-                <img src="public/errea-logo.png" alt="logo de errea">
+                <img src="assets/img/errea-logo.png" alt="logo de errea">
             </a>
             <div class="navbar-search">
                 <form id="search" method="POST">

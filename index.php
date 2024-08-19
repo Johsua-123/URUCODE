@@ -22,11 +22,11 @@
         <main>
             <div class="slider">
                 <div id="slider" class="slides">
-                    <img src="public/banners/slider-1.png" alt="slider imagen 1">
-                    <img src="public/banners/slider-2.png" alt="slider imagen 2">
-                    <img src="public/banners/slider-3.png" alt="slider imagen 3">
-                    <img src="public/banners/slider-4.png" alt="slider imagen 4">
-                    <img src="public/banners/slider-5.png" alt="slider imagen 5">
+                    <img src="assets/img/slider-1.png" alt="slider imagen 1">
+                    <img src="assets/img/slider-2.png" alt="slider imagen 2">
+                    <img src="assets/img/slider-3.png" alt="slider imagen 3">
+                    <img src="assets/img/slider-4.png" alt="slider imagen 4">
+                    <img src="assets/img/slider-5.png" alt="slider imagen 5">
                 </div>
             </div>
             <div class="products">
