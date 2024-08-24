@@ -48,7 +48,7 @@
                     
                 </div>
             </form>
-            <div id="signup-modal" data-redirect="signin.php" class="modal">
+            <div id="signup-modal" redirect="signin.php" class="modal">
                 <p id="status"></p>
                 <div>
                     <button id="button" type="button">Aceptar</button>

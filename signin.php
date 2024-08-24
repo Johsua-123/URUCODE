@@ -43,7 +43,7 @@
                     </div>
                 </div>
             </form>
-            <div id="signin-modal" data-redirect="index.php" class="modal">
+            <div id="signin-modal" redirect="index.php" class="modal">
                 <p id="status"></p>
                 <div>
                     <button id="button" type="button">Aceptar</button>
