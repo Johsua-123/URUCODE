@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
 
     document.body.addEventListener("click", (event) => {
-        if (sidebar.style.display == "flex") {
+        if (sidebar.style.display == "flex" && !sidebar.contains(event.target)) {
             document.body.style.overflowY = "auto";
             return sidebar.style.display = "none";
         }
