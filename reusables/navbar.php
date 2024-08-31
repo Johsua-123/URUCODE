@@ -19,18 +19,17 @@
                 <a href="signin.php">Iniciar</a>
                 <a href="signup.php">Registrar</a>
             </div>
-            <!-- Dropdown del perfil
-            <div id="dropdown-1" class="profile-dropdown">
-                <a href="setting.php">Ajustes</a>
-                <a href="logout.php">Salir</a>
+            <!-- imagen de perfil usuario -->
+            <div class="navbar-profile dropdown">
+                <img id="profile-2" style="<?php echo !(isset($_SESSION["code"]) && isset($_SESSION["image"])) ? "display: none" : "display: block" ?>" src="<?php $_SESSION["image"] ?? "" ?>" alt="user image">
+                <svg id="profile-1" style="<?php echo (isset($_SESSION["code"]) && !isset($_SESSION["image"])) ? "display: block" : "display: none" ?>" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"></path>
+                </svg>
+                <div class="dropdown-menu hidden">
+                    <a href="setting.php">Ajustes</a>
+                    <a href="logout.php">Salir</a>
+                </div>
             </div>
-            -->
-            <!-- icono de perfil de usuario -->
-            <svg id="profile-1" style="<?php echo (isset($_SESSION["code"]) && !isset($_SESSION["image"])) ? "display: block" : "display: none" ?>" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"></path>
-            </svg>
-            <!-- imagen perfil del usuario -->
-            <img id="profile-2" style="<?php echo !(isset($_SESSION["code"]) && isset($_SESSION["image"])) ? "display: none" : "display: block" ?>" src="<?php $_SESSION["image"] ?? "" ?>" alt="user image">
             <!-- Icono de apertura del sidebar mobile -->
             <svg id="navbar" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
@@ -49,7 +48,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
             </svg>
             <span>Categorias</span>
-            <div id="" class="dropdown-menu hidden">
+            <div class="dropdown-menu hidden">
 
             </div>
         </div>

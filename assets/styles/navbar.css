@@ -81,17 +81,22 @@
     border: 1px white solid;
 }
 
-.profile-dropdown {
+.navbar-profile {
+    display: flex;
+}
+
+.navbar-profile .dropdown-menu {
     gap: 10px;
     width: 100px;
-    height: 120px;
-    display: none;
-    margin-top: 184px;
-    position: absolute;
+    height: 140px;
+    margin-top: 48px;
     align-items: center;
     flex-direction: column;
     justify-content: center;
-    background-color: #0a1a2a;
+}
+
+.navbar-profile .dropdown-menu a {
+    cursor: pointer;
 }
 
 .navbar-product {
@@ -204,11 +209,7 @@
         display: block;
     }
 
-    .navbar-search, .navbar-auth, .navbar-footer {
-        display: none !important;
-    }
-
-    .navbar-extras #profile-1, .navbar-extra #profile-2 {
+    .navbar-search, .navbar-auth, .navbar-profile, .navbar-footer {
         display: none !important;
     }
 
