@@ -1,14 +1,13 @@
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    // barra lateral en pantalla moviles
+   
     const navbar = document.getElementById("navbar");
     const sidebar = document.getElementById("sidebar");
-
-    // seccion de dropdowns
     const dropdowns = document.querySelectorAll(".dropdown");
 
     navbar.addEventListener("click", (event) => {
+        document.body.style.overflowY = "hidden";
         sidebar.style.display = "flex";
         event.stopPropagation();
     })
@@ -24,13 +23,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.body.addEventListener("click", (event) => {
         if (sidebar.style.display == "flex") {
+            document.body.style.overflowY = "auto";
             return sidebar.style.display = "none";
         }
-        dropdowns.forEach(dropdown => {
-            const menu = dropdown.querySelector(".dropdown-menu");
-            if (dropdown.classList.contains("hidden") || menu.contains(event.target)) return;
-            return menu.classList.add("hidden")
-        })
     })
 
 })
