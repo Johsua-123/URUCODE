@@ -21,8 +21,8 @@
             </div>
             <!-- imagen de perfil usuario -->
             <div class="navbar-profile dropdown">
-                <img id="profile-2" style="<?php echo !(isset($_SESSION["code"]) && isset($_SESSION["image"])) ? "display: none" : "display: block" ?>" src="<?php $_SESSION["image"] ?? "" ?>" alt="user image">
-                <svg id="profile-1" style="<?php echo (isset($_SESSION["code"]) && !isset($_SESSION["image"])) ? "display: block" : "display: none" ?>" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24">
+                <img style="<?php echo !(isset($_SESSION["code"]) && isset($_SESSION["image"])) ? "display: none" : "display: block" ?>" src="<?php $_SESSION["image"] ?? "" ?>" alt="user image">
+                <svg style="<?php echo (isset($_SESSION["code"]) && !isset($_SESSION["image"])) ? "display: block" : "display: none" ?>" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"></path>
                 </svg>
                 <div class="dropdown-menu hidden">
@@ -34,11 +34,20 @@
             <svg id="navbar" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
             </svg>
-            <div id="cart-section" class="navbar-product">
+            <div class="cart-section dropdown">
                 <svg fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312"/>
                 </svg>
-                <span id="cart-counts">0</span>
+                <span class="cart-counter total-items">0</span>
+                <div class="dropdown-menu hidden">
+                    <div class="cart-title">
+                        <span class="total-items">0 Items</span>
+                        <a href="">Ver detalles</a>
+                    </div>
+                    <div class="cart-items">
+                        
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -49,7 +58,7 @@
             </svg>
             <span>Categorias</span>
             <div class="dropdown-menu hidden">
-
+                
             </div>
         </div>
         <div class="navbar-links">
