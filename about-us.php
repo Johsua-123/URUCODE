@@ -11,11 +11,10 @@
         <link rel="stylesheet" href="assets/styles/module.css">
         <link rel="stylesheet" href="assets/styles/navbar.css">
         <link rel="stylesheet" href="assets/styles/footer.css">
-        <link rel="stylesheet" href="assets/styles/about-us.css">
-        <script src="https://kit.fontawesome.com/eb496ab1a0.js"></script>
+        <link rel="stylesheet" href="assets/styles/about.css">
+        <script src="assets/scripts/navbar.js"></script>
         <title>Sobre Nosotros | Errea</title>
     </head>
-
     <body>
         <?php include "reusables/navbar.php"; ?>
         <main>
@@ -86,6 +85,6 @@
                 </section>
             </div>
         </main>
-        <?php /*include "reusables/footer.php";*/ ?>
+        <?php include "reusables/footer.php"; ?>
     </body>
 </html>

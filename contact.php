@@ -50,6 +50,6 @@
                 </div>
             </div>
         </div>
-        <?php //include "reusables/footer.php"; ?>
+        <?php include "reusables/footer.php"; ?>
     </body>
 </html>
