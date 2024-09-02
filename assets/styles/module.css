@@ -11,10 +11,16 @@
 body {
     margin: 0;
     padding: 0;
-    color: var(--color-white);
+    display: flex;
+    flex-direction: column;
     box-sizing: border-box;
     font-family: sans-serif;
+    color: var(--color-white);
     background-color: var(--color-white);
+}
+
+main {
+    flex: 1;
 }
 
 ul {
@@ -22,8 +28,8 @@ ul {
 }
 
 a {
-    color: var(--color-white);
     text-decoration: none;
+    color: var(--color-white);
 }
 
 h1, h2, h3 {
