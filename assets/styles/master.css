@@ -1,9 +1,4 @@
 
-
-main {
-    height: 100vh;
-}
-
 .slider {
     overflow: hidden;
 }
@@ -19,91 +14,87 @@ main {
     height: auto;
 }
 
-.products {
-    margin: 4vh 10vw;
+/* Productos mas vendidos */
+.main-products {
     display: flex;
-    color: black;
+    margin: 4vh 9vw;
     flex-direction: column;
 }
 
-.products h1 {
+.main-products h1 {
     font-size: 25px;
+    margin-bottom: 10px;
+    color: var(--color-blue);
 }
 
 .product-items {
-    height: 360px;
+    gap: 20px;
+    height: 100%;
     display: flex;
-    margin: 10px 0;
+    padding: 30px 0;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    border: 2px var(--color-blue-900) solid;
-}
-
-.product-items > div {
-    margin: 0 20px;
+    border: 1px var(--color-blue) solid;
 }
 
 .product-card {
     width: 200px;
     height: 290px;
     display: flex;
-    flex-direction: column;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
     border-radius: 15px;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
 }
 
 .card-header {
-    margin: 10px;
     display: flex;
+    margin: 10px 0;
     justify-content: center;
 }
 
 .card-header img {
-    width: 100%;
+    width: 165px;
     height: 140px;
+    border-radius: 15px;
 }
 
 .card-items {
-    margin: 5px 0;
+    gap: 5px;
     display: flex;
+    margin: 5px 0;
     text-align: center;
     flex-direction: column;
 }
 
 .card-items h1, h2 {
     font-size: 16px;
-}
-
-.card-items h1 {
-    margin-top: 10px;
-}
-
-.card-items h2 {
-    margin-top: 10px;
-    font-weight: 600;
+    color: var(--color-blue);
 }
 
 .card-footer {
     display: flex;
-    margin: 5px 0;
+    margin: 10px 0;
     justify-content: center;
 }
 
-.card-footer button {
-    border: none;
-    font-size: 16px;
+.card-footer a {
     cursor: pointer;
+    font-size: 16px;
     margin-top: 2px;
     padding: 10px 15px;
     border-radius: 7px;
-    color: var(--color-blue-100);
-    background-color: var(--color-blue-900);
+    color: var(--color-white);
+    background-color: var(--color-blue);
 }
 
-@media screen and (max-width: 480px) {
-    
-}
+@media screen and (max-width: 1024px) {
 
-@media screen and (max-width: 768px) {
+    .product-items {
+        gap: 30px;
+        padding: 30px 0;
+    }
 
 }

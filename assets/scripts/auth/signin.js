@@ -6,20 +6,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const button = document.querySelector("#button");
 
     const location = window.location;
+    const redirect = modal.getAttribute("redirect");
     const basePath = location.href.substring(0, location.href.lastIndexOf('/') + 1);
-    const redirect = modal.dataset.redirect;
 
     signin.addEventListener("submit", async (event) => {
         event.preventDefault();
     
-        const request = await fetch("http://localhost/URUCODE/api/signin.php", {
+        const request = await fetch("api/signin.php", {
             method: "POST",
             body: new FormData(signin)
         })
 
-        console.log(await request.text());
-
-        /*
         const response = await request.json();
 
         status.textContent = response.text;
@@ -29,7 +26,8 @@ document.addEventListener("DOMContentLoaded", () => {
             if (response.code && response.code == 200) return window.location.href = `${basePath}${redirect}`;
             modal.style.display = "none";
         })
-*/
+       
     })
+    
     
 })

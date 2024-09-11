@@ -1,0 +1,103 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: montserrat, sans-serif;
+    background-image: linear-gradient(to bottom right, #25416D, #122d57);
+  }
+  
+  .container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+  }
+  
+  h1 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /*Ajusta el título para que esté perfectamente centrado en la pantalla*/
+    z-index: -1;
+  
+    color: #FFF;
+    font-size: 320px;
+    font-weight: 900;
+  
+    animation: fadein 0.8s ease-out 1.5s forwards; /*Fadein es el nombre de la animacion*/
+    opacity: 0; /*Para que el titulo empieze completamente transparente.*/
+  }
+  
+  @keyframes fadein { /*Define una animacion que cambia la opacidad*/
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 0.2;
+    }
+  }
+  
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  h2 {
+    color: #FFF;
+    font-size: 48px;
+    font-weight: 700;
+    margin-bottom: 100px;
+  
+    animation: slidedown 1s ease-out 0.5s forwards; /*Slidedown es el nombre de la animacion*/
+    transform: translateY(-200px);
+    opacity: 0;
+  }
+  
+  @keyframes slidedown { /*Define una animacion que mueve el subtitulo desde arriba*/
+    0% {
+      transform: translateY(-200px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0px);
+      opacity: 1;
+    }
+  }
+  
+  .button {
+    display: inline-block;
+    padding: 20px 40px;
+    background-color: #FFF;
+    color: #222;
+    font-weight: 700;
+    font-style: italic;
+    text-decoration: none;
+    border-radius: 999px;
+    font-size: 28px;
+    transition: 0.4s ease-out;
+  
+    animation: slideup 1s ease-out 0.5s forwards; /*Slideup es el nombre de la animacion*/
+    transform: translateY(200px);
+    opacity: 0;
+  }
+  
+  @keyframes slideup { /*Define una animacion que mueve el subtitulo desde abajo*/
+    0% {
+      transform: translateY(200px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0px);
+      opacity: 1;
+    }
+  }
+  
+  .button:hover {
+    color: #25416D;
+    box-shadow: 6px 6px rgba(0, 0, 0, 0.3);
+  }

@@ -1,192 +1,245 @@
-.navbar a {
-    border: none;
-    color: var(--color-blue-100);
-}
 
-.navbar header {
+.navbar {
     display: flex;
-    padding: 10px 0;
-    justify-content: center;
-    background-color: var(--color-blue-900);
-    border-bottom: 1px solid #315791;
+    flex-direction: column;
+    background-color: var(--color-blue);
 }
 
+/* Navbar header */
 .navbar-header {
-    width: 100%;
+    height: 65px;
     display: flex;
-    margin: 0 10px;
-    padding: 2px 0;
+    padding: 0 10vw;
     align-items: center;
-}
-
-.navbar-header svg {
-    width: 30px;
-    height: 30px;
-    cursor: pointer;
-    color: white;
+    justify-content: space-between;
 }
 
 .navbar-brand img {
-    width: 50px;
     height: 50px;
+    cursor: pointer;
 }
 
 .navbar-search {
-    display: none;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-search form {
+    width: 100%;
+    display: flex;
+}
+
+.navbar-search form input {
+    width: 20vw;
+    height: 25px;
+    border-radius: 7px;
+    border: 2px var(--color-white) solid;
+}
+
+.navbar-search form button {
+    border: none;
+    display: flex;
+    border-radius: 7px;
+    margin-left: -10px;
+    align-items: center;
+    background-color: var(--color-white);
+}
+
+.navbar-search form button svg {
+    height: 25px;
+    cursor: pointer;
 }
 
 .navbar-extras {
+    gap: 10px;
     display: flex;
-    margin-left: auto;
     position: relative;
+    align-items: center;
+    justify-content: center;
+}
+
+.navbar-extras svg, .navbar-extras img {
+    height: 30px;
+    cursor: pointer;
+}
+
+.navbar-extras #navbar {
+    display: none;
+}
+
+.navbar-auth {
+    gap: 16px;
     align-items: center;
 }
 
-.navbar-extras svg {
-    margin: 0 10px;
+.navbar-auth a {
+    width: 80px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px white solid;
 }
 
-.navbar-extras #nav-close {
-    display: none;
+.navbar-profile {
+    display: flex;
 }
 
-.navbar-extras #nav-dropdown {
-    z-index: 20;
+.navbar-profile .dropdown-menu {
+    gap: 10px;
     width: 100px;
-    height: 120px;
-    display: none;
-    margin-top: 155px;
-    position: absolute;
+    height: 140px;
+    margin-top: 48px;
     align-items: center;
     flex-direction: column;
     justify-content: center;
-    background-color: #0a1a2a;
 }
 
-.navbar-extras #nav-dropdown a {
-    margin: 8px 0;
+.navbar-profile .dropdown-menu a {
+    cursor: pointer;
+}
+
+.cart-section {
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+}
+
+.cart-section .cart-counter {
+    z-index: 20;
+    margin-left: -1px;
+    position: relative;
+    border-radius: 50%;
+    margin-bottom: 22px;
+}
+
+.cart-section .dropdown-menu {
+    width: 300px;
+    height: 400px;
+    margin-top: 465px;
+    margin-right: 80px;
+}
+
+.cart-section .dropdown-menu .cart-title {
+    height: 40px;
+    display: flex;
+    margin: 0 20px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.cart-section .dropdown-menu .cart-items {
+    display: flex;
+    height: 340px;
+    margin: 0 20px;
+    overflow-y: scroll;
+}
+
+/* Navbar footer */
+.navbar-footer {
+    height: 60px;
+    display: flex;
+    padding: 0 15vw;
+    align-items: center;
+    border-top: 1px var(--color-white) solid;
+    justify-content: space-between;
+}
+
+.navbar-category {
+    gap: 2px;
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+}
+
+.navbar-category span {
+    font-size: 22px;
+}
+
+.navbar-category svg {
+    height: 25px;
+}
+
+.navbar-category .dropdown-menu {
+    width: 200px;
+    height: 340px;
+    margin-top: 400px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Seccion de enlaces */
+.navbar-links {
+    gap: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-links a {
+    gap: 3px;
+    width: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.navbar-links a svg {
+    height: 20px;
+}
+
+.navbar-links a span {
     font-size: 16px;
 }
 
-@media screen and (max-width: 768px) {
-
-    .navbar nav {
-        display: none;
-    }
-
-    .show {
-        display: none;
-    }
-
+.navbar-active {
+    border-bottom: 1px var(--color-white) solid;
 }
 
-@media screen and (min-width: 1024px) {
+/* Barra lateral */
+.navbar #sidebar {
+    display: none;
+}
+
+@media screen and (max-width: 1024px) {
 
     .navbar-header {
-        margin: 0 10vw;
-        justify-content: space-between;
+        padding: 0 4vw;
     }
 
-    .navbar-brand img {
-        width: 70px;
-        height: 70px;
-    }
-
-    .navbar-search {
-        display: flex;
-        padding: 20px 0;
-        align-items: center;
-    }
-
-    .navbar-search form {
-        display: flex;
-        width: 100%;
-    }
-
-    .navbar-search form input {
-        width: 25vw;
-        height: 30px;
-        border-radius: 7px;
-        outline: none;
-        border: 2px var(--color-blue-100) solid;
-    }
-
-    .navbar-search form button {
-        border: none;
-        outline: none;
-        border-radius: 7px;
-        margin-left: -10px;
-        background-color: var(--color-blue-100);
-    }
-
-    .navbar-search form button svg {
-        color: var(--color-blue-900);
-        height: 20px;
-    }
-
-    .navbar-extras {
-        margin-left: 0;
-    }
-
-    .navbar-extras #nav-open,
-    .navbar-extras #nav-close {
-        display: none;
-    }
-
-    .navbar-auth {
-        align-items: center;
-    }
-
-    .navbar-auth>* {
-        height: 30px;
-        width: 100px;
-        margin: 0 5px;
-    }
-
-    .navbar-auth a {
-        display: flex;
-        font-size: 16px;
-        font-weight: 700;
-        border-radius: 10px;
-        align-items: center;
+    .navbar-links {
+        flex-direction: column;
         justify-content: center;
-        color: var(--color-blue-900);
-        background-color: var(--color-blue-100);
     }
 
-    .users-icon {
-        display: flex;
-    }
-
-    /* Navbar links */
-    .navbar nav {
-        display: flex;
-        padding: 20px 0;
-        justify-content: center;
-        background-color: var(--color-blue-900);
-    }
-
-    .navbar-wrapper {
-        display: flex;
+    .navbar #sidebar {
+        z-index: 10;
+        width: 300px;
+        height: 100vh;
+        position: fixed;
+        margin-top: 64px;
         align-items: center;
-    }
-
-    .navbar-wrapper a {
-        height: 30px;
-        width: 120px;
-        display: flex;
-        margin: 0 20px;
-        font-size: 16px;
-        font-weight: 700;
-        border-radius: 10px;
-        align-items: center;
+        flex-direction: column;
         justify-content: center;
-        color: var(--color-blue-900);
-        background-color: var(--color-blue-100);
+        background-color: #0a1a2a;
+    }
+    
+    .navbar-extras #navbar {
+        display: block;
     }
 
-    .show {
-        display: flex;
+    .navbar-search, .navbar-auth, .navbar-profile, .navbar-footer {
+        display: none !important;
+    }
+
+    .profile-dropdown {
+        margin-right: 100px;
+    }
+
+    .cart-section .dropdown-menu {
+        margin-right: 228px;
     }
 
 }

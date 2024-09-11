@@ -1,38 +1,30 @@
 
 document.addEventListener("DOMContentLoaded", () => {
-    const search = document.getElementById("search");
+
+   
+    const navbar = document.getElementById("navbar");
     const sidebar = document.getElementById("sidebar");
-    const navOpen = document.getElementById("nav-open");
-    const navClose = document.getElementById("nav-close");
-    const profile = document.getElementById("nav-profile");
-    const dropdown = document.getElementById("nav-dropdown");
+    const dropdowns = document.querySelectorAll(".dropdown");
 
-    let mobileNav = false;
-
-    search.addEventListener("submit", async (event) => {
-        event.preventDefault();
-
+    navbar.addEventListener("click", (event) => {
+        document.body.style.overflowY = "hidden";
+        sidebar.style.display = "flex";
+        event.stopPropagation();
     })
 
-    navOpen.addEventListener("click", () => {
-        mobileNav = true;
-        navOpen.style.display = "none";
-        navClose.style.display = "block";
+    dropdowns.forEach(dropdown => {
+        dropdown.addEventListener("click", (event) => {
+            const menu = dropdown.querySelector(".dropdown-menu");
+            if (menu.contains(event.target)) return;
+            menu.classList.toggle("hidden");
+            event.stopPropagation();
+        })
     })
 
-    navClose.addEventListener("click", () => {
-        mobileNav = false;
-        navClose.style.display = "none";
-        navOpen.style.display = "block";
-    })
-
-    profile.addEventListener("click", () => {
-        dropdown.style.display = (dropdown.style.display == "block" ? "none" : "flex")
-    })
-
-    document.addEventListener("click", (event) => {
-        if (!dropdown.contains(event.target) && event.target !== profile) {
-            dropdown.style.display = "none";
+    document.body.addEventListener("click", (event) => {
+        if (sidebar.style.display == "flex" && !sidebar.contains(event.target)) {
+            document.body.style.overflowY = "auto";
+            return sidebar.style.display = "none";
         }
     })
 
