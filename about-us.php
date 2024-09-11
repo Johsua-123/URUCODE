@@ -18,26 +18,25 @@
     <body>
         <?php include "reusables/navbar.php"; ?>
         <main>
-            <div class="about-us">
-            <h1>About us</h1>
+        <div class="about-us">
+                <h1>About Us</h1>
                 <section>
                     <h2>Company</h2>
                     <p>Name: URUCODE</p>
                     <p>Address: Belen 400, 50000 Salto, Departamento de Salto</p>
-                    <p>Phone: +598 92 143 086</p>
+                    <p>Phone Number: +598 92 143 086</p>
                     <p>E-Mail: Urucode2024@gmail.com</p>
                     <p>Members: Juan Cruz Pirotto, Johsua Hartwig, Mateo Severo, Facundo Bisio</p>
                 </section>
                 <section>
                     <h2>Description</h2>
                     <p>
-                        Urucode is a software development company specializing in the creation of software and websites for businesses of all sizes and industries. The company stands out for its relationships with clients, as well as its creativity and professionalism in the technological field.
+                    Urucode is a software development company specializing in the creation of software and websites for businesses of all sizes and industries. The company stands out for its relationships with clients, as well as its creativity and professionalism in the technological field.
                     </p>
                 </section>
                 <section>
                     <h2>Mission</h2>
-                    <p>
-                        Our mission is to drive technological innovation by creating high-quality websites. We are dedicated to continuous learning and growth, working with passion and creativity to provide solutions tailored to each client's needs. We focus on customer relationships based on transparency, efficiency, and trust.
+                    <p>Our mission is to drive technological innovation by creating high-quality websites. We are dedicated to continuous learning and growth, working with passion and creativity to provide solutions tailored to each client's needs. We focus on customer relationships based on transparency, efficiency, and trust.                        
                     </p>
                 </section>
                 <section>
@@ -46,7 +45,8 @@
                     We aim to be known for our dedication, innovation, and customer service in web development. Our dream is to grow together as a team, exploring new technologies and trends, while never losing sight of our commitment to quality and accessibility.
                     </p>
                 </section>
-                <br>
+            </div>
+            <div class="about-us">
                 <h1>Acerca de nostros</h1>
                 <section>
                     <h2>Empresa</h2>
