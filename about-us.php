@@ -6,39 +6,37 @@
 <html lang="es">
     <head>
         <meta charset="UTF-8">
-        <link rel="shortcut icon" href="public/errea-logo.png" type="image/x-icon">
+        <link rel="shortcut icon" href="public/icons/logo.png" type="image/x-icon">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="assets/styles/module.css">
         <link rel="stylesheet" href="assets/styles/navbar.css">
         <link rel="stylesheet" href="assets/styles/footer.css">
-        <link rel="stylesheet" href="assets/styles/about-us.css">
-        <script src="https://kit.fontawesome.com/eb496ab1a0.js"></script>
+        <link rel="stylesheet" href="assets/styles/about.css">
+        <script src="assets/scripts/navbar.js"></script>
         <title>Sobre Nosotros | Errea</title>
     </head>
-
     <body>
         <?php include "reusables/navbar.php"; ?>
         <main>
-            <div class="about-us">
-            <h1>Acerca de nostros</h1>
+        <div class="about-us">
+                <h1>About Us</h1>
                 <section>
                     <h2>Company</h2>
                     <p>Name: URUCODE</p>
                     <p>Address: Belen 400, 50000 Salto, Departamento de Salto</p>
-                    <p>Phone: +598 92 143 086</p>
+                    <p>Phone Number: +598 92 143 086</p>
                     <p>E-Mail: Urucode2024@gmail.com</p>
                     <p>Members: Juan Cruz Pirotto, Johsua Hartwig, Mateo Severo, Facundo Bisio</p>
                 </section>
                 <section>
                     <h2>Description</h2>
                     <p>
-                        Urucode is a software development company specializing in the creation of software and websites for businesses of all sizes and industries. The company stands out for its relationships with clients, as well as its creativity and professionalism in the technological field.
+                    Urucode is a software development company specializing in the creation of software and websites for businesses of all sizes and industries. The company stands out for its relationships with clients, as well as its creativity and professionalism in the technological field.
                     </p>
                 </section>
                 <section>
                     <h2>Mission</h2>
-                    <p>
-                        Our mission is to drive technological innovation by creating high-quality websites. We are dedicated to continuous learning and growth, working with passion and creativity to provide solutions tailored to each client's needs. We focus on customer relationships based on transparency, efficiency, and trust.
+                    <p>Our mission is to drive technological innovation by creating high-quality websites. We are dedicated to continuous learning and growth, working with passion and creativity to provide solutions tailored to each client's needs. We focus on customer relationships based on transparency, efficiency, and trust.                        
                     </p>
                 </section>
                 <section>
@@ -47,7 +45,8 @@
                     We aim to be known for our dedication, innovation, and customer service in web development. Our dream is to grow together as a team, exploring new technologies and trends, while never losing sight of our commitment to quality and accessibility.
                     </p>
                 </section>
-                <br>
+            </div>
+            <div class="about-us">
                 <h1>Acerca de nostros</h1>
                 <section>
                     <h2>Empresa</h2>
@@ -86,6 +85,6 @@
                 </section>
             </div>
         </main>
-        <?php /*include "reusables/footer.php";*/ ?>
+        <?php include "reusables/footer.php"; ?>
     </body>
 </html>

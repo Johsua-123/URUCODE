@@ -11,7 +11,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="shortcut icon" href="public/errea-logo.png" type="image/x-icon">
+        <link rel="shortcut icon" href="public/icons/logo.png" type="image/x-icon">
         <link rel="stylesheet" href="assets/styles/module.css">
         <link rel="stylesheet" href="assets/styles/auth.css">
         <script src="assets/scripts/auth/signup.js"></script>
@@ -48,7 +48,7 @@
                     
                 </div>
             </form>
-            <div id="signup-modal" data-redirect="signin.php" class="modal">
+            <div id="signup-modal" redirect="signin.php" class="modal">
                 <p id="status"></p>
                 <div>
                     <button id="button" type="button">Aceptar</button>

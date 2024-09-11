@@ -6,8 +6,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const button = document.querySelector("#button");
 
     const location = window.location;
+    const redirect = modal.getAttribute("redirect");
     const basePath = location.href.substring(0, location.href.lastIndexOf('/') + 1);
-    const redirect = modal.dataset.redirect;
 
     signup.addEventListener("submit", async (event) => {
         event.preventDefault();
@@ -16,9 +16,6 @@ document.addEventListener("DOMContentLoaded", () => {
             method: "POST",
             body: new FormData(signup)
         })
-
-        /*console.log(await request.text());*/
-
         
         const response = await request.json();
 

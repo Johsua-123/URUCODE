@@ -1,4 +1,124 @@
-
 main {
-	height: 100vh;	
+    display: flex;
+    justify-content: space-between; /* Espacio entre la sidebar y los productos */
+    padding: 0 5vw;
+}
+
+.sidebar {
+    width: 20vw; /* Ajusta el ancho de la barra lateral */
+    padding-left: 80px;
+    margin-top: 60px;
+    font-family: Arial, sans-serif;
+}
+
+.sidebar h2 {
+    font-size: 18px;
+    color: var(--color-blue);
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.category-list {
+    list-style: none;
+    padding: 0;
+}
+
+.category-list > li {
+    margin-bottom: 15px;
+}
+
+.category-list a {
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.category-list ul {
+    list-style-type: none;
+    padding-left: 15px;
+}
+
+.category-list ul li {
+    margin-bottom: 5px;
+}
+
+.category-list a:hover {
+    color: var(--color-blue);
+}
+
+.main-products {
+    width: 70vw; /* Ajusta el espacio que ocupan los productos */
+    display: flex;
+    flex-direction: column;
+}
+
+.main-products {
+    display: flex;
+    margin: 4vh 0; /* Ajusta el margen para evitar desbordamiento */
+    flex-direction: column;
+    width: 50vw; /* Ocupa el 50% del ancho de la pantalla */
+}
+
+.product-items {
+    gap: 20px;
+    height: 100%;
+    display: flex;
+    padding: 30px 0;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    border: 1px var(--color-blue) solid;
+}
+
+.product-card {
+    width: 200px;
+    height: 290px;
+    display: flex;
+    border-radius: 15px;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    display: flex;
+    margin: 10px 0;
+    justify-content: center;
+}
+
+.card-header img {
+    width: 165px;
+    height: 140px;
+    border-radius: 15px;
+}
+
+.card-items {
+    gap: 5px;
+    display: flex;
+    margin: 5px 0;
+    text-align: center;
+    flex-direction: column;
+}
+
+.card-items h1, h2 {
+    font-size: 16px;
+    color: var(--color-blue);
+}
+
+.card-footer {
+    display: flex;
+    margin: 10px 0;
+    justify-content: center;
+}
+
+.card-footer a {
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 2px;
+    padding: 10px 15px;
+    border-radius: 7px;
+    color: var(--color-white);
+    background-color: var(--color-blue);
 }

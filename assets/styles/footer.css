@@ -2,84 +2,83 @@
 .footer {
     display: flex;
     flex-direction: column;
-    color: var(--color-blue-100);
+    background-color: var(--color-blue);
 }
 
 .footer a {
-    color: var(--color-blue-100);
+    font-size: 20px;
 }
 
-.footer .section-1 {
+.section-1 {
     display: flex;
-    padding: 2vh 10vw;
+    padding: 30px 10vw;
     justify-content: space-between;
-    background-color: var(--color-blue-900);
 }
 
-.footer .section-1 > div {
-    padding: 50px 100px;
-}
-
-.footer h2 {
-    font-size: 25px;
-    margin-bottom: 20px;
-}
-
-.footer .section-1 .column-1 img {
-    width: 170px;
-    height: 170px;
-}
-
-.footer .section-1 .column-2 p {
-    font-size: 18px;
-}
-
-.footer .section-1 .column-3 {
+.section-1 > div {
     display: flex;
     flex-direction: column;
 }
 
-.footer .section-1 .column-3 .social-links {
+.section-1 h1 {
+    text-align: center;
+}
+
+.column-1 {
     display: flex;
-    margin: 15px 0;
     align-items: center;
+    flex-direction: column;
+    justify-content: center;
 }
 
-.footer .section-1 .column-3 .social-links a {
-    margin: 0 15px;
+.column-1 a img {
+    height: 180px;
 }
 
-.footer .section-1 .column-3 .aboutus {
+.column-2 div {
+    gap: 10px;
     display: flex;
     margin-top: 20px;
     align-items: center;
+    justify-content: center;
 }
 
-.footer .section-1 .column-3 .aboutus span {
-    font-size: 18px;
-    font-weight: 600;
-}
-
-.footer .section-1 .column-3 .aboutus svg {
-    width: 30px;
+.column-2 div img {
     height: 30px;
-    margin-left: 5px;
 }
 
-.footer .section-2 {
+.column-3 div {
+    gap: 10px;
     display: flex;
-    padding: 25px 0;
+    margin-top: 20px;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.column-3 div a:hover {
+    text-decoration: underline;
+}
+
+.section-2 {
+    display: flex;
     justify-content: center;
     background-color: #0a1a2a;
 }
 
-.footer .section-2 span {
-    display: flex;
-    font-size: 20px;
-    align-items: center;
+.section-2 p span {
+    font-weight: 700;
 }
 
-.footer .section-2 span p {
-    margin: 0 5px;
-    font-weight: bold;
+@media screen and (max-width: 767px) {
+
+    .section-1 {
+        gap: 40px;
+        flex-direction: column;
+    }
+
+    .column-3 div a:hover {
+        text-decoration: none;
+    }
+
 }
