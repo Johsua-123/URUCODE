@@ -19,7 +19,7 @@
         <?php include "reusables/navbar.php"; ?>
         <main>
             <div class="about-us">
-            <h1>Acerca de nostros</h1>
+            <h1>About us</h1>
                 <section>
                     <h2>Company</h2>
                     <p>Name: URUCODE</p>
