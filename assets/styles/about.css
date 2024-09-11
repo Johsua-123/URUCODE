@@ -14,12 +14,15 @@
 
 .about-us section {
     margin: 20px 0;
+    color: var(--color-blue-900);
 }
 
 .about-us section h2 {
     margin-bottom: 15px;
+    color: var(--color-blue-900);
 }
 
 .about-us section p {
     margin: 0;
+    color: var(--color-blue-900);
 }
