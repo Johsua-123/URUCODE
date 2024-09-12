@@ -43,14 +43,14 @@
                 <div class="content-section">
                     <div class="tab-buttons">
                         <button type="button" tab-name="general">General</button>
-                        <button type="button" tab-name="likes">Favoritos</button>
+                        <button type="button" tab-name="cart">Carrito</button>
                     </div>
                     <div class="tab-section">
                         <div id="general">
                             <h1>Perfil</h1>
                         </div>
-                        <div class="hidden" id="likes">
-                            <h1>Favoritos</h1>
+                        <div class="hidden" id="cart">
+                            <h1>Carrito</h1>
                         </div>
                     </div>
                 </div>

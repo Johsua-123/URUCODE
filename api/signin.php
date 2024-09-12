@@ -25,7 +25,7 @@
 
     require "mysql.php";
 
-    $query = mysqli_query($mysql, "SELECT * FROM users WHERE email='$email' AND password='$password'");
+    $query = mysqli_query($mysql, "SELECT * FROM users WHERE email='$email'");
     $users = [];
 
     if (!$query) {
@@ -42,13 +42,19 @@
         exit;
     }
 
+    if (!password_verify($password, $users["password"])) {
+        echo json_encode([ "code" => 404, "text" => "Email o contraseña invalido" ]);
+        exit;
+    }
+
     $user = $users[0];
 
-    $_SESSION["code"] = $user["code"];
     $_SESSION["email"] = $email;
+    $_SESSION["code"] = $user["code"];
+    $_SESSION["role"] = $user["role"];
     $_SESSION["username"] = $user["username"];
 
-    echo json_encode([ "code" => 200, "text" => "Has sido autenticado exitosamente" ]);
+    echo json_encode([ "text" => "Has sido autenticado exitosamente", "hash" => $password ]);
 
 ?>
 

@@ -17,15 +17,21 @@ document.addEventListener("DOMContentLoaded", () => {
             body: new FormData(signin)
         })
 
+        console.log(await request.text())
+
+        /*
         const response = await request.json();
 
         status.textContent = response.text;
         modal.style.display = "flex";
 
+        console.table(response)
+
         button.addEventListener("click", () => {
             if (response.code && response.code == 200) return window.location.href = `${basePath}${redirect}`;
             modal.style.display = "none";
         })
+        */
        
     })
     

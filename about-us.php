@@ -26,23 +26,32 @@
                     <p>Address: Belen 400, 50000 Salto, Departamento de Salto</p>
                     <p>Phone Number: +598 92 143 086</p>
                     <p>E-Mail: Urucode2024@gmail.com</p>
-                    <p>Members: Juan Cruz Pirotto, Johsua Hartwig, Mateo Severo, Facundo Bisio</p>
+                    <p>Members: Facundo Bisio, Juan Cruz Pirotto, Johsua Hartwig, Mateo Severo</p>
                 </section>
                 <section>
                     <h2>Description</h2>
                     <p>
-                    Urucode is a software development company specializing in the creation of software and websites for businesses of all sizes and industries. The company stands out for its relationships with clients, as well as its creativity and professionalism in the technological field.
+                        Urucode is a software development company specializing in the creation of software and 
+                        websites for businesses of all sizes and industries. The company stands out for its 
+                        relationships with clients, as well as its creativity and professionalism in the 
+                        technological field.
                     </p>
                 </section>
                 <section>
                     <h2>Mission</h2>
-                    <p>Our mission is to drive technological innovation by creating high-quality websites. We are dedicated to continuous learning and growth, working with passion and creativity to provide solutions tailored to each client's needs. We focus on customer relationships based on transparency, efficiency, and trust.                        
+                    <p>
+                        Our mission is to drive technological innovation by creating high-quality websites. We are 
+                        dedicated to continuous learning and growth, working with passion and creativity to provide 
+                        solutions tailored to each client's needs. We focus on customer relationships based on 
+                        transparency, efficiency, and trust.
                     </p>
                 </section>
                 <section>
                     <h2>Vision</h2>
                     <p>
-                    We aim to be known for our dedication, innovation, and customer service in web development. Our dream is to grow together as a team, exploring new technologies and trends, while never losing sight of our commitment to quality and accessibility.
+                        We aim to be known for our dedication, innovation, and customer service in web development. 
+                        Our dream is to grow together as a team, exploring new technologies and trends, while never 
+                        losing sight of our commitment to quality and accessibility.
                     </p>
                 </section>
             </div>
@@ -54,7 +63,7 @@
                     <p>Dirección: Belen 400, 50000 Salto, Departamento de Salto</p>
                     <p>Teléfono: +598 92 143 086</p>
                     <p>Correo Eletrónico: Urucode2024@gmail.com</p>
-                    <p>Integrantes: Juan Cruz Pirotto, Johsua Hartwig, Mateo Severo, Facundo Bisio</p>
+                    <p>Integrantes: Facundo Bisio, Juan Cruz Pirotto, Johsua Hartwig, Mateo Severo</p>
                 </section>
                 <section>
                     <h2>Descripción</h2>
