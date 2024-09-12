@@ -3,7 +3,7 @@
 
     session_start();
 
-    if (isset($_SESSION["code"]) && isset($_SESSION["email"]) && isset($_SESSION["username"])) {
+    if (isset($_SESSION["code"])) {
         header("Location: index.php");
     }
 
@@ -38,7 +38,7 @@
     }
 
     if (empty($users)) {
-        echo json_encode([ "code" => 404, "text" => "Email o contraseña invalidas" ]);
+        echo json_encode([ "code" => 404, "text" => "Email o contraseña invalido" ]);
         exit;
     }
 

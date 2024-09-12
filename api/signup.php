@@ -3,8 +3,12 @@
 
     session_start();
 
-    if (isset($_SESSION["code"]) && isset($_SESSION["email"]) && isset($_SESSION["username"])) {
+    if (isset($_SESSION["code"])) {
         header("Location: index.php");
+    }
+
+    if ($_SERVER["REQUEST_METHOD"] != "POST") {
+        exit;
     }
 
     if (!isset($_POST["email"]) || !isset($_POST["username"]) || !isset($_POST["password"])) {

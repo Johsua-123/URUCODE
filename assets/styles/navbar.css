@@ -69,6 +69,7 @@
 
 .navbar-auth {
     gap: 16px;
+    display: flex;
     align-items: center;
 }
 
@@ -198,11 +199,6 @@
     border-bottom: 1px var(--color-white) solid;
 }
 
-/* Barra lateral */
-.navbar #sidebar {
-    display: none;
-}
-
 @media screen and (max-width: 1024px) {
 
     .navbar-header {
@@ -218,6 +214,7 @@
         z-index: 10;
         width: 300px;
         height: 100vh;
+        display: flex;
         position: fixed;
         margin-top: 64px;
         align-items: center;

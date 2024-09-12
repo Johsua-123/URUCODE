@@ -1,14 +1,15 @@
 
 document.addEventListener("DOMContentLoaded", () => {
 
-   
     const navbar = document.getElementById("navbar");
     const sidebar = document.getElementById("sidebar");
     const dropdowns = document.querySelectorAll(".dropdown");
+    const products = document.querySelectorAll(".navbar-products");
+    const cartCounts = document.querySelectorAll(".cart-section .total-items");
 
     navbar.addEventListener("click", (event) => {
-        document.body.style.overflowY = "hidden";
-        sidebar.style.display = "flex";
+        sidebar.classList.contains("hidden") ? document.body.style.overflowY = "hidden" : document.body.style.overflowY = "auto";
+        sidebar.classList.toggle("hidden");
         event.stopPropagation();
     })
 
@@ -22,9 +23,9 @@ document.addEventListener("DOMContentLoaded", () => {
     })
 
     document.body.addEventListener("click", (event) => {
-        if (sidebar.style.display == "flex" && !sidebar.contains(event.target)) {
+        if (!sidebar.classList.contains("hidden") && !sidebar.contains(event.target)) {
             document.body.style.overflowY = "auto";
-            return sidebar.style.display = "none";
+            return sidebar.classList.add("hidden");
         }
     })
 

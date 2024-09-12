@@ -15,18 +15,18 @@
             </form>
         </div>
         <div class="navbar-extras">
-            <div class="navbar-auth" style="<?php echo isset($_SESSION["code"]) ? "display: none" : "display: flex"; ?>">
+            <div class="navbar-auth <?php echo isset($_SESSION["code"]) ? "hidden" : "" ?>">
                 <a href="signin.php">Iniciar</a>
                 <a href="signup.php">Registrar</a>
             </div>
             <!-- imagen de perfil usuario -->
             <div class="navbar-profile dropdown">
-                <img style="<?php echo !(isset($_SESSION["code"]) && isset($_SESSION["image"])) ? "display: none" : "display: block" ?>" src="<?php $_SESSION["image"] ?? "" ?>" alt="user image">
-                <svg style="<?php echo (isset($_SESSION["code"]) && !isset($_SESSION["image"])) ? "display: block" : "display: none" ?>" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24">
+                <img class="<?php echo !(isset($_SESSION["code"]) && isset($_SESSION["image"])) ? "hidden" : "" ?>" src="<?php $_SESSION["image"] ?? "" ?>" alt="user image">
+                <svg class="<?php echo (isset($_SESSION["code"]) && !isset($_SESSION["image"])) ? "" : "hidden" ?>" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"></path>
                 </svg>
                 <div class="dropdown-menu hidden">
-                    <a href="setting.php">Ajustes</a>
+                    <a href="settings.php">Ajustes</a>
                     <a href="logout.php">Salir</a>
                 </div>
             </div>
@@ -83,7 +83,7 @@
         </div>
     </div>
     <!-- Diseño mobile -->
-    <div id="sidebar">
+    <div id="sidebar" class="hidden">
         <div class="navbar-search">
             <form id="search-mobile" method="POST">
                 <input type="text" name="search" placeholder="Buscar" autocomplete="off">
@@ -115,5 +115,4 @@
             </a>
         </div>
     </div>
-    
 </header>
