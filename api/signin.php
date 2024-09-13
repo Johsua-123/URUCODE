@@ -42,19 +42,19 @@
         exit;
     }
 
-    if (!password_verify($password, $users["password"])) {
+    $user = $users[0];
+
+    if (!password_verify($password, $user["password"])) {
         echo json_encode([ "code" => 404, "text" => "Email o contraseña invalido" ]);
         exit;
     }
-
-    $user = $users[0];
 
     $_SESSION["email"] = $email;
     $_SESSION["code"] = $user["code"];
     $_SESSION["role"] = $user["role"];
     $_SESSION["username"] = $user["username"];
 
-    echo json_encode([ "text" => "Has sido autenticado exitosamente", "hash" => $password ]);
+    echo json_encode([ "text" => "Has sido autenticado exitosamente" ]);
 
 ?>
 

@@ -17,7 +17,7 @@
 
     $email = $_POST["email"];
     $username = $_POST["username"];
-    $password = password_hash($_POST["password"], PASSWORD_BCRYPT);
+    $password = $_POST["password"];
     $date = date('Y-m-d H:i:s');
 
     if (empty(trim($email)) || empty(trim($username)) || empty(trim($password))) {
@@ -44,6 +44,7 @@
         exit;
     }
     
+    $password = password_hash($_POST["password"], PASSWORD_BCRYPT);
     $user = mysqli_query($mysql, "INSERT INTO users (email, username, password, created_at, updated_at) VALUES ('$email', '$username', '$password', '$date', '$date')");
 
     if (!$user) {
@@ -52,5 +53,5 @@
     }
 
     echo json_encode([ "code" => 200, "text" => "Cuenta registrada exitosamente" ]);
-    
+
 ?>
