@@ -42,14 +42,43 @@
                 </div>
                 <div class="content-section">
                     <div class="tab-buttons">
-                        <button type="button" tab-name="general">General</button>
+                        <button type="button" tab-name="general" class="tab-active">General</button>
                         <button type="button" tab-name="cart">Carrito</button>
                     </div>
                     <div class="tab-section">
-                        <div id="general">
+                        <div id="general" class="tab-body">
                             <h1>Perfil</h1>
+                            <form id="user" method="POST">
+                                <div>
+                                    <label for="username">Nombre</label>
+                                    <input id="username" name="username" type="text" value="<?php echo $_SESSION["username"] ?? "" ?>">
+                                </div>
+                                <div>
+                                    <label for="surname">Apellido</label>
+                                    <input id="surname" name="surname" type="text" value="<?php echo $_SESSION["surname"] ?? "" ?>">
+                                </div>
+                                <div>
+                                    <label for="location">Ciudad | País</label>
+                                    <input id="location" name="location" type="text" value="<?php echo $_SESSION["location"] ?? "" ?>">
+                                </div>
+                                <div>
+                                    <label for="address">Dirección</label>
+                                    <input type="text" value="<?php echo $_SESSION["address"] ?? "" ?>">
+                                </div>
+                                <div>
+                                    <label for="cellphone">Teléfono</label>
+                                    <input id="cellphone" name="cellphone" type="text" value="<?php echo $_SESSION["cellphone"] ?? "" ?>">
+                                </div>
+                                <div>
+                                    <label for="email">Correo</label>
+                                    <input id="email" name="email" type="text" value="<?php echo $_SESSION["email"] ?? "" ?>">
+                                </div>
+                            </form>
+                            <div>
+                                <button type="button">Cambiar contraseña</button>
+                            </div>
                         </div>
-                        <div class="hidden" id="cart">
+                        <div class="tab-body hidden" id="cart">
                             <h1>Carrito</h1>
                         </div>
                     </div>

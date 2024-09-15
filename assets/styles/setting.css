@@ -29,6 +29,7 @@
 
 .profile-items svg, .profile-items img {
     height: 100px;
+    cursor: pointer;
 }
 
 .profile-footer {
@@ -47,6 +48,7 @@
 }
 
 #image-upload div button {
+    cursor: pointer;
     padding: 6px 10px;
     color: var(--color-white);
     background-color: transparent;
@@ -54,7 +56,7 @@
 }
 
 .content-section {
-    width: 30vw;
+    width: 35vw;
     height: 60vh;
     display: flex;
     flex-direction: column;
@@ -70,15 +72,54 @@
 .tab-buttons button {
     border: none;
     font-size: 15px;
+    cursor: pointer;
+    padding-bottom: 4px;
     color: var(--color-white);
     background-color: transparent;
 }
 
+.tab-active {
+    border-bottom: 1px var(--color-white) solid !important;
+}
+
 .tab-section {
+    display: flex;
+    margin: 0 15px;
     color: var(--color-white);
 }
 
-@media screen and (max-width: 1024px) {
+.tab-section div h1 {
+    font-size: 25px;
+}
 
+.tab-section form {
+    gap: 40px;
+    display: flex;
+    margin: 0 15px;
+    flex-wrap: wrap;
+    margin: 35px 0;
+    justify-content: center;
+}
+
+.tab-section form div {
+    display: flex;
+    flex-direction: column;
+}
+
+.tab-section div div {
+    margin: 0 20px;
+}
+
+@media screen and (max-width: 480px) {
+
+    .settings {
+        margin: 6vh 0;
+        flex-direction: column;
+    }
+
+    .content-section {
+        width: 100%;
+        height: 600px;
+    }
 
 }
