@@ -54,7 +54,7 @@
     $_SESSION["role"] = $user["role"];
     $_SESSION["username"] = $user["username"];
 
-    echo json_encode([ "text" => "Has sido autenticado exitosamente" ]);
+    echo json_encode([ "code" => 200, "text" => "Has sido autenticado exitosamente" ]);
 
 ?>
 
