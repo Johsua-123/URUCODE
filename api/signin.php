@@ -52,7 +52,11 @@
     $_SESSION["email"] = $email;
     $_SESSION["code"] = $user["code"];
     $_SESSION["role"] = $user["role"];
+    $_SESSION["address"] = $user["address"];
+    $_SESSION["surname"] = $user["surname"];
+    $_SESSION["location"] = $user["location"];
     $_SESSION["username"] = $user["username"];
+    $_SESSION["cellphone"] = $user["cellphone"];
 
     echo json_encode([ "code" => 200, "text" => "Has sido autenticado exitosamente" ]);
 
