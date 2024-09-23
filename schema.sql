@@ -8,6 +8,7 @@ create table users (
     surname varchar(30),
     address varchar(150),
     location varchar(150),
+    cellphone varchar(12),
     password varchar(60),
     created_at datetime,
     updated_at datetime
@@ -15,8 +16,23 @@ create table users (
 
 create table images (
     code integer auto_increment primary key,
-    name text unique,
-    type enum (".png", ".jpg", ".jpeg"),
+    name text,
+    type enum (".png", ".jpg", ".jpeg", ".webp"),
+    created_at datetime,
+    updated_at datetime
+);
+
+create table sales (
+    code integer auto_increment primary key,
+    user_id integer,
+    created_at datetime,
+    updated_at datetime
+);
+
+create table payments (
+    code integer auto_increment primary key,
+    state enum ("completado", "pendiente", "vencido"),
+    method enum ("Tarjeta", "PayPal", "Mercado Pago", "Transferencia"),
     created_at datetime,
     updated_at datetime
 );
@@ -51,6 +67,18 @@ create table categories (
     updated_at datetime
 );
 
+create table sales_details (
+    code integer auto_increment primary key,
+    type enum ("producto", "servicio"),
+    price decimal,
+    amount decimal,
+    sale_id integer,
+    item_id integer,
+    subtotal decimal,
+    created_at datetime,
+    updated_at datetime
+);
+
 create table products_images (
     image_id integer not null,
     product_id integer not null,
@@ -64,18 +92,26 @@ create table products_categories (
 
 -- Creacion de llaves foraneas
 
-alter table users add foreign key (image_id) references images (code);
+alter table users add foreign key (image_id) references images (code) on update cascade on delete set null;
 
-alter table services add foreign key (image_id) references images (code);
+alter tables sales add foreign key (user_id) references users (code) on update cascade;
 
-alter table products add foreign key (image_id) references images (code);
+alter table services add foreign key (image_id) references images (code) on update cascade on delete set null;
 
-alter table categories add foreign key (image_id) references images (code);
+alter table products add foreign key (image_id) references images (code) on update cascade on delete set null;
 
-alter table products_images add foreign key (image_id) references images (code);
+alter table categories add foreign key (image_id) references images (code) on update cascade on delete set null;
 
-alter table products_images add foreign key (product_id) references products (code);
+alter table sales_details add foreign key (sale_id) references sales (code) on update cascade;
 
-alter table products_categories add foreign key (product_id) references (code);
+alter table sales_details add foreign key (item_id) references services (code) on update cascade;
 
-alter table products_categories add foreign key (category_id) references (code);
+alter table sales_details add foreign key (item_id) references products (code) on update cascade;
+
+alter table products_images add foreign key (image_id) references images (code) on update cascade on delete cascade;
+
+alter table products_images add foreign key (product_id) references products (code) on update cascade on delete cascade;
+
+alter table products_categories add foreign key (product_id) references (code) on update cascade on delete cascade;
+
+alter table products_categories add foreign key (category_id) references (code) on update cascade on delete cascade;
