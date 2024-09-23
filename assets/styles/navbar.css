@@ -210,33 +210,74 @@
         justify-content: center;
     }
 
-    .navbar #sidebar {
+    #sidebar {
         z-index: 10;
         width: 300px;
-        height: 100vh;
         display: flex;
         position: fixed;
+        padding: 20px 0;
         margin-top: 64px;
         align-items: center;
         flex-direction: column;
-        justify-content: center;
+        /* ancho total - margin / padding */
+        height: calc(100vh - 104px); 
         background-color: #0a1a2a;
-    }
-    
-    .navbar-extras #navbar {
-        display: block;
-    }
-
-    .navbar-search, .navbar-auth, .navbar-profile, .navbar-footer {
-        display: none !important;
+        justify-content: space-between;
     }
 
     .profile-dropdown {
         margin-right: 100px;
     }
 
+    #sidebar .navbar-search {
+        display: flex !important;
+    }
+
+    #sidebar .navbar-auth:not(.hidden) {
+        display: flex !important;
+    }
+
+    .navbar-extras #navbar {
+        display: block;
+    }
+
+    #sidebar .navbar-extras {
+        gap: 25px;
+        display: flex;
+    }
+
+    #sidebar .navbar-extras svg, img {
+        height: 50px;
+        border-radius: 50%;
+    }
+
+    .navbar-search, .navbar-auth, .navbar-profile, .navbar-footer {
+        display: none !important;
+    }
+
     .cart-section .dropdown-menu {
         margin-right: 228px;
+    }
+
+    .profile-links {
+        gap: 4px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .profile-links a {
+        gap: 5px;
+        width: 100px;
+        display: flex;
+        align-items: center;
+    }
+
+    .profile-links a svg {
+        height: 25px !important;
+    }
+
+    .profile-links a span {
+        font-size: 18px;
     }
 
 }
