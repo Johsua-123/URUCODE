@@ -237,18 +237,18 @@
         display: flex !important;
     }
 
-    .navbar-extras #navbar {
-        display: block;
-    }
-
     #sidebar .navbar-extras {
         gap: 25px;
         display: flex;
     }
 
-    #sidebar .navbar-extras svg, img {
+    #sidebar .navbar-extras svg, #navbar .navbar-extras img {
         height: 50px;
         border-radius: 50%;
+    }
+
+    #sidebar .navbar-search form input {
+        width: 22vw;
     }
 
     .navbar-search, .navbar-auth, .navbar-profile, .navbar-footer {
@@ -257,6 +257,10 @@
 
     .cart-section .dropdown-menu {
         margin-right: 228px;
+    }
+
+    .navbar-extras #navbar {
+        display: block;
     }
 
     .profile-links {
@@ -279,5 +283,11 @@
     .profile-links a span {
         font-size: 18px;
     }
+
+}
+
+@media screen and (min-width: 480px) {
+
+ 
 
 }
