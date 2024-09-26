@@ -22,6 +22,7 @@
 .navbar-search {
     display: flex;
     align-items: center;
+    flex-direction: column;
 }
 
 .navbar-search form {
@@ -48,6 +49,11 @@
 .navbar-search form button svg {
     height: 25px;
     cursor: pointer;
+}
+
+.search-result {
+    overflow-y: scroll;
+    flex-direction: column;
 }
 
 .navbar-extras {
@@ -248,7 +254,7 @@
     }
 
     #sidebar .navbar-search form input {
-        width: 22vw;
+        width: 220px;
     }
 
     .navbar-search, .navbar-auth, .navbar-profile, .navbar-footer {
@@ -284,10 +290,12 @@
         font-size: 18px;
     }
 
-}
-
-@media screen and (min-width: 480px) {
-
- 
+    .sidebar-header {
+        width: 22px;
+        display: flex;
+        position: relative;
+        align-items: center;
+        flex-direction: column;
+    }
 
 }

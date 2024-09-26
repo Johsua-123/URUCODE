@@ -1,3 +1,4 @@
+-- SQLBook: Code
 
 create table users (
     code integer auto_increment primary key,
@@ -14,6 +15,13 @@ create table users (
     updated_at datetime
 );
 
+create table sales (
+    code integer auto_increment primary key,
+    user_id integer,
+    created_at datetime,
+    updated_at datetime
+);
+
 create table images (
     code integer auto_increment primary key,
     name text,
@@ -22,8 +30,10 @@ create table images (
     updated_at datetime
 );
 
-create table sales (
+create table tokens (
     code integer auto_increment primary key,
+    type enum ("verificar", "resetar", "eliminar"),
+    token varchar(60),
     user_id integer,
     created_at datetime,
     updated_at datetime
@@ -94,7 +104,9 @@ create table products_categories (
 
 alter table users add foreign key (image_id) references images (code) on update cascade on delete set null;
 
-alter tables sales add foreign key (user_id) references users (code) on update cascade;
+alter table sales add foreign key (user_id) references users (code) on update cascade;
+
+alter table tokens add unique index unique_type (type, user_id);
 
 alter table services add foreign key (image_id) references images (code) on update cascade on delete set null;
 
