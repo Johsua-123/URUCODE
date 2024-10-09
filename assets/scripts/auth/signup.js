@@ -16,14 +16,13 @@ document.addEventListener("DOMContentLoaded", () => {
             method: "POST",
             body: new FormData(signup)
         })
-        
-        const response = await request.json();
 
+        const response = await request.json();
         status.textContent = response.text;
         modal.style.display = "flex";
 
         button.addEventListener("click", () => {
-            if (response.code && response.code == 200) return window.location.href = `${basePath}${redirect}`;
+            if (request.status == 200) return window.location.href = `${basePath}${redirect}`;
             modal.style.display = "none";
         })
         

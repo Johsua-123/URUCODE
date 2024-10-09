@@ -22,7 +22,7 @@
 
     if (empty(trim($email)) || empty(trim($password))) {
         echo json_encode([ "text" => "Debes completar todos los campos" ]);
-        
+        http_response_code(400);
         exit;
     }
 
@@ -43,7 +43,7 @@
 
     if (empty($users)) {
         echo json_encode([ "text" => "Email o contraseña invalido" ]);
-        http_response_code(404);
+        http_response_code(401);
         exit;
     }
 

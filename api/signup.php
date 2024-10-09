@@ -35,7 +35,7 @@
 
     if (!$query) {
         echo json_encode([ "text" => "Ha ocurrido error, contacta un administrador" ]);
-        http_response_code(500);
+        http_response_code(200);
         exit;
     }
 
@@ -44,7 +44,7 @@
     }
 
     if (!empty($users)) {
-        echo json_encode([ "code" => 209, "Cuenta ya registrada" ]);
+        echo json_encode([  "text" => "Cuenta ya registrada" ]);
         http_response_code(209);
         exit;
     }
