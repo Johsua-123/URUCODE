@@ -6,6 +6,7 @@ use urucode;
 
 create table usuarios (
    codigo integer auto_increment primary key,
+   rol enum ("dueño", "supervisor", "admin", "empleado", "usuario") default "usuario",
    email varchar(254) unique,
    imagen_id integer,
    nombre varchar(30),
@@ -184,6 +185,6 @@ alter table ventas_detalles add  index idx_tipo (tipo), add index idx_precio (pr
 
 -- Creacion de usuarios
 
-grant insert, select, update, delete on urucode.* to "duenio" identified by "denio"
+grant insert, select, update, delete on urucode.* to "duenio"@"localhost" identified by "duenio"
 
 
