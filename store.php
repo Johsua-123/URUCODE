@@ -1,137 +1,64 @@
-
-<?php 
-    session_start();
-    $location = "store";
-?>
-
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="shortcut icon" href="public/icons/logo.png" type="image/x-icon">
-        <link rel="stylesheet" href="assets/styles/module.css">
-        <link rel="stylesheet" href="assets/styles/navbar.css">
-        <link rel="stylesheet" href="assets/styles/footer.css">
-        <link rel="stylesheet" href="assets/styles/store.css">
-        <script src="assets/scripts/navbar.js"></script>
-        <title>Tienda | Errea</title>
-    </head>
-    <body>
-        <?php include "reusables/navbar.php" ?>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="public/icons/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="assets/styles/module.css">
+    <link rel="stylesheet" href="assets/styles/navbar.css">
+    <link rel="stylesheet" href="assets/styles/footer.css">
+    <link rel="stylesheet" href="assets/styles/storeV2.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="assets/scripts/navbar.js"></script>
+    <script src="assets/scripts/store.js"></script>
+    <title>Tienda | Errea</title>
+</head>
+<body>
+    <?php include "reusables/navbar.php" ?>
 
-        <main>
+    <main>
         <div class="sidebar">
-        <h2>Todas las Categorías</h2>
-        <ul class="category-list">
-            <li><a href="#">Tecnología</a>
-                <ul>
-                    <li><a href="#"> > </a></li>
-                    <li><a href="#"> > </a></li>
-                    <li><a href="#"> > </a></li>
-                    <li><a href="#"> > </a></li>
-                    <li><a href="#"> > </a></li>
-                    <li><a href="#"> > </a></li>
-                    <li><a href="#"> > </a></li>
-                </ul>
-            </li>
-            <li><a href="#">Computación</a>
-                <ul>
-                    <li><a href="#"> > </a></li>
-                    <li><a href="#"> > </a></li>
-                    <li><a href="#"> > </a></li>
-                    <li><a href="#"> > </a></li>
-                    <li><a href="#"> > </a></li>
-                    <li><a href="#"> > </a></li>
-                    <li><a href="#"> > </a></li>
-                    <li><a href="#"> > </a></li>
-                    <li><a href="#"> > </a></li>
-                    <li><a href="#"> > </a></li>
-                    <li><a href="#"> > </a></li>
-                    <li><a href="#"> > </a></li>
-                </ul>
-            </li>
-        </ul>
-    </div>
-
-        <div class="main-products">
-                <div class="product-items">
-                    <div class="product-card">
-                        <div class="card-header">
-                            <img src="https://via.placeholder.com/100x100?text=Imagen+del+Producto" alt="imagen producto 1">
-                        </div>
-                        <div class="card-items">
-                            <h1>Lenovo Gamer LQQ</h1>
-                            <h2>U$S 1.499</h2>
-                        </div>
-                        <div class="card-footer">
-                            <a href="">Ver detalles</a>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="card-header">
-                            <img src="https://via.placeholder.com/100x100?text=Imagen+del+Producto" alt="imagen producto 1">
-                        </div>
-                        <div class="card-items">
-                            <h1>Lenovo Gamer LQQ</h1>
-                            <h2>U$S 1.499</h2>
-                        </div>
-                        <div class="card-footer">
-                            <a href="">Ver detalles</a>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="card-header">
-                            <img src="https://via.placeholder.com/100x100?text=Imagen+del+Producto" alt="imagen producto 1">
-                        </div>
-                        <div class="card-items">
-                            <h1>Lenovo Gamer LQQ</h1>
-                            <h2>U$S 1.499</h2>
-                        </div>
-                        <div class="card-footer">
-                            <a href="">Ver detalles</a>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="card-header">
-                            <img src="https://via.placeholder.com/100x100?text=Imagen+del+Producto" alt="imagen producto 1">
-                        </div>
-                        <div class="card-items">
-                            <h1>Lenovo Gamer LQQ</h1>
-                            <h2>U$S 1.499</h2>
-                        </div>
-                        <div class="card-footer">
-                            <a href="">Ver detalles</a>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="card-header">
-                            <img src="https://via.placeholder.com/100x100?text=Imagen+del+Producto" alt="imagen producto 1">
-                        </div>
-                        <div class="card-items">
-                            <h1>Lenovo Gamer LQQ</h1>
-                            <h2>U$S 1.499</h2>
-                        </div>
-                        <div class="card-footer">
-                            <a href="">Ver detalles</a>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="card-header">
-                            <img src="https://via.placeholder.com/100x100?text=Imagen+del+Producto" alt="imagen producto 1">
-                        </div>
-                        <div class="card-items">
-                            <h1>Lenovo Gamer LQQ</h1>
-                            <h2>U$S 1.499</h2>
-                        </div>
-                        <div class="card-footer">
-                            <a href="">Ver detalles</a>
-                        </div>
-                    </div>
+            <h2>Todas las Categorías</h2>
+            <ul class="category-list">
+                <li><a href="#" data-category="ofertas">OFERTAS</a></li>
+                <li><a href="#" data-category="pc">PC</a></li>
+                <li><a href="#" data-category="notebooks">NOTEBOOKS</a></li>
+                <li><a href="#" data-category="consolas">CONSOLAS</a></li>
+                <li><a href="#" data-category="monitores">MONTORES</a></li>
+                <li><a href="#" data-category="tv">TV</a></li>
+                <li><a href="#" data-category="smartwatch">SMARTWATCH</a></li>
+                <li><a href="#" data-category="domotica">DOMOTICA</a></li>
+                <li><a href="#" data-category="componentes">COMPONENTES DE PC</a></li>
+                <li><a href="#" data-category="streaming">STREAMING</a></li>
+                <li><a href="#" data-category="perifericos">PERIFERICOS</a></li>
+                <li><a href="#" data-category="simuladores">SIMULADORES Y ACCESORIOS</a></li>
+                <li><a href="#" data-category="cables">CABLES Y ADAPTADORES</a></li>
+                <li><a href="#" data-category="otros">OTROS</a></li>
+            </ul>
+            <div class="filter">
+                <a><b>PRECIO</b></a>
+                <div class="money-filter">
+                    <label for="rangoPrecioMin"><b>Precio Mínimo:</b> <span id="precioMin"><b>0</b></span></label>
+                    <input type="range" id="rangoPrecioMin" min="0" max="5000" value="0" oninput="actualizarMin()">
+                    <label for="rangoPrecioMax"><b>Precio Máximo:</b> <span id="precioMax"><b>0</b></span></label>
+                    <input type="range" id="rangoPrecioMax" min="0" max="5000" value="100" oninput="actualizarMax()">
                 </div>
             </div>
-        </main>
+        </div>
+        <div class="filter-bar">
+            <label for="ordenar">Ordenar por:</label>
+            <select id="ordenar" onchange="filtrarArticulos()">
+                <option value="popularidad">Popularidad</option>
+                <option value="precioBajoAlto">Precio: Bajo a Alto</option>
+                <option value="precioAltoBajo">Precio: Alto a Bajo</option>
+            </select>
+        </div>
+        <div class="main-products">
+            <div class="product-items">
+            </div>
+        </div>
+    </main>
 
-        <?php include "reusables/footer.php" ?>
-    </body>
+    <?php include "reusables/footer.php" ?>
+</body>
 </html>
