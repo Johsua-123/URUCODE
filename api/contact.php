@@ -5,7 +5,7 @@
         exit;
     }
 
-    echo json_encode([ "text" => "Funcionadad aun no disponible" ]);
+    echo json_encode([ "text" => "Funcionalidad aun no disponible" ]);
     http_response_code(200);
 
 ?>

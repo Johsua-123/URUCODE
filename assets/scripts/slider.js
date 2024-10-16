@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Computer devices
+    // computadora
     slider.addEventListener("mouseenter", () => {
         clearInterval(timer1);
         clearInterval(timer2);
@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
         timer1 = setInterval(next, speed * 1000);
     });
 
-    // Mobile devices
+    // celular 
     slider.addEventListener("touchstart", () => {
         clearInterval(timer1);
         clearInterval(timer2);
