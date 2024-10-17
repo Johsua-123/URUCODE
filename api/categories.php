@@ -1,139 +1,138 @@
 
+
 <?php 
 
+    session_start();
     $method = $_SERVER["REQUEST_METHOD"];
+    $body = json_decode(file_get_contents("php://input"), true);
 
     require "mysql.php";
 
+    // crear categorias
     if ($method == "POST") {
-        if (!isset($_POST["name"]) || empty(trim($_POST["name"]))) {
+
+        $name = $body["name"] ?? "";
+        $parent = $body["parent"] ?? "";
+        $date = date('Y-m-d H:i:s');
+
+        if (empty($body["name"])) {
             http_response_code(400);
             exit;
         }
+        
+        $query = mysqli_query($mysql, "SELECT COUNT(*) AS 'total' FROM categorias WHERE nombre='$name'");
 
-        $name = $_POST["name"];
-        $date = date('Y-m-d H:i:s');
-        
-        $category = exists($mysql, "categorias", [], [], ["nombre='$name'"]);
-        
-        if (!$category) {
+        if (!$query) {
             http_response_code(500);
             exit;
         }
 
-        if ($category["total"] > 0) {
+        $rows = [];
+        while ($row = mysqli_fetch_assoc($query)) $rows[] = $row;
+
+        if ($rows[0]["total"] > 0) {
             http_response_code(409);
             exit;
         }
 
-        $category = insert(
-            $mysql, 
-            "categorias", 
-            ["nombre" => "'$name'", "fecha_creacion" => "'$date'", "fecha_actualizacion" => "'$date'"]
-        );
+        if (!empty($parent)) {
+            $query = mysqli_query($mysql, "INSERT INTO categorias (nombre, padre, fecha_creacion, fecha_actualizacion) VALUES ('$name', '$parent', '$date', '$date')");
+        } else {
+            $query = mysqli_query($mysql, "INSERT INTO categorias (nombre, padre, fecha_creacion, fecha_actualizacion) VALUES ('$name', NULL, '$date', '$date')");
+        }
 
-        if (!$category) {
+        if (!$query) {
             http_response_code(500);
             exit;
         }
 
-        http_response_code(200);
         exit;
+
     }
 
+    // obtener categorias
     if ($method == "GET") {
-        $page = $_POST["page"] ?? 1;
-        $size = $_POST["size"] ?? 25;
 
-        echo json_encode([$_GET["name"], $_POST["name"]]);
+        $page = $_GET["page"] ?? 1;
+        $size = $_GET["size"] ?? 10;
+        $child = $_GET["child"] ?? false;
 
-        http_response_code(200);
+        if (isset($_GET["name"])) {
+            $name = $_GET["name"];
+            exit;
+        }
+
+        $query = mysqli_query($mysql, "SELECT COUNT(*) AS 'total' FROM categorias");
+
+        if (!$query) {
+            http_response_code(500);
+            exit;
+        }
+
+        $rows = [];
+        
+        while ($row = mysqli_fetch_assoc($query)) {
+            $rows[] = $row;
+        }
+        
+        $total = $rows[0]["total"];
+        $offset = ($page - 1) * $size;
+
+        if ($child) {
+
+            exit;
+        }
+
+        $query = mysqli_query($mysql, "SELECT 
+            c.codigo, 
+            c.nombre, 
+            c.padre, 
+            c.imagen_id, 
+            c.fecha_actualizacion,
+            i.codigo AS 'codigo_img',
+            i.nombre AS 'nombre_img',
+            i.tipo AS 'tipo_img'
+            FROM categorias c
+            LEFT JOIN imagenes i ON c.imagen_id=i.codigo
+            WHERE c.eliminado=false
+            LIMIT $size 
+            OFFSET $offset
+        ");
+
+        if (!$query) {
+            http_response_code(500);
+            exit;
+        }
+
+        $rows = [];
+
+        while ($row = mysqli_fetch_assoc($query)) {
+            $category = [
+                "name" => $row["nombre"],
+                "updated_at" => $row["fecha_actualizacion"]
+            ];
+
+            if (!empty($row["padre"])) {
+                $category["parent"] = $row["padre"];
+            }
+            
+            if (!empty($row["imagen_id"])) {
+                $path = "public/images/" . $row["nombre_img"] . "-" . $row["codigo_img"] . $row["tipo_img"];
+                unset($row["nombre_img"], $row["codigo_img"], $row["tipo_img"]);
+
+                if (file_exists("../$path")) {
+                    $category["image"] = "http://localhost/$path";
+                }
+            }
+
+            $rows[] = $category;
+        }
+        
+        echo json_encode([ "total" => $total, "filas" => $rows ]);
         exit;
+
     }
 
-    if ($method == "PATCH") {
-        if (!isset($_POST["category"]) || empty(trim($_POST["category"]))) {
-            http_response_code(400);
-            exit;   
-        }
-
-        $category = $_POST["category"];
-
-        $query = mysqli_query($mysql, "SELECT * FROM categorias WHERE codigo=$name");
-        $results = [];
-
-        if (!$query) {
-            http_response_code(500);
-            exit;
-        }
-
-        while ($result = mysqli_fetch_assoc($query)) {
-            $results[] = $result;
-        }
-
-        if (empty($results)) {
-            http_response_code(404);
-            exit;
-        }
-
-        if (!isset($_POST["name"]) || !isset($_POST["parent"])) {
-            http_response_code(400);
-            exit;
-        }
-
-        $name = $_POST["name"];
-        $parent = $_POST["parent"];
-        $date = date('Y-m-d H:i:s');
-
-        $query= mysqli_query($mysql, "UPDATE categorias SET nombre='$name', padre='$parent', fecha_actualizacion='$date' WHERE codigo=$category");
-
-        if (!$query) {
-            http_response_code(500);
-            exit;
-        }
-
-        http_response_code(200);
-        exit;
-    }
-
-    if ($method == "DELETE") {
-        if (!isset($_POST["category"]) || empty(trim($_POST["category"]))) {
-            http_response_code(400);
-            exit;   
-        }
-
-        $category = $_POST["category"];
-
-        $query = mysqli_query($mysql, "SELECT * FROM categorias WHERE codigo=$category");
-        $results = [];
-
-        if (!$query) {
-            http_response_code(500);
-            exit;
-        }
-
-        while ($result = mysqli_fetch_assoc($query)) {
-            $results[] = $result;
-        }
-
-        if (empty($results)) {
-            http_response_code(404);
-            exit;
-        }
-
-        $date = date('Y-m-d H:i:s');
-
-        $query = mysqli_query($mysql, "UPDATE categorias SET eliminado='true', fecha_actualizacion='$date' WHERE codigo=$category");
-
-        if (!$query) {
-            http_response_code(500);
-            exit;
-        }
-
-        http_response_code(200);
-        exit;
-    }
-
-    http_response_code(400);
+    http_response_code(405);
 
 ?>

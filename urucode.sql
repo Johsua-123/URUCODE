@@ -22,7 +22,7 @@ create table usuarios (
 
 create table imagenes (
     codigo integer auto_increment primary key,
-    nombe text,
+    nombre text,
     tipo enum (".png", ".jpg", ".jpeg", ".webp"),
     eliminado boolean default false,
     fecha_creacion datetime,
