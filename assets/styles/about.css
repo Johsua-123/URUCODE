@@ -2,7 +2,10 @@
 .about-us {
     display: flex;
     margin: 50px 30vw;
+    padding: 10px;
     flex-direction: column;
+    border-radius: 10px;
+    box-shadow: 10px 10px 10px 10px grey;
 }
 
 .about-us h1 {
