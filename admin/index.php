@@ -12,7 +12,7 @@
             <ul>
                 <li>
                     <a href="#">
-                        <span class="icon">(LOGO)</span>
+                        <img class="logoo" src="../public/icons/errea.png" alt="">
                         <span class="title">ERREA</span>
                     </a>
                 </li>
@@ -64,12 +64,6 @@
 
     <div class="main">
         <div class="topbar">
-            <div class="search_bar">
-                <label>
-                    <input type="text" placeholder="Buscar">
-                    <ion-icon name="search-outline"></ion-icon>
-                </label>
-            </div>
             <div class="profile">
                 <img src="assets/imgs/customer01.jpg" alt="">
             </div>

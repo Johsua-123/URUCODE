@@ -142,7 +142,6 @@
     overflow-y: scroll;
 }
 
-/* Navbar footer */
 .navbar-footer {
     height: 60px;
     display: flex;
@@ -178,7 +177,6 @@
     justify-content: center;
 }
 
-/* Seccion de enlaces */
 .navbar-links {
     gap: 20px;
     display: flex;
@@ -225,7 +223,6 @@
         margin-top: 64px;
         align-items: center;
         flex-direction: column;
-        /* ancho total - margin / padding */
         height: calc(100vh - 104px); 
         background-color: #0a1a2a;
         justify-content: space-between;

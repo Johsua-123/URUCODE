@@ -17,8 +17,6 @@ body {
     overflow-x: hidden;
 }
 
-/* ========== LEFT-BAR ========== */
-
 .left-bar {
     position: relative;
     width: 100%;
@@ -53,7 +51,7 @@ body {
     background-color: var(--white);
 }
 
-.navigation ul li:nth-child(1) { /*Selecciona el primer elemento de ul-li*/
+.navigation ul li:nth-child(1) { 
     margin-bottom: 40px;
     pointer-events: none;
 }
@@ -123,8 +121,6 @@ body {
     box-shadow: 35px -35px 0 10px var(--white);
 }
 
-/* ========== MAIN ========== */
-
 .main {
     margin-left: 300px; 
     width: calc(100% - 300px); 
@@ -138,24 +134,28 @@ body {
     height: 50px; 
     background: var(--white);
     display: flex;
-    justify-content: space-between; /* Distribuye el espacio entre los elementos */
+    justify-content: space-between; 
     align-items: center; 
     padding: 0 10px;
-    position: relative; /* Necesario para posicionar el .search_bar */
+    position: relative;
     border: 1px solid black;
 }
 
 .search_bar {
     display: flex;
     align-items: center;
-    position: absolute; /* Permite el centrado absoluto */
+    position: absolute;
     left: 50%;
-    transform: translateX(-50%); /* Centra el campo de búsqueda */
+    transform: translateX(-50%);
+}
+
+.logoo {
+height: 50px;
 }
 
 .search_bar label {
     display: flex;
-    align-items: center; /* Centra verticalmente el ícono y el input */
+    align-items: center; 
     position: relative;
 }
 
@@ -171,7 +171,7 @@ body {
 .search_bar label input {
     width: 300px;
     height: 25px;
-    padding-left: 40px; /* Espacio para el ícono */
+    padding-left: 40px;
     border-radius: 30px;
     border: 1px solid #ccc;
 }
