@@ -11,14 +11,14 @@
     // crear categorias
     if ($method == "POST") {
 
-        if (!isset($body["name"]) || empty($body["name"])) {
+        $name = $body["name"] ?? "";
+        $parent = $body["parent"] ?? "";
+        $date = date('Y-m-d H:i:s');
+
+        if (empty($body["name"])) {
             http_response_code(400);
             exit;
         }
-
-        $name = $body["name"];
-        $parent = empty($body["parent"]) ? NULL : $body["parent"];
-        $rows = [];
         
         $query = mysqli_query($mysql, "SELECT COUNT(*) AS 'total' FROM categorias WHERE nombre='$name'");
 
@@ -28,28 +28,25 @@
         }
 
         $rows = [];
-
-        while ($row = mysqli_fetch_assoc($query)) {
-            $rows[] = $row;
-        }
+        while ($row = mysqli_fetch_assoc($query)) $rows[] = $row;
 
         if ($rows[0]["total"] > 0) {
             http_response_code(409);
             exit;
         }
 
-        $stmt = $mysql->prepare("INSERT INTO categorias (nombre, padre, fecha_creacion, fecha_actualizacion) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("s", $name);
-        $stmt->bind_param("i", $parent);
-        $stmt->bind_param("s", $date);
-        $stmt->bind_param("s", $date);
+        if (!empty($parent)) {
+            $query = mysqli_query($mysql, "INSERT INTO categorias (nombre, padre, fecha_creacion, fecha_actualizacion) VALUES ('$name', '$parent', '$date', '$date')");
+        } else {
+            $query = mysqli_query($mysql, "INSERT INTO categorias (nombre, padre, fecha_creacion, fecha_actualizacion) VALUES ('$name', NULL, '$date', '$date')");
+        }
 
-        if (!$stmt->execute()) {
+        if (!$query) {
             http_response_code(500);
             exit;
         }
 
-        $stmt->close();
+        exit;
 
     }
 
@@ -57,55 +54,81 @@
     if ($method == "GET") {
 
         $page = $_GET["page"] ?? 1;
-        $size = $_GET["size"] ?? 16;
+        $size = $_GET["size"] ?? 10;
+        $child = $_GET["child"] ?? false;
 
-        if (isset($_GET["name"]) && !empty($_GET["name"])) {
+        if (isset($_GET["name"])) {
             $name = $_GET["name"];
-
-            $query = $mysql->prepare("SELECT ");
-        }
-
-        $response = [];
-
-        $stmt = $mysql->prepare("SELECT COUNT(*) as 'total' FROM categorias");
-        
-        // verificamos ejecucion
-        if (!$stmt->execute()) {
-            http_response_code(500);
             exit;
         }
-        
-        // obtemos resultados
-        $result = $stmt->get_result();
 
-        $rows = [];
-        while ($row = $result->fetch_assoc()) $rows[] = $row;
+        $query = mysqli_query($mysql, "SELECT COUNT(*) AS 'total' FROM categorias");
 
-        $pages = ceil($rows[0]["total"] / $size);
-
-        // finalizamos consulta
-        $stmt->close();
-
-        $offset = ($page - 1) * $size;
-        $stmt = $mysql->prepare("SELECT codigo, nombre FROM categorias LIMIT 16 OFFSET $offset");
-
-        if (!$stmt->execute()) {
+        if (!$query) {
             http_response_code(500);
             exit;
         }
 
-        $result = $stmt->get_result();
-
         $rows = [];
-        while ($row = $result->fetch_assoc()) {
+        
+        while ($row = mysqli_fetch_assoc($query)) {
             $rows[] = $row;
         }
         
-        // print_r($rows);
+        $total = $rows[0]["total"];
+        $offset = ($page - 1) * $size;
 
-        echo json_encode(["pages" => $pages, "categories" => $rows]);
+        if ($child) {
 
-        http_response_code(200);
+            exit;
+        }
+
+        $query = mysqli_query($mysql, "SELECT 
+            c.codigo, 
+            c.nombre, 
+            c.padre, 
+            c.imagen_id, 
+            c.fecha_actualizacion,
+            i.codigo AS 'codigo_img',
+            i.nombre AS 'nombre_img',
+            i.tipo AS 'tipo_img'
+            FROM categorias c
+            LEFT JOIN imagenes i ON c.imagen_id=i.codigo
+            WHERE c.eliminado=false
+            LIMIT $size 
+            OFFSET $offset
+        ");
+
+        if (!$query) {
+            http_response_code(500);
+            exit;
+        }
+
+        $rows = [];
+
+        while ($row = mysqli_fetch_assoc($query)) {
+            $category = [
+                "name" => $row["nombre"],
+                "updated_at" => $row["fecha_actualizacion"]
+            ];
+
+            if (!empty($row["padre"])) {
+                $category["parent"] = $row["padre"];
+            }
+            
+            if (!empty($row["imagen_id"])) {
+                $path = "public/images/" . $row["nombre_img"] . "-" . $row["codigo_img"] . $row["tipo_img"];
+                unset($row["nombre_img"], $row["codigo_img"], $row["tipo_img"]);
+
+                if (file_exists("../$path")) {
+                    $category["image"] = "http://localhost/$path";
+                }
+            }
+
+            $rows[] = $category;
+        }
+        
+        echo json_encode([ "total" => $total, "filas" => $rows ]);
         exit;
 
     }
