@@ -48,12 +48,13 @@
 
             $result = $stmt->get_result()->fetch_assoc();
 
-            if ($result["total"] < 0 || $result["eliminado"] == 1) {
+            if ($result["total"] == 0 || $result["eliminado"] == 1) {
                 http_response_code(404);
                 exit;
             }
 
             $exist = false;
+            $stmt->close();
 
         }
 
@@ -69,6 +70,8 @@
             http_response_code(500);
             exit;
         }
+
+        $stmt->close();
 
         exit;
 
@@ -152,10 +155,50 @@
 
             $rows[] = $category;
         }
-        
+
         echo json_encode([ "total" => $total, "filas" => $rows ]);
         exit;
 
+    }
+
+    if ($method == "DELETE") {
+
+        $category = $body["category"] ?? null;
+
+        $stmt = $mysql->prepare("SELECT COUNT(*) AS 'total' FROM categorias WHERE codigo=? AND eliminado=false");
+        $stmt->bind_param("i", $category);
+
+        if (!$stmt->execute()) {
+            http_response_code(500);
+            exit;
+        }
+
+        $result = $stmt->get_result()->fetch_assoc();
+
+        if ($result["total"] == 0) {
+            http_response_code(404);
+            exit;
+        }
+
+        $stmt = $mysql->prepare("UPDATE categorias SET eliminado=true WHERE codigo=?");
+        $stmt->bind_param("i", $category);
+
+        if (!$stmt->execute()) {
+            http_response_code(500);
+            exit;
+        }
+
+        $stmt = $mysql->prepare("UPDATE categorias SET eliminado=true WHERE padre=?");
+        $stmt->bind_param("i", $category);
+
+        if (!$stmt->execute()) {
+            http_response_code(500);
+            exit;
+        }
+
+        $stmt->close();
+
+        exit;
     }
 
     http_response_code(405);
