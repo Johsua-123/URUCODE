@@ -1,0 +1,11 @@
+
+.navbar {
+    position: fixed;
+    background-color: var(--color-blue);
+}
+
+.navbar div {
+    display: flex;
+    color: black;
+    justify-content: center;
+}

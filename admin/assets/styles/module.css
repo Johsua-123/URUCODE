@@ -1,0 +1,47 @@
+
+:root {
+    --color-blue: #122d57;
+    --color-black: #000000;
+    --color-white: #F6FAFF;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+a {
+    text-decoration: none;
+    color: var(--color-white);
+}
+
+h1, h2, h3 {
+    margin: 0;
+}
+
+input {
+    outline: none;
+}
+
+.container {
+    flex: 1;
+    margin-left: 300px;
+    flex-direction: column;
+}
+
+.container main {
+    margin-top: 80px;
+    min-height: 100vh;
+}
+
+.container .navbar {
+    width: calc(100% - 300px);
+}
+
+.hidden {
+    display: none;
+}
