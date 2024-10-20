@@ -31,6 +31,10 @@ input {
     outline: none;
 }
 
+.hidden {
+    display: none !important;
+}
+
 .container {
     flex: 1;
     margin-left: 300px;
@@ -38,10 +42,21 @@ input {
 }
 
 .container main {
-    margin-top: 80px;
+    gap: 20px;
+    display: flex;
     min-height: 100vh;
+    flex-direction: column;
+    margin: 80px 15px 0 15px;
 }
 
-.hidden {
-    display: none;
+@media screen and (max-width: 1024px) {
+
+    .container {
+        margin-left: 0;
+    }
+
+    .sidebar {
+        display: none !important;
+    }
+
 }

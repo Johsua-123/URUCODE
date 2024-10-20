@@ -1,0 +1,22 @@
+
+.users-table {
+    height: 800px;
+    display: flex;
+    border: 1px red solid;
+}
+
+.table {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.table-header {
+    gap: 20px;
+    display: flex;
+}
+
+.table-footer {
+    display: flex;
+    flex-direction: column;
+}

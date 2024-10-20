@@ -12,7 +12,7 @@
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,7 +28,6 @@
             <main>
                 <h1>hola</h1>
             </main>
-            <?php include "reusables/footer.php"; ?>
         </div>
     </body>
 </html>

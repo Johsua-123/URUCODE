@@ -5,4 +5,60 @@
     background-color: var(--color-blue);
 }
 
+.navbar div {
+    height: 60px;
+    display: flex;
+    padding: 0 30px;
+    align-items: center;
+    justify-content: space-between;
+}
 
+.navbar-extra svg {
+    height: 35px;
+    cursor: pointer;
+    color: var(--color-white);
+}
+
+.navbar-brand {
+    display: none !important;
+}
+
+.navbar-brand img {
+    height: 55px;
+}
+
+.navbar-toggler {
+    display: none;
+}
+
+@media screen and (max-width: 1024px) {
+
+    .navbar {
+        width: 100%;
+    }
+
+    .navbar div {
+        padding: 0 10px;
+    }
+
+    .navbar-extra {
+        margin-left: auto;
+    }
+
+    .navbar-brand {
+        display: flex !important;
+    }
+
+    .navbar-route {
+        display: none !important;
+    }
+
+    .navbar-toggler {
+        display: flex !important;
+    }
+
+    .navbar-profile {
+        display: none !important;
+    }
+    
+}
