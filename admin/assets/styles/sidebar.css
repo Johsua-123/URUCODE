@@ -36,6 +36,6 @@
     font-size: 25px;
 }
 
-.sidebar footer a:hover {
+.sidebar-active {
     border-bottom: 1px var(--color-white) solid;
 }

@@ -23,6 +23,10 @@ h1, h2, h3 {
     margin: 0;
 }
 
+ul {
+    list-style: none;
+}
+
 input {
     outline: none;
 }
@@ -36,10 +40,6 @@ input {
 .container main {
     margin-top: 80px;
     min-height: 100vh;
-}
-
-.container .navbar {
-    width: calc(100% - 300px);
 }
 
 .hidden {
