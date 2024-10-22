@@ -1,6 +1,33 @@
 <?php
     session_start();
+
+// Incluir la conexión a la base de datos
+include 'api/mysql.php'; 
+
+// Recuperar los datos del usuario desde la sesión
+$code = $_SESSION["code"] ?? null;
+
+$imagePath = null;
+
+if ($code) {
+    // Consultar si el usuario tiene una imagen asociada
+    $sql = "SELECT imagenes.nombre, imagenes.codigo FROM imagenes 
+            INNER JOIN usuarios ON usuarios.imagen_id = imagenes.codigo 
+            WHERE usuarios.codigo = ?";
+    $stmt = $mysql->prepare($sql);
+    $stmt->bind_param("i", $code);
+    $stmt->execute();
+    $stmt->bind_result($imageName, $imageCode);
+    
+    if ($stmt->fetch()) {
+        // Si se encuentra una imagen, se obtiene la ruta
+        $imagePath = "public/images/" . $imageName;
+    }
+    $stmt->close();
+}
 ?>
+
+
 <!DOCTYPE html>
 <html lang="es">
     <head>
@@ -31,13 +58,14 @@
                         </svg>
                     </div>
                     <div class="profile-footer">
-                        <form id="image-upload" method="POST">
+                        <form id="image-upload" method="POST" enctype="multipart/form-data" action="./api/cargar_imagenes.php">
                             <input name="image" type="file" hidden="true" accept=".jpeg, .jpg, .png" placeholder="example.png">
                             <input name="action" type="text" hidden="true" value="profile">
                             <div>
                                 <span class="hidden"></span>
-                                <button type="button">Cargar imagen</button>
-                            </div>
+                                <button type="button" onclick="document.querySelector('input[name=image]').click();">Cargar imagen</button>
+                                <button type="submit">Subir</button>
+                             </div>
                         </form>
                     </div>
                 </div>
