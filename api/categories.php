@@ -12,7 +12,7 @@
     if ($method == "POST") {
 
         $name = $body["name"] ?? "";
-        $parent = $body["parent"] ?? "";
+        $parent = $body["parent"] ?? null;
         $date = date('Y-m-d H:i:s');
 
         if (empty($body["name"])) {
@@ -20,31 +20,58 @@
             exit;
         }
         
-        $query = mysqli_query($mysql, "SELECT COUNT(*) AS 'total' FROM categorias WHERE nombre='$name'");
+        $stmt = $mysql->prepare("SELECT COUNT(*) AS 'total' FROM categorias WHERE nombre=?");
+        $stmt->bind_param("s", $name);
 
-        if (!$query) {
+        if (!$stmt->execute()) {
             http_response_code(500);
             exit;
         }
 
-        $rows = [];
-        while ($row = mysqli_fetch_assoc($query)) $rows[] = $row;
-
-        if ($rows[0]["total"] > 0) {
+        $result = $stmt->get_result()->fetch_assoc();
+    
+        if ($result["total"] > 0) {
             http_response_code(409);
             exit;
         }
+    
+        $exist = true;
 
-        if (!empty($parent)) {
-            $query = mysqli_query($mysql, "INSERT INTO categorias (nombre, padre, fecha_creacion, fecha_actualizacion) VALUES ('$name', '$parent', '$date', '$date')");
-        } else {
-            $query = mysqli_query($mysql, "INSERT INTO categorias (nombre, padre, fecha_creacion, fecha_actualizacion) VALUES ('$name', NULL, '$date', '$date')");
+        if ($parent != null) {
+            $stmt = $mysql->prepare("SELECT COUNT(*) AS 'total', eliminado FROM categorias WHERE codigo=?");
+            $stmt->bind_param("i", $parent);
+
+            if (!$stmt->execute()) {
+                http_response_code(500);
+                exit;
+            }
+
+            $result = $stmt->get_result()->fetch_assoc();
+
+            if ($result["total"] == 0 || $result["eliminado"] == 1) {
+                http_response_code(404);
+                exit;
+            }
+
+            $exist = false;
+            $stmt->close();
+
         }
 
-        if (!$query) {
+        if ($exist) {
+            http_response_code(404);
+            exit;
+        }
+    
+        $stmt = $mysql->prepare("INSERT INTO categorias (nombre, padre, fecha_creacion, fecha_actualizacion) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("siss", $name, $parent, $date, $date);
+
+        if (!$stmt->execute()) {
             http_response_code(500);
             exit;
         }
+
+        $stmt->close();
 
         exit;
 
@@ -55,6 +82,7 @@
 
         $page = $_GET["page"] ?? 1;
         $size = $_GET["size"] ?? 10;
+        $parent = $_GET["parent"] ?? "";
         $child = $_GET["child"] ?? false;
 
         if (isset($_GET["name"])) {
@@ -127,10 +155,50 @@
 
             $rows[] = $category;
         }
-        
+
         echo json_encode([ "total" => $total, "filas" => $rows ]);
         exit;
 
+    }
+
+    if ($method == "DELETE") {
+
+        $category = $body["category"] ?? null;
+
+        $stmt = $mysql->prepare("SELECT COUNT(*) AS 'total' FROM categorias WHERE codigo=? AND eliminado=false");
+        $stmt->bind_param("i", $category);
+
+        if (!$stmt->execute()) {
+            http_response_code(500);
+            exit;
+        }
+
+        $result = $stmt->get_result()->fetch_assoc();
+
+        if ($result["total"] == 0) {
+            http_response_code(404);
+            exit;
+        }
+
+        $stmt = $mysql->prepare("UPDATE categorias SET eliminado=true WHERE codigo=?");
+        $stmt->bind_param("i", $category);
+
+        if (!$stmt->execute()) {
+            http_response_code(500);
+            exit;
+        }
+
+        $stmt = $mysql->prepare("UPDATE categorias SET eliminado=true WHERE padre=?");
+        $stmt->bind_param("i", $category);
+
+        if (!$stmt->execute()) {
+            http_response_code(500);
+            exit;
+        }
+
+        $stmt->close();
+
+        exit;
     }
 
     http_response_code(405);

@@ -7,7 +7,7 @@
         header("Location: ../index.php");
     }
 
-    $location = "index";
+    $location = "categories";
 
 ?>
 
@@ -19,14 +19,22 @@
         <link rel="stylesheet" href="assets/styles/module.css">
         <link rel="stylesheet" href="assets/styles/navbar.css">
         <link rel="stylesheet" href="assets/styles/sidebar.css">
-        <title>Home | Errea Admin</title>
+        <link rel="stylesheet" href="assets/styles/categories.css">
+        <title>Categorias | Errea Admin</title>
     </head>
     <body>
         <?php  include "reusables/sidebar.php"; ?>
         <div class="container">
             <?php include "reusables/navbar.php"; ?>
             <main>
-                <h1>hola</h1>
+                <div class="users-title">
+                    <h1>Listado de Categorias</h1>
+                </div>
+                <div class="users-table">
+                    <div class="table">
+                        
+                    </div>
+                </div>
             </main>
         </div>
     </body>
