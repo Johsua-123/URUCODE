@@ -52,3 +52,22 @@ table td button {
 table td button:hover {
     background-color: #1A242F;
 }
+
+table td img.icon-img {
+    max-width: 30px;
+    height: auto;
+}
+
+table td button {
+    margin-right: 5px;
+    padding: 5px 10px;
+    background-color: #2C3E50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+table td button:hover {
+    background-color: #1A242F;
+}
