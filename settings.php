@@ -1,6 +1,33 @@
 <?php
     session_start();
+
+// Incluir la conexión a la base de datos
+include 'api/mysql.php'; 
+
+// Recuperar los datos del usuario desde la sesión
+$code = $_SESSION["code"] ?? null;
+
+$imagePath = null;
+
+if ($code) {
+    // Consultar si el usuario tiene una imagen asociada
+    $sql = "SELECT imagenes.nombe, imagenes.codigo FROM imagenes 
+            INNER JOIN usuarios ON usuarios.imagen_id = imagenes.codigo 
+            WHERE usuarios.codigo = ?";
+    $stmt = $mysql->prepare($sql);
+    $stmt->bind_param("i", $code);
+    $stmt->execute();
+    $stmt->bind_result($imageName, $imageCode);
+    
+    if ($stmt->fetch()) {
+        // Si se encuentra una imagen, se obtiene la ruta
+        $imagePath = "public/images/" . $imageName;
+    }
+    $stmt->close();
+}
 ?>
+
+
 <!DOCTYPE html>
 <html lang="es">
     <head>
@@ -31,20 +58,21 @@
                         </svg>
                     </div>
                     <div class="profile-footer">
-                        <form id="image-upload" method="POST">
+                        <form id="image-upload" method="POST" enctype="multipart/form-data" action="./api/cargar_imagenes.php">
                             <input name="image" type="file" hidden="true" accept=".jpeg, .jpg, .png" placeholder="example.png">
                             <input name="action" type="text" hidden="true" value="profile">
                             <div>
                                 <span class="hidden"></span>
-                                <button type="button">Cargar imagen</button>
-                            </div>
+                                <button type="button" onclick="document.querySelector('input[name=image]').click();">Cargar imagen</button>
+                                <button type="submit">Subir</button>
+                             </div>
                         </form>
                     </div>
                 </div>
                 <div class="content-section">
                     <div class="tab-buttons">
                         <button type="button" tab-name="general" class="tab-active">General</button>
-                        <button type="button" tab-name="cart">Carrito</button>
+                       
                     </div>
                     <div class="tab-section">
                         <div id="general" class="tab-body">
@@ -55,20 +83,20 @@
                                     <input id="username" name="username" type="text" value="<?php echo $_SESSION["username"] ?? "" ?>">
                                 </div>
                                 <div>
-                                    <label for="surname">Apellido</label>
-                                    <input id="surname" name="surname" type="text" value="<?php echo $_SESSION["surname"] ?? "" ?>">
+                                    <label for="apellido">Apellido</label>
+                                    <input id="apellido" name="apellido" type="text" value="<?php echo $_SESSION["apellido"] ?? "" ?>">
                                 </div>
                                 <div>
-                                    <label for="location">Ciudad | País</label>
-                                    <input id="location" name="location" type="text" value="<?php echo $_SESSION["location"] ?? "" ?>">
+                                    <label for="ubicacion">Ciudad | País</label>
+                                    <input id="ubicacion" name="ubicacion" type="text" value="<?php echo $_SESSION["ubicacion"] ?? "" ?>">
                                 </div>
                                 <div>
-                                    <label for="address">Dirección</label>
-                                    <input type="text" value="<?php echo $_SESSION["address"] ?? "" ?>">
+                                    <label for="direccion">Dirección</label>
+                                    <input type="text" value="<?php echo $_SESSION["direccion"] ?? "" ?>">
                                 </div>
                                 <div>
-                                    <label for="cellphone">Teléfono</label>
-                                    <input id="cellphone" name="cellphone" type="text" value="<?php echo $_SESSION["cellphone"] ?? "" ?>">
+                                    <label for="celular">Teléfono</label>
+                                    <input id="celular" name="celular" type="text" value="<?php echo $_SESSION["celular"] ?? "" ?>">
                                 </div>
                                 <div>
                                     <label for="email">Correo</label>
@@ -80,7 +108,7 @@
                             </div>
                         </div>
                         <div class="tab-body hidden" id="cart">
-                            <h1>Carrito</h1>
+                            
                         </div>
                     </div>
                 </div>

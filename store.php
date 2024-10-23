@@ -1,3 +1,6 @@
+<?php
+    session_start();
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -20,6 +23,7 @@
         <div class="sidebar">
             <h2>Todas las Categorías</h2>
             <ul class="category-list">
+
                 <li><a href="#" data-category="ofertas">OFERTAS</a></li>
                 <li><a href="#" data-category="pc">PC</a></li>
                 <li><a href="#" data-category="notebooks">NOTEBOOKS</a></li>
