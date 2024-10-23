@@ -13,6 +13,7 @@
 
         $name = $body["name"] ?? "";
         $parent = $body["parent"] ?? null;
+        $image = $_FILES["image"] ?? null;
         $date = date('Y-m-d H:i:s');
 
         if (empty($body["name"])) {
@@ -63,8 +64,8 @@
             exit;
         }
     
-        $stmt = $mysql->prepare("INSERT INTO categorias (nombre, padre, fecha_creacion, fecha_actualizacion) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("siss", $name, $parent, $date, $date);
+        $stmt = $mysql->prepare("INSERT INTO categorias (nombre, padre, imagen_id, fecha_creacion, fecha_actualizacion) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("siiss", $name, $parent, $image, $date, $date);
 
         if (!$stmt->execute()) {
             http_response_code(500);
@@ -85,8 +86,8 @@
         $parent = $_GET["parent"] ?? "";
         $child = $_GET["child"] ?? false;
 
-        if (isset($_GET["name"])) {
-            $name = $_GET["name"];
+        if (isset($_GET["category"])) {
+            $category = $_GET["category"];
             exit;
         }
 
@@ -146,17 +147,40 @@
             
             if (!empty($row["imagen_id"])) {
                 $path = "public/images/" . $row["nombre_img"] . "-" . $row["codigo_img"] . $row["tipo_img"];
-                unset($row["nombre_img"], $row["codigo_img"], $row["tipo_img"]);
-
                 if (file_exists("../$path")) {
                     $category["image"] = "http://localhost/$path";
                 }
             }
 
+            unset($row["nombre_img"], $row["codigo_img"], $row["tipo_img"]);
             $rows[] = $category;
         }
 
         echo json_encode([ "total" => $total, "filas" => $rows ]);
+        exit;
+
+    }
+
+    if ($method == "PATCH") {
+        $category = $body["category"] ?? "";
+        
+        $stmt = $mysql->prepare("SELECT COUNT(*) AS 'total' WHERE codigo=?");
+        $stmt->bind_param("i", $category);
+
+        if (!$stmt->execute()) {
+            http_response_code(500);
+            exit;
+        }
+
+        $result = $stmt->get_result()->fetch_assoc();
+    
+        if ($result["total"] < 0) {
+            http_response_code(404);
+            exit;
+        }
+
+        
+
         exit;
 
     }
