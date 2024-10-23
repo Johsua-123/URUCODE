@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["image"])) {
     // Mover el archivo al servidor
     if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFile)) {
         // Insertar la imagen en la tabla imagenes
-        $insertImage = "INSERT INTO imagenes (nombre, codigo, fecha_creacion, fecha_actualizacion) VALUES (?, ?, NOW(), NOW())";
+        $insertImage = "INSERT INTO imagenes (nombe, codigo, fecha_creacion, fecha_actualizacion) VALUES (?, ?, NOW(), NOW())";
         $stmt = $mysql->prepare($insertImage);
         $imageCode = uniqid(); // Genera un código único para la imagen
         $stmt->bind_param("ss", $targetFile, $imageCode);
