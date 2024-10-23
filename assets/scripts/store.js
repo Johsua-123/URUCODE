@@ -43,7 +43,7 @@
                         <h2>${product.price}</h2>
                     </div>
                     <div class="card-footer">
-                        <a href="#">Ver detalles</a>
+                        <a href="">Ver detalles</a>
                     </div>
                 `;
                 productItemsContainer.appendChild(productCard);

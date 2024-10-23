@@ -23,7 +23,6 @@
         <div class="sidebar">
             <h2>Todas las Categorías</h2>
             <ul class="category-list">
-            <a href="product-visualizer.php?code=1" class="ver-detalles">Ver Detalles</a>
 
                 <li><a href="#" data-category="ofertas">OFERTAS</a></li>
                 <li><a href="#" data-category="pc">PC</a></li>
