@@ -11,12 +11,12 @@
     // crear categorias
     if ($method == "POST") {
 
-        $name = $body["name"] ?? "";
-        $parent = $body["parent"] ?? null;
-        $image = $_FILES["image"] ?? null;
+        $name = $body["nombre"] ?? "";
+        $parent = $body["sub-categoria"] ?? null;
+        $image = $_FILES["imagen"] ?? null;
         $date = date('Y-m-d H:i:s');
 
-        if (empty($body["name"])) {
+        if (empty($body["nombre"])) {
             http_response_code(400);
             exit;
         }
@@ -81,88 +81,35 @@
     // obtener categorias
     if ($method == "GET") {
 
-        $page = $_GET["page"] ?? 1;
-        $size = $_GET["size"] ?? 10;
-        $parent = $_GET["parent"] ?? "";
-        $child = $_GET["child"] ?? false;
+        $page = $_GET["pagina"] ?? 1;
+        $size = $_GET["tamaño"] ?? 10;
+        $parent = $_GET["sub-categoria"] ?? "";
+        $deleted = $_GET["eliminados"] ?? false;
 
-        if (isset($_GET["category"])) {
-            $category = $_GET["category"];
-            exit;
-        }
+        $stmt = $mysql->prepare("SELECT COUNT(*) AS 'total' FROM categorias WHERE eliminados=?");
+        $stmt->bind_param("b", $deleted);
 
-        $query = mysqli_query($mysql, "SELECT COUNT(*) AS 'total' FROM categorias");
-
-        if (!$query) {
+        if (!$stmt->execute()) {
             http_response_code(500);
             exit;
         }
 
-        $rows = [];
         
-        while ($row = mysqli_fetch_assoc($query)) {
-            $rows[] = $row;
-        }
-        
-        $total = $rows[0]["total"];
-        $offset = ($page - 1) * $size;
 
-        if ($child) {
-
+        if (isset($_GET["categoria"])) {
+            $category = $_GET["categoria"];
             exit;
         }
 
-        $query = mysqli_query($mysql, "SELECT 
-            c.codigo, 
-            c.nombre, 
-            c.padre, 
-            c.imagen_id, 
-            c.fecha_actualizacion,
-            i.codigo AS 'codigo_img',
-            i.nombre AS 'nombre_img',
-            i.tipo AS 'tipo_img'
-            FROM categorias c
-            LEFT JOIN imagenes i ON c.imagen_id=i.codigo
-            WHERE c.eliminado=false
-            LIMIT $size 
-            OFFSET $offset
-        ");
+        $stmt = $mysql->prepare("SELECT * FROM categorias LIMIT ?, ?");
+        // $stmt->bind_param("ii", 0, 0);
 
-        if (!$query) {
-            http_response_code(500);
-            exit;
-        }
-
-        $rows = [];
-
-        while ($row = mysqli_fetch_assoc($query)) {
-            $category = [
-                "name" => $row["nombre"],
-                "updated_at" => $row["fecha_actualizacion"]
-            ];
-
-            if (!empty($row["padre"])) {
-                $category["parent"] = $row["padre"];
-            }
-            
-            if (!empty($row["imagen_id"])) {
-                $path = "public/images/" . $row["nombre_img"] . "-" . $row["codigo_img"] . $row["tipo_img"];
-                if (file_exists("../$path")) {
-                    $category["image"] = "http://localhost/$path";
-                }
-            }
-
-            unset($row["nombre_img"], $row["codigo_img"], $row["tipo_img"]);
-            $rows[] = $category;
-        }
-
-        echo json_encode([ "total" => $total, "filas" => $rows ]);
         exit;
 
     }
 
     if ($method == "PATCH") {
-        $category = $body["category"] ?? "";
+        $category = $body["categoria"] ?? "";
         
         $stmt = $mysql->prepare("SELECT COUNT(*) AS 'total' WHERE codigo=?");
         $stmt->bind_param("i", $category);
@@ -187,7 +134,7 @@
 
     if ($method == "DELETE") {
 
-        $category = $body["category"] ?? null;
+        $category = $body["categoria"] ?? null;
 
         $stmt = $mysql->prepare("SELECT COUNT(*) AS 'total' FROM categorias WHERE codigo=? AND eliminado=false");
         $stmt->bind_param("i", $category);
