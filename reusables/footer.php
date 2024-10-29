@@ -4,6 +4,7 @@
         <div class="column-1">
             <h1>Empresa</h1>
             <a href="index.php">
+                
                 <img src="public/icons/errea.png" alt="logo de errea">
             </a>
         </div>
@@ -35,4 +36,5 @@
     <div class="section-2">
         <p>© 2024 <span>Errea</span> - Todos los derechos reservados</p>
     </div>
+    
 </footer>

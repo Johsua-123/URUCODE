@@ -107,6 +107,7 @@
                     </div>
                 </div>
             </div>
+            
         </main>
         <?php include "reusables/footer.php"; ?>
     </body>
