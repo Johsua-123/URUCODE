@@ -29,9 +29,7 @@
             
             <div class="charts-container">
                 <canvas id="chart1"></canvas>
-                <canvas id="chart2"></canvas>
                 <canvas id="chart3"></canvas>
-                <canvas id="chart4"></canvas>
                 <canvas id="chart5"></canvas>
             </div>
         </main>
@@ -58,14 +56,6 @@
             }]
         }, { responsive: true });
 
-        createChart(document.getElementById("chart2"), "pie", {
-            labels: ["Laptops", "Celulares", "Componentes", "Accesorios", "Periféricos", "Software"],
-            datasets: [{
-                data: [150, 80, 200, 120, 90, 60],
-                backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF", "#FF9F40"]
-            }]
-        }, { responsive: true });
-
         createChart(document.getElementById("chart3"), "line", {
             labels: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
             datasets: [{
@@ -74,14 +64,6 @@
                 borderColor: "rgba(75, 192, 192, 1)",
                 backgroundColor: "rgba(75, 192, 192, 0.2)",
                 fill: true
-            }]
-        }, { responsive: true });
-
-        createChart(document.getElementById("chart4"), "doughnut", {
-            labels: ["Lenovo Gamer LQQ", "Lenovo Gamer LQQ", "Lenovo Gamer LQQ", "Lenovo Gamer LQQ", "Lenovo Gamer LQQ"],
-            datasets: [{
-                data: [500, 300, 200, 150, 100],
-                backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF"]
             }]
         }, { responsive: true });
 

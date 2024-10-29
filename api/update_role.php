@@ -1,35 +1,27 @@
 <?php
 session_start();
 
-if (!isset($_SESSION["code"]) || $_SESSION["rol"] != "admin") {
+if (!isset($_SESSION["code"])) {
     header("Location: ../index.php");
-    exit();
+    exit;
 }
 
-if (isset($_POST['codigo']) && isset($_POST['nuevo_rol'])) {
-    $codigo = $_POST['codigo'];
-    $nuevo_rol = $_POST['nuevo_rol'];
+require "../api/mysql.php";
+if ($mysql->connect_error) {
+    die("Conexión fallida: " . $mysql->connect_error);
+}
 
-    $mysql = new mysqli("localhost", "usuario", "contraseña", "urucode");
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["codigo"], $_POST["nuevo_rol"])) {
+    $codigo = $mysql->real_escape_string($_POST["codigo"]);
+    $nuevo_rol = $mysql->real_escape_string($_POST["nuevo_rol"]);
 
-    if ($mysql->connect_error) {
-        die("Conexión fallida: " . $mysql->connect_error);
-    }
-
-    $stmt = $mysql->prepare("UPDATE usuarios SET rol = ? WHERE codigo = ?");
-    $stmt->bind_param("si", $nuevo_rol, $codigo);
-
-    if ($stmt->execute()) {
-        echo "Rol actualizado con éxito.";
+    $sql = "UPDATE usuarios SET rol = '$nuevo_rol' WHERE codigo = '$codigo'";
+    if ($mysql->query($sql) === TRUE) {
+        header("Location: ../admin/accounts.php"); 
     } else {
-        echo "Error al actualizar el rol: " . $stmt->error;
+        echo "Error al actualizar el rol: " . $mysql->error;
     }
-
-    $stmt->close();
-    $mysql->close();
-
-    header("Location: accounts.php");
-} else {
-    echo "Datos incompletos.";
 }
+
+$mysql->close();
 ?>

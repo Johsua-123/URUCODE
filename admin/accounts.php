@@ -62,11 +62,18 @@ $location = "accounts";
                         <td><?php echo $row["fecha_creacion"]; ?></td>
                         <td>
                             <?php if ($row["rol"] != "admin"): ?>
-                                <form method="post" action="update_role.php" style="display:inline;">
-                                    <input type="hidden" name="codigo" value="<?php echo $row["codigo"]; ?>">
-                                    <input type="hidden" name="nuevo_rol" value="admin">
-                                    <button type="submit">Asignar Admin</button>
-                                </form>
+                                <td>
+    <form method="post" action="../api/update_role.php" style="display:inline;">
+        <input type="hidden" name="codigo" value="<?php echo $row["codigo"]; ?>">
+        <select name="nuevo_rol">
+            <option value="user" <?php if ($row["rol"] == "user") echo 'selected'; ?>>User</option>
+            
+            <option value="admin" <?php if ($row["rol"] == "admin") echo 'selected'; ?>>Admin</option>
+        </select>
+        <button type="submit">Actualizar Rol</button>
+    </form>
+</td>
+
                             <?php endif; ?>
                         </td>
                     </tr>
