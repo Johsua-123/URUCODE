@@ -11,7 +11,7 @@ $imagePath = null;
 
 if ($code) {
     // Consultar si el usuario tiene una imagen asociada
-    $sql = "SELECT imagenes.nombe, imagenes.codigo FROM imagenes 
+    $sql = "SELECT imagenes.nombre, imagenes.codigo FROM imagenes 
             INNER JOIN usuarios ON usuarios.imagen_id = imagenes.codigo 
             WHERE usuarios.codigo = ?";
     $stmt = $mysql->prepare($sql);
