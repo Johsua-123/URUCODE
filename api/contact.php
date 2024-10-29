@@ -7,5 +7,4 @@
 
     echo json_encode([ "text" => "Funcionalidad aun no disponible" ]);
     http_response_code(200);
-
 ?>
