@@ -53,7 +53,7 @@ body {
     background-color: var(--white);
 }
 
-.navigation ul li:nth-child(1) { /*Selecciona el primer elemento de ul-li*/
+.navigation ul li:nth-child(1) { 
     margin-bottom: 40px;
     pointer-events: none;
 }
@@ -138,24 +138,24 @@ body {
     height: 50px; 
     background: var(--white);
     display: flex;
-    justify-content: space-between; /* Distribuye el espacio entre los elementos */
+    justify-content: space-between;
     align-items: center; 
     padding: 0 10px;
-    position: relative; /* Necesario para posicionar el .search_bar */
+    position: relative; 
     border: 1px solid black;
 }
 
 .search_bar {
     display: flex;
     align-items: center;
-    position: absolute; /* Permite el centrado absoluto */
+    position: absolute; 
     left: 50%;
-    transform: translateX(-50%); /* Centra el campo de búsqueda */
+    transform: translateX(-50%); 
 }
 
 .search_bar label {
     display: flex;
-    align-items: center; /* Centra verticalmente el ícono y el input */
+    align-items: center; 
     position: relative;
 }
 
@@ -171,7 +171,7 @@ body {
 .search_bar label input {
     width: 300px;
     height: 25px;
-    padding-left: 40px; /* Espacio para el ícono */
+    padding-left: 40px; 
     border-radius: 30px;
     border: 1px solid #ccc;
 }
@@ -189,4 +189,21 @@ body {
     height: 35px;
     border-radius: 100%;
     cursor: pointer;
+}
+.boton-inicio {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.boton-inicio:hover {
+    background-color: #0056b3;
 }
