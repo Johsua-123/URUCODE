@@ -19,7 +19,7 @@
         <title>Contacto | Errea</title>
     </head>
     <body>
-        <?php include 'reusables/navbar.php'; ?>
+        <?php include "reusables/navbar.php"; ?>
         <div class="container">
             <form id="contact-form" class="card" method="POST">
                 <div class="card-header">

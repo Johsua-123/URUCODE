@@ -1,7 +1,6 @@
 <?php
     session_start();
 
-// Incluir la conexión a la base de datos
 include 'api/mysql.php'; 
 
 // Recuperar los datos del usuario desde la sesión

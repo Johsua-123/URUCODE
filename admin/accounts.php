@@ -51,19 +51,19 @@ $location = "accounts";
                     </tr>
                     <?php while($row = $result->fetch_assoc()): ?>
                     <tr>
-                        <td><?php echo $row['codigo']; ?></td>
-                        <td><?php echo $row['rol']; ?></td>
-                        <td><?php echo $row['email']; ?></td>
-                        <td><?php echo $row['nombre']; ?></td>
-                        <td><?php echo $row['apellido']; ?></td>
-                        <td><?php echo $row['ubicacion']; ?></td>
-                        <td><?php echo $row['direccion']; ?></td>
-                        <td><?php echo $row['telefono']; ?></td>
-                        <td><?php echo $row['fecha_creacion']; ?></td>
+                        <td><?php echo $row["codigo"]; ?></td>
+                        <td><?php echo $row["rol"]; ?></td>
+                        <td><?php echo $row["email"]; ?></td>
+                        <td><?php echo $row["nombre"]; ?></td>
+                        <td><?php echo $row["apellido"]; ?></td>
+                        <td><?php echo $row["ubicacion"]; ?></td>
+                        <td><?php echo $row["direccion"]; ?></td>
+                        <td><?php echo $row["telefono"]; ?></td>
+                        <td><?php echo $row["fecha_creacion"]; ?></td>
                         <td>
-                            <?php if ($row['rol'] != 'admin'): ?>
+                            <?php if ($row["rol"] != "admin"): ?>
                                 <form method="post" action="update_role.php" style="display:inline;">
-                                    <input type="hidden" name="codigo" value="<?php echo $row['codigo']; ?>">
+                                    <input type="hidden" name="codigo" value="<?php echo $row["codigo"]; ?>">
                                     <input type="hidden" name="nuevo_rol" value="admin">
                                     <button type="submit">Asignar Admin</button>
                                 </form>
