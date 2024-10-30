@@ -9,6 +9,14 @@
 <!DOCTYPE html>
 <html lang="es">
     <head>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-DF773N72G0"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-DF773N72G0');
+        </script>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="public/icons/logo.png" type="image/x-icon">
@@ -39,7 +47,7 @@
                         <a href="signup.php">Regístrate</a>
                     </div>
                     <div>
-                        <button type="submit">Iniciar</button>
+                        <button id="iniciar" type="submit">Iniciar</button>
                     </div>
                 </div>
             </form>

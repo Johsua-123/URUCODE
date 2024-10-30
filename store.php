@@ -4,6 +4,14 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DF773N72G0"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-DF773N72G0');
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="public/icons/logo.png" type="image/x-icon">
@@ -26,7 +34,7 @@
 
                 <li><a href="#" data-category="ofertas">OFERTAS</a></li>
                 <li><a href="#" data-category="pc">PC</a></li>
-                <li><a href="#" data-category="notebooks">NOTEBOOKS</a></li>
+                <li><a id="notebook" href="#" data-category="notebooks">NOTEBOOKS</a></li>
                 <li><a href="#" data-category="consolas">CONSOLAS</a></li>
                 <li><a href="#" data-category="monitores">MONTORES</a></li>
                 <li><a href="#" data-category="tv">TV</a></li>

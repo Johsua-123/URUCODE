@@ -1,16 +1,13 @@
 <?php
     session_start();
 
-// Incluir la conexión a la base de datos
 include 'api/mysql.php'; 
 
-// Recuperar los datos del usuario desde la sesión
 $code = $_SESSION["code"] ?? null;
 
 $imagePath = null;
 
 if ($code) {
-    // Consultar si el usuario tiene una imagen asociada
     $sql = "SELECT imagenes.nombre, imagenes.codigo FROM imagenes 
             INNER JOIN usuarios ON usuarios.imagen_id = imagenes.codigo 
             WHERE usuarios.codigo = ?";
@@ -20,7 +17,6 @@ if ($code) {
     $stmt->bind_result($imageName, $imageCode);
     
     if ($stmt->fetch()) {
-        // Si se encuentra una imagen, se obtiene la ruta
         $imagePath = "public/images/" . $imageName;
     }
     $stmt->close();
@@ -31,6 +27,14 @@ if ($code) {
 <!DOCTYPE html>
 <html lang="es">
     <head>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-DF773N72G0"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-DF773N72G0');
+        </script>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="public/icons/logo.png" type="image/x-icon">
@@ -52,7 +56,7 @@ if ($code) {
                         <h2><?php echo $_SESSION["code"] ?? ""; ?></h2>
                     </div>
                     <div class="profile-items">
-                        <img class="<?php echo !(isset($_SESSION["code"]) && isset($_SESSION["image"])) ? "hidden" : "" ?>" src="<?php echo $_SESSION["image"] ?? ""; ?>" alt="imagen de perfil">
+                        <img class="<?php echo isset($_SESSION["image"]) ? "" : "hidden" ?>" src="<?php echo $_SESSION["image"] ?? ""; ?>" alt="imagen de perfil">
                         <svg class="<?php echo (isset($_SESSION["code"]) && !isset($_SESSION["image"])) ? "" : "hidden" ?>" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24">
                              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"></path>
                         </svg>

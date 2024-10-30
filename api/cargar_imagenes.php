@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["image"])) {
     }
 
     if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFile)) {
-        $insertImage = "INSERT INTO imagenes (nombe, codigo, fecha_creacion, fecha_actualizacion) VALUES (?, ?, NOW(), NOW())";
+        $insertImage = "INSERT INTO imagenes (nombre, codigo, fecha_creacion, fecha_actualizacion) VALUES (?, ?, NOW(), NOW())";
         $stmt = $mysql->prepare($insertImage);
         $imageCode = uniqid(); 
         $stmt->bind_param("ss", $targetFile, $imageCode);
@@ -31,6 +31,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["image"])) {
             $updateUser = "UPDATE usuarios SET imagen_id = ? WHERE codigo = ?";
             $stmtUpdate = $mysql->prepare($updateUser);
             $stmtUpdate->bind_param("ii", $imageId, $code);
+
+            $_SESSION["image"] = "public/images/" . basename($_FILES["image"]["name"]);
+            header("Location: ../settings.php");
 
             if ($stmtUpdate->execute()) {
                 $_SESSION["image"] = $targetFile; 
