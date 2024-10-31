@@ -34,7 +34,7 @@ $result = $mysql->query($sql);
     <link rel="stylesheet" href="assets/styles/module.css">
     <link rel="stylesheet" href="assets/styles/navbar.css">
     <link rel="stylesheet" href="assets/styles/sidebar.css">
-    <link rel="stylesheet" href="assets/styles/mensajes.css"> 
+    <link rel="stylesheet" href="assets/styles/products.css"> 
     <title>Mensajes | Errea Admin</title>
 </head>
 <body>
