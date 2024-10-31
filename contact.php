@@ -1,5 +1,11 @@
 <?php
+    session_start();
+    $location = "index";
+?>
+<?php
 require "api/mysql.php";
+$message = ""; 
+
 if ($mysql->connect_error) {
     die("Conexión fallida: " . $mysql->connect_error);
 }
@@ -15,9 +21,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("ssss", $nombre, $email, $asunto, $mensaje);
 
     if ($stmt->execute()) {
-        echo "Mensaje enviado correctamente.";
+        $message = "Mensaje enviado correctamente."; 
     } else {
-        echo "Error al enviar el mensaje: " . $mysql->error;
+        $message = "Error al enviar el mensaje: " . $mysql->error; 
     }
 
     $stmt->close();
@@ -40,7 +46,7 @@ $mysql->close();
     <link rel="shortcut icon" href="public/icons/logo.png" type="image/x-icon">
     <link rel="stylesheet" href="assets/styles/module.css">
     <link rel="stylesheet" href="assets/styles/navbar.css">
-    <link rel="stylesheet" href="assets\styles/footer.css">
+    <link rel="stylesheet" href="assets/styles/footer.css">
     <link rel="stylesheet" href="assets/styles/contact.css">
     <script src="assets/scripts/navbar.js"></script>
     <title>Contacto - Errea</title>
@@ -49,25 +55,30 @@ $mysql->close();
     <?php include "reusables/navbar.php"; ?>
 
     <main>
-    <div class="contact-wrapper">
-        <section class="contact-section">
-            <h2>Contáctanos</h2>
-            <form method="post" action="contact.php">
-                <label for="nombre">Nombre:</label>
-                <input type="text" id="nombre" name="nombre" required>
+        <div class="contact-wrapper">
+            <section class="contact-section">
+                <h2>Contáctanos</h2>
+                <form method="post" action="contact.php">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" id="nombre" name="nombre" required>
 
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
 
-                <label for="asunto">Asunto:</label>
-                <input type="text" id="asunto" name="asunto">
+                    <label for="asunto">Asunto:</label>
+                    <input type="text" id="asunto" name="asunto">
 
-                <label for="mensaje">Mensaje:</label>
-                <textarea id="mensaje" name="mensaje" required></textarea>
+                    <label for="mensaje">Mensaje:</label>
+                    <textarea id="mensaje" name="mensaje" required></textarea>
 
-                <button type="submit">Enviar</button>
-            </form>
-        </section>
+                    <button type="submit">Enviar</button>
+                </form>
+
+                <?php if (!empty($message)): ?>
+                    <p class="message"><?php echo $message; ?></p>
+                <?php endif; ?>
+            </section>
+        </div>
     </main>
 
     <?php include "reusables/footer.php"; ?>

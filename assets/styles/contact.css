@@ -1,14 +1,13 @@
-/* Centrado del formulario en la pantalla */
+
 .contact-wrapper {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100vh; /* Ocupa toda la altura de la ventana */
-    background-color: #f0f4f8; /* Fondo claro alrededor del formulario */
+    height: 100vh; 
+    background-color: #f0f4f8; 
     margin: 0;
 }
 
-/* Estilo del formulario */
 .contact-section {
     max-width: 600px;
     width: 100%;
@@ -66,4 +65,10 @@
 
 .contact-section button:hover {
     background-color: var(--color-blue);
+}
+.message {
+    margin-top: 15px;
+    color:  #122d57; 
+    text-align: center;
+    font-weight: bold;
 }
