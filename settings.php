@@ -1,8 +1,6 @@
 <?php
     session_start();
-
 include 'api/mysql.php'; 
-
 $code = $_SESSION["code"] ?? null;
 
 $imagePath = null;
@@ -32,9 +30,9 @@ if ($code) {
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-
             gtag('config', 'G-DF773N72G0');
         </script>
+        
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="public/icons/logo.png" type="image/x-icon">
