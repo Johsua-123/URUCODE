@@ -1,63 +1,75 @@
+<?php
+require "api/mysql.php";
+if ($mysql->connect_error) {
+    die("Conexión fallida: " . $mysql->connect_error);
+}
 
-<?php 
-    session_start();
-    $location = "contact";
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $nombre = $_POST['nombre'];
+    $email = $_POST['email'];
+    $asunto = $_POST['asunto'];
+    $mensaje = $_POST['mensaje'];
+
+    $sql = "INSERT INTO mensajes (nombre, email, asunto, mensaje) VALUES (?, ?, ?, ?)";
+    $stmt = $mysql->prepare($sql);
+    $stmt->bind_param("ssss", $nombre, $email, $asunto, $mensaje);
+
+    if ($stmt->execute()) {
+        echo "Mensaje enviado correctamente.";
+    } else {
+        echo "Error al enviar el mensaje: " . $mysql->error;
+    }
+
+    $stmt->close();
+}
+$mysql->close();
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
-    <head>
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-DF773N72G0"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DF773N72G0"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-DF773N72G0');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="public/icons/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="assets/styles/module.css">
+    <link rel="stylesheet" href="assets/styles/navbar.css">
+    <link rel="stylesheet" href="assets\styles/footer.css">
+    <link rel="stylesheet" href="assets/styles/contact.css">
+    <script src="assets/scripts/navbar.js"></script>
+    <title>Contacto - Errea</title>
+</head>
+<body>
+    <?php include "reusables/navbar.php"; ?>
 
-            gtag('config', 'G-DF773N72G0');
-        </script>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="shortcut icon" href="public/icons/errea.png" type="image/x-icon">
-        <link rel="stylesheet" href="assets/styles/module.css">
-        <link rel="stylesheet" href="assets/styles/navbar.css">
-        <link rel="stylesheet" href="assets/styles/footer.css">
-        <link rel="stylesheet" href="assets/styles/contact.css">
-        <script src="assets/scripts/navbar.js"></script>
-        <script src="assets/scripts/contact.js"></script>
-        <title>Contacto | Errea</title>
-    </head>
-    <body>
-        <?php include "reusables/navbar.php"; ?>
-        <div class="container">
-            <form id="contact-form" class="card" method="POST">
-                <div class="card-header">
-                    <h1>Ponte en contacto con nosotros</h1>
-                </div>
-                <div class="card-items">
-                    <div>
-                        <label for="correo">Correo electrónico</label>
-                        <input id="correo" name="correo" type="email" autocomplete="off">
-                    </div>
-                    <div>
-                        <label for="nombre">Nombre</label>
-                        <input id="nombre" name="nombre" type="text" autocomplete="off">
-                    </div>
-                    <div>
-                        <label for="mensaje">Mensaje</label>
-                        <textarea id="mensaje" name="mensaje" cols="30" rows="10" ></textarea>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <button type="submit">Enviar</button>
-                </div>
+    <main>
+    <div class="contact-wrapper">
+        <section class="contact-section">
+            <h2>Contáctanos</h2>
+            <form method="post" action="contact.php">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" required>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="asunto">Asunto:</label>
+                <input type="text" id="asunto" name="asunto">
+
+                <label for="mensaje">Mensaje:</label>
+                <textarea id="mensaje" name="mensaje" required></textarea>
+
+                <button type="submit">Enviar</button>
             </form>
-            <div id="modal" class="modal">
-                <span id="status"></span>
-                <div>
-                    <button id="button" type="button">Aceptar</button>
-                </div>
-            </div>
-        </div>
-        <?php include "reusables/footer.php"; ?>
-    </body>
+        </section>
+    </main>
+
+    <?php include "reusables/footer.php"; ?>
+</body>
 </html>

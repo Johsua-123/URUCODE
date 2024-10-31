@@ -18,10 +18,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["codigo"], $_POST["nuev
     $sql = "UPDATE usuarios SET rol = '$nuevo_rol' WHERE codigo = '$codigo'";
     if ($mysql->query($sql) === TRUE) {
         header("Location: ../admin/accounts.php"); 
-    } else {
-        echo "Error al actualizar el rol: " . $mysql->error;
+        exit();
     }
-}
+} 
 
 $mysql->close();
 ?>

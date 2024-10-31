@@ -5,7 +5,6 @@
     background-color: var(--color-blue);
 }
 
-/* Navbar header */
 .navbar-header {
     height: 65px;
     display: flex;
