@@ -66,7 +66,7 @@ create table servicios (
 create table categorias (
    codigo integer auto_increment primary key,
    nombre varchar(150) unique,
-   padre integer,
+   categoria_id integer,
    eliminado boolean default false,
    imagen_id integer,
    fecha_creacion datetime,
@@ -141,7 +141,7 @@ alter table servicios add foreign key (imagen_id) references imagenes (codigo) o
 
 alter table categorias add foreign key (imagen_id) references imagenes (codigo) on update cascade;
 
-alter table categorias add foreign key (padre) references categorias (codigo) on update cascade;
+alter table categorias add foreign key (categoria_id) references categorias (codigo) on update cascade;
 
 alter table ventas add foreign key (usuario_id) references usuarios (codigo) on update cascade;
 
