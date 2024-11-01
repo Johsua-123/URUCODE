@@ -114,6 +114,85 @@
                         </div>
                     </div>
                 </div>
+                <div class="picture">
+                <img src="public/banners/12Cuotas_MiniBanner-v2-1024x123.png" alt="#">
+                </div>
+                <div class="main-products_2">
+                <h1>Ofertas</h1>
+                <div class="product-items">
+                    <div class="product-card">
+                        <div class="card-header">
+                            <img src="https://via.placeholder.com/100x100?text=Imagen+del+Producto" alt="imagen producto 1">
+                        </div>
+                        <div class="card-items">
+                            <h1>Lenovo Gamer LQQ</h1>
+                            <h2>U$S 1.499</h2>
+                        </div>
+                        <div class="card-footer">
+                            <a href="">Ver detalles</a>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="card-header">
+                            <img src="https://via.placeholder.com/100x100?text=Imagen+del+Producto" alt="imagen producto 1">
+                        </div>
+                        <div class="card-items">
+                            <h1>Lenovo Gamer LQQ</h1>
+                            <h2>U$S 1.499</h2>
+                        </div>
+                        <div class="card-footer">
+                            <a href="">Ver detalles</a>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="card-header">
+                            <img src="https://via.placeholder.com/100x100?text=Imagen+del+Producto" alt="imagen producto 1">
+                        </div>
+                        <div class="card-items">
+                            <h1>Lenovo Gamer LQQ</h1>
+                            <h2>U$S 1.499</h2>
+                        </div>
+                        <div class="card-footer">
+                            <a href="">Ver detalles</a>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="card-header">
+                            <img src="https://via.placeholder.com/100x100?text=Imagen+del+Producto" alt="imagen producto 1">
+                        </div>
+                        <div class="card-items">
+                            <h1>Lenovo Gamer LQQ</h1>
+                            <h2>U$S 1.499</h2>
+                        </div>
+                        <div class="card-footer">
+                            <a href="">Ver detalles</a>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="card-header">
+                            <img src="https://via.placeholder.com/100x100?text=Imagen+del+Producto" alt="imagen producto 1">
+                        </div>
+                        <div class="card-items">
+                            <h1>Lenovo Gamer LQQ</h1>
+                            <h2>U$S 1.499</h2>
+                        </div>
+                        <div class="card-footer">
+                            <a href="">Ver detalles</a>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="card-header">
+                            <img src="https://via.placeholder.com/100x100?text=Imagen+del+Producto" alt="imagen producto 1">
+                        </div>
+                        <div class="card-items">
+                            <h1>Lenovo Gamer LQQ</h1>
+                            <h2>U$S 1.499</h2>
+                        </div>
+                        <div class="card-footer">
+                            <a href="">Ver detalles</a>
+                        </div>
+                    </div>
+                </div>
             </div>
             
         </main>
