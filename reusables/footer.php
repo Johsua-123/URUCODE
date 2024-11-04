@@ -29,7 +29,8 @@
             <h1>Recursos</h1>
             <div>
                 <a href="about-us.php">Sobre nostros</a>
-                <a href="manual.php">Manual de uso</a>
+                <a href="public/">Manual de uso</a>
+                <a href="preguntas.php">Preguntas Frecuentes</a>
             </div>
         </div>
     </div>
