@@ -32,8 +32,9 @@
                 <div class="card">
                     <header>
                         <h2>Categorías</h2>
-                        <button type="button">
+                        <button type="button" id="addCategoryBtn">
                             Agregar Categoría
+                            
                         </button>
                     </header>
                     <div class="wrapper">
@@ -49,19 +50,7 @@
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td><span class="cell-content">001</span></td>
-                                    <td><span class="cell-content">Electrónica</span></td>
-                                    <td><span class="cell-content">Teléfonos</span></td>
-                                    <td><img src="ruta/al/icono.png" alt="Icono" class="icon-img"></td>
-                                    <td><span class="cell-content">2023-01-15</span></td>
-                                    <td><span class="cell-content">2023-10-15</span></td>
-                                    <td>
-                                        <button>Editar</button>
-                                        <button>Eliminar</button>
-                                    </td>
-                                </tr>
+                            <tbody id="categoryTableBody">
                             </tbody>
                         </table>
                     </div>
@@ -69,6 +58,6 @@
             </div>
         </main>
     </div>
-    <script src="assets/scripts/categories.js"></script>
+    <script src="admin\assets\scripts\categories.js"></script>
 </body>
 </html>
