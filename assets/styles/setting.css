@@ -154,6 +154,14 @@
     transition: border-bottom-color 0.3s ease; 
 }
 
+.tab-body a{
+    padding: 10px 20px;
+    cursor: pointer;
+    color: var(--color-white);
+    background-color: transparent;
+    border: 1px var(--color-white) solid;
+}
+
 @media screen and (max-width: 480px) {
     .settings {
         margin: 6vh 0;
