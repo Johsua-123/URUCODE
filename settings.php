@@ -51,7 +51,6 @@ if ($code) {
                 <div class="profile-section">
                     <div class="profile-header">
                         <h1><?php echo $_SESSION["username"] ?? ""; ?></h1>
-                        <h2><?php echo $_SESSION["code"] ?? ""; ?></h2>
                     </div>
                     <div class="profile-items">
                         <img class="<?php echo isset($_SESSION["image"]) ? "" : "hidden" ?>" src="<?php echo $_SESSION["image"] ?? ""; ?>" alt="imagen de perfil">
@@ -79,7 +78,7 @@ if ($code) {
                     <div class="tab-section">
                         <div id="general" class="tab-body">
                             <h1>Perfil</h1>
-                            <form id="user" method="POST">
+                            <form id="user" method="POST" action="password.php">
                                 <div>
                                     <label for="username">Nombre</label>
                                     <input id="username" name="username" type="text" value="<?php echo $_SESSION["username"] ?? "" ?>">
@@ -106,7 +105,7 @@ if ($code) {
                                 </div>
                             </form>
                             <div>
-                                <button type="button">Cambiar contraseña</button>
+                                <a href="password-change.php">Cambiar Contraseña</a>
                             </div>
                         </div>
                         <div class="tab-body hidden" id="cart">
@@ -119,3 +118,5 @@ if ($code) {
         <?php include "reusables/footer.php" ?>
     </body>
 </html>
+
+<?php

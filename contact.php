@@ -71,7 +71,7 @@ $mysql->close();
                     <label for="mensaje">Mensaje:</label>
                     <textarea id="mensaje" name="mensaje" required></textarea>
 
-                    <button type="submit">Enviar</button>
+                    <button id="enviar" type="submit">Enviar</button>
                 </form>
 
                 <?php if (!empty($message)): ?>
