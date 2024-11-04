@@ -1,190 +1,514 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 04-11-2024 a las 13:31:56
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.2.12
 
-create database urucode; 
-use urucode; 
-
--- Creacion de las tablas
-
-create table usuarios (
-   codigo integer auto_increment primary key,
-   rol enum ("dueño", "supervisor", "admin", "empleado", "usuario") default "usuario",
-   email varchar(254) unique,
-   nombre varchar(30),
-   apellido varchar(30),
-   ubicacion varchar(150),
-   direccion varchar(150),
-   telefono varchar(12),
-   imagen_id integer,
-   contrasena varchar(60),
-   eliminado boolean default false,
-   fecha_creacion datetime,
-   fecha_actualizacion datetime
-);
-
-create table imagenes (
-   codigo integer auto_increment primary key,
-   nombre text,
-   tipo enum (".png", ".jpg", ".jpeg", ".webp"),
-   eliminado boolean default false,
-   fecha_creacion datetime,
-   fecha_actualizacion datetime	
-);
-
-create table codigos (
-   codigo integer auto_increment primary key,
-   tipo enum ("verificar", "resetear", "eliminar"),
-   valor varchar(60),
-   usuario_id integer,
-   fecha_creacion datetime,
-   fecha_actualizacion datetime
-);
-
-create table productos (
-   codigo integer auto_increment primary key,
-   nombre varchar(150) unique,   
-   precio decimal,
-   stock integer,
-   modelo varchar(50),
-   marca varchar(50),
-   eliminado boolean default false,
-   imagen_id integer,
-   descripcion text,
-   fecha_creacion datetime,
-   fecha_actualizacion datetime
-);
-
-create table servicios (
-   codigo integer auto_increment primary key,
-   nombre varchar(150) unique,
-   precio decimal,
-   eliminado boolean default false,
-   imagen_id integer,
-   descripcion text,
-   fecha_creacion datetime,
-   fecha_actualizacion datetime	
-);
-
-create table categorias (
-   codigo integer auto_increment primary key,
-   nombre varchar(150) unique,
-   sub_categoria integer,
-   eliminado boolean default false,
-   imagen_id integer,
-   fecha_creacion datetime,
-   fecha_actualizacion datetime
-);
-
-create table ventas (
-   codigo integer auto_increment primary key,
-   total decimal,
-   usuario_id integer,
-   fecha_creacion datetime,
-   fecha_actualizacion datetime
-);
-
-create table pagos (
-   codigo integer auto_increment primary key,
-   estado enum ("completado", "pendiente", "vencido"),
-   metodo enum("Tarjeta", "PayPal", "Transferencia"),
-   cuotas integer default 1,
-   venta_id integer,
-   usuario_id integer,
-   fecha_creacion datetime,
-   fecha_actualizacion datetime  
-);
-
-create table cuotas (
-   codigo integer auto_increment primary key,
-   estado enum ("pagada", "pendiente", "vencida"),
-   numero integer,
-   metodo enum ("Tarjeta", "PayPal", "Mercado Pago", "Transferencia"),
-   pago_id integer,
-   fecha_creacion datetime,
-   fecha_actualizacion datetime
-);
-
-create table ventas_detalles (
-    codigo integer auto_increment primary key,
-    tipo enum ("producto", "servicio"),
-    precio decimal,
-    cantidad integer,
-    venta_id integer,
-    subtotal decimal,
-    fecha_creacion datetime,
-    fecha_actualizacion datetime   
-);
-
-create table productos_imagenes (
-    imagen_id integer,
-    producto_id integer,
-    fecha_creacion datetime,
-    fecha_actualizacion datetime 
-);
-
-create table productos_categorias (
-    producto_id integer,
-    categoria_id integer,
-    fecha_creacion datetime,
-    fecha_actualizacion datetime
-);
-
--- Creacion de llaves foraneas
-
-alter table usuarios add foreign key (imagen_id) references imagenes (codigo) on update cascade;
-
-alter table codigos add foreign key (usuario_id) references usuarios (codigo) on update cascade;
-
-alter table codigos add unique (tipo, usuario_id);
-
-alter table productos add foreign key (imagen_id) references imagenes (codigo) on update cascade;
-
-alter table servicios add foreign key (imagen_id) references imagenes (codigo) on update cascade;
-
-alter table categorias add foreign key (imagen_id) references imagenes (codigo) on update cascade;
-
-alter table categorias add foreign key (subcategoria) references categorias (codigo) on update cascade;
-
-alter table ventas add foreign key (usuario_id) references usuarios (codigo) on update cascade;
-
-alter table pagos add foreign key (usuario_id) references usuarios (codigo) on update cascade;
-
-alter table pagos add foreign key (venta_id) references ventas (codigo) on update cascade;
-
-alter table cuotas add foreign key (pago_id) references pagos (codigo) on update cascade;
-
-alter table ventas_detalles add foreign key (venta_id) references ventas (codigo) on update cascade;
-
-alter table productos_imagenes add foreign key (imagen_id) references imagenes (codigo) on update cascade;
-
-alter table productos_imagenes add foreign key (producto_id) references productos (codigo) on update cascade;
-
-alter table productos_imagenes add unique (imagen_id, producto_id);
-
-alter table productos_categorias add foreign key (producto_id) references productos (codigo) on update cascade;
-
-alter table productos_categorias add foreign key (categoria_id) references categorias (codigo) on update cascade;
-
-alter table productos_categorias add unique (producto_id, categoria_id);
-
--- Creacion de indices
-
-alter table usuarios add index idx_eliminado (eliminado), add index idx_nombre (nombre), add index idx_apellido (apellido), add index idx_telefono (telefono);
-
-alter table imagenes add index idx_eliminado (eliminado);
-
-alter table productos add index idx_precio (precio), add index idx_marca (marca), add index idx_modelo (modelo), add index idx_eliminado (eliminado);
-
-alter table servicios add index idx_precio (precio), add index idx_eliminado (eliminado);
-
-alter table categorias add index idx_eliminado (eliminado);
-
-alter table pagos add index idx_estado (estado), add index idx_metodo (metodo);
-
-alter table cuotas  add index idx_estado (estado), add index idx_metodo (metodo), add index idx_numero (numero);
-
-alter table ventas_detalles add  index idx_tipo (tipo), add index idx_precio (precio), add index idx_venta_tipo (venta_id, tipo);
-
--- Creacion de usuarios
-
-grant insert, select, update, delete on urucode.* to "duenio"@"localhost" identified by "duenio"
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
 
 
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Base de datos: `urucode`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `categorias`
+--
+
+CREATE TABLE `categorias` (
+  `codigo` int(11) NOT NULL,
+  `nombre` varchar(150) DEFAULT NULL,
+  `padre` int(11) DEFAULT NULL,
+  `eliminado` tinyint(1) DEFAULT 0,
+  `imagen_id` int(11) DEFAULT NULL,
+  `fecha_creacion` datetime DEFAULT NULL,
+  `fecha_actualizacion` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `codigos`
+--
+
+CREATE TABLE `codigos` (
+  `codigo` int(11) NOT NULL,
+  `tipo` enum('verificar','resetear','eliminar') DEFAULT NULL,
+  `valor` varchar(60) DEFAULT NULL,
+  `usuario_id` int(11) DEFAULT NULL,
+  `fecha_creacion` datetime DEFAULT NULL,
+  `fecha_actualizacion` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `cuotas`
+--
+
+CREATE TABLE `cuotas` (
+  `codigo` int(11) NOT NULL,
+  `estado` enum('pagada','pendiente','vencida') DEFAULT NULL,
+  `numero` int(11) DEFAULT NULL,
+  `metodo` enum('Tarjeta','PayPal','Mercado Pago','Transferencia') DEFAULT NULL,
+  `pago_id` int(11) DEFAULT NULL,
+  `fecha_creacion` datetime DEFAULT NULL,
+  `fecha_actualizacion` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `imagenes`
+--
+
+CREATE TABLE `imagenes` (
+  `codigo` int(11) NOT NULL,
+  `nombre` text DEFAULT NULL,
+  `tipo` enum('.png','.jpg','.jpeg','.webp') DEFAULT NULL,
+  `eliminado` tinyint(1) DEFAULT 0,
+  `fecha_creacion` datetime DEFAULT NULL,
+  `fecha_actualizacion` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `mensajes`
+--
+
+CREATE TABLE `mensajes` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `asunto` varchar(150) DEFAULT NULL,
+  `mensaje` text NOT NULL,
+  `fecha` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `mensajes`
+--
+
+INSERT INTO `mensajes` (`id`, `nombre`, `email`, `asunto`, `mensaje`, `fecha`) VALUES
+(1, 'Mateo', 'urucode2024@gmail.com', 'prueba', 'este es un mensaje de prueba', '2024-11-04 12:28:06');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `pagos`
+--
+
+CREATE TABLE `pagos` (
+  `codigo` int(11) NOT NULL,
+  `estado` enum('completado','pendiente','vencido') DEFAULT NULL,
+  `metodo` enum('Tarjeta','PayPal','Transferencia') DEFAULT NULL,
+  `cuotas` int(11) DEFAULT 1,
+  `venta_id` int(11) DEFAULT NULL,
+  `usuario_id` int(11) DEFAULT NULL,
+  `fecha_creacion` datetime DEFAULT NULL,
+  `fecha_actualizacion` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `productos`
+--
+
+CREATE TABLE `productos` (
+  `codigo` int(11) NOT NULL,
+  `nombre` varchar(150) DEFAULT NULL,
+  `precio` decimal(10,0) DEFAULT NULL,
+  `stock` int(11) DEFAULT NULL,
+  `modelo` varchar(50) DEFAULT NULL,
+  `marca` varchar(50) DEFAULT NULL,
+  `eliminado` tinyint(1) DEFAULT 0,
+  `imagen_id` int(11) DEFAULT NULL,
+  `descripcion` text DEFAULT NULL,
+  `fecha_creacion` datetime DEFAULT NULL,
+  `fecha_actualizacion` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `productos_categorias`
+--
+
+CREATE TABLE `productos_categorias` (
+  `producto_id` int(11) DEFAULT NULL,
+  `categoria_id` int(11) DEFAULT NULL,
+  `fecha_creacion` datetime DEFAULT NULL,
+  `fecha_actualizacion` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `productos_imagenes`
+--
+
+CREATE TABLE `productos_imagenes` (
+  `imagen_id` int(11) DEFAULT NULL,
+  `producto_id` int(11) DEFAULT NULL,
+  `fecha_creacion` datetime DEFAULT NULL,
+  `fecha_actualizacion` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `servicios`
+--
+
+CREATE TABLE `servicios` (
+  `codigo` int(11) NOT NULL,
+  `nombre` varchar(150) DEFAULT NULL,
+  `precio` decimal(10,0) DEFAULT NULL,
+  `eliminado` tinyint(1) DEFAULT 0,
+  `imagen_id` int(11) DEFAULT NULL,
+  `descripcion` text DEFAULT NULL,
+  `fecha_creacion` datetime DEFAULT NULL,
+  `fecha_actualizacion` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `usuarios`
+--
+
+CREATE TABLE `usuarios` (
+  `codigo` int(11) NOT NULL,
+  `rol` enum('dueño','supervisor','admin','empleado','usuario') DEFAULT 'usuario',
+  `email` varchar(254) DEFAULT NULL,
+  `imagen_id` int(11) DEFAULT NULL,
+  `nombre` varchar(30) DEFAULT NULL,
+  `apellido` varchar(30) DEFAULT NULL,
+  `ubicacion` varchar(150) DEFAULT NULL,
+  `direccion` varchar(150) DEFAULT NULL,
+  `telefono` varchar(12) DEFAULT NULL,
+  `contrasena` varchar(60) DEFAULT NULL,
+  `eliminado` tinyint(1) DEFAULT 0,
+  `fecha_creacion` datetime DEFAULT NULL,
+  `fecha_actualizacion` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `usuarios`
+--
+
+INSERT INTO `usuarios` (`codigo`, `rol`, `email`, `imagen_id`, `nombre`, `apellido`, `ubicacion`, `direccion`, `telefono`, `contrasena`, `eliminado`, `fecha_creacion`, `fecha_actualizacion`) VALUES
+(2, 'usuario', 'papu@gmail.com', NULL, 'niji', NULL, NULL, NULL, NULL, '$2y$10$jYTBWsM4/DAqWQU6HSeIpuHkzEiAb5vRTbgjByKqFjJPWMv1GWwJK', 0, '2024-11-04 13:17:06', '2024-11-04 13:17:06');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ventas`
+--
+
+CREATE TABLE `ventas` (
+  `codigo` int(11) NOT NULL,
+  `total` decimal(10,0) DEFAULT NULL,
+  `usuario_id` int(11) DEFAULT NULL,
+  `fecha_creacion` datetime DEFAULT NULL,
+  `fecha_actualizacion` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ventas_detalles`
+--
+
+CREATE TABLE `ventas_detalles` (
+  `codigo` int(11) NOT NULL,
+  `tipo` enum('producto','servicio') DEFAULT NULL,
+  `precio` decimal(10,0) DEFAULT NULL,
+  `cantidad` int(11) DEFAULT NULL,
+  `venta_id` int(11) DEFAULT NULL,
+  `subtotal` decimal(10,0) DEFAULT NULL,
+  `fecha_creacion` datetime DEFAULT NULL,
+  `fecha_actualizacion` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `categorias`
+--
+ALTER TABLE `categorias`
+  ADD PRIMARY KEY (`codigo`),
+  ADD UNIQUE KEY `nombre` (`nombre`),
+  ADD KEY `imagen_id` (`imagen_id`),
+  ADD KEY `padre` (`padre`),
+  ADD KEY `idx_eliminado` (`eliminado`);
+
+--
+-- Indices de la tabla `codigos`
+--
+ALTER TABLE `codigos`
+  ADD PRIMARY KEY (`codigo`),
+  ADD UNIQUE KEY `tipo` (`tipo`,`usuario_id`),
+  ADD KEY `usuario_id` (`usuario_id`);
+
+--
+-- Indices de la tabla `cuotas`
+--
+ALTER TABLE `cuotas`
+  ADD PRIMARY KEY (`codigo`),
+  ADD KEY `pago_id` (`pago_id`),
+  ADD KEY `idx_estado` (`estado`),
+  ADD KEY `idx_metodo` (`metodo`),
+  ADD KEY `idx_numero` (`numero`);
+
+--
+-- Indices de la tabla `imagenes`
+--
+ALTER TABLE `imagenes`
+  ADD PRIMARY KEY (`codigo`),
+  ADD KEY `idx_eliminado` (`eliminado`);
+
+--
+-- Indices de la tabla `mensajes`
+--
+ALTER TABLE `mensajes`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `pagos`
+--
+ALTER TABLE `pagos`
+  ADD PRIMARY KEY (`codigo`),
+  ADD KEY `usuario_id` (`usuario_id`),
+  ADD KEY `venta_id` (`venta_id`),
+  ADD KEY `idx_estado` (`estado`),
+  ADD KEY `idx_metodo` (`metodo`);
+
+--
+-- Indices de la tabla `productos`
+--
+ALTER TABLE `productos`
+  ADD PRIMARY KEY (`codigo`),
+  ADD UNIQUE KEY `nombre` (`nombre`),
+  ADD KEY `imagen_id` (`imagen_id`),
+  ADD KEY `idx_precio` (`precio`),
+  ADD KEY `idx_marca` (`marca`),
+  ADD KEY `idx_modelo` (`modelo`),
+  ADD KEY `idx_eliminado` (`eliminado`);
+
+--
+-- Indices de la tabla `productos_categorias`
+--
+ALTER TABLE `productos_categorias`
+  ADD UNIQUE KEY `producto_id` (`producto_id`,`categoria_id`),
+  ADD KEY `categoria_id` (`categoria_id`);
+
+--
+-- Indices de la tabla `productos_imagenes`
+--
+ALTER TABLE `productos_imagenes`
+  ADD UNIQUE KEY `imagen_id` (`imagen_id`,`producto_id`),
+  ADD KEY `producto_id` (`producto_id`);
+
+--
+-- Indices de la tabla `servicios`
+--
+ALTER TABLE `servicios`
+  ADD PRIMARY KEY (`codigo`),
+  ADD UNIQUE KEY `nombre` (`nombre`),
+  ADD KEY `imagen_id` (`imagen_id`),
+  ADD KEY `idx_precio` (`precio`),
+  ADD KEY `idx_eliminado` (`eliminado`);
+
+--
+-- Indices de la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  ADD PRIMARY KEY (`codigo`),
+  ADD UNIQUE KEY `email` (`email`),
+  ADD KEY `imagen_id` (`imagen_id`),
+  ADD KEY `idx_eliminado` (`eliminado`),
+  ADD KEY `idx_nombre` (`nombre`),
+  ADD KEY `idx_apellido` (`apellido`),
+  ADD KEY `idx_telefono` (`telefono`);
+
+--
+-- Indices de la tabla `ventas`
+--
+ALTER TABLE `ventas`
+  ADD PRIMARY KEY (`codigo`),
+  ADD KEY `usuario_id` (`usuario_id`);
+
+--
+-- Indices de la tabla `ventas_detalles`
+--
+ALTER TABLE `ventas_detalles`
+  ADD PRIMARY KEY (`codigo`),
+  ADD KEY `idx_tipo` (`tipo`),
+  ADD KEY `idx_precio` (`precio`),
+  ADD KEY `idx_venta_tipo` (`venta_id`,`tipo`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `categorias`
+--
+ALTER TABLE `categorias`
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `codigos`
+--
+ALTER TABLE `codigos`
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `cuotas`
+--
+ALTER TABLE `cuotas`
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `imagenes`
+--
+ALTER TABLE `imagenes`
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `mensajes`
+--
+ALTER TABLE `mensajes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de la tabla `pagos`
+--
+ALTER TABLE `pagos`
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `productos`
+--
+ALTER TABLE `productos`
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `servicios`
+--
+ALTER TABLE `servicios`
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `ventas`
+--
+ALTER TABLE `ventas`
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `ventas_detalles`
+--
+ALTER TABLE `ventas_detalles`
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `categorias`
+--
+ALTER TABLE `categorias`
+  ADD CONSTRAINT `categorias_ibfk_1` FOREIGN KEY (`imagen_id`) REFERENCES `imagenes` (`codigo`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `categorias_ibfk_2` FOREIGN KEY (`padre`) REFERENCES `categorias` (`codigo`) ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `codigos`
+--
+ALTER TABLE `codigos`
+  ADD CONSTRAINT `codigos_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`codigo`) ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `cuotas`
+--
+ALTER TABLE `cuotas`
+  ADD CONSTRAINT `cuotas_ibfk_1` FOREIGN KEY (`pago_id`) REFERENCES `pagos` (`codigo`) ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `pagos`
+--
+ALTER TABLE `pagos`
+  ADD CONSTRAINT `pagos_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`codigo`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `pagos_ibfk_2` FOREIGN KEY (`venta_id`) REFERENCES `ventas` (`codigo`) ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `productos`
+--
+ALTER TABLE `productos`
+  ADD CONSTRAINT `productos_ibfk_1` FOREIGN KEY (`imagen_id`) REFERENCES `imagenes` (`codigo`) ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `productos_categorias`
+--
+ALTER TABLE `productos_categorias`
+  ADD CONSTRAINT `productos_categorias_ibfk_1` FOREIGN KEY (`producto_id`) REFERENCES `productos` (`codigo`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `productos_categorias_ibfk_2` FOREIGN KEY (`categoria_id`) REFERENCES `categorias` (`codigo`) ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `productos_imagenes`
+--
+ALTER TABLE `productos_imagenes`
+  ADD CONSTRAINT `productos_imagenes_ibfk_1` FOREIGN KEY (`imagen_id`) REFERENCES `imagenes` (`codigo`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `productos_imagenes_ibfk_2` FOREIGN KEY (`producto_id`) REFERENCES `productos` (`codigo`) ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `servicios`
+--
+ALTER TABLE `servicios`
+  ADD CONSTRAINT `servicios_ibfk_1` FOREIGN KEY (`imagen_id`) REFERENCES `imagenes` (`codigo`) ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  ADD CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`imagen_id`) REFERENCES `imagenes` (`codigo`) ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `ventas`
+--
+ALTER TABLE `ventas`
+  ADD CONSTRAINT `ventas_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`codigo`) ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `ventas_detalles`
+--
+ALTER TABLE `ventas_detalles`
+  ADD CONSTRAINT `ventas_detalles_ibfk_1` FOREIGN KEY (`venta_id`) REFERENCES `ventas` (`codigo`) ON UPDATE CASCADE;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
