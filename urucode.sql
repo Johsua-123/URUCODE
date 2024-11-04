@@ -8,12 +8,12 @@ create table usuarios (
    codigo integer auto_increment primary key,
    rol enum ("dueño", "supervisor", "admin", "empleado", "usuario") default "usuario",
    email varchar(254) unique,
-   imagen_id integer,
    nombre varchar(30),
    apellido varchar(30),
    ubicacion varchar(150),
    direccion varchar(150),
    telefono varchar(12),
+   imagen_id integer,
    contrasena varchar(60),
    eliminado boolean default false,
    fecha_creacion datetime,
@@ -21,21 +21,21 @@ create table usuarios (
 );
 
 create table imagenes (
-    codigo integer auto_increment primary key,
-    nombre text,
-    tipo enum (".png", ".jpg", ".jpeg", ".webp"),
-    eliminado boolean default false,
-    fecha_creacion datetime,
-    fecha_actualizacion datetime	
+   codigo integer auto_increment primary key,
+   nombre text,
+   tipo enum (".png", ".jpg", ".jpeg", ".webp"),
+   eliminado boolean default false,
+   fecha_creacion datetime,
+   fecha_actualizacion datetime	
 );
 
 create table codigos (
-    codigo integer auto_increment primary key,
-    tipo enum ("verificar", "resetear", "eliminar"),
-    valor varchar(60),
-    usuario_id integer,
-    fecha_creacion datetime,
-    fecha_actualizacion datetime
+   codigo integer auto_increment primary key,
+   tipo enum ("verificar", "resetear", "eliminar"),
+   valor varchar(60),
+   usuario_id integer,
+   fecha_creacion datetime,
+   fecha_actualizacion datetime
 );
 
 create table productos (
@@ -66,7 +66,7 @@ create table servicios (
 create table categorias (
    codigo integer auto_increment primary key,
    nombre varchar(150) unique,
-   categoria_id integer,
+   sub_categoria integer,
    eliminado boolean default false,
    imagen_id integer,
    fecha_creacion datetime,
@@ -141,7 +141,7 @@ alter table servicios add foreign key (imagen_id) references imagenes (codigo) o
 
 alter table categorias add foreign key (imagen_id) references imagenes (codigo) on update cascade;
 
-alter table categorias add foreign key (categoria_id) references categorias (codigo) on update cascade;
+alter table categorias add foreign key (subcategoria) references categorias (codigo) on update cascade;
 
 alter table ventas add foreign key (usuario_id) references usuarios (codigo) on update cascade;
 
