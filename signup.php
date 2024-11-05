@@ -1,9 +1,12 @@
 
 <?php 
+
     session_start();
+
     if (isset($_SESSION["code"]) && isset($_SESSION["email"]) && isset($_SESSION["username"])) {
         header("Location: index.php");
     }  
+
 ?>
 
 <!DOCTYPE html>
@@ -14,7 +17,6 @@
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-
             gtag('config', 'G-DF773N72G0');
         </script>
         <meta charset="UTF-8">

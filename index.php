@@ -1,6 +1,7 @@
+
 <?php
     session_start();
-    $location = "index";
+    $location = "inicio";
 ?>
 
 <!DOCTYPE html>
@@ -24,7 +25,7 @@
         <script src="assets/scripts/navbar.js"></script>
         <script src="assets/scripts/slider.js"></script>
         <script src="assets/scripts/index.js"></script>
-        <title>Inicio - Errea</title>
+        <title>Inicio | Errea</title>
     </head>
     <body>
         <?php include "reusables/navbar.php"; ?>
@@ -194,7 +195,6 @@
                     </div>
                 </div>
             </div>
-            
         </main>
         <?php include "reusables/footer.php"; ?>
     </body>
