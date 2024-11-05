@@ -47,15 +47,7 @@
                 <li><a href="#" data-category="cables">CABLES Y ADAPTADORES</a></li>
                 <li><a href="#" data-category="otros">OTROS</a></li>
             </ul>
-            <div class="filter">
-                <a><b>PRECIO</b></a>
-                <div class="money-filter">
-                    <label for="rangoPrecioMin"><b>Precio Mínimo:</b> <span id="precioMin"><b>0</b></span></label>
-                    <input type="range" id="rangoPrecioMin" min="0" max="5000" value="0" oninput="actualizarMin()">
-                    <label for="rangoPrecioMax"><b>Precio Máximo:</b> <span id="precioMax"><b>0</b></span></label>
-                    <input type="range" id="rangoPrecioMax" min="0" max="5000" value="100" oninput="actualizarMax()">
-                </div>
-            </div>
+            
         </div>
         <div class="filter-bar">
             <label for="ordenar">Ordenar por:</label>
