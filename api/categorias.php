@@ -32,8 +32,8 @@
 
     if ($accion == "insertar") {
         $nombre = $_POST["nombre"] ?? "";
-        $imagen = !isset($_POST["imagen"]) || empty($_POST["imagen"]) ? null : $_POST["imagen"];
-        $categoria = !isset($_POST["categoria"]) || empty($_POST["categoria"]) ? null : $_POST["categoria"];
+        $imagen = $_POST["imagen"] ?? null;
+        $categoria = $_POST["categoria"] ?? null;
 
         if (empty($nombre)) {
             http_response_code(400);
@@ -59,7 +59,7 @@
         }
 
         // tiene un icono?
-        if (!empty($imagen)) {
+        if (empty($imagen)) {
             $consulta = $mysql->prepare("SELECT COUNT(*) 'total' FROM imagenes WHERE codigo=? AND eliminado=false");
             $consulta->bind_param("i", $imagen);
 
@@ -71,17 +71,16 @@
             $total = $consulta->get_result()->fetch_assoc()["total"];
 
             if ($total < 1) {
-                http_response_code(404);
-                exit;
+                $imagen = null;
             }
 
         }
 
         // es una subcategoria?
-        if (!empty($categoria)) {
+        if (empty($categoria)) {
     
             $consulta = $mysql->prepare("SELECT COUNT(*) 'total' FROM categorias WHERE codigo=? AND eliminado=false");
-            $consulta->bind_param("i", $codigo);
+            $consulta->bind_param("i", $categoria);
 
             if (!$consulta->execute()) {
                 http_response_code(500);
@@ -91,12 +90,11 @@
             $total = $consulta->get_result()->fetch_assoc()["total"];
 
             if ($total < 1) {
-                http_response_code(404);
-                exit;
+                $categoria = null;
             }
 
         }
-
+        
         $consulta = $mysql->prepare("INSERT INTO categorias (nombre, imagen_id, sub_categoria, fecha_creacion, fecha_actualizacion) VALUES (?, ?, ?, ?, ?)");
         $consulta->bind_param("siiss", $nombre, $imagen, $categoria, $fecha, $fecha);
 
