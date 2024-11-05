@@ -28,9 +28,18 @@
             <h1>Gráficas</h1>
             
             <div class="charts-container">
-                <canvas id="chart1"></canvas>
-                <canvas id="chart3"></canvas>
-                <canvas id="chart5"></canvas>
+                <div class="chart-wrapper">
+                    <h2 class="chart-title">Ventas Mensuales</h2>
+                    <canvas id="chart1"></canvas>
+                </div>
+                <div class="chart-wrapper">
+                    <h2 class="chart-title">Usuarios Registrados</h2>
+                    <canvas id="chart3"></canvas>
+                </div>
+                <div class="chart-wrapper">
+                    <h2 class="chart-title">Tráfico por Plataforma</h2>
+                    <canvas id="chart5"></canvas>
+                </div>
             </div>
         </main>
     </div>
@@ -43,7 +52,6 @@
                 options: options
             });
         };
-
 
         createChart(document.getElementById("chart1"), "bar", {
             labels: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],

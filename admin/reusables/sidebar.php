@@ -7,7 +7,8 @@
     </header>
     <footer>
         <a href="index.php" class="<?php echo $location == "index" ? "sidebar-active" : "" ?>">Inicio</a>
-        <a href="payments.php" class="<?php echo $location == "payments" ? "sidebar-active" : "" ?>">Inventario</a>
+        <a href="inventario.php" class="<?php echo $location == "inventario" ? "sidebar-active" : "" ?>">Inventario</a>
+        <a href="ventas.php" class="<?php echo $location == "ventas" ? "sidebar-active" : "" ?>">Ventas</a>
         <a href="accounts.php" class="<?php echo $location == "accounts" ? "sidebar-active" : "" ?>">Cuentas</a>
         <a href="products.php" class="<?php echo $location == "products" ? "sidebar-active" : "" ?>">Productos</a>
         <a href="categories.php" class="<?php echo $location == "categories" ? "sidebar-active" : "" ?>">Categorías</a>

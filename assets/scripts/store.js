@@ -1,5 +1,4 @@
-
-        document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function() {
             const categoryLinks = document.querySelectorAll(".category-list a");
             categoryLinks.forEach(link => {
                 link.addEventListener("click", function(event) {
