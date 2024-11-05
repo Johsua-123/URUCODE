@@ -46,23 +46,6 @@ main {
     color: var(--color-blue);
 }
 
-.filter {
-    width: 20vw;
-    margin-top: auto;
-    font-family: Arial, sans-serif;
-    border-bottom: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: calc(100vh - 50px);
-}
-
-.money-filter {
-    width: 18,5vw;
-    flex-direction: column;
-    padding: 10px;
-}
-
 label {
     display: block;
     color: var(--color-blue);

@@ -1,15 +1,3 @@
-        //filtro de plata
-        function actualizarMin() {
-            const minValue = document.getElementById("rangoPrecioMin").value;
-            document.getElementById("precioMin").innerText = minValue;
-            filtrarProductos();
-        }
-
-        function actualizarMax() {
-            const maxValue = document.getElementById("rangoPrecioMax").value;
-            document.getElementById("precioMax").innerText = maxValue;
-            filtrarProductos();
-        } 
 
         document.addEventListener("DOMContentLoaded", function() {
             const categoryLinks = document.querySelectorAll(".category-list a");

@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="assets/styles/navbar.css">
     <link rel="stylesheet" href="assets/styles/sidebar.css">
     <link rel="stylesheet" href="assets/styles/products.css">
+    <script src="assets/scripts/products.js"></script>
     <title>Productos | Errea Admin</title>
 </head>
 <body>
@@ -32,9 +33,7 @@
                 <div class="card">
                     <header>
                         <h2>Productos</h2>
-                        <button type="button">
-                            Agregar Producto
-                        </button>
+                        <button type="button" onclick="toggleModal()">Agregar Producto</button>
                     </header>
                     <div class="wrapper">
                         <table>
@@ -73,5 +72,38 @@
             </div>
         </main>
     </div>
+    <div id="productModal" class="modal hidden">
+    <div class="modal-content">
+        <h2>Agregar Nuevo Producto</h2>
+        <form action="" method="POST" enctype="multipart/form-data">
+            <div>
+                <label for="nombre">Nombre del Producto</label>
+                <input type="text" id="nombre" name="nombre" required>
+            </div>
+            <div>
+                <label for="categoria">Categoría</label>
+                <input type="text" id="categoria" name="categoria" required>
+            </div>
+            <div>
+                <label for="icono">Ícono</label>
+                <input type="file" id="icono" name="icono" accept=".jpg, .jpeg, .png" required>
+            </div>
+            <div>
+                <label for="stock">Stock</label>
+                <input type="number" id="stock" name="stock" required>
+            </div>
+            <div>
+                <label for="marca">Marca</label>
+                <input type="text" id="marca" name="marca" required>
+            </div>
+            <div>
+                <label for="modelo">Modelo</label>
+                <input type="text" id="modelo" name="modelo" required>
+            </div>
+            <button type="submit">Guardar Producto</button>
+            <button type="button" onclick="toggleModal()">Cerrar</button>
+        </form>
+    </div>
+</div>
 </body>
 </html>
