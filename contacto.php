@@ -7,7 +7,7 @@
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
-        define("URUCOIDE", true);
+        define("URUCODE", true);
         require "api/mysql.php";
 
         $email = $_POST['email'];
@@ -24,8 +24,10 @@
         } else {
             $message = "Error al enviar el mensaje: " . $mysql->error; 
         }
-
+        header("Location: contacto.php?status=success");
+        exit();
     }
+    
 
 ?>
 
