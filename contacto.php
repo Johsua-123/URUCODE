@@ -7,6 +7,7 @@
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
+        define("URUCOIDE", true);
         require "api/mysql.php";
 
         $email = $_POST['email'];
