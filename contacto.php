@@ -55,7 +55,7 @@
         <div class="contact-wrapper">
             <section class="contact-section">
                 <h2>Contáctanos</h2>
-                <form method="post" action="contact.php">
+                <form method="POST" action="contacto.php">
                     <label for="nombre">Nombre:</label>
                     <input type="text" id="nombre" name="nombre" required>
                     <label for="email">Email:</label>
