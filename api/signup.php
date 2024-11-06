@@ -4,11 +4,16 @@
     session_start();
 
     if (isset($_SESSION["code"])) {
-        header("Location: index.php");
+        header("Location: ../index.php");
+    }
+
+    if ($_SERVER["REQUEST_METHOD"] == "GET") {
+        header("Location: ../index.php");
+        exit;
     }
 
     if ($_SERVER["REQUEST_METHOD"] != "POST") {
-        http_response_code(400);
+        http_response_code(405);
         exit;
     }
 
@@ -28,6 +33,7 @@
         exit;
     }
 
+    define("urucode", true);
     require "mysql.php";
 
     $query = mysqli_query($mysql, "SELECT * FROM usuarios WHERE email='$email'");
