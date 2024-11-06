@@ -28,7 +28,7 @@
             <div class="about-us">
                 <h1>Preguntas Frecuentes</h1>
                 <section>
-                    <h2>Preguntas Frecuentes</h2>
+                  
                     <h3>¿Cuáles son los métodos de pago aceptados?</h3>
                     <p>Aceptamos pagos mediante tarjetas de crédito, débito, PayPal y transferencias bancarias.</p>
                     <h3>¿Hacen envíos internacionales?</h3>
@@ -47,14 +47,8 @@
                     <p>Sí, aceptamos devoluciones dentro de los 30 días posteriores a la recepción del producto, siempre que esté en su estado original.</p>
                     <h3>¿Ofrecen descuentos para compras al por mayor?</h3>
                     <p>Sí, ofrecemos descuentos para compras al por mayor. Contacta a nuestro equipo de ventas para más información.</p>
-                    <h3>¿Cómo puedo suscribirme a su boletín de noticias?</h3>
-                    <p>Puedes suscribirte a nuestro boletín de noticias ingresando tu correo electrónico en la sección de suscripción en nuestra página principal.</p>
-                    <h3>¿Qué debo hacer si olvido mi contraseña?</h3>
-                    <p>Puedes restablecer tu contraseña haciendo clic en "Olvidé mi contraseña" en la página de inicio de sesión y siguiendo las instrucciones enviadas a tu correo electrónico.</p>
                     <h3>¿Cuál es su horario de atención al cliente?</h3>
                     <p>Nuestro horario de atención es de lunes a viernes, de 9:00 a 18:00 horas. Estamos disponibles para atender tus consultas.</p>
-                    <h3>¿Puedo comprar productos sin registrarme?</h3>
-                    <p>Sí, puedes realizar compras como invitado, pero te recomendamos registrarte para disfrutar de una mejor experiencia y seguimiento de tus pedidos.</p>
                     <h3>¿Cómo puedo contactarlos?</h3>
                     <p>Puedes contactarnos a través de nuestro formulario de contacto en la página web, enviarnos un correo electrónico o llamarnos al número de atención al cliente.</p>
                 </section>
