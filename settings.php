@@ -1,24 +1,7 @@
 <?php
-    session_start();
-include 'api/mysql.php'; 
-$code = $_SESSION["code"] ?? null;
-
-$imagePath = null;
-
-if ($code) {
-    $sql = "SELECT imagenes.nombre, imagenes.codigo FROM imagenes 
-            INNER JOIN usuarios ON usuarios.imagen_id = imagenes.codigo 
-            WHERE usuarios.codigo = ?";
-    $stmt = $mysql->prepare($sql);
-    $stmt->bind_param("i", $code);
-    $stmt->execute();
-    $stmt->bind_result($imageName, $imageCode);
     
-    if ($stmt->fetch()) {
-        $imagePath = "public/images/" . $imageName;
-    }
-    $stmt->close();
-}
+    session_start();
+
 ?>
 
 
