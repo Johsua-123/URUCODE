@@ -24,8 +24,10 @@
         } else {
             $message = "Error al enviar el mensaje: " . $mysql->error; 
         }
-
+        header("Location: contacto.php?status=success");
+        exit();
     }
+    
 
 ?>
 

@@ -32,9 +32,6 @@
                 <h2>Privacidad</h2>
                 <p>ERREA INFORMATICA se compromete a proteger la privacidad de nuestros usuarios. Esta Política de privacidad describe cómo recopilamos, usamos y compartimos la información que recibimos a través de nuestro sitio de comercio electrónico.</p>
             </section>
-            <section>
-                <h2>Información que recopilamos</h2>
-                <p>Podemos recopilar información personal, como su nombre, dirección de correo electrónico, dirección postal y número de teléfono, cuando se registra en nuestro sitio o realiza una compra. También podemos recopilar información no personal, como la dirección IP, el tipo de navegador y la información de seguimiento, cuando visita nuestro sitio.</p>
             </section>
             <section>
                 <h2>Cómo utilizamos su información</h2>
