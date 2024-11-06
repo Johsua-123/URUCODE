@@ -23,7 +23,7 @@ $location = "inventario";
     <div class="container">
         <?php include "reusables/navbar.php"; ?>
         <main style="padding-left: 10px">
-        <h1>Inventario de Productos</h1>
+        <h1>Productos en venta</h1>
             <table class="accounts-table">
             <th>Nombre</th>
             <th>Categoría</th>

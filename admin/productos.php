@@ -50,22 +50,6 @@
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td><span class="cell-content">Laptop ASUS</span></td>
-                                    <td><span class="cell-content">Electrónica</span></td>
-                                    <td><img src="ruta/al/icono.png" alt="Icono" class="icon-img"></td>
-                                    <td><span class="cell-content">10</span></td>
-                                    <td><span class="cell-content">ASUS</span></td>
-                                    <td><span class="cell-content">X512</span></td>
-                                    <td><span class="cell-content">2023-01-15</span></td>
-                                    <td><span class="cell-content">2023-10-15</span></td>
-                                    <td>
-                                        <button>Editar</button>
-                                        <button>Eliminar</button>
-                                    </td>
-                                </tr>
-                            </tbody>
                         </table>
                     </div>
                 </div>
