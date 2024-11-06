@@ -3,10 +3,10 @@
 
     if (!isset($_SESSION["code"])) {
         header("Location: ../index.php");
-        exit(); 
     }
 
-    $location = "products";
+    $location = "productos";
+
 ?>
 
 <!DOCTYPE html>

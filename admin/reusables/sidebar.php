@@ -9,9 +9,9 @@
         <a href="index.php" class="<?php echo $location == "index" ? "sidebar-active" : "" ?>">Inicio</a>
         <a href="inventario.php" class="<?php echo $location == "inventario" ? "sidebar-active" : "" ?>">Inventario</a>
         <a href="ventas.php" class="<?php echo $location == "ventas" ? "sidebar-active" : "" ?>">Ventas</a>
-        <a href="accounts.php" class="<?php echo $location == "accounts" ? "sidebar-active" : "" ?>">Cuentas</a>
-        <a href="products.php" class="<?php echo $location == "products" ? "sidebar-active" : "" ?>">Productos</a>
-        <a href="categories.php" class="<?php echo $location == "categories" ? "sidebar-active" : "" ?>">Categorías</a>
+        <a href="cuentas.php" class="<?php echo $location == "cuentas" ? "sidebar-active" : "" ?>">Cuentas</a>
+        <a href="productos.php" class="<?php echo $location == "productos" ? "sidebar-active" : "" ?>">Productos</a>
+        <a href="categorias.php" class="<?php echo $location == "categorias" ? "sidebar-active" : "" ?>">Categorías</a>
         <a href="mensajes.php" class="<?php echo $location == "mensajes" ? "sidebar-active" : "" ?>">Mensajes</a>
     </footer>
 </aside>

@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="assets/styles/module.css">
     <link rel="stylesheet" href="assets/styles/navbar.css">
     <link rel="stylesheet" href="assets/styles/sidebar.css">
-    <title>Home | Errea Admin</title>
+    <title>Inicio| Errea Admin</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>

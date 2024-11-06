@@ -11,8 +11,18 @@
 
     */
 
+    if ($_SERVER["REQUEST_METHOD"] == "GET") {
+        header("Location: ../index.php");
+        exit;
+    }
+
     if ($_SERVER["REQUEST_METHOD"] != "POST") {
         http_response_code(405);
+        exit;
+    }
+
+    if (!isset($_SESSION["code"])) {
+        http_response_code(401);
         exit;
     }
 
@@ -26,6 +36,7 @@
         exit;
     }
 
+    define("urucode", true);
     require "mysql.php";
 
     if ($accion == "insertar") {
@@ -119,7 +130,6 @@
             exit;
         }
 
-        // obtemos los resultados?
         $total = $consulta->get_result()->fetch_assoc()["total"];
 
         // paginamos los resultados
@@ -136,7 +146,6 @@
             exit;
         }
 
-        // obtemeos resultados?
         $resultado = $consulta->get_result();
         $categorias = [];
 
