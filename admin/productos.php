@@ -27,7 +27,7 @@
         <?php include "reusables/navbar.php"; ?>
         <main>
             <div class="users-title">
-                <h1>Listado de Productos</h1>
+                <h1>Inventario</h1>
             </div>
             <div class="users-table">
                 <div class="card">
