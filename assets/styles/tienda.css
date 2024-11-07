@@ -1,8 +1,24 @@
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    overflow-x: hidden; 
+    margin: 0;
+    padding: 0;
+}
+
 main {
     display: flex;
     justify-content: space-between;
     padding: 0 5vw;
     position: relative;
+    max-width: 100vw; 
+    overflow-x: hidden; 
 }
 
 .sidebar {
@@ -63,15 +79,17 @@ label {
     display: flex; 
     align-items: center; 
     border-bottom: var(--color-blue) 1px solid;
+    max-width: calc(100vw - 10vw);
+    overflow-x: hidden;
 }
 
-.filter_bar label {
+.filter-bar label {
     margin-left: 100px;
     color: var(--color-blue); 
     font-family: Arial, sans-serif; 
 }
 
-.filter_bar select {
+.filter-bar select {
     margin-left: 10px;
     width: 100px;
     height: 40px;
@@ -83,6 +101,8 @@ label {
     width: 70vw;
     display: flex;
     flex-direction: column;
+    max-width: calc(100vw - 10vw); 
+    overflow-x: hidden;
 }
 
 .product-items {
@@ -92,6 +112,7 @@ label {
     flex-wrap: wrap; 
     justify-content: space-between;
     margin-right: 2vw;
+    max-width: calc(100vw - 10vw); 
 }
 
 .product-card {
@@ -141,4 +162,3 @@ label {
     border-bottom-right-radius: 10px;
     background-color: var(--color-blue);
 }
-
