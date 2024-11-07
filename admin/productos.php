@@ -5,11 +5,7 @@ if (!isset($_SESSION["code"])) {
     header("Location: ../index.php");
     exit;
 }
-
-$servername = "localhost";
-$username = "root"; 
-$password = "";
-$dbname = "urucode";
+$servername = "localhost";$username = "duenio";$password = "duenio";$dbname = "urucode";
 
 $mysql = new mysqli($servername, $username, $password, $dbname);
 if ($mysql->connect_error) {
@@ -18,46 +14,55 @@ if ($mysql->connect_error) {
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nombre'])) {
     $nombre = $_POST['nombre'];
-    $categoria = $_POST['categoria'];
     $stock = $_POST['stock'];
+    $precio = $_POST['precio'];
     $marca = $_POST['marca'];
     $modelo = $_POST['modelo'];
+    $descripcion = $_POST['descripcion'];
+    $categorias_seleccionadas = $_POST['categorias'] ?? [];
     $fecha_creacion = date("Y-m-d H:i:s");
     $fecha_actualizacion = date("Y-m-d H:i:s");
 
     $imagen = $_FILES['icono'];
-    $ruta_imagen = '';
     $imagen_id = null;
     if ($imagen['error'] == UPLOAD_ERR_OK) {
         $nombre_imagen = basename($imagen['name']);
-        $ruta_imagen = "../public/images" . $nombre_imagen;
+        $ruta_imagen = "../public/images/" . $nombre_imagen;
         move_uploaded_file($imagen['tmp_name'], $ruta_imagen);
 
-        $stmt_imagen = $mysql->prepare("INSERT INTO imagenes (ruta) VALUES (?)");
-        $stmt_imagen->bind_param("s", $ruta_imagen);
+        $stmt_imagen = $mysql->prepare("INSERT INTO imagenes (nombre, tipo, fecha_creacion, fecha_actualizacion) VALUES (?, ?, ?, ?)");
+        $tipo = pathinfo($ruta_imagen, PATHINFO_EXTENSION);
+        $stmt_imagen->bind_param("ssss", $ruta_imagen, $tipo, $fecha_creacion, $fecha_actualizacion);
         $stmt_imagen->execute();
         $imagen_id = $stmt_imagen->insert_id;
         $stmt_imagen->close();
     }
 
-    if (!empty($nombre) && !empty($categoria) && !empty($stock) && !empty($marca) && !empty($modelo) && $imagen_id) {
-        $stmt = $mysql->prepare("INSERT INTO productos (nombre, categoria, imagen_id, stock, marca, modelo, fecha_creacion, fecha_actualizacion) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssisssss", $nombre, $categoria, $imagen_id, $stock, $marca, $modelo, $fecha_creacion, $fecha_actualizacion);
+    $stmt = $mysql->prepare("INSERT INTO productos (nombre, stock, precio, marca, modelo, imagen_id, descripcion, fecha_creacion, fecha_actualizacion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("sidssisss", $nombre, $stock, $precio, $marca, $modelo, $imagen_id, $descripcion, $fecha_creacion, $fecha_actualizacion);
+    $stmt->execute();
+    $producto_id = $stmt->insert_id;
+    $stmt->close();
 
-        if ($stmt->execute()) {
-            echo "<p style='color: green;'>Producto agregado correctamente.</p>";
-        } else {
-            echo "<p style='color: red;'>Error al agregar el producto: " . $stmt->error . "</p>";
-        }
-
-        $stmt->close();
-    } else {
-        echo "<p style='color: red;'>Todos los campos son obligatorios y la imagen debe ser válida.</p>";
+    foreach ($categorias_seleccionadas as $categoria_id) {
+        $stmt_categoria = $mysql->prepare("INSERT INTO productos_categorias (producto_id, categoria_id, fecha_creacion, fecha_actualizacion) VALUES (?, ?, ?, ?)");
+        $stmt_categoria->bind_param("iiss", $producto_id, $categoria_id, $fecha_creacion, $fecha_actualizacion);
+        $stmt_categoria->execute();
+        $stmt_categoria->close();
     }
 }
 
-// Obtener los productos para mostrarlos en la tabla
-$result = $mysql->query("SELECT * FROM productos");
+$query = "
+    SELECT p.codigo, p.nombre, p.stock, p.precio, p.marca, p.modelo, p.descripcion, p.fecha_creacion, p.fecha_actualizacion, i.nombre AS imagen_nombre, GROUP_CONCAT(c.nombre SEPARATOR ', ') AS categorias
+    FROM productos p
+    LEFT JOIN imagenes i ON p.imagen_id = i.codigo  -- Relaciona imagen_id de productos con codigo de imagenes
+    LEFT JOIN productos_categorias pc ON p.codigo = pc.producto_id
+    LEFT JOIN categorias c ON pc.categoria_id = c.codigo
+    GROUP BY p.codigo
+";
+
+
+$result = $mysql->query($query);
 ?>
 
 <!DOCTYPE html>
@@ -69,9 +74,6 @@ $result = $mysql->query("SELECT * FROM productos");
     <link rel="stylesheet" href="assets/styles/navbar.css">
     <link rel="stylesheet" href="assets/styles/sidebar.css">
     <link rel="stylesheet" href="assets/styles/products.css">
-    <style>
-        
-    </style>
     <script src="assets/scripts/products.js"></script>
     <title>Productos | Errea Admin</title>
 </head>
@@ -94,40 +96,38 @@ $result = $mysql->query("SELECT * FROM productos");
                             <thead>
                                 <tr>
                                     <th>Nombre</th>
-                                    <th>Categoría</th>
                                     <th>Ícono</th>
                                     <th>Stock</th>
+                                    <th>Precio</th>
                                     <th>Marca</th>
                                     <th>Modelo</th>
+                                    <th>Categorías</th>
+                                    <th>Descripción</th>
                                     <th>Fecha Creación</th>
                                     <th>Fecha Actualización</th>
-                                    <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php if ($result && $result->num_rows > 0): ?>
-                                    <?php while ($row = $result->fetch_assoc()): ?>
-                                        <tr>
-                                            <td><?php echo htmlspecialchars($row['nombre']); ?></td>
-                                            <td><?php echo htmlspecialchars($row['categoria']); ?></td>
-                                            <td>
-    <?php if (!empty($row['icono'])): ?>
-        <img src="<?php echo $row['icono']; ?>" alt="Ícono" width="50">
-    <?php else: ?>
-        <span>No disponible</span>
-    <?php endif; ?>
-</td>
-                                            <td><?php echo htmlspecialchars($row['stock']); ?></td>
-                                            <td><?php echo htmlspecialchars($row['marca']); ?></td>
-                                            <td><?php echo htmlspecialchars($row['modelo']); ?></td>
-                                            <td><?php echo htmlspecialchars($row['fecha_creacion']); ?></td>
-                                            <td><?php echo htmlspecialchars($row['fecha_actualizacion']); ?></td>
-                                            
-                                        </tr>
-                                    <?php endwhile; ?>
-                                <?php else: ?>
-                                    <tr><td colspan="9">No hay productos registrados.</td></tr>
-                                <?php endif; ?>
+                                <?php while ($producto = $result->fetch_assoc()) { ?>
+                                    <tr>
+                                        <td><?php echo htmlspecialchars($producto['nombre']); ?></td>
+                                        <td>
+                                            <?php if ($producto['imagen_nombre']) { ?>
+                                                <img src="<?php echo htmlspecialchars($producto['imagen_nombre']); ?>" alt="Ícono" width="50">
+                                            <?php } else { ?>
+                                                No disponible
+                                            <?php } ?>
+                                        </td>
+                                        <td><?php echo htmlspecialchars($producto['stock']); ?></td>
+                                        <td><?php echo htmlspecialchars($producto['precio']); ?></td>
+                                        <td><?php echo htmlspecialchars($producto['marca']); ?></td>
+                                        <td><?php echo htmlspecialchars($producto['modelo']); ?></td>
+                                        <td><?php echo htmlspecialchars($producto['categorias']); ?></td>
+                                        <td><?php echo htmlspecialchars($producto['descripcion']); ?></td>
+                                        <td><?php echo htmlspecialchars($producto['fecha_creacion']); ?></td>
+                                        <td><?php echo htmlspecialchars($producto['fecha_actualizacion']); ?></td>
+                                    </tr>
+                                <?php } ?>
                             </tbody>
                         </table>
                     </div>
@@ -145,24 +145,39 @@ $result = $mysql->query("SELECT * FROM productos");
                     <input type="text" id="nombre" name="nombre" required>
                 </div>
                 <div>
-                    <label for="categoria">Categoría</label>
-                    <input type="text" id="categoria" name="categoria" required>
-                </div>
-                <div>
-                    <label for="icono">Ícono</label>
-                    <input type="file" id="icono" name="icono" accept=".jpg, .jpeg, .png" required>
-                </div>
-                <div>
                     <label for="stock">Stock</label>
                     <input type="number" id="stock" name="stock" required>
                 </div>
                 <div>
+                    <label for="precio">Precio</label>
+                    <input type="number" step="0.01" id="precio" name="precio" required>
+                </div>
+                <div>
                     <label for="marca">Marca</label>
-                    <input type="text" id="marca" name="marca" required>
+                    <input type="text" id="marca" name="marca">
                 </div>
                 <div>
                     <label for="modelo">Modelo</label>
-                    <input type="text" id="modelo" name="modelo" required>
+                    <input type="text" id="modelo" name="modelo">
+                </div>
+                <div>
+                    <label for="descripcion">Descripción</label>
+                    <textarea id="descripcion" name="descripcion"></textarea>
+                </div>
+                <div>
+                    <label for="icono">Ícono</label>
+                    <input type="file" id="icono" name="icono" accept=".jpg, .jpeg, .png, .webp" required>
+                </div>
+                <div>
+                    <label for="categorias">Categorías</label>
+                    <select name="categorias[]" multiple>
+                        <?php
+                        $categorias_result = $mysql->query("SELECT codigo, nombre FROM categorias WHERE sub_categoria IS NULL");
+                        while ($categoria = $categorias_result->fetch_assoc()) {
+                            echo '<option value="'.$categoria['codigo'].'">' . htmlspecialchars($categoria['nombre']) . '</option>';
+                        }
+                        ?>
+                    </select>
                 </div>
                 <button type="submit">Guardar Producto</button>
                 <button type="button" onclick="toggleModal()">Cerrar</button>
@@ -172,7 +187,4 @@ $result = $mysql->query("SELECT * FROM productos");
 </body>
 </html>
 
-<?php
-// Cerrar conexión
-$mysql->close();
-?>
+<?php $mysql->close(); ?>

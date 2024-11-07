@@ -1,4 +1,4 @@
 function toggleModal() {
-    const modal = document.getElementById('productModal');
-    modal.classList.toggle('hidden');
+    const modal = document.getElementById("categoryModal");
+    modal.classList.toggle("hidden");
 }

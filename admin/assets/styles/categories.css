@@ -91,3 +91,6 @@ table td button:hover {
 .modal-content form div {
     margin-bottom: 10px;
 }
+.hidden {
+    display: none;
+}
