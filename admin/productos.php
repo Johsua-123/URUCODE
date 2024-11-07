@@ -9,7 +9,7 @@ if (!isset($_SESSION["code"])) {
 $servername = "localhost";
 $username = "root"; 
 $password = "";
-$dbname = "urucode";  // Nombre de la base de datos según el archivo SQL
+$dbname = "urucode";
 
 $mysql = new mysqli($servername, $username, $password, $dbname);
 if ($mysql->connect_error) {
@@ -122,7 +122,7 @@ $result = $mysql->query("SELECT * FROM productos");
                                             <td><?php echo htmlspecialchars($row['modelo']); ?></td>
                                             <td><?php echo htmlspecialchars($row['fecha_creacion']); ?></td>
                                             <td><?php echo htmlspecialchars($row['fecha_actualizacion']); ?></td>
-                                            <td><!-- Agregar botones de acciones aquí si es necesario --></td>
+                                            
                                         </tr>
                                     <?php endwhile; ?>
                                 <?php else: ?>
