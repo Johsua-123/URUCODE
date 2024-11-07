@@ -55,12 +55,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nombre'])) {
 $query = "
     SELECT p.codigo, p.nombre, p.stock, p.precio, p.marca, p.modelo, p.descripcion, p.fecha_creacion, p.fecha_actualizacion, i.nombre AS imagen_nombre, GROUP_CONCAT(c.nombre SEPARATOR ', ') AS categorias
     FROM productos p
-    LEFT JOIN imagenes i ON p.imagen_id = i.codigo  -- Relaciona imagen_id de productos con codigo de imagenes
+    LEFT JOIN imagenes i ON p.imagen_id = i.codigo
     LEFT JOIN productos_categorias pc ON p.codigo = pc.producto_id
     LEFT JOIN categorias c ON pc.categoria_id = c.codigo
     GROUP BY p.codigo
 ";
-
 
 $result = $mysql->query($query);
 ?>
@@ -172,7 +171,7 @@ $result = $mysql->query($query);
                     <label for="categorias">Categorías</label>
                     <select name="categorias[]" multiple>
                         <?php
-                        $categorias_result = $mysql->query("SELECT codigo, nombre FROM categorias WHERE sub_categoria IS NULL");
+                        $categorias_result = $mysql->query("SELECT codigo, nombre FROM categorias");
                         while ($categoria = $categorias_result->fetch_assoc()) {
                             echo '<option value="'.$categoria['codigo'].'">' . htmlspecialchars($categoria['nombre']) . '</option>';
                         }
