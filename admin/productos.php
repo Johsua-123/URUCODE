@@ -69,6 +69,9 @@ $result = $conn->query("SELECT * FROM productos");
     <link rel="stylesheet" href="assets/styles/navbar.css">
     <link rel="stylesheet" href="assets/styles/sidebar.css">
     <link rel="stylesheet" href="assets/styles/products.css">
+    <style>
+        
+    </style>
     <script src="assets/scripts/products.js"></script>
     <title>Productos | Errea Admin</title>
 </head>
