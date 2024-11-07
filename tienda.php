@@ -1,10 +1,9 @@
-
-<?php
-    
-    session_start();
-    $location = "tienda";
-    
+<?php 
+session_start();
+$location = "tienda";
+//require 'api/mysql.php'
 ?>
+  
 
 <!DOCTYPE html>
 <html lang="es">
@@ -58,8 +57,19 @@
                 </select>
             </div>
             <div class="main-products">
-                <div class="product-items">
-                </div>
+            <div class="product-items">
+             <?php 
+                    /*if(isset($_SESSION['enviar'])){
+                        $busqueda = $_SESSION['search'];
+                
+                        $consulta = $mysql->query("SELECT * FROM productos WHERE nombre LIKE '%$search%'");
+                
+                        while($row = $consulta->fetch_array()){
+                            echo $row['nombre'].'<br>';
+                            }
+                    }*/
+                ?>
+
             </div>
         </main>
         <?php include "reusables/footer.php" ?>

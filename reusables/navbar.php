@@ -1,17 +1,24 @@
+<?php
+    if(isset($_GET['enviar']) && isset($_GET['search'])){
+        $_SESSION['enviar'] = $_GET['enviar'];
+        $_SESSION['search'] = $_GET['search'];
+    }
+?>
 <header class="navbar">
     <div class="navbar-header">
         <a class="navbar-brand" href="index.php">
             <img src="public/icons/errea.png" alt="errea icon">
         </a>
         <div class="navbar-search">
-            <form id="search" method="POST">
+            <form id="search" method="GET" action="tienda.php">
                 <input type="text" name="search" placeholder="Buscar" autocomplete="off">
-                <button type="submit">
-                    <svg fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"></path>
-                    </svg>
+                <button type="submit" name="enviar">
+                <svg fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"></path>
+                </svg>
                 </button>
             </form>
+
             <div class="search-result hidden">
                 <span>A</span>
                 <span>B</span>
@@ -75,7 +82,7 @@
                 <svg fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"></path>
                 </svg>
-                <span href="store.php">Tienda</span>
+                <span href="tienda.php">Tienda</span>
             </a>
             <a id="contacto" href="contacto.php" class="<?php echo $location == "contacto" ? "navbar-active" : "" ?>">
                 <svg fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24">

@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
         event.stopPropagation();
     })
 
-    searchs.forEach(search => {
+    /*searchs.forEach(search => {
         search.addEventListener("submit", async (event) => {
             event.preventDefault();
 
@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
             console.table(response);
     
         })
-    })
+    })*/
 
     dropdowns.forEach(dropdown => {
         dropdown.addEventListener("click", (event) => {
