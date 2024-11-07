@@ -9,7 +9,7 @@ if (!isset($_SESSION["code"])) {
 $servername = "localhost";
 $username = "root"; 
 $password = "";
-$dbname = "urucode";  // Nombre de la base de datos según el archivo SQL
+$dbname = "urucode";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
@@ -55,8 +55,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nombre'])) {
         echo "<p style='color: red;'>Todos los campos son obligatorios y la imagen debe ser válida.</p>";
     }
 }
-
-// Obtener los productos para mostrarlos en la tabla
 $result = $conn->query("SELECT * FROM productos");
 ?>
 
@@ -122,7 +120,7 @@ $result = $conn->query("SELECT * FROM productos");
                                             <td><?php echo htmlspecialchars($row['modelo']); ?></td>
                                             <td><?php echo htmlspecialchars($row['fecha_creacion']); ?></td>
                                             <td><?php echo htmlspecialchars($row['fecha_actualizacion']); ?></td>
-                                            <td><!-- Agregar botones de acciones aquí si es necesario --></td>
+                                            
                                         </tr>
                                     <?php endwhile; ?>
                                 <?php else: ?>
@@ -173,6 +171,5 @@ $result = $conn->query("SELECT * FROM productos");
 </html>
 
 <?php
-// Cerrar conexión
 $conn->close();
 ?>
