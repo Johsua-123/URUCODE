@@ -11,9 +11,9 @@ $username = "root";
 $password = "";
 $dbname = "urucode";  // Nombre de la base de datos según el archivo SQL
 
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Error de conexión a la base de datos: " . $conn->connect_error);
+$mysql = new mysqli($servername, $username, $password, $dbname);
+if ($mysql->connect_error) {
+    die("Error de conexión a la base de datos: " . $mysql->connect_error);
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nombre'])) {
@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nombre'])) {
         $ruta_imagen = "../public/images" . $nombre_imagen;
         move_uploaded_file($imagen['tmp_name'], $ruta_imagen);
 
-        $stmt_imagen = $conn->prepare("INSERT INTO imagenes (ruta) VALUES (?)");
+        $stmt_imagen = $mysql->prepare("INSERT INTO imagenes (ruta) VALUES (?)");
         $stmt_imagen->bind_param("s", $ruta_imagen);
         $stmt_imagen->execute();
         $imagen_id = $stmt_imagen->insert_id;
@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nombre'])) {
     }
 
     if (!empty($nombre) && !empty($categoria) && !empty($stock) && !empty($marca) && !empty($modelo) && $imagen_id) {
-        $stmt = $conn->prepare("INSERT INTO productos (nombre, categoria, imagen_id, stock, marca, modelo, fecha_creacion, fecha_actualizacion) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt = $mysql->prepare("INSERT INTO productos (nombre, categoria, imagen_id, stock, marca, modelo, fecha_creacion, fecha_actualizacion) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("ssisssss", $nombre, $categoria, $imagen_id, $stock, $marca, $modelo, $fecha_creacion, $fecha_actualizacion);
 
         if ($stmt->execute()) {
@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nombre'])) {
 }
 
 // Obtener los productos para mostrarlos en la tabla
-$result = $conn->query("SELECT * FROM productos");
+$result = $mysql->query("SELECT * FROM productos");
 ?>
 
 <!DOCTYPE html>
@@ -174,5 +174,5 @@ $result = $conn->query("SELECT * FROM productos");
 
 <?php
 // Cerrar conexión
-$conn->close();
+$mysql->close();
 ?>

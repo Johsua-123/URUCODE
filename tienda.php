@@ -1,7 +1,9 @@
 <?php 
 session_start();
 $location = "tienda";
-//require 'api/mysql.php'
+
+define("URUCODE", true);
+require 'api/mysql.php'
 ?>
   
 
@@ -58,18 +60,9 @@ $location = "tienda";
             </div>
             <div class="main-products">
             <div class="product-items">
-             <?php 
-                    /*if(isset($_SESSION['enviar'])){
-                        $busqueda = $_SESSION['search'];
+            </div>
+            <div class="pagination">
                 
-                        $consulta = $mysql->query("SELECT * FROM productos WHERE nombre LIKE '%$search%'");
-                
-                        while($row = $consulta->fetch_array()){
-                            echo $row['nombre'].'<br>';
-                            }
-                    }*/
-                ?>
-
             </div>
         </main>
         <?php include "reusables/footer.php" ?>
