@@ -142,7 +142,7 @@ $result = $mysql->query($query);
     <div id="productModal" class="modal hidden">
         <div class="modal-content">
             <h2>Agregar Nuevo Producto</h2>
-            <form action="productos.php" method="POST" enctype="multipart/form-data">
+            <form action="inventario.php" method="POST" enctype="multipart/form-data">
                 <div>
                     <label for="nombre">Nombre del Producto</label>
                     <input type="text" id="nombre" name="nombre" required>
