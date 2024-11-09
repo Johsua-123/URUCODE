@@ -26,7 +26,7 @@
             </div>
         </div>
         <div class="column-3">
-            <h1>Recursos</h1>
+            <h1>Empresa</h1>
             <div>
                 <a href="public/Manual.pdf""">Manual de uso</a>
                 <a href="about-us.php">Sobre nostros</a>
