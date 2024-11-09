@@ -1,51 +1,120 @@
-main {
-    display: flex;
-    padding: 0 5vw;
-    display: flex;
-    flex-direction: column;
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
 }
 
 .web-path {
+    margin-left: 460px;
     display: flex;
-    width: 89vw;
+    width: 51.2vw;
     height: 2.5vw;
-    border-bottom: 1px var(--color-blue) solid;
+    border-bottom: 1px solid var(--color-blue);
     color: black;
     position: absolute;
     cursor: pointer;
 }
 
-.product-cart {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    width: 89vw;
-    height: 30vw;
-    border: 1px var(--color-blue) solid;
-    margin-top: 5vw;
+.container {
+    margin-left: 100px;
+    width: 90%;
+    display: flex;
+    color: var(--color-blue); 
+}
+
+.cart, .summary {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    margin: 10px;
+}
+
+.cart {
+    flex: 2;
+}
+
+.summary {
+    flex: 1;
+}
+
+.product {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+}
+
+.product:last-child {
+    border-bottom: none;
 }
 
 .product-info {
-    color: var(--color-blue);
-    width: 100%;
-    border: 1px var(--color-blue) solid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 10px;
-
+    flex: 2;
 }
 
-.info {
-    height: 3vw;
-    width: 100%;
-    border: 1px var(--color-blue) solid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 10px;
+.product-price, .product-quantity, .product-subtotal {
+    flex: 1;
+    text-align: center;
 }
 
-.cart-total {
-    color: var(--color-blue);
-    width: 100%;
-    border: 1px var(--color-blue) solid;
-    display: grid;
-    grid-template-rows: auto;
+.product img {
+    max-width: 100px;
+    margin-right: 20px;
 }
 
+.summary-header, .summary-body {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.summary-header h3 {
+    margin: 0;
+}
+
+.summary-body p {
+    margin: 10px 0;
+}
+
+.summary-body input[type="radio"] {
+    margin-right: 10px;
+}
+
+.summary-footer {
+    text-align: center;
+}
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    color: white;
+}
+
+.btn-primary {
+    background-color: var(--color-blue);
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+}
+
+.apply-coupon, .update-cart {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+@media (max-width: 768px) { 
+    .container {
+        flex-direction: column;
+    }
+
+    .cart, .summary {
+        width: 100%;
+        margin: 10px 0;
+    }
+}
