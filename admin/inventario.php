@@ -1,9 +1,10 @@
 <?php 
-
+    
     session_start();
 
     if (!isset($_SESSION["code"])) {
         header("Location: ../index.php");
+        exit;
     }
 
     $location = "inventario";
@@ -85,7 +86,7 @@ $result = $mysql->query($query);
         <?php include "reusables/navbar.php"; ?>
         <main>
             <div class="users-title">
-                <h1>Inventario</h1>
+                <h1>Inventario de productos</h1>
             </div>
             <div class="users-table">
                 <div class="card">
@@ -188,3 +189,5 @@ $result = $mysql->query($query);
     </div>
 </body>
 </html>
+
+<?php $mysql->close(); ?>
