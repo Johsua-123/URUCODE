@@ -10,7 +10,7 @@
         <a href="tienda.php" class="<?php echo $location == "tienda" ? "sidebar-active" : "" ?>">Tienda</a>
         <a href="ventas.php" class="<?php echo $location == "ventas" ? "sidebar-active" : "" ?>">Ventas</a>
         <a href="cuentas.php" class="<?php echo $location == "cuentas" ? "sidebar-active" : "" ?>">Cuentas</a>
-        <a href="inventario.php" class="<?php echo $location == "inventario" ? "sidebar-active" : "" ?>">Inventario</a>
+        <a href="productos.php" class="<?php echo $location == "inventario" ? "sidebar-active" : "" ?>">Productos</a>
         <a href="categorias.php" class="<?php echo $location == "categorias" ? "sidebar-active" : "" ?>">Categorías</a>
         <a href="mensajes.php" class="<?php echo $location == "mensajes" ? "sidebar-active" : "" ?>">Mensajes</a>
     </footer>
