@@ -9,6 +9,14 @@
 
     $location = "tienda";
 
+    define("URUCODE", true);
+    require "../api/mysql.php";
+
+    $stmt = $mysql->prepare("SELECT * FROM productos WHERE en_venta=true");
+    $stmt->execute();
+
+    $resultado = $stmt->get_result();
+
 ?>
 
 <!DOCTYPE html>
