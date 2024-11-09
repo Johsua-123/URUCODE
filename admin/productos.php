@@ -14,8 +14,8 @@ if ($mysql->connect_error) {
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nombre'])) {
     $nombre = $_POST['nombre'];
-    $stock = $_POST['stock'];
-    $precio = $_POST['precio'];
+    $cantidad = $_POST['cantidad'];
+    $precio_venta = $_POST['precio_venta'];
     $marca = $_POST['marca'];
     $modelo = $_POST['modelo'];
     $descripcion = $_POST['descripcion'];
@@ -38,8 +38,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nombre'])) {
         $stmt_imagen->close();
     }
 
-    $stmt = $mysql->prepare("INSERT INTO productos (nombre, stock, precio, marca, modelo, imagen_id, descripcion, fecha_creacion, fecha_actualizacion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("sidssisss", $nombre, $stock, $precio, $marca, $modelo, $imagen_id, $descripcion, $fecha_creacion, $fecha_actualizacion);
+    $stmt = $mysql->prepare("INSERT INTO productos (nombre, cantidad, precio_venta, marca, modelo, imagen_id, descripcion, fecha_creacion, fecha_actualizacion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("sidssisss", $nombre, $cantidad, $precio_venta, $marca, $modelo, $imagen_id, $descripcion, $fecha_creacion, $fecha_actualizacion);
     $stmt->execute();
     $producto_id = $stmt->insert_id;
     $stmt->close();
@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nombre'])) {
 }
 
 $query = "
-    SELECT p.codigo, p.nombre, p.stock, p.precio, p.marca, p.modelo, p.descripcion, p.fecha_creacion, p.fecha_actualizacion, i.nombre AS imagen_nombre, GROUP_CONCAT(c.nombre SEPARATOR ', ') AS categorias
+    SELECT p.codigo, p.nombre, p.cantidad, p.precio_venta, p.marca, p.modelo, p.descripcion, p.fecha_creacion, p.fecha_actualizacion, i.nombre AS imagen_nombre, GROUP_CONCAT(c.nombre SEPARATOR ', ') AS categorias
     FROM productos p
     LEFT JOIN imagenes i ON p.imagen_id = i.codigo
     LEFT JOIN productos_categorias pc ON p.codigo = pc.producto_id
@@ -96,8 +96,8 @@ $result = $mysql->query($query);
                                 <tr>
                                     <th>Nombre</th>
                                     <th>Ícono</th>
-                                    <th>Stock</th>
-                                    <th>Precio</th>
+                                    <th>cantidad</th>
+                                    <th>precio_venta</th>
                                     <th>Marca</th>
                                     <th>Modelo</th>
                                     <th>Categorías</th>
@@ -117,8 +117,8 @@ $result = $mysql->query($query);
                                                 No disponible
                                             <?php } ?>
                                         </td>
-                                        <td><?php echo htmlspecialchars($producto['stock']); ?></td>
-                                        <td><?php echo htmlspecialchars($producto['precio']); ?></td>
+                                        <td><?php echo htmlspecialchars($producto['cantidad']); ?></td>
+                                        <td><?php echo htmlspecialchars($producto['precio_venta']); ?></td>
                                         <td><?php echo htmlspecialchars($producto['marca']); ?></td>
                                         <td><?php echo htmlspecialchars($producto['modelo']); ?></td>
                                         <td><?php echo htmlspecialchars($producto['categorias']); ?></td>
@@ -144,12 +144,12 @@ $result = $mysql->query($query);
                     <input type="text" id="nombre" name="nombre" required>
                 </div>
                 <div>
-                    <label for="stock">Stock</label>
-                    <input type="number" id="stock" name="stock" required>
+                    <label for="cantidad">Cantidad</label>
+                    <input type="number" id="cantidad" name="cantidad" required>
                 </div>
                 <div>
-                    <label for="precio">Precio</label>
-                    <input type="number" step="0.01" id="precio" name="precio" required>
+                    <label for="precio_venta">Precio_venta</label>
+                    <input type="number" step="0.01" id="precio_venta" name="precio_venta" required>
                 </div>
                 <div>
                     <label for="marca">Marca</label>
