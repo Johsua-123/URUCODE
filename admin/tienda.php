@@ -1,4 +1,4 @@
-<?php 
+inventario<?php 
 session_start();
 
 if (!isset($_SESSION["code"])) {
@@ -17,9 +17,8 @@ if ($mysql->connect_error) {
     die("Error de conexión a la base de datos: " . $mysql->connect_error);
 }
 
-// Manejar la eliminación del producto 
 if(isset($_POST['codigo']) && is_numeric($_POST['codigo'])) { 
-    $codigo_a_eliminar = $_POST['codigo']; // Actualizar el atributo en_venta a false en la tabla productos 
+    $codigo_a_eliminar = $_POST['codigo']; 
     
     $update_query = " 
     UPDATE productos 
@@ -36,7 +35,6 @@ if(isset($_POST['codigo']) && is_numeric($_POST['codigo'])) {
         echo "Error al actualizar el producto: " . $stmt->error; 
     } 
         $stmt->close(); 
-    // Redirigir para evitar reenvío del formulario 
     header("Location: tienda.php");
     exit();
     }

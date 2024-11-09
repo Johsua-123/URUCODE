@@ -24,7 +24,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nombre'])) {
     $fecha_creacion = date("Y-m-d H:i:s");
     $fecha_actualizacion = date("Y-m-d H:i:s");
 
-    // Inserta la categoría principal
     $stmt = $mysql->prepare("INSERT INTO categorias (nombre, fecha_creacion, fecha_actualizacion) VALUES (?, ?, ?)");
     $stmt->bind_param("sss", $nombre, $fecha_creacion, $fecha_actualizacion);
     $stmt->execute();
