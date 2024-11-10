@@ -1,4 +1,4 @@
-inventario<?php 
+<?php 
 session_start();
 
 if (!isset($_SESSION["code"])) {
@@ -73,7 +73,7 @@ if(isset($_POST['productos']) && is_array($_POST['productos'])){
     <link rel="stylesheet" href="assets/styles/module.css">
     <link rel="stylesheet" href="assets/styles/navbar.css">
     <link rel="stylesheet" href="assets/styles/sidebar.css">
-    <link rel="stylesheet" href="assets/styles/products2.css">
+    <link rel="stylesheet" href="assets/styles/products.css">
     <script src="assets/scripts/inventario.js"></script>
     <title>Inventario | Errea Admin</title>
 </head>
