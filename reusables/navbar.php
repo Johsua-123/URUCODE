@@ -1,9 +1,3 @@
-<?php
-    /*if(isset($_GET['enviar']) && isset($_GET['search'])){
-        $_SESSION['enviar'] = $_GET['enviar'];
-        $_SESSION['search'] = $_GET['search'];
-    }*/
-?>
 <header class="navbar">
     <div class="navbar-header">
         <a class="navbar-brand" href="index.php">
