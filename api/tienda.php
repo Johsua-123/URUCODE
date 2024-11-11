@@ -14,7 +14,7 @@ $productos_por_pagina = 16; // 4 filas x 4 productos por fila
 $offset = ($pagina - 1) * $productos_por_pagina;
 
 // Consulta SQL para obtener productos con límite y offset para paginación
-$query = "SELECT * FROM productos LIMIT $productos_por_pagina OFFSET $offset";
+$query = "SELECT * FROM productos WHERE en_venta=true LIMIT $productos_por_pagina OFFSET $offset";
 $result = $mysql->query($query);
 
 $productos = [];
