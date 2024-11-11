@@ -1,15 +1,17 @@
 <?php 
-    
-    session_start();
+session_start();
 
-    if (!isset($_SESSION["code"])) {
-        header("Location: ../index.php");
-        exit;
-    }
+if (!isset($_SESSION["code"])) {
+    header("Location: ../index.php");
+    exit;
+}
 
-    $location = "inventario";
+$location = "inventario";
 
-$servername = "localhost";$username = "duenio";$password = "duenio";$dbname = "urucode";
+$servername = "localhost";
+$username = "duenio";
+$password = "duenio";
+$dbname = "urucode";
 
 $mysql = new mysqli($servername, $username, $password, $dbname);
 if ($mysql->connect_error) {
@@ -56,15 +58,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nombre'])) {
     }
 }
 
+$selected_categoria_id = $_GET['categoria'] ?? null;
+
 $query = "
     SELECT p.codigo, p.nombre, p.cantidad, p.precio_venta, p.marca, p.modelo, p.descripcion, p.fecha_creacion, p.fecha_actualizacion, i.nombre AS imagen_nombre, GROUP_CONCAT(c.nombre SEPARATOR ', ') AS categorias
     FROM productos p
     LEFT JOIN imagenes i ON p.imagen_id = i.codigo
     LEFT JOIN productos_categorias pc ON p.codigo = pc.producto_id
-    LEFT JOIN categorias c ON pc.categoria_id = c.codigo
-    GROUP BY p.codigo
-";
+    LEFT JOIN categorias c ON pc.categoria_id = c.codigo";
 
+if ($selected_categoria_id) {
+    $query .= " WHERE pc.categoria_id = " . intval($selected_categoria_id);
+}
+
+$query .= " GROUP BY p.codigo";
 $result = $mysql->query($query);
 ?>
 
@@ -94,14 +101,28 @@ $result = $mysql->query($query);
                         <h2>Productos</h2>
                         <button type="button" onclick="toggleModal()">Agregar Producto</button>
                     </header>
+                    <!-- Filtro de Categoría -->
+                    <form method="GET" action="inventario.php">
+                        <label for="categoria">Filtrar por Categoría:</label>
+                        <select name="categoria" id="categoria" onchange="this.form.submit()">
+                            <option value="">Todas</option>
+                            <?php
+                            $categorias_result = $mysql->query("SELECT codigo, nombre FROM categorias");
+                            while ($categoria = $categorias_result->fetch_assoc()) {
+                                $selected = ($categoria['codigo'] == $selected_categoria_id) ? 'selected' : '';
+                                echo '<option value="'.$categoria['codigo'].'" '.$selected.'>' . htmlspecialchars($categoria['nombre']) . '</option>';
+                            }
+                            ?>
+                        </select>
+                    </form>
                     <div class="wrapper">
                         <table>
                             <thead>
                                 <tr>
                                     <th>Nombre</th>
                                     <th>Ícono</th>
-                                    <th>cantidad</th>
-                                    <th>precio_venta</th>
+                                    <th>Cantidad</th>
+                                    <th>Precio Venta</th>
                                     <th>Marca</th>
                                     <th>Modelo</th>
                                     <th>Categorías</th>
@@ -152,7 +173,7 @@ $result = $mysql->query($query);
                     <input type="number" id="cantidad" name="cantidad" required>
                 </div>
                 <div>
-                    <label for="precio_venta">Precio_venta</label>
+                    <label for="precio_venta">Precio Venta</label>
                     <input type="number" step="0.01" id="precio_venta" name="precio_venta" required>
                 </div>
                 <div>

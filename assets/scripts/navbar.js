@@ -14,22 +14,6 @@ document.addEventListener("DOMContentLoaded", () => {
         event.stopPropagation();
     })
 
-    /*searchs.forEach(search => {
-        search.addEventListener("submit", async (event) => {
-            event.preventDefault();
-
-            const request = await fetch("api/search.php", {
-                method: "POST",
-                body: new FormData(search)
-            });
-    
-            const response = await request.json();
-    
-            console.table(response);
-    
-        })
-    })*/
-
     dropdowns.forEach(dropdown => {
         dropdown.addEventListener("click", (event) => {
             const menu = dropdown.querySelector(".dropdown-menu");
