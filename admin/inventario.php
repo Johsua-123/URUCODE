@@ -101,7 +101,6 @@ $result = $mysql->query($query);
                         <h2>Productos</h2>
                         <button type="button" onclick="toggleModal()">Agregar Producto</button>
                     </header>
-                    <!-- Filtro de Categoría -->
                     <form method="GET" action="inventario.php">
                         <label for="categoria">Filtrar por Categoría:</label>
                         <select name="categoria" id="categoria" onchange="this.form.submit()">
