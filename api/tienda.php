@@ -31,9 +31,9 @@ foreach ($productos as &$producto) {
     $imagen_result = $mysql->query($imagen_query);
     
     if ($imagen_result && $imagen_row = $imagen_result->fetch_assoc()) {
-        $producto['nombre_imagen'] = $imagen_row['nombre']; // Incluye la ruta completa
+        $producto['nombre_imagen'] = $imagen_row['nombre']; 
     } else {
-        $producto['nombre_imagen'] = null; // En caso de que no haya imagen
+        $producto['nombre_imagen'] = null; 
     }
 }
 

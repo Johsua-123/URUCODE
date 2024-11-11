@@ -33,19 +33,16 @@ document.addEventListener('DOMContentLoaded', function() {
         productos.forEach(producto => {
             console.log("Producto:", producto); 
             
-            // Creación de los elementos con las clases correctas
             const productoDiv = document.createElement('div');
-            productoDiv.classList.add('product-card'); // Usamos la clase `product-card`
+            productoDiv.classList.add('product-card');
 
-            // Sección de imagen
             const cardHeader = document.createElement('div');
             cardHeader.classList.add('card-header');
             const img = document.createElement('img');
-            img.src = producto.nombre_imagen ? producto.nombre_imagen : 'ruta/por/defecto.jpg'; // Cambia 'ruta/por/defecto.jpg' si quieres una imagen por defecto
+            img.src = `http://localhost/URUCODE/public/images/${producto.nombre_imagen}` ? producto.nombre_imagen : ''; 
             img.alt = producto.nombre;
             cardHeader.appendChild(img);
 
-            // Sección de nombre y precio
             const cardItems = document.createElement('div');
             cardItems.classList.add('card-items');
             const nombre = document.createElement('h3');
@@ -55,20 +52,17 @@ document.addEventListener('DOMContentLoaded', function() {
             cardItems.appendChild(nombre);
             cardItems.appendChild(precio);
 
-            // Botón de "Ver Detalle"
             const cardFooter = document.createElement('div');
             cardFooter.classList.add('card-footer');
             const detalleBtn = document.createElement('a');
-            detalleBtn.href = "#"; // Cambia a la URL del producto si es necesario
+            detalleBtn.href = "#"; 
             detalleBtn.textContent = "Ver Detalle";
             cardFooter.appendChild(detalleBtn);
 
-            // Ensamblar los elementos en la tarjeta principal
             productoDiv.appendChild(cardHeader);
             productoDiv.appendChild(cardItems);
             productoDiv.appendChild(cardFooter);
 
-            // Añadir la tarjeta de producto al contenedor
             contenedor.appendChild(productoDiv);
         });
     }
