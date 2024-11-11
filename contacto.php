@@ -1,5 +1,4 @@
 <?php
-
     session_start();
 
     $message = ""; 
@@ -17,18 +16,22 @@
         $fecha = date('Y-m-d H:i:s');
 
         $stmt = $mysql->prepare("INSERT INTO mensajes (email, nombre, asunto, mensaje, fecha_creacion) VALUES (?, ?, ?, ?, ?)");
-        $stmt->bind_param("sssss", $email,$nombre, $asunto, $mensaje, $fecha);
+        $stmt->bind_param("sssss", $email, $nombre, $asunto, $mensaje, $fecha);
 
         if ($stmt->execute()) {
-            $message = "Mensaje enviado correctamente."; 
+            $_SESSION['message'] = "Mensaje enviado correctamente.";
         } else {
-            $message = "Error al enviar el mensaje: " . $mysql->error; 
+            $_SESSION['message'] = "Error al enviar el mensaje: " . $mysql->error;
         }
-        header("Location: contacto.php?status=success");
+        
+        header("Location: contacto.php");
         exit();
     }
-    
 
+    if (!empty($_SESSION['message'])) {
+        $message = $_SESSION['message'];
+        unset($_SESSION['message']);
+    }
 ?>
 
 <!DOCTYPE html>
