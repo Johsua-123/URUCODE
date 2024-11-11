@@ -25,6 +25,19 @@ if ($result && $result->num_rows > 0) {
     }
 }
 
+foreach ($productos as &$producto) {
+    $imagen_id = $producto['imagen_id'];
+    $imagen_query = "SELECT nombre FROM imagenes WHERE codigo = $imagen_id LIMIT 1";
+    $imagen_result = $mysql->query($imagen_query);
+    
+    if ($imagen_result && $imagen_row = $imagen_result->fetch_assoc()) {
+        $producto['nombre_imagen'] = $imagen_row['nombre']; // Incluye la ruta completa
+    } else {
+        $producto['nombre_imagen'] = null; // En caso de que no haya imagen
+    }
+}
+
+
 // Contar el total de productos para calcular el número de páginas
 $total_query = "SELECT COUNT(*) as total FROM productos";
 $total_result = $mysql->query($total_query);

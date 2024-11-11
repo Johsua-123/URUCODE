@@ -116,13 +116,23 @@ label {
 }
 
 .product-card {
-    width: calc(25% - 15px); 
-    height: 290px;
+    width: calc(25% - 15px); /* Ajuste para 4 columnas */
+    height: 350px; /* Ajusta la altura de la tarjeta */
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    border-radius: 15px;
+    justify-content: space-between;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+    overflow: hidden;
+    background-color: #fff;
+}
+
+.product-card:hover {
+    transform: scale(1.05);
 }
 
 .card-header {
@@ -132,14 +142,17 @@ label {
 }
 
 .card-header img {
-    width: 165px;
-    height: 140px;
-    border-radius: 15px;
+    width: 100%; /* Para que ocupe todo el ancho del contenedor */
+    height: auto;
+    max-height: 180px; /* Limita la altura para evitar que la imagen sea demasiado grande */
+    object-fit: cover;
+    border-radius: 10px;
 }
 
 .card-items {
     text-align: center;
-    margin: 5px 0;
+    margin-top: 10px;
+    flex-grow: 1;
 }
 
 .card-items h1, h2 {
@@ -147,18 +160,37 @@ label {
     color: var(--color-blue);
 }
 
+.card-items h3 {
+    font-size: 18px;
+    color: #333;
+    font-weight: bold;
+    margin: 0;
+}
+
+.card-items p {
+    font-size: 16px;
+    color: var(--color-blue-400);
+    margin: 5px 0 0;
+}
+
 .card-footer {
     display: flex;
     justify-content: center;
-    margin: 10px 0;
+    margin-top: 10px;
+    width: 100%;
 }
 
 .card-footer a {
     cursor: pointer;
     font-size: 16px;
-    padding: 10px 15px;
-    color: var(--color-white);
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-    background-color: var(--color-blue);
+    padding: 10px 20px;
+    color: #fff;
+    border-radius: 5px;
+    background-color: var(--color-blue-400); 
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.card-footer a:hover {
+    background-color: var(--color-blue-900);
 }
