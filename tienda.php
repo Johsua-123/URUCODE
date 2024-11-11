@@ -34,7 +34,6 @@ $result = $mysql->query("SELECT * FROM categorias");
     <link rel="stylesheet" href="assets/styles/tienda.css">
     <script src="assets/scripts/navbar.js"></script>
     <script src="assets/scripts/store.js"></script>
-    <script src="admin/assets/scripts/categories.js"></script>
     <title>Tienda | Errea</title>
 </head>
 <body>
