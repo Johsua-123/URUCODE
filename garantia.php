@@ -18,7 +18,6 @@
         <link rel="stylesheet" href="assets/styles/module.css">
         <link rel="stylesheet" href="assets/styles/navbar.css">
         <link rel="stylesheet" href="assets/styles/footer.css">
-        
         <link rel="stylesheet" href="assets/styles/garantia.css">
         <script src="assets/scripts/navbar.js"></script>
         <title>Políticas de Garantía | Errea</title>

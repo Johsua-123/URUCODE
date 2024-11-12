@@ -2,7 +2,6 @@
 session_start();
 $location = "tienda";
 
-define("URUCODE", true);
 require 'api/mysql.php';
 
 // Función para obtener categorías

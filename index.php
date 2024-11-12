@@ -1,18 +1,9 @@
 <?php
 session_start();
 $location = "index";
-
-define("URUCODE", true);
 require 'api/mysql.php';
 
-$servername = "localhost"; $username = "duenio"; $password = "duenio"; $dbname = "urucode";
-
-$mysql = new mysqli($servername, $username, $password, $dbname);
-if ($mysql->connect_error) {
-    die("Error de conexión a la base de datos: " . $mysql->connect_error);
-}
-
-// Consulta para productos destacados
+// productos destacados
 $stmt_destacados = $mysql->prepare("SELECT productos.*, imagenes.nombre AS imagen_nombre 
                                     FROM productos 
                                     LEFT JOIN imagenes ON productos.imagen_id = imagenes.codigo 
@@ -23,7 +14,7 @@ $stmt_destacados->execute();
 $productos_destacados = $stmt_destacados->get_result();
 $stmt_destacados->close();
 
-// Consulta para productos en oferta
+// productos en oferta
 $stmt_ofertas = $mysql->prepare("SELECT productos.*, imagenes.nombre AS imagen_nombre 
                                  FROM productos 
                                  LEFT JOIN imagenes ON productos.imagen_id = imagenes.codigo 
@@ -33,8 +24,6 @@ $stmt_ofertas = $mysql->prepare("SELECT productos.*, imagenes.nombre AS imagen_n
 $stmt_ofertas->execute();
 $productos_ofertas = $stmt_ofertas->get_result();
 $stmt_ofertas->close();
-
-$mysql->close();
 ?>
 
 <!DOCTYPE html>
@@ -101,8 +90,6 @@ $mysql->close();
             <div class="product-items">
                 <?php while ($producto = $productos_ofertas->fetch_assoc()) { 
                  $imagen_url = $producto['imagen_nombre'] ? 'public/images/' . urlencode($producto['imagen_nombre']) : 'https://via.placeholder.com/100x100?text=Imagen+del+Producto';
-
-
                 ?>
                     <div class="product-card">
                         <div class="card-header">
