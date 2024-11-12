@@ -1,14 +1,65 @@
+
+<?php 
+session_start();
+$location = "tienda";
+
+define("URUCODE", true);
+require 'api/mysql.php';
+
+if (isset($_GET['codigo'])) {
+    $product_code = $_GET['codigo'];
+
+    $servername = "localhost";
+    $username = "duenio";
+    $password = "duenio";
+    $dbname = "urucode";
+
+    $mysql = new mysqli($servername, $username, $password, $dbname);
+    if ($mysql->connect_error) {
+        die("Error de conexión a la base de datos: " . $mysql->connect_error);
+    }
+
+    // Consulta para obtener el producto
+    $stmt = $mysql->prepare("SELECT * FROM productos WHERE codigo = ?");
+    $stmt->bind_param("i", $product_code);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $producto = $result->fetch_assoc();
+
+    // Verificar si el producto fue encontrado
+    if ($producto) {
+        // Obtener la imagen del producto desde la tabla imagenes
+        $imagen_id = $producto['imagen_id'];
+        $stmt = $mysql->prepare("SELECT nombre FROM imagenes WHERE codigo = ?");
+        $stmt->bind_param("i", $imagen_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $imagen = $result->fetch_assoc();
+
+        $imagen_url = $imagen ? 'ruta/a/imagenes/' . $imagen['nombre'] : 'https://via.placeholder.com/150'; // Reemplaza 'ruta/a/imagenes/' con la ruta correcta
+    } else {
+        echo "Producto no encontrado.";
+        exit;
+    }
+
+    $stmt->close();
+    $mysql->close();
+} else {
+    echo "Código de producto no especificado.";
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-DF773N72G0"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-
-            gtag('config', 'G-DF773N72G0');
-        </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DF773N72G0"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-DF773N72G0');
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Producto | Errea</title>
@@ -24,43 +75,32 @@
     <?php include "reusables/navbar.php" ?>
     <main>
         <div class="web-path">
-            <p>HOME > TIENDA > PC > PC GAMER</p>
+            <p>HOME > TIENDA > <?php echo isset($producto['categoria']) ? htmlspecialchars($producto['categoria']) : 'Categoría no encontrada'; ?> > <?php echo isset($producto['nombre']) ? htmlspecialchars($producto['nombre']) : 'Producto no encontrado'; ?></p>
         </div>
         <div class="product">
             <div class="product-image">
-                <img src="https://via.placeholder.com/150" alt="Equipo Intel Core I9 14900Kf Full Gamer – 32Gb – SSD PCIe – RTX4080 Super">
+                <img src="<?php echo htmlspecialchars($imagen_url); ?>" alt="<?php echo isset($producto['nombre']) ? htmlspecialchars($producto['nombre']) : 'Imagen no encontrada'; ?>">
             </div>
             <div class="product-info">
-                <h1>Equipo Intel Core I9 14900Kf Full Gamer – 32Gb – SSD PCIe – RTX4080 Super</h1>
-                <H2>US$4,150.00</H2>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque placeat laborum dolores provident possimus maxime illum tempore aliquid maiores! Ab!
+                <h1><?php echo isset($producto['nombre']) ? htmlspecialchars($producto['nombre']) : 'Producto no encontrado'; ?></h1>
+                <H2>US$<?php echo isset($producto['precio_venta']) ? htmlspecialchars($producto['precio_venta']) : '0.00'; ?></H2>
+                <p><?php echo isset($producto['descripcion']) ? htmlspecialchars($producto['descripcion']) : 'Descripción no disponible'; ?></p>
                 <a href="#">COMPRAR</a>
             </div>
         </div>
         <div class="product-images">
-        <img src="https://via.placeholder.com/150" alt="Equipo Intel Core I9 14900Kf Full Gamer – 32Gb – SSD PCIe – RTX4080 Super">
-        <img src="https://via.placeholder.com/150" alt="Equipo Intel Core I9 14900Kf Full Gamer – 32Gb – SSD PCIe – RTX4080 Super">
-        <img src="https://via.placeholder.com/150" alt="Equipo Intel Core I9 14900Kf Full Gamer – 32Gb – SSD PCIe – RTX4080 Super">
+            <img src="<?php echo htmlspecialchars($imagen_url); ?>" alt="<?php echo isset($producto['nombre']) ? htmlspecialchars($producto['nombre']) : 'Imagen no encontrada'; ?>">
+            <!-- Añadir más imágenes si es necesario -->
         </div>
         <div class="product-description">
-            <h1>DESCRIPCION</h1>
-            <p>Gabinete Cooler Master HAF500<br> 
-               Fuente Gigabyte UD850GM 80 Plus Gold Full Modular<br>
-               MotherGigabyte Z790 AORUS ELITE AX X<br>
-               Procesador Intel Core I9 14900kf 24 núcleos 32 hilos hasta 6Ghz<br>
-               Watercooling CoolerMaster Masterliquid 360L Core ARGB<br>
-               Memoria Kingston Fury Beast 32Gb DDR5 5600mhz (2 x 16Gb)<br>
-               Disco SSD PCIe Kingston NV2 1Tb<br>
-               Gráficos Geforce RTX4080 Super<br>
-            </p>
+            <h1>DESCRIPCIÓN</h1>
+            <p><?php echo isset($producto['descripcion']) ? htmlspecialchars($producto['descripcion']) : 'Descripción no disponible'; ?></p>
         </div>
         <div class="related-products">
-            <h1>PRODUCTOS RELACIOANDOS</h1>
+            <h1>PRODUCTOS RELACIONADOS</h1>
             <div class="related-products_images">
-            <img src="https://via.placeholder.com/150" alt="Equipo Intel Core I9 14900Kf Full Gamer – 32Gb – SSD PCIe – RTX4080 Super">
-            <img src="https://via.placeholder.com/150" alt="Equipo Intel Core I9 14900Kf Full Gamer – 32Gb – SSD PCIe – RTX4080 Super">
-            <img src="https://via.placeholder.com/150" alt="Equipo Intel Core I9 14900Kf Full Gamer – 32Gb – SSD PCIe – RTX4080 Super">
-            <img src="https://via.placeholder.com/150" alt="Equipo Intel Core I9 14900Kf Full Gamer – 32Gb – SSD PCIe – RTX4080 Super">
+                <img src="<?php echo htmlspecialchars($imagen_url); ?>" alt="<?php echo isset($producto['nombre']) ? htmlspecialchars($producto['nombre']) : 'Imagen no encontrada'; ?>">
+                <!-- Añadir productos relacionados dinámicamente -->
             </div>
         </div>
     </main>

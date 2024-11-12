@@ -5,7 +5,10 @@ $location = "tienda";
 define("URUCODE", true);
 require 'api/mysql.php';
 
-$servername = "localhost";$username = "duenio";$password = "duenio";$dbname = "urucode";
+$servername = "localhost";
+$username = "duenio";
+$password = "duenio";
+$dbname = "urucode";
 
 $mysql = new mysqli($servername, $username, $password, $dbname);
 if ($mysql->connect_error) {
@@ -13,6 +16,11 @@ if ($mysql->connect_error) {
 }
 
 $result = $mysql->query("SELECT * FROM categorias");
+
+// Consulta para obtener productos y sus imágenes
+$productos_result = $mysql->query("SELECT productos.*, imagenes.nombre AS imagen_nombre 
+                                   FROM productos 
+                                   LEFT JOIN imagenes ON productos.imagen_id = imagenes.codigo");
 ?>
 
 <!DOCTYPE html>
@@ -57,8 +65,25 @@ $result = $mysql->query("SELECT * FROM categorias");
         </div>
         <div class="main-products">
             <div class="product-items">
+                <?php while ($producto = $productos_result->fetch_assoc()) {
+                    $imagen_url = $producto['imagen_nombre'] ? 'public/images' . $producto['imagen_nombre'] : 'https://via.placeholder.com/150'; // Reemplaza 'ruta/a/imagenes/' con la ruta correcta
+                ?>
+                <div class="product-card">
+                    <div class="card-header">
+                        <img src="<?php echo htmlspecialchars($imagen_url); ?>" alt="<?php echo htmlspecialchars($producto['nombre']); ?>">
+                    </div>
+                    <div class="card-items">
+                        <h3><?php echo htmlspecialchars($producto['nombre']); ?></h3>
+                        <p>US$<?php echo htmlspecialchars($producto['precio_venta']); ?></p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="product-visualizer.php?codigo=<?php echo htmlspecialchars($producto['codigo']); ?>">Ver Detalle</a>
+                    </div>
+                </div>
+                <?php } ?>
             </div>
             <div class="pagination">
+                <!-- Paginación aquí, si es necesario -->
             </div>
         </div>
     </main>

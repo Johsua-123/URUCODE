@@ -55,13 +55,15 @@ document.addEventListener('DOMContentLoaded', function() {
             cardItems.appendChild(nombre);
             cardItems.appendChild(precio);
 
-            // Botón de "Ver Detalle"
-            const cardFooter = document.createElement('div');
-            cardFooter.classList.add('card-footer');
-            const detalleBtn = document.createElement('a');
-            detalleBtn.href = "#"; // Cambia a la URL del producto si es necesario
-            detalleBtn.textContent = "Ver Detalle";
-            cardFooter.appendChild(detalleBtn);
+
+// Botón de "Ver Detalle"
+const cardFooter = document.createElement('div');
+cardFooter.classList.add('card-footer');
+const detalleBtn = document.createElement('a');
+detalleBtn.href = `product-visualizer.php?codigo=${producto.codigo}`; // Asegúrate de usar 'codigo'
+detalleBtn.textContent = "Ver Detalle";
+cardFooter.appendChild(detalleBtn);
+
 
             // Ensamblar los elementos en la tarjeta principal
             productoDiv.appendChild(cardHeader);
