@@ -80,7 +80,7 @@ switch ($orden) {
         <div class="main-products">
             <div class="product-items">
                 <?php while ($producto = $productos_result->fetch_assoc()) {
-                    $imagen_url = $producto['imagen_nombre'] ? 'public/images/' . $producto['imagen_nombre'] : 'https://via.placeholder.com/150';
+                    $imagen_url = $producto['imagen_enlace'] ? 'public/images/' . $producto['imagen_enlace'] : 'https://via.placeholder.com/150';
                 ?>
                 <div class="product-card">
                     <div class="card-header">
