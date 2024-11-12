@@ -1,11 +1,15 @@
+<?php
+$conexion = new mysqli("localhost", "duenio", "duenio", "urucode");
 
-<?php 
+if ($conexion->connect_error) {
+    die("Error de conexión: " . $conexion->connect_error);
+}
 
-    if ($_SERVER["REQUEST_METHOD"] != "POST") {
-        exit;
-    }
+$resultado = [];
 
-    echo json_encode([ "code" => "200", "text" => "Funcionadad aun no disponible"]);
-    exit;
-    
+if ($_SERVER['REQUEST_METHOD'] == 'GET' && !empty($_GET["search"])) {
+    $busqueda = $_GET['search'];
+    $buscar = "SELECT * FROM productos WHERE en_venta = 1 AND (nombre LIKE '%$busqueda%' OR marca LIKE '%$busqueda%' OR modelo LIKE '%$busqueda%' OR descripcion LIKE '%$busqueda%')";
+    $resultado = mysqli_query($conexion, $buscar);
+}
 ?>
