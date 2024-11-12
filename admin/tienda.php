@@ -34,10 +34,10 @@ if(isset($_POST['codigo']) && is_numeric($_POST['codigo'])) {
     } else { 
         echo "Error al actualizar el producto: " . $stmt->error; 
     } 
-        $stmt->close(); 
+    $stmt->close(); 
     header("Location: tienda.php");
     exit();
-    }
+}
 
 if(isset($_POST['productos']) && is_array($_POST['productos'])){
     $productos = $_POST['productos'];
@@ -110,7 +110,7 @@ if(isset($_POST['productos']) && is_array($_POST['productos'])){
                         <tbody>
                             <?php
                             $result = $mysql->query("
-                                SELECT p.*, GROUP_CONCAT(c.nombre SEPARATOR ', ') AS categorias, img.nombre AS imagen_nombre
+                                SELECT p.*, GROUP_CONCAT(c.nombre SEPARATOR ', ') AS categorias, img.enlace AS imagen_enlace
                                 FROM productos p
                                 LEFT JOIN productos_categorias pc ON p.codigo = pc.producto_id
                                 LEFT JOIN categorias c ON pc.categoria_id = c.codigo
@@ -122,8 +122,8 @@ if(isset($_POST['productos']) && is_array($_POST['productos'])){
                                 <tr>
                                     <td><?php echo htmlspecialchars($producto['nombre']); ?></td>
                                     <td>
-                                        <?php if ($producto['imagen_nombre']) { ?>
-                                            <img src="<?php echo htmlspecialchars($producto['imagen_nombre']); ?>" alt="Ícono" width="50">
+                                        <?php if ($producto['imagen_enlace']) { ?>
+                                            <img src="<?php echo htmlspecialchars($producto['imagen_enlace']); ?>" alt="Ícono" width="50">
                                         <?php } else { ?>
                                             No disponible
                                         <?php } ?>

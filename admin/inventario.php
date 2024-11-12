@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nombre'])) {
         $ruta_imagen = "../public/images/" . $nombre_imagen;
         move_uploaded_file($imagen['tmp_name'], $ruta_imagen);
 
-        $stmt_imagen = $mysql->prepare("INSERT INTO imagenes (nombre, tipo, fecha_creacion, fecha_actualizacion) VALUES (?, ?, ?, ?)");
+        $stmt_imagen = $mysql->prepare("INSERT INTO imagenes (nombre, enlace, fecha_creacion, fecha_actualizacion) VALUES (?, ?, ?, ?)");
         $tipo = pathinfo($ruta_imagen, PATHINFO_EXTENSION);
         $stmt_imagen->bind_param("ssss", $ruta_imagen, $tipo, $fecha_creacion, $fecha_actualizacion);
         $stmt_imagen->execute();
@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nombre'])) {
 $selected_categoria_id = $_GET['categoria'] ?? null;
 
 $query = "
-    SELECT p.codigo, p.nombre, p.cantidad, p.precio_venta, p.marca, p.modelo, p.descripcion, p.fecha_creacion, p.fecha_actualizacion, i.nombre AS imagen_nombre, GROUP_CONCAT(c.nombre SEPARATOR ', ') AS categorias
+    SELECT p.codigo, p.nombre, p.cantidad, p.precio_venta, p.marca, p.modelo, p.descripcion, p.fecha_creacion, p.fecha_actualizacion, i.enlace AS imagen_enlace, GROUP_CONCAT(c.nombre SEPARATOR ', ') AS categorias
     FROM productos p
     LEFT JOIN imagenes i ON p.imagen_id = i.codigo
     LEFT JOIN productos_categorias pc ON p.codigo = pc.producto_id
@@ -135,8 +135,8 @@ $result = $mysql->query($query);
                                     <tr>
                                         <td><?php echo htmlspecialchars($producto['nombre']); ?></td>
                                         <td>
-                                            <?php if ($producto['imagen_nombre']) { ?>
-                                                <img src="<?php echo htmlspecialchars($producto['imagen_nombre']); ?>" alt="Ícono" width="50">
+                                            <?php if ($producto['imagen_enlace']) { ?>
+                                                <img src="<?php echo htmlspecialchars($producto['imagen_enlace']); ?>" alt="Ícono" width="50">
                                             <?php } else { ?>
                                                 No disponible
                                             <?php } ?>

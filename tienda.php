@@ -17,8 +17,8 @@ if ($mysql->connect_error) {
 
 $result = $mysql->query("SELECT * FROM categorias");
 
-// Consulta para obtener productos y sus imágenes
-$productos_result = $mysql->query("SELECT productos.*, imagenes.nombre AS imagen_nombre 
+//productos y sus imágenes
+$productos_result = $mysql->query("SELECT productos.*, imagenes.enlace AS imagen_enlace 
                                    FROM productos 
                                    LEFT JOIN imagenes ON productos.imagen_id = imagenes.codigo");
 ?>
@@ -66,7 +66,7 @@ $productos_result = $mysql->query("SELECT productos.*, imagenes.nombre AS imagen
         <div class="main-products">
             <div class="product-items">
                 <?php while ($producto = $productos_result->fetch_assoc()) {
-                    $imagen_url = $producto['imagen_nombre'] ? 'public/images/' . $producto['imagen_nombre'] : 'https://via.placeholder.com/150'; // Asegúrate de tener la barra
+                    $imagen_url = $producto['imagen_enlace'] ? 'public/images/' . $producto['imagen_enlace'] : 'https://via.placeholder.com/150'; // Asegúrate de tener la barra
                 ?>
                 <div class="product-card">
                     <div class="card-header">
