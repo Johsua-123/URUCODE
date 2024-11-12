@@ -19,16 +19,13 @@ if (isset($_GET['codigo'])) {
         die("Error de conexión a la base de datos: " . $mysql->connect_error);
     }
 
-    // Consulta para obtener el producto
     $stmt = $mysql->prepare("SELECT * FROM productos WHERE codigo = ?");
     $stmt->bind_param("i", $product_code);
     $stmt->execute();
     $result = $stmt->get_result();
     $producto = $result->fetch_assoc();
 
-    // Verificar si el producto fue encontrado
     if ($producto) {
-        // Obtener la imagen del producto desde la tabla imagenes
         $imagen_id = $producto['imagen_id'];
         $stmt = $mysql->prepare("SELECT nombre FROM imagenes WHERE codigo = ?");
         $stmt->bind_param("i", $imagen_id);
@@ -36,7 +33,7 @@ if (isset($_GET['codigo'])) {
         $result = $stmt->get_result();
         $imagen = $result->fetch_assoc();
 
-        $imagen_url = $imagen ? 'ruta/a/imagenes/' . $imagen['nombre'] : 'https://via.placeholder.com/150'; // Reemplaza 'ruta/a/imagenes/' con la ruta correcta
+        $imagen_url = $imagen ? 'ruta/a/imagenes/' . $imagen['nombre'] : 'https://via.placeholder.com/150'; 
     } else {
         echo "Producto no encontrado.";
         exit;
@@ -85,7 +82,7 @@ if (isset($_GET['codigo'])) {
                 <h1><?php echo isset($producto['nombre']) ? htmlspecialchars($producto['nombre']) : 'Producto no encontrado'; ?></h1>
                 <H2>US$<?php echo isset($producto['precio_venta']) ? htmlspecialchars($producto['precio_venta']) : '0.00'; ?></H2>
                 <p><?php echo isset($producto['descripcion']) ? htmlspecialchars($producto['descripcion']) : 'Descripción no disponible'; ?></p>
-                <a href="#">COMPRAR</a>
+                <a href="checkout.php?codigo=<?php echo $product_code; ?>">COMPRAR</a>
             </div>
         </div>
         <div class="product-images">
