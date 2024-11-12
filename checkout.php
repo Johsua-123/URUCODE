@@ -1,7 +1,6 @@
 <?php 
 session_start();
 
-// Verificar si se ha proporcionado el código del producto
 if (isset($_GET['codigo'])) {
     $product_code = $_GET['codigo'];
 
@@ -15,7 +14,6 @@ if (isset($_GET['codigo'])) {
         die("Error de conexión a la base de datos: " . $mysql->connect_error);
     }
 
-    // Consulta para obtener la información del producto
     $stmt = $mysql->prepare("SELECT * FROM productos WHERE codigo = ?");
     $stmt->bind_param("i", $product_code);
     $stmt->execute();
@@ -24,13 +22,13 @@ if (isset($_GET['codigo'])) {
 
     if ($producto) {
         $imagen_id = $producto['imagen_id'];
-        $stmt = $mysql->prepare("SELECT nombre FROM imagenes WHERE codigo = ?");
+        $stmt = $mysql->prepare("SELECT enlace FROM imagenes WHERE codigo = ?");
         $stmt->bind_param("i", $imagen_id);
         $stmt->execute();
         $result = $stmt->get_result();
         $imagen = $result->fetch_assoc();
 
-        $imagen_url = $imagen ? 'ruta/a/imagenes/' . $imagen['nombre'] : 'https://via.placeholder.com/150';
+        $imagen_url = $imagen ? 'ruta/a/imagenes/' . $imagen['enlace'] : 'https://via.placeholder.com/150';
     } else {
         echo "Producto no encontrado.";
         exit;
