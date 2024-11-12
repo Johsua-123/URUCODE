@@ -1,10 +1,5 @@
 
 <?php 
-    
-    if (!defined("URUCODE")) {
-        header("Location: ../index.php");
-        exit;
-    }
 
     $mysql = new mysqli("127.0.0.1", "duenio", "duenio", "urucode");
 
