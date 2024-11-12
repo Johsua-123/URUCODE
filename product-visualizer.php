@@ -18,7 +18,6 @@ if (isset($_GET['codigo'])) {
         die("Error de conexión a la base de datos: " . $mysql->connect_error);
     }
 
-    // Obtener los detalles del producto
     $stmt = $mysql->prepare("SELECT * FROM productos WHERE codigo = ?");
     $stmt->bind_param("i", $product_code);
     $stmt->execute();
@@ -26,7 +25,6 @@ if (isset($_GET['codigo'])) {
     $producto = $result->fetch_assoc();
 
     if ($producto) {
-        // Obtener la imagen del producto
         $imagen_id = $producto['imagen_id'];
         $stmt = $mysql->prepare("SELECT nombre FROM imagenes WHERE codigo = ?");
         $stmt->bind_param("i", $imagen_id);
@@ -107,7 +105,6 @@ if (isset($_GET['codigo'])) {
             <h1>PRODUCTOS RELACIONADOS</h1>
             <div class="related-products_images">
                 <img src="<?php echo htmlspecialchars($imagen_url); ?>" alt="<?php echo htmlspecialchars($producto['nombre']); ?>">
-                <!-- Añadir productos relacionados dinámicamente -->
             </div>
         </div>
     </main>
