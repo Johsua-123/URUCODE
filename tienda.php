@@ -20,7 +20,8 @@ $result = $mysql->query("SELECT * FROM categorias");
 // productos y sus imágenes
 $productos_result = $mysql->query("SELECT productos.*, imagenes.enlace AS imagen_enlace 
                                    FROM productos 
-                                   LEFT JOIN imagenes ON productos.imagen_id = imagenes.codigo");
+                                   LEFT JOIN imagenes ON productos.imagen_id = imagenes.codigo 
+                                   WHERE productos.en_venta = 1");
 ?>
 
 <!DOCTYPE html>
@@ -83,7 +84,6 @@ $productos_result = $mysql->query("SELECT productos.*, imagenes.enlace AS imagen
                 <?php } ?>
             </div>
             <div class="pagination">
-                <!-- Aquí podrías agregar botones de paginación -->
             </div>
         </div>
     </main>
