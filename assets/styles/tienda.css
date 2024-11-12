@@ -1,4 +1,4 @@
-
+/* General Reset */
 *,
 *::before,
 *::after {
@@ -12,6 +12,7 @@ html, body {
     padding: 0;
 }
 
+/* Main Layout */
 main {
     display: flex;
     justify-content: space-between;
@@ -21,6 +22,7 @@ main {
     overflow-x: hidden;
 }
 
+/* Sidebar */
 .sidebar {
     width: 20vw;
     margin-top: 50px;
@@ -60,6 +62,7 @@ main {
     color: var(--color-blue);
 }
 
+/* Filter Bar */
 .filter-bar {
     margin-left: 25vw;
     width: calc(100% - 30vw);
@@ -86,6 +89,7 @@ main {
     padding: 5px;
 }
 
+/* Main Products Section */
 .main-products {
     margin-top: 120px;
     padding-left: 25px;
@@ -95,6 +99,7 @@ main {
     flex-direction: column;
 }
 
+/* Product Items Grid */
 .product-items {
     margin-top: 20px;
     gap: 20px;
@@ -103,8 +108,9 @@ main {
     justify-content: flex-start;
 }
 
+/* Product Card */
 .product-card {
-    width: calc(25% - 20px);
+    width: calc(25% - 20px); /* 4 columns in large screens */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -155,11 +161,13 @@ main {
     transform: scale(1.05);
 }
 
+/* Pagination */
 .pagination {
     margin-top: 20px;
     text-align: center;
 }
 
+/* Responsive Design */
 @media (max-width: 1024px) {
     .sidebar {
         width: 25vw;
@@ -177,7 +185,7 @@ main {
     }
 
     .product-card {
-        width: calc(33.33% - 15px);
+        width: calc(33.33% - 15px); /* 3 columns in medium screens */
     }
 }
 
@@ -209,12 +217,12 @@ main {
     }
 
     .product-card {
-        width: calc(50% - 15px); 
+        width: calc(50% - 15px); /* 2 columns in small screens */
     }
 }
 
 @media (max-width: 480px) {
     .product-card {
-        width: 100%; 
+        width: 100%; /* 1 column in very small screens */
     }
 }

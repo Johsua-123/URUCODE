@@ -1,14 +1,27 @@
 <?php 
 session_start();
 $location = "tienda";
+
+define("URUCODE", true);
 require 'api/mysql.php';
 
+$servername = "localhost";
+$username = "duenio";
+$password = "duenio";
+$dbname = "urucode";
+
+// Conexión a la base de datos
+$mysql = new mysqli($servername, $username, $password, $dbname);
+if ($mysql->connect_error) {
+    die("Error de conexión a la base de datos: " . $mysql->connect_error);
+}
 
 // Función para obtener categorías
 function obtenerCategorias($conexion) {
     $query = "SELECT * FROM categorias";
     return $conexion->query($query);
 }
+
 // Función para obtener productos
 function obtenerProductos($conexion, $busqueda = null) {
     $query = "
