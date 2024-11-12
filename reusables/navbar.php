@@ -4,19 +4,14 @@
             <img src="public/icons/errea.png" alt="errea icon">
         </a>
         <div class="navbar-search">
-            <form id="search" method="GET" action="tienda.php">
-                <input type="text" name="search" placeholder="Buscar" autocomplete="off">
-                <button type="submit" name="enviar">
-                <svg fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"></path>
-                </svg>
-                </button>
-            </form>
-            <div class="search-result hidden">
-                <span>A</span>
-                <span>B</span>
-                <span>C</span>
-            </div>
+        <form id="search" method="GET" action="tienda.php">
+    <input type="text" name="search" placeholder="Buscar" autocomplete="off">
+    <button type="submit" name="enviar">
+        <svg fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"></path>
+        </svg>
+    </button>
+</form>
         </div>
         <div class="navbar-extras">
             <div class="navbar-auth <?php echo isset($_SESSION["code"]) ? "hidden" : "" ?>">
