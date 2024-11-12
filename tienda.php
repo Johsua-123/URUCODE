@@ -5,17 +5,6 @@ $location = "tienda";
 define("URUCODE", true);
 require 'api/mysql.php';
 
-$servername = "localhost";
-$username = "duenio";
-$password = "duenio";
-$dbname = "urucode";
-
-// Conexión a la base de datos
-$mysql = new mysqli($servername, $username, $password, $dbname);
-if ($mysql->connect_error) {
-    die("Error de conexión a la base de datos: " . $mysql->connect_error);
-}
-
 // Función para obtener categorías
 function obtenerCategorias($conexion) {
     $query = "SELECT * FROM categorias";
@@ -93,7 +82,6 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
 <body>
 <?php include "reusables/navbar.php"; ?>
 <main>
-    <!-- Sidebar -->
     <div class="sidebar">
         <h2>Todas las Categorías</h2>
         <ul class="category-list-shop">
@@ -111,7 +99,6 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
         </ul>
     </div>
 
-    <!-- Filter Bar -->
     <div class="filter-bar">
         <label for="ordenar">Ordenar por:</label>
         <select id="ordenar">
@@ -120,7 +107,6 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
         </select>
     </div>
 
-    <!-- Products Section -->
     <div class="main-products">
         <div class="product-items">
             <?php if ($productos_result->num_rows > 0): ?>
