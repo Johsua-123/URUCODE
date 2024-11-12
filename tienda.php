@@ -66,7 +66,7 @@ $productos_result = $mysql->query("SELECT productos.*, imagenes.nombre AS imagen
         <div class="main-products">
             <div class="product-items">
                 <?php while ($producto = $productos_result->fetch_assoc()) {
-                    $imagen_url = $producto['imagen_nombre'] ? 'public/images' . $producto['imagen_nombre'] : 'https://via.placeholder.com/150'; // Reemplaza 'ruta/a/imagenes/' con la ruta correcta
+                    $imagen_url = $producto['imagen_nombre'] ? 'public/images/' . $producto['imagen_nombre'] : 'https://via.placeholder.com/150'; // Asegúrate de tener la barra
                 ?>
                 <div class="product-card">
                     <div class="card-header">
@@ -83,7 +83,6 @@ $productos_result = $mysql->query("SELECT productos.*, imagenes.nombre AS imagen
                 <?php } ?>
             </div>
             <div class="pagination">
-                <!-- Paginación aquí, si es necesario -->
             </div>
         </div>
     </main>
