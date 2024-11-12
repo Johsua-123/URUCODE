@@ -31,7 +31,7 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
     ");
 } else {
     $productos_result = $mysql->query("
-        SELECT productos.*, imagenes.enlace AS imagen_enlace 
+        SELECT productos.*, imagenes.nombre AS imagen_enlace 
         FROM productos 
         LEFT JOIN imagenes ON productos.imagen_id = imagenes.codigo
         WHERE productos.en_venta = 1
