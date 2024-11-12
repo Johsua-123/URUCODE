@@ -1,201 +1,115 @@
-
 <?php
-    session_start();
-    $location = "inicio";
+session_start();
+$location = "tienda";
+define("URUCODE", true);
+require 'api/mysql.php';
+
+$servername = "localhost";$username = "duenio";$password = "duenio";$dbname = "urucode";
+
+$mysql = new mysqli($servername, $username, $password, $dbname);
+if ($mysql->connect_error) {
+    die("Error de conexión a la base de datos: " . $mysql->connect_error);
+}
+
+$stmt = $mysql->prepare("SELECT productos.*, imagenes.nombre AS imagen_nombre 
+                         FROM productos 
+                         LEFT JOIN imagenes ON productos.imagen_id = imagenes.codigo 
+                         WHERE productos.en_venta = true");
+$stmt->execute();
+$productos_destacados = $stmt->get_result();
+$stmt->close();
+
+$stmt_ofertas = $mysql->prepare("SELECT productos.*, imagenes.nombre AS imagen_nombre 
+                                 FROM productos 
+                                 LEFT JOIN imagenes ON productos.imagen_id = imagenes.codigo 
+                                 WHERE productos.en_venta = true AND productos.precio_venta < productos.precio_costo");
+$stmt_ofertas->execute();
+$productos_ofertas = $stmt_ofertas->get_result();
+$stmt_ofertas->close();
+
+$mysql->close();
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
-    <head>
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-DF773N72G0"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-
-            gtag('config', 'G-DF773N72G0');
-        </script>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="shortcut icon" href="public/icons/logo.png" type="image/x-icon">
-        <link rel="stylesheet" href="assets/styles/module.css">
-        <link rel="stylesheet" href="assets/styles/navbar.css">
-        <link rel="stylesheet" href="assets/styles/footer.css">
-        <link rel="stylesheet" href="assets/styles/master.css">
-        <script src="assets/scripts/navbar.js"></script>
-        <script src="assets/scripts/slider.js"></script>
-        
-        <title>Inicio | Errea</title>
-    </head>
-    <body>
-        <?php include "reusables/navbar.php"; ?>
-        <main>
-            <div class="slider">
-                <div id="slider" class="slides">
-                    <img src="public/banners/slider-1.png" alt="slider image 1">
-                    <img src="public/banners/slider-2.png" alt="slider image 2">
-                    <img src="public/banners/slider-3.png" alt="slider image 3">
-                    <img src="public/banners/slider-4.png" alt="slider image 4">
-                    <img src="public/banners/slider-5.png" alt="slider image 5">
-                </div>
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DF773N72G0"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-DF773N72G0');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="public/icons/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="assets/styles/module.css">
+    <link rel="stylesheet" href="assets/styles/navbar.css">
+    <link rel="stylesheet" href="assets/styles/footer.css">
+    <link rel="stylesheet" href="assets/styles/master.css">
+    <script src="assets/scripts/navbar.js"></script>
+    <script src="assets/scripts/slider.js"></script>
+    
+    <title>Inicio | Errea</title>
+</head>
+<body>
+    <?php include "reusables/navbar.php"; ?>
+    <main>
+        <div class="slider">
+            <div id="slider" class="slides">
+                <img src="public/banners/slider-1.png" alt="slider image 1">
+                <img src="public/banners/slider-2.png" alt="slider image 2">
+                <img src="public/banners/slider-3.png" alt="slider image 3">
+                <img src="public/banners/slider-4.png" alt="slider image 4">
+                <img src="public/banners/slider-5.png" alt="slider image 5">
             </div>
-            <div class="main-products">
-                <h1>Destacados</h1>
-                <div class="product-items">
+        </div>
+        <div class="main-products">
+            <h1>Destacados</h1>
+            <div class="product-items">
+                <?php while ($producto = $productos_destacados->fetch_assoc()) { 
+                    $imagen_url = $producto['imagen_nombre'] ? 'public/images/' . $producto['imagen_nombre'] : 'https://via.placeholder.com/100x100?text=Imagen+del+Producto'; 
+                ?>
                     <div class="product-card">
                         <div class="card-header">
-                            <img src="https://via.placeholder.com/100x100?text=Imagen+del+Producto" alt="imagen producto 1">
+                            <img src="<?php echo htmlspecialchars($imagen_url); ?>" alt="<?php echo htmlspecialchars($producto['nombre']); ?>">
                         </div>
                         <div class="card-items">
-                            <h1>Lenovo Gamer LQQ</h1>
-                            <h2>U$S 1.499</h2>
+                            <h1><?php echo htmlspecialchars($producto['nombre']); ?></h1>
+                            <h2>U$S <?php echo htmlspecialchars($producto['precio_venta']); ?></h2>
                         </div>
                         <div class="card-footer">
-                            <a href="">Ver detalles</a>
+                            <a href="product-visualizer.php?codigo=<?php echo htmlspecialchars($producto['codigo']); ?>">Ver detalles</a>
                         </div>
                     </div>
-                    <div class="product-card">
-                        <div class="card-header">
-                            <img src="https://via.placeholder.com/100x100?text=Imagen+del+Producto" alt="imagen producto 1">
-                        </div>
-                        <div class="card-items">
-                            <h1>Lenovo Gamer LQQ</h1>
-                            <h2>U$S 1.499</h2>
-                        </div>
-                        <div class="card-footer">
-                            <a href="">Ver detalles</a>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="card-header">
-                            <img src="https://via.placeholder.com/100x100?text=Imagen+del+Producto" alt="imagen producto 1">
-                        </div>
-                        <div class="card-items">
-                            <h1>Lenovo Gamer LQQ</h1>
-                            <h2>U$S 1.499</h2>
-                        </div>
-                        <div class="card-footer">
-                            <a href="">Ver detalles</a>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="card-header">
-                            <img src="https://via.placeholder.com/100x100?text=Imagen+del+Producto" alt="imagen producto 1">
-                        </div>
-                        <div class="card-items">
-                            <h1>Lenovo Gamer LQQ</h1>
-                            <h2>U$S 1.499</h2>
-                        </div>
-                        <div class="card-footer">
-                            <a href="">Ver detalles</a>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="card-header">
-                            <img src="https://via.placeholder.com/100x100?text=Imagen+del+Producto" alt="imagen producto 1">
-                        </div>
-                        <div class="card-items">
-                            <h1>Lenovo Gamer LQQ</h1>
-                            <h2>U$S 1.499</h2>
-                        </div>
-                        <div class="card-footer">
-                            <a href="">Ver detalles</a>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="card-header">
-                            <img src="https://via.placeholder.com/100x100?text=Imagen+del+Producto" alt="imagen producto 1">
-                        </div>
-                        <div class="card-items">
-                            <h1>Lenovo Gamer LQQ</h1>
-                            <h2>U$S 1.499</h2>
-                        </div>
-                        <div class="card-footer">
-                            <a href="">Ver detalles</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="picture">
+                <?php } ?>
+            </div>
+            <div class="picture">
                 <img src="public/banners/12Cuotas_MiniBanner-v2-1024x123.png" alt="#">
-                </div>
-                <div class="main-products_2">
-                <h1>Ofertas</h1>
-                <div class="product-items">
-                    <div class="product-card">
-                        <div class="card-header">
-                            <img src="https://via.placeholder.com/100x100?text=Imagen+del+Producto" alt="imagen producto 1">
-                        </div>
-                        <div class="card-items">
-                            <h1>Lenovo Gamer LQQ</h1>
-                            <h2>U$S 1.499</h2>
-                        </div>
-                        <div class="card-footer">
-                            <a href="">Ver detalles</a>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="card-header">
-                            <img src="https://via.placeholder.com/100x100?text=Imagen+del+Producto" alt="imagen producto 1">
-                        </div>
-                        <div class="card-items">
-                            <h1>Lenovo Gamer LQQ</h1>
-                            <h2>U$S 1.499</h2>
-                        </div>
-                        <div class="card-footer">
-                            <a href="">Ver detalles</a>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="card-header">
-                            <img src="https://via.placeholder.com/100x100?text=Imagen+del+Producto" alt="imagen producto 1">
-                        </div>
-                        <div class="card-items">
-                            <h1>Lenovo Gamer LQQ</h1>
-                            <h2>U$S 1.499</h2>
-                        </div>
-                        <div class="card-footer">
-                            <a href="">Ver detalles</a>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="card-header">
-                            <img src="https://via.placeholder.com/100x100?text=Imagen+del+Producto" alt="imagen producto 1">
-                        </div>
-                        <div class="card-items">
-                            <h1>Lenovo Gamer LQQ</h1>
-                            <h2>U$S 1.499</h2>
-                        </div>
-                        <div class="card-footer">
-                            <a href="">Ver detalles</a>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="card-header">
-                            <img src="https://via.placeholder.com/100x100?text=Imagen+del+Producto" alt="imagen producto 1">
-                        </div>
-                        <div class="card-items">
-                            <h1>Lenovo Gamer LQQ</h1>
-                            <h2>U$S 1.499</h2>
-                        </div>
-                        <div class="card-footer">
-                            <a href="">Ver detalles</a>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="card-header">
-                            <img src="https://via.placeholder.com/100x100?text=Imagen+del+Producto" alt="imagen producto 1">
-                        </div>
-                        <div class="card-items">
-                            <h1>Lenovo Gamer LQQ</h1>
-                            <h2>U$S 1.499</h2>
-                        </div>
-                        <div class="card-footer">
-                            <a href="">Ver detalles</a>
-                        </div>
-                    </div>
-                </div>
             </div>
-        </main>
-        <?php include "reusables/footer.php"; ?>
-    </body>
+        </div>
+        <div class="main-products">
+            <h1>Ofertas</h1>
+            <div class="product-items">
+                <?php while ($producto = $productos_ofertas->fetch_assoc()) { 
+                    $imagen_url = $producto['imagen_nombre'] ? 'public/images/' . $producto['imagen_nombre'] : 'https://via.placeholder.com/100x100?text=Imagen+del+Producto'; 
+                ?>
+                    <div class="product-card">
+                        <div class="card-header">
+                            <img src="<?php echo htmlspecialchars($imagen_url); ?>" alt="<?php echo htmlspecialchars($producto['nombre']); ?>">
+                        </div>
+                        <div class="card-items">
+                            <h1><?php echo htmlspecialchars($producto['nombre']); ?></h1>
+                            <h2>U$S <?php echo htmlspecialchars($producto['precio_venta']); ?></h2>
+                        </div>
+                        <div class="card-footer">
+                            <a href="product-visualizer.php?codigo=<?php echo htmlspecialchars($producto['codigo']); ?>">Ver detalles</a>
+                        </div>
+                    </div>
+                <?php } ?>
+            </div>
+        </div>
+    </main>
+    <?php include "reusables/footer.php"; ?>
+</body>
 </html>
