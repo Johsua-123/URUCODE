@@ -1,5 +1,4 @@
-
-<?php 
+<?php
 session_start();
 $location = "tienda";
 
@@ -19,26 +18,32 @@ if (isset($_GET['codigo'])) {
         die("Error de conexión a la base de datos: " . $mysql->connect_error);
     }
 
-    // Consulta para obtener el producto
+    // Obtener los detalles del producto
     $stmt = $mysql->prepare("SELECT * FROM productos WHERE codigo = ?");
     $stmt->bind_param("i", $product_code);
     $stmt->execute();
     $result = $stmt->get_result();
     $producto = $result->fetch_assoc();
 
-    // Verificar si el producto fue encontrado
     if ($producto) {
-        // Obtener la imagen del producto desde la tabla imagenes
+        // Obtener la imagen del producto
         $imagen_id = $producto['imagen_id'];
         $stmt = $mysql->prepare("SELECT nombre FROM imagenes WHERE codigo = ?");
         $stmt->bind_param("i", $imagen_id);
         $stmt->execute();
         $result = $stmt->get_result();
         $imagen = $result->fetch_assoc();
+        $imagen_url = $imagen ? 'public/images/' . $imagen['nombre'] : 'https://via.placeholder.com/150';
 
-
-
-        $imagen_url = $imagen ? 'public/images' . $imagen['nombre'] : 'https://via.placeholder.com/150'; // Reemplaza 'ruta/a/imagenes/' con la ruta correcta
+        // Obtener la categoría del producto
+        $stmt = $mysql->prepare("SELECT categorias.nombre AS categoria_nombre FROM categorias 
+                                 JOIN productos_categorias ON categorias.codigo = productos_categorias.categoria_id 
+                                 WHERE productos_categorias.producto_id = ?");
+        $stmt->bind_param("i", $product_code);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $categoria = $result->fetch_assoc();
+        $categoria_nombre = $categoria ? $categoria['categoria_nombre'] : 'Categoría no encontrada';
 
     } else {
         echo "Producto no encontrado.";
@@ -78,31 +83,30 @@ if (isset($_GET['codigo'])) {
     <?php include "reusables/navbar.php" ?>
     <main>
         <div class="web-path">
-            <p>HOME > TIENDA > <?php echo isset($producto['categoria']) ? htmlspecialchars($producto['categoria']) : 'Categoría no encontrada'; ?> > <?php echo isset($producto['nombre']) ? htmlspecialchars($producto['nombre']) : 'Producto no encontrado'; ?></p>
+            <p>HOME > TIENDA > <?php echo htmlspecialchars($categoria_nombre); ?> > <?php echo htmlspecialchars($producto['nombre']); ?></p>
         </div>
         <div class="product">
             <div class="product-image">
-                <img src="<?php echo htmlspecialchars($imagen_url); ?>" alt="<?php echo isset($producto['nombre']) ? htmlspecialchars($producto['nombre']) : 'Imagen no encontrada'; ?>">
+                <img src="<?php echo htmlspecialchars($imagen_url); ?>" alt="<?php echo htmlspecialchars($producto['nombre']); ?>">
             </div>
             <div class="product-info">
-                <h1><?php echo isset($producto['nombre']) ? htmlspecialchars($producto['nombre']) : 'Producto no encontrado'; ?></h1>
-                <H2>US$<?php echo isset($producto['precio_venta']) ? htmlspecialchars($producto['precio_venta']) : '0.00'; ?></H2>
-                <p><?php echo isset($producto['descripcion']) ? htmlspecialchars($producto['descripcion']) : 'Descripción no disponible'; ?></p>
-                <a href="#">COMPRAR</a>
+                <h1><?php echo htmlspecialchars($producto['nombre']); ?></h1>
+                <H2>US$<?php echo htmlspecialchars($producto['precio_venta']); ?></H2>
+                <p><?php echo htmlspecialchars($producto['descripcion']); ?></p>
+                <a href="checkout.php?codigo=<?php echo $product_code; ?>">COMPRAR</a>
             </div>
         </div>
         <div class="product-images">
-            <img src="<?php echo htmlspecialchars($imagen_url); ?>" alt="<?php echo isset($producto['nombre']) ? htmlspecialchars($producto['nombre']) : 'Imagen no encontrada'; ?>">
-            <!-- Añadir más imágenes si es necesario -->
+            <img src="<?php echo htmlspecialchars($imagen_url); ?>" alt="<?php echo htmlspecialchars($producto['nombre']); ?>">
         </div>
         <div class="product-description">
             <h1>DESCRIPCIÓN</h1>
-            <p><?php echo isset($producto['descripcion']) ? htmlspecialchars($producto['descripcion']) : 'Descripción no disponible'; ?></p>
+            <p><?php echo htmlspecialchars($producto['descripcion']); ?></p>
         </div>
         <div class="related-products">
             <h1>PRODUCTOS RELACIONADOS</h1>
             <div class="related-products_images">
-                <img src="<?php echo htmlspecialchars($imagen_url); ?>" alt="<?php echo isset($producto['nombre']) ? htmlspecialchars($producto['nombre']) : 'Imagen no encontrada'; ?>">
+                <img src="<?php echo htmlspecialchars($imagen_url); ?>" alt="<?php echo htmlspecialchars($producto['nombre']); ?>">
                 <!-- Añadir productos relacionados dinámicamente -->
             </div>
         </div>

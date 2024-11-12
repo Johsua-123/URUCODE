@@ -1,17 +1,32 @@
 document.addEventListener('DOMContentLoaded', function() {
     const categoryDropdown = document.querySelector('.navbar-category');
-    const dropdownMenu = categoryDropdown.querySelector('.dropdown-menu');
+    const categoryDropdownMenu = categoryDropdown.querySelector('.dropdown-menu');
+    const profileDropdown = document.querySelector('.navbar-profile');
+    const profileDropdownMenu = profileDropdown.querySelector('.dropdown-menu');
 
-    function toggleDropdown(event) {
-        dropdownMenu.classList.toggle('hidden');
-        event.stopPropagation(); 
+    function toggleDropdown(menu) {
+        menu.classList.toggle('hidden');
     }
-    
-    categoryDropdown.addEventListener('click', toggleDropdown);
-    
+
+    // Toggle category dropdown
+    categoryDropdown.addEventListener('click', function(event) {
+        toggleDropdown(categoryDropdownMenu);
+        event.stopPropagation();
+    });
+
+    // Toggle profile dropdown
+    profileDropdown.addEventListener('click', function(event) {
+        toggleDropdown(profileDropdownMenu);
+        event.stopPropagation();
+    });
+
+    // Close both dropdowns when clicking outside
     document.addEventListener('click', function(event) {
         if (!categoryDropdown.contains(event.target)) {
-            dropdownMenu.classList.add('hidden');
+            categoryDropdownMenu.classList.add('hidden');
+        }
+        if (!profileDropdown.contains(event.target)) {
+            profileDropdownMenu.classList.add('hidden');
         }
     });
 });

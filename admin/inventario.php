@@ -36,9 +36,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nombre'])) {
         $ruta_imagen = "../public/images/" . $nombre_imagen;
         move_uploaded_file($imagen['tmp_name'], $ruta_imagen);
 
-        $stmt_imagen = $mysql->prepare("INSERT INTO imagenes (nombre, tipo, fecha_creacion, fecha_actualizacion) VALUES (?, ?, ?, ?)");
+        $stmt_imagen = $mysql->prepare("INSERT INTO imagenes (nombre, enlace, fecha_creacion) VALUES (?, ?, ?)");
         $tipo = pathinfo($ruta_imagen, PATHINFO_EXTENSION);
-        $stmt_imagen->bind_param("ssss", $ruta_imagen, $tipo, $fecha_creacion, $fecha_actualizacion);
+        $stmt_imagen->bind_param("sss", $ruta_imagen, $enlace, $fecha_creacion);
         $stmt_imagen->execute();
         $imagen_id = $stmt_imagen->insert_id;
         $stmt_imagen->close();

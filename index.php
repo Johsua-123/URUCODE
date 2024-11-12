@@ -1,28 +1,35 @@
 <?php
 session_start();
-$location = "tienda";
+$location = "index";
+
 define("URUCODE", true);
 require 'api/mysql.php';
 
-$servername = "localhost";$username = "duenio";$password = "duenio";$dbname = "urucode";
+$servername = "localhost"; $username = "duenio"; $password = "duenio"; $dbname = "urucode";
 
 $mysql = new mysqli($servername, $username, $password, $dbname);
 if ($mysql->connect_error) {
     die("Error de conexión a la base de datos: " . $mysql->connect_error);
 }
 
-$stmt = $mysql->prepare("SELECT productos.*, imagenes.nombre AS imagen_nombre 
-                         FROM productos 
-                         LEFT JOIN imagenes ON productos.imagen_id = imagenes.codigo 
-                         WHERE productos.en_venta = true");
-$stmt->execute();
-$productos_destacados = $stmt->get_result();
-$stmt->close();
+// Consulta para productos destacados
+$stmt_destacados = $mysql->prepare("SELECT productos.*, imagenes.nombre AS imagen_nombre 
+                                    FROM productos 
+                                    LEFT JOIN imagenes ON productos.imagen_id = imagenes.codigo 
+                                    LEFT JOIN productos_categorias ON productos.codigo = productos_categorias.producto_id 
+                                    LEFT JOIN categorias ON productos_categorias.categoria_id = categorias.codigo 
+                                    WHERE productos.en_venta = true AND categorias.nombre = 'Destacados'");
+$stmt_destacados->execute();
+$productos_destacados = $stmt_destacados->get_result();
+$stmt_destacados->close();
 
+// Consulta para productos en oferta
 $stmt_ofertas = $mysql->prepare("SELECT productos.*, imagenes.nombre AS imagen_nombre 
                                  FROM productos 
                                  LEFT JOIN imagenes ON productos.imagen_id = imagenes.codigo 
-                                 WHERE productos.en_venta = true AND productos.precio_venta < productos.precio_costo");
+                                 LEFT JOIN productos_categorias ON productos.codigo = productos_categorias.producto_id 
+                                 LEFT JOIN categorias ON productos_categorias.categoria_id = categorias.codigo 
+                                 WHERE productos.en_venta = true AND categorias.nombre = 'Ofertas'");
 $stmt_ofertas->execute();
 $productos_ofertas = $stmt_ofertas->get_result();
 $stmt_ofertas->close();

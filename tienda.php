@@ -17,24 +17,10 @@ if ($mysql->connect_error) {
 
 $result = $mysql->query("SELECT * FROM categorias");
 
-//productos y sus imágenes
+// productos y sus imágenes
 $productos_result = $mysql->query("SELECT productos.*, imagenes.enlace AS imagen_enlace 
                                    FROM productos 
                                    LEFT JOIN imagenes ON productos.imagen_id = imagenes.codigo");
-
-$orden = isset($_GET['orden']) ? $_GET['orden'] : 'precioBajoAlto';
-switch ($orden) {
-    case 'precioBajoAlto':
-        $orderBy = "ORDER BY productos.precio_venta ASC";
-        break;
-    case 'precioAltoBajo':
-        $orderBy = "ORDER BY productos.precio_venta DESC";
-        break;
-    default:
-        $orderBy = "ORDER BY productos.precio_venta ASC";
-        break;
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -58,7 +44,7 @@ switch ($orden) {
     <title>Tienda | Errea</title>
 </head>
 <body>
-    <?php include "reusables/navbar.php" ?>
+<?php include "reusables/navbar.php"; ?>
     <main>
         <div class="sidebar">
             <h2>Todas las Categorías</h2>
@@ -68,49 +54,40 @@ switch ($orden) {
                 <?php } ?>
             </ul>
         </div>
-        
+
         <div class="filter-bar">
             <label for="ordenar">Ordenar por:</label>
             <select id="ordenar">
-                <option value="precioBajoAlto" <?php echo $orden === 'precioBajoAlto' ? 'selected' : ''; ?>>Precio: Bajo a Alto</option>
-                <option value="precioAltoBajo" <?php echo $orden === 'precioAltoBajo' ? 'selected' : ''; ?>>Precio: Alto a Bajo</option>
+                <option value="precioBajoAlto" <?php echo isset($orden) && $orden === 'precioBajoAlto' ? 'selected' : ''; ?>>Precio: Bajo a Alto</option>
+                <option value="precioAltoBajo" <?php echo isset($orden) && $orden === 'precioAltoBajo' ? 'selected' : ''; ?>>Precio: Alto a Bajo</option>
             </select>
         </div>
 
         <div class="main-products">
             <div class="product-items">
                 <?php while ($producto = $productos_result->fetch_assoc()) {
-                    $imagen_url = $producto['imagen_enlace'] ? 'public/images/' . $producto['imagen_enlace'] : 'https://via.placeholder.com/150';
-                ?>
-                <div class="product-card">
-                    <div class="card-header">
-                        <img src="<?php echo htmlspecialchars($imagen_url); ?>" alt="<?php echo htmlspecialchars($producto['nombre']); ?>">
+                    $imagen_url = $producto['imagen_enlace'] ? 'public/images/' . htmlspecialchars($producto['imagen_enlace']) : 'https://via.placeholder.com/150';
+                    ?>
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="<?php echo $imagen_url; ?>" alt="<?php echo htmlspecialchars($producto['nombre']); ?>">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-name"><?php echo htmlspecialchars($producto['nombre']); ?></h3>
+                            <p class="product-price">US$<?php echo htmlspecialchars($producto['precio_venta']); ?></p>
+                        </div>
+                        <div class="product-action">
+                            <a href="product-visualizer.php?codigo=<?php echo htmlspecialchars($producto['codigo']); ?>" class="btn-view">Ver Detalle</a>
+                        </div>
                     </div>
-                    <div class="card-items">
-                        <h3><?php echo htmlspecialchars($producto['nombre']); ?></h3>
-                        <p>US$<?php echo htmlspecialchars($producto['precio_venta']); ?></p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="product-visualizer.php?codigo=<?php echo htmlspecialchars($producto['codigo']); ?>">Ver Detalle</a>
-                    </div>
-                </div>
                 <?php } ?>
             </div>
-            <div class="pagination"></div>
+            <div class="pagination">
+                <!-- Aquí podrías agregar botones de paginación -->
+            </div>
         </div>
     </main>
     <?php include "reusables/footer.php" ?>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const ordenarSelect = document.getElementById("ordenar");
-
-            ordenarSelect.addEventListener("change", function() {
-                const ordenSeleccionado = ordenarSelect.value;
-                window.location.href = `?orden=${ordenSeleccionado}`;
-            });
-        });
-    </script>
 </body>
 </html>
 
