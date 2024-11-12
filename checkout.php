@@ -1,4 +1,4 @@
-<?php
+<?php 
 session_start();
 
 // Verificar si se ha proporcionado el código del producto
@@ -46,13 +46,14 @@ if (isset($_GET['codigo'])) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DF773N72G0"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-DF773N72G0');
-    </script>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-DF773N72G0"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-DF773N72G0');
+        </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout | Errea</title>
@@ -62,9 +63,9 @@ if (isset($_GET['codigo'])) {
     <link rel="stylesheet" href="assets/styles/footer.css">
     <link rel="stylesheet" href="assets/styles/checkout.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.14.5/dist/sweetalert2.all.min.js"></script>
     <script src="assets/scripts/navbar.js"></script>
-    <script src="assets/scripts/checkout.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="assets/scripts/navbar.js"></script>
 </head>
 <body>
     <?php include "reusables/navbar.php" ?>
@@ -72,8 +73,10 @@ if (isset($_GET['codigo'])) {
         <div class="web-path">
             <p>CARRITO > CHECKOUT > FINALIZAR COMPRA</p>
         </div>
+
         <div class="container">
         <div class="row">
+            <!-- Detalles de facturación -->
             <div class="column">
                 <div class="card">
                     <div class="card-header">
@@ -122,6 +125,7 @@ if (isset($_GET['codigo'])) {
                     </div>
                 </div>
             </div>
+            <!-- Tu pedido -->
             <div class="column">
                 <div class="card">
                     <div class="card-header">
@@ -129,15 +133,10 @@ if (isset($_GET['codigo'])) {
                     </div>
                     <div class="card-body">
                         <p><strong>PRODUCTO</strong></p>
-                        <p><?php echo isset($producto['nombre']) ? htmlspecialchars($producto['nombre']) : 'Producto no encontrado'; ?></p>
-                        <p><strong>Descripción:</strong></p>
-                        <p><?php echo isset($producto['descripcion']) ? htmlspecialchars($producto['descripcion']) : 'Descripción no disponible'; ?></p>
-                        <p><strong>Precio:</strong></p>
-                        <p>$<?php echo isset($producto['precio_venta']) ? htmlspecialchars($producto['precio_venta']) : 'Precio no disponible'; ?></p>
-                        <p><strong>Imagen:</strong></p>
-                        <img src="<?php echo $imagen_url; ?>" alt="Imagen del producto">
+                        <p>Equipo INTEL Core i5 10400F Full Gamer - 16GB - SSD PCIe - Radeon RX6700XT 12Gb x 1</p>
+                        <p><strong>US$900.00</strong></p>
                         <hr>
-                        <p><strong>Subtotal:</strong>$<?php echo isset($producto['precio_venta']) ? htmlspecialchars($producto['precio_venta']) : '0.00'; ?></p>
+                        <p><strong>Subtotal</strong> <span class="float-end">US$900.00</span></p>
                         <p><strong>Envío</strong></p>
                         <div class="form-check">
                             <input type="radio" name="shipping" id="pickup" value="pickup" class="form-check-input" checked>
@@ -156,7 +155,7 @@ if (isset($_GET['codigo'])) {
                             <label for="montevideoFlex" class="form-check-label">Envio a todo el pais - GRATIS</label>
                         </div>
                         <hr>
-                        <p><strong>Total:</strong> <span class="float-end">$<?php echo isset($producto['precio_venta']) ? htmlspecialchars($producto['precio_venta']) : '0.00'; ?></span></p>
+                        <p><strong>Total</strong> <span class="float-end">US$900.00</span></p>
                         <p><strong>Métodos de pago</strong></p>
                         <div class="form-check">
                             <input type="radio" name="paymentMethod" id="bankTransfer" value="bankTransfer" class="form-check-input">
@@ -179,15 +178,6 @@ if (isset($_GET['codigo'])) {
     </div>
     </main>
     <?php include "reusables/footer.php" ?>
-    <script>
-        document.getElementById("placeOrder").addEventListener("click", function() {
-    Swal.fire({
-        title: '¡Gracias por tu compra!',
-        text: 'Tu pedido ha sido realizado con éxito.',
-        icon: 'success',
-        confirmButtonText: 'Cerrar'
-    });
-});
-    </script>
 </body>
-</
+</html>
+

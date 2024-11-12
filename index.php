@@ -1,41 +1,35 @@
 <?php
 session_start();
-$location = "index";
+$location = "tienda";
 define("URUCODE", true);
 require 'api/mysql.php';
 
-$servername = "localhost";
-$username = "duenio";
-$password = "duenio";
-$dbname = "urucode";
+$servername = "localhost";$username = "duenio";$password = "duenio";$dbname = "urucode";
 
 $mysql = new mysqli($servername, $username, $password, $dbname);
 if ($mysql->connect_error) {
     die("Error de conexión a la base de datos: " . $mysql->connect_error);
 }
 
-// Productos "Destacados"
-$stmt = $mysql->prepare("SELECT productos.*, imagenes.enlace AS imagen_enlace
+$stmt = $mysql->prepare("SELECT productos.*, imagenes.nombre AS imagen_nombre 
                          FROM productos 
                          LEFT JOIN imagenes ON productos.imagen_id = imagenes.codigo 
-                         LEFT JOIN productos_categorias ON productos.codigo = productos_categorias.producto_id
-                         LEFT JOIN categorias ON productos_categorias.categoria_id = categorias.codigo
-                         WHERE productos.en_venta = true AND categorias.nombre = 'Destacados' LIMIT 0,5");
+                         WHERE productos.en_venta = true");
 $stmt->execute();
 $productos_destacados = $stmt->get_result();
 $stmt->close();
 
-// Productos en oferta
-$stmt_ofertas = $mysql->prepare("SELECT productos.*, imagenes.enlace AS imagen_enlace
+$stmt_ofertas = $mysql->prepare("SELECT productos.*, imagenes.nombre AS imagen_nombre 
                                  FROM productos 
                                  LEFT JOIN imagenes ON productos.imagen_id = imagenes.codigo 
-                                 LEFT JOIN productos_categorias ON productos.codigo = productos_categorias.producto_id
-                                 LEFT JOIN categorias ON productos_categorias.categoria_id = categorias.codigo
-                                 WHERE productos.en_venta = true AND categorias.nombre = 'Ofertas'");
+                                 WHERE productos.en_venta = true AND productos.precio_venta < productos.precio_costo");
 $stmt_ofertas->execute();
 $productos_ofertas = $stmt_ofertas->get_result();
 $stmt_ofertas->close();
+
+$mysql->close();
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -74,7 +68,7 @@ $stmt_ofertas->close();
             <h1>Destacados</h1>
             <div class="product-items">
                 <?php while ($producto = $productos_destacados->fetch_assoc()) { 
-                    $imagen_url = $producto['imagen_enlace'] ? 'public/images/' . $producto['imagen_enlace'] : 'https://via.placeholder.com/100x100?text=Imagen+del+Producto'; 
+                    $imagen_url = $producto['imagen_nombre'] ? 'public/images/' . $producto['imagen_nombre'] : 'https://via.placeholder.com/100x100?text=Imagen+del+Producto'; 
                 ?>
                     <div class="product-card">
                         <div class="card-header">
@@ -90,12 +84,15 @@ $stmt_ofertas->close();
                     </div>
                 <?php } ?>
             </div>
+            <div class="picture">
+                <img src="public/banners/12Cuotas_MiniBanner-v2-1024x123.png" alt="#">
+            </div>
         </div>
         <div class="main-products">
             <h1>Ofertas</h1>
             <div class="product-items">
                 <?php while ($producto = $productos_ofertas->fetch_assoc()) { 
-                    $imagen_url = $producto['imagen_enlace'] ? 'public/images/' . $producto['imagen_enlace'] : 'https://via.placeholder.com/100x100?text=Imagen+del+Producto'; 
+                    $imagen_url = $producto['imagen_nombre'] ? 'public/images/' . $producto['imagen_nombre'] : 'https://via.placeholder.com/100x100?text=Imagen+del+Producto'; 
                 ?>
                     <div class="product-card">
                         <div class="card-header">

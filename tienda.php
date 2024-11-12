@@ -21,6 +21,20 @@ $result = $mysql->query("SELECT * FROM categorias");
 $productos_result = $mysql->query("SELECT productos.*, imagenes.enlace AS imagen_enlace 
                                    FROM productos 
                                    LEFT JOIN imagenes ON productos.imagen_id = imagenes.codigo");
+
+$orden = isset($_GET['orden']) ? $_GET['orden'] : 'precioBajoAlto';
+switch ($orden) {
+    case 'precioBajoAlto':
+        $orderBy = "ORDER BY productos.precio_venta ASC";
+        break;
+    case 'precioAltoBajo':
+        $orderBy = "ORDER BY productos.precio_venta DESC";
+        break;
+    default:
+        $orderBy = "ORDER BY productos.precio_venta ASC";
+        break;
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -41,7 +55,6 @@ $productos_result = $mysql->query("SELECT productos.*, imagenes.enlace AS imagen
     <link rel="stylesheet" href="assets/styles/footer.css">
     <link rel="stylesheet" href="assets/styles/tienda.css">
     <script src="assets/scripts/navbar.js"></script>
-    <script src="assets/scripts/store.js"></script>
     <title>Tienda | Errea</title>
 </head>
 <body>
@@ -49,24 +62,25 @@ $productos_result = $mysql->query("SELECT productos.*, imagenes.enlace AS imagen
     <main>
         <div class="sidebar">
             <h2>Todas las Categorías</h2>
-            <ul class="category-list">
+            <ul class="category-list-shop">
                 <?php while ($categoria = $result->fetch_assoc()) { ?>
                     <li><a href="#" data-category="<?php echo htmlspecialchars($categoria['nombre']); ?>"><?php echo htmlspecialchars($categoria['nombre']); ?></a></li>
                 <?php } ?>
             </ul>
         </div>
+        
         <div class="filter-bar">
             <label for="ordenar">Ordenar por:</label>
             <select id="ordenar">
-                <option value="popularidad">Popularidad</option>
-                <option value="precioBajoAlto">Precio: Bajo a Alto</option>
-                <option value="precioAltoBajo">Precio: Alto a Bajo</option>
+                <option value="precioBajoAlto" <?php echo $orden === 'precioBajoAlto' ? 'selected' : ''; ?>>Precio: Bajo a Alto</option>
+                <option value="precioAltoBajo" <?php echo $orden === 'precioAltoBajo' ? 'selected' : ''; ?>>Precio: Alto a Bajo</option>
             </select>
         </div>
+
         <div class="main-products">
             <div class="product-items">
                 <?php while ($producto = $productos_result->fetch_assoc()) {
-                    $imagen_url = $producto['imagen_enlace'] ? 'public/images/' . $producto['imagen_enlace'] : 'https://via.placeholder.com/150'; // Asegúrate de tener la barra
+                    $imagen_url = $producto['imagen_nombre'] ? 'public/images/' . $producto['imagen_nombre'] : 'https://via.placeholder.com/150';
                 ?>
                 <div class="product-card">
                     <div class="card-header">
@@ -82,11 +96,21 @@ $productos_result = $mysql->query("SELECT productos.*, imagenes.enlace AS imagen
                 </div>
                 <?php } ?>
             </div>
-            <div class="pagination">
-            </div>
+            <div class="pagination"></div>
         </div>
     </main>
     <?php include "reusables/footer.php" ?>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const ordenarSelect = document.getElementById("ordenar");
+
+            ordenarSelect.addEventListener("change", function() {
+                const ordenSeleccionado = ordenarSelect.value;
+                window.location.href = `?orden=${ordenSeleccionado}`;
+            });
+        });
+    </script>
 </body>
 </html>
 
