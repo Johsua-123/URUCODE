@@ -5,7 +5,7 @@ require 'mysql.php';
 function cambiarContraseña($usuarioId, $contraseñaActual, $nuevaContraseña) {
     global $mysql;
 
-    $stmt = $mysql->prepare("SELECT contrasena FROM usuarios WHERE id = ?");
+    $stmt = $mysql->prepare("SELECT contrasena FROM usuarios WHERE codigo = ?");
     $stmt->bind_param("i", $usuarioId);
     $stmt->execute();
     $stmt->bind_result($contraseñaHash);
@@ -19,7 +19,7 @@ function cambiarContraseña($usuarioId, $contraseñaActual, $nuevaContraseña) {
 
     $nuevoHash = password_hash($nuevaContraseña, PASSWORD_DEFAULT);
 
-    $stmt = $mysql->prepare("UPDATE usuarios SET contrasena = ? WHERE id = ?");
+    $stmt = $mysql->prepare("UPDATE usuarios SET contrasena = ? WHERE codigo = ?");
     $stmt->bind_param("si", $nuevoHash, $usuarioId);
     if ($stmt->execute()) {
         echo "Contraseña cambiada exitosamente.";
@@ -30,4 +30,20 @@ function cambiarContraseña($usuarioId, $contraseñaActual, $nuevaContraseña) {
     }
 }
 
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['contraseña_actual']) && isset($_POST['nueva_contraseña'])) {
+    $usuarioId = $_SESSION["code"];  // Asumiendo que el ID del usuario está almacenado en la sesión
+    $contraseñaActual = $_POST['contraseña_actual'];
+    $nuevaContraseña = $_POST['nueva_contraseña'];
+    
+    if (cambiarContraseña($usuarioId, $contraseñaActual, $nuevaContraseña)) {
+        header("Location: ajustes.php?mensaje=Contraseña cambiada exitosamente.");
+        exit();
+    } else {
+        header("Location: ajustes.php?error=Error al cambiar la contraseña.");
+        exit();
+    }
+} else {
+    header("Location: ajustes.php?error=Datos incompletos.");
+    exit();
+}
 ?>

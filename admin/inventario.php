@@ -173,7 +173,7 @@ $result = $mysql->query($query);
                 </div>
                 <div>
                     <label for="precio_venta">Precio Venta</label>
-                    <input type="number" step="0.01" id="precio_venta" name="precio_venta" required>
+                    <input type="number" id="precio_venta" name="precio_venta" required>
                 </div>
                 <div>
                     <label for="marca">Marca</label>

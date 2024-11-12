@@ -100,7 +100,6 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
 
             </div>
             <div class="pagination">
-                <!-- Aquí podrías agregar botones de paginación -->
             </div>
         </div>
     </main>
