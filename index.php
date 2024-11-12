@@ -81,6 +81,7 @@ $mysql->close();
                         <div class="card-header">
                             <img src="<?php echo htmlspecialchars($imagen_url); ?>" alt="<?php echo htmlspecialchars($producto['nombre']); ?>">
                         </div>
+                        
                         <div class="card-items">
                             <h1><?php echo htmlspecialchars($producto['nombre']); ?></h1>
                             <h2>U$S <?php echo htmlspecialchars($producto['precio_venta']); ?></h2>
@@ -99,7 +100,9 @@ $mysql->close();
             <h1>Ofertas</h1>
             <div class="product-items">
                 <?php while ($producto = $productos_ofertas->fetch_assoc()) { 
-                    $imagen_url = $producto['imagen_nombre'] ? 'public/images/' . $producto['imagen_nombre'] : 'https://via.placeholder.com/100x100?text=Imagen+del+Producto'; 
+                 $imagen_url = $producto['imagen_nombre'] ? 'public/images/' . urlencode($producto['imagen_nombre']) : 'https://via.placeholder.com/100x100?text=Imagen+del+Producto';
+
+
                 ?>
                     <div class="product-card">
                         <div class="card-header">
