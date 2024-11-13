@@ -114,6 +114,7 @@
                                     <th>Descripción</th>
                                     <th>Fecha Creación</th>
                                     <th>Fecha Actualización</th>
+                                    <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -137,6 +138,18 @@
                                         <td><?php echo $producto['descripcion']; ?></td>
                                         <td><?php echo $producto['fecha_creacion']; ?></td>
                                         <td><?php echo $producto['fecha_actualizacion']; ?></td>
+                                        <td>
+                                            <form action="../api/productos.php?script=../admin/inventario.php">
+                                                <input type="hidden" name="accion" value="edicion">
+                                                <input type="hidden" name="codigo" value="<? echo $producto['codigo']; ?>">
+                                                <button type="submit">Editar</button>
+                                            </form>
+                                            <form action="../api/productos.php?script=../admin/inventario.php">
+                                                <input type="hidden" name="accion" value="eliminar">
+                                                <input type="hidden" name="codigo" value="<? echo $producto['codigo']; ?>">
+                                                <button type="submit">Eliminar</button>
+                                            </form>
+                                        </td>
                                     </tr>
                                 <?php } ?>
                             </tbody>

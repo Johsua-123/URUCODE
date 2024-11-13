@@ -29,13 +29,12 @@
         $ruta = "../public/images/";
         $imagen_id = null;
 
-        /*
         if (!empty($imagen)) {
 
             if ($imagen['error'] == UPLOAD_ERR_OK) {
         
                 $archivo = pathinfo($imagen['name']);
-                $extension_img = strtolower($archivo["extension"]);
+                $extension_img = "." . $archivo["extension"];
                 $nombre_img = $archivo["filename"];
                 
                 $stmt = $mysql->prepare("INSERT INTO imagenes (nombre, extension, fecha_creacion) VALUES (?, ?, ?)");
@@ -45,12 +44,11 @@
 
                 $imagen_id = $stmt->insert_id;
 
-                move_uploaded_file($imagen["tmp_name"], "$ruta/$nombre_img-$imagen_id.$extension_img");
+                move_uploaded_file($imagen["tmp_name"], "$ruta/$nombre_img-$imagen_id$extension_img");
 
             }
 
         }
-        */
 
         $stmt = $mysql->prepare("INSERT INTO productos (nombre, cantidad, precio_venta, marca, modelo, imagen_id, descripcion, fecha_creacion, fecha_actualizacion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("sidssisss", $nombre, $cantidad, $precio, $marca, $modelo, $imagen_id, $descripcion, $fecha, $fecha);
