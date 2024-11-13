@@ -20,7 +20,7 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
     ");
 } else {
     $productos_result = $mysql->query("
-        SELECT productos.*, CONCAT(imagenes.nombre, imagenes.extension) AS imagen_enlace 
+        SELECT productos.*, CONCAT(imagenes.nombre, imagenes.extension) AS imagen_extension
         FROM productos 
         LEFT JOIN imagenes ON productos.imagen_id = imagenes.codigo
         WHERE productos.en_venta = 1
@@ -71,7 +71,7 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
         <div class="main-products">
             <div class="product-items">
                 <?php while ($producto = $productos_result->fetch_assoc()) {
-                    $imagen_url = $producto['imagen_enlace'] ? 'public/images/' . htmlspecialchars($producto['imagen_enlace']) : 'https://via.placeholder.com/150';
+                    $imagen_url = $producto['imagen_extension'] ? 'public/images/' . htmlspecialchars($producto['imagen_extension']) : 'https://via.placeholder.com/150';
                     ?>
                     <div class="product-card">
                         <div class="product-image">
