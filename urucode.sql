@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 13-11-2024 a las 20:44:06
+-- Tiempo de generación: 14-11-2024 a las 00:55:40
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -35,6 +35,13 @@ CREATE TABLE `categorias` (
   `fecha_actualizacion` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `categorias`
+--
+
+INSERT INTO `categorias` (`codigo`, `nombre`, `eliminado`, `fecha_creacion`, `fecha_actualizacion`) VALUES
+(1, 'Computadoras', 0, '2024-11-14 00:51:49', '2024-11-14 00:51:49');
+
 -- --------------------------------------------------------
 
 --
@@ -53,32 +60,23 @@ CREATE TABLE `codigos` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `cuotas`
---
-
-CREATE TABLE `cuotas` (
-  `codigo` int(11) NOT NULL,
-  `estado` enum('pago','pendiente','vencido') DEFAULT 'pendiente',
-  `numero` int(11) NOT NULL,
-  `metodo` enum('Tarjeta','PayPal','Mercado Pago','Transferencia') DEFAULT NULL,
-  `valor` int(11) NOT NULL,
-  `fecha_creacion` datetime DEFAULT NULL,
-  `fecha_actualizacion` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `imagenes`
 --
 
-create table imagenes (
-    codigo integer auto_increment primary key,
-    nombre text,
-    extension enum (".png", ".jpg", ".jpeg", ".webp"),
-    eliminado boolean default false,
-    fecha_creacion datetime
-);
+CREATE TABLE `imagenes` (
+  `codigo` int(11) NOT NULL,
+  `nombre` text DEFAULT NULL,
+  `extension` enum('.png','.jpg','.jpeg','.webp') DEFAULT NULL,
+  `eliminado` tinyint(1) DEFAULT 0,
+  `fecha_creacion` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `imagenes`
+--
+
+INSERT INTO `imagenes` (`codigo`, `nombre`, `extension`, `eliminado`, `fecha_creacion`) VALUES
+(1, 'pcgamer', '.jpg', 0, '2024-11-14 00:52:22');
 
 -- --------------------------------------------------------
 
@@ -105,16 +103,24 @@ CREATE TABLE `mensajes` (
 
 CREATE TABLE `ordenes` (
   `codigo` int(11) NOT NULL,
-  `usuario_id` int(11) NOT NULL,
-  `item_id` int(11) NOT NULL,
-  `cantidad` int(11) NOT NULL,
-  `precio_unitario` decimal(10,2) NOT NULL,
-  `subtotal` decimal(10,2) NOT NULL,
-  `estado` enum('completado','pendiente','vencido') DEFAULT 'pendiente',
-  `fecha_creacion` datetime NOT NULL,
-  `fecha_actualizacion` datetime NOT NULL,
-  `direccion` varchar(100) NOT NULL
+  `usuario_id` int(11) DEFAULT NULL,
+  `item_tipo` enum('producto','servicio') DEFAULT NULL,
+  `item_id` int(11) DEFAULT NULL,
+  `direccion` varchar(80) DEFAULT NULL,
+  `cantidad` int(11) DEFAULT 1,
+  `precio_unitario` decimal(10,2) DEFAULT 0.00,
+  `subtotal` decimal(10,2) DEFAULT 0.00,
+  `estado` enum('completado','pendiente','cancelada') DEFAULT 'pendiente',
+  `fecha_creacion` datetime DEFAULT NULL,
+  `fecha_actualizacion` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `ordenes`
+--
+
+INSERT INTO `ordenes` (`codigo`, `usuario_id`, `item_tipo`, `item_id`, `direccion`, `cantidad`, `precio_unitario`, `subtotal`, `estado`, `fecha_creacion`, `fecha_actualizacion`) VALUES
+(2, 1, '', 1, 'Invernizzi 549', 1, 900.00, 900.00, 'pendiente', '2024-11-13 20:55:00', '2024-11-13 20:55:00');
 
 -- --------------------------------------------------------
 
@@ -137,6 +143,13 @@ CREATE TABLE `productos` (
   `fecha_actualizacion` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `productos`
+--
+
+INSERT INTO `productos` (`codigo`, `nombre`, `marca`, `modelo`, `cantidad`, `en_venta`, `eliminado`, `imagen_id`, `descripcion`, `precio_venta`, `fecha_creacion`, `fecha_actualizacion`) VALUES
+(1, 'pc', 'compu', '3200', 1, 1, 0, 1, 'sdfg', 900, '2024-11-14 00:52:22', '2024-11-14 00:52:22');
+
 -- --------------------------------------------------------
 
 --
@@ -144,26 +157,18 @@ CREATE TABLE `productos` (
 --
 
 CREATE TABLE `productos_categorias` (
-  `eliminado` tinyint(1) DEFAULT 0,
-  `producto_id` int(11) DEFAULT NULL,
-  `categoria_id` int(11) DEFAULT NULL,
+  `producto_id` int(11) NOT NULL,
+  `categoria_id` int(11) NOT NULL,
   `fecha_creacion` datetime DEFAULT NULL,
   `fecha_actualizacion` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- --------------------------------------------------------
-
 --
--- Estructura de tabla para la tabla `productos_imagenes`
+-- Volcado de datos para la tabla `productos_categorias`
 --
 
-CREATE TABLE `productos_imagenes` (
-  `eliminado` tinyint(1) DEFAULT 0,
-  `imagen_id` int(11) DEFAULT NULL,
-  `producto_id` int(11) DEFAULT NULL,
-  `fecha_creacion` datetime DEFAULT NULL,
-  `fecha_actualizacion` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+INSERT INTO `productos_categorias` (`producto_id`, `categoria_id`, `fecha_creacion`, `fecha_actualizacion`) VALUES
+(1, 1, '2024-11-14 00:52:22', '2024-11-14 00:52:22');
 
 -- --------------------------------------------------------
 
@@ -206,6 +211,13 @@ CREATE TABLE `usuarios` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+-- Volcado de datos para la tabla `usuarios`
+--
+
+INSERT INTO `usuarios` (`codigo`, `rol`, `email`, `nombre`, `apellido`, `telefono`, `ubicacion`, `direccion`, `verificado`, `imagen_id`, `contrasena`, `eliminado`, `fecha_creacion`, `fecha_actualizacion`) VALUES
+(1, 'usuario', 'papu@gmail.com', 'niji', NULL, NULL, NULL, NULL, 0, NULL, '$2y$10$GsSD/PqZxi8zfxfdv25GT.bPOBUwXN2KHH0KnQLJsTaiSVNNwp9ki', 0, '2024-11-14 00:50:38', '2024-11-14 00:50:38');
+
+--
 -- Índices para tablas volcadas
 --
 
@@ -222,14 +234,7 @@ ALTER TABLE `categorias`
 --
 ALTER TABLE `codigos`
   ADD PRIMARY KEY (`codigo`),
-  ADD UNIQUE KEY `tipo` (`tipo`,`usuario_id`),
   ADD KEY `usuario_id` (`usuario_id`);
-
---
--- Indices de la tabla `cuotas`
---
-ALTER TABLE `cuotas`
-  ADD PRIMARY KEY (`codigo`);
 
 --
 -- Indices de la tabla `imagenes`
@@ -259,22 +264,18 @@ ALTER TABLE `ordenes`
 --
 ALTER TABLE `productos`
   ADD PRIMARY KEY (`codigo`),
-  ADD UNIQUE KEY `nombre` (`nombre`);
+  ADD UNIQUE KEY `nombre` (`nombre`),
+  ADD KEY `imagen_id` (`imagen_id`),
+  ADD KEY `idx_venta` (`en_venta`),
+  ADD KEY `idx_precio` (`precio_venta`),
+  ADD KEY `idx_eliminado` (`eliminado`);
 
 --
 -- Indices de la tabla `productos_categorias`
 --
 ALTER TABLE `productos_categorias`
-  ADD KEY `producto_id` (`producto_id`),
+  ADD PRIMARY KEY (`producto_id`,`categoria_id`),
   ADD KEY `categoria_id` (`categoria_id`);
-
---
--- Indices de la tabla `productos_imagenes`
---
-ALTER TABLE `productos_imagenes`
-  ADD UNIQUE KEY `imagen_id` (`imagen_id`,`producto_id`),
-  ADD KEY `producto_id` (`producto_id`),
-  ADD KEY `idx_eliminado` (`eliminado`);
 
 --
 -- Indices de la tabla `servicios`
@@ -306,7 +307,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `categorias`
 --
 ALTER TABLE `categorias`
-  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `codigos`
@@ -315,16 +316,10 @@ ALTER TABLE `codigos`
   MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `cuotas`
---
-ALTER TABLE `cuotas`
-  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT de la tabla `imagenes`
 --
 ALTER TABLE `imagenes`
-  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `mensajes`
@@ -336,13 +331,13 @@ ALTER TABLE `mensajes`
 -- AUTO_INCREMENT de la tabla `ordenes`
 --
 ALTER TABLE `ordenes`
-  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `servicios`
@@ -354,7 +349,7 @@ ALTER TABLE `servicios`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Restricciones para tablas volcadas
@@ -364,15 +359,20 @@ ALTER TABLE `usuarios`
 -- Filtros para la tabla `codigos`
 --
 ALTER TABLE `codigos`
-  ADD CONSTRAINT `codigos_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`codigo`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `codigos_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `codigos` (`codigo`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `ordenes`
 --
 ALTER TABLE `ordenes`
   ADD CONSTRAINT `ordenes_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`codigo`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `ordenes_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `productos` (`codigo`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `ordenes_ibfk_3` FOREIGN KEY (`item_id`) REFERENCES `servicios` (`codigo`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `ordenes_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `productos` (`codigo`) ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `productos`
+--
+ALTER TABLE `productos`
+  ADD CONSTRAINT `productos_ibfk_1` FOREIGN KEY (`imagen_id`) REFERENCES `imagenes` (`codigo`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `productos_categorias`
@@ -380,13 +380,6 @@ ALTER TABLE `ordenes`
 ALTER TABLE `productos_categorias`
   ADD CONSTRAINT `productos_categorias_ibfk_1` FOREIGN KEY (`producto_id`) REFERENCES `productos` (`codigo`) ON UPDATE CASCADE,
   ADD CONSTRAINT `productos_categorias_ibfk_2` FOREIGN KEY (`categoria_id`) REFERENCES `categorias` (`codigo`) ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `productos_imagenes`
---
-ALTER TABLE `productos_imagenes`
-  ADD CONSTRAINT `productos_imagenes_ibfk_1` FOREIGN KEY (`imagen_id`) REFERENCES `imagenes` (`codigo`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `productos_imagenes_ibfk_2` FOREIGN KEY (`producto_id`) REFERENCES `productos` (`codigo`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `servicios`
