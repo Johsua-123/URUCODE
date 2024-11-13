@@ -65,7 +65,7 @@ if (isset($_GET['codigo'])) {
         <div class="web-path">
             <p>CARRITO > CHECKOUT > FINALIZAR COMPRA</p>
         </div>
-        <form method="POST" action="checkout-2.php">
+        <form method="POST" action="api/checkout-2.php">
     <input type="hidden" name="codigoProducto" value="<?php echo $codigoProducto; ?>">
     <input type="hidden" name="precioProducto" value="<?php echo $producto['precio_venta'] ?? $servicio['precio']; ?>">
     <input type="hidden" name="cantidadProducto" value="1"> 
