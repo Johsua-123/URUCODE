@@ -16,38 +16,38 @@
     if (empty($categoria)) {
 
         $stmt = $mysql->prepare("SELECT 
-            p.*, 
-            i.codigo as 'i_codigo',
-            i.nombre as 'i_nombre',
-            i.extension as 'i_extension',
-            c.nombre as 'c_nombre'
-            FROM productos p
-            LEFT JOIN imagenes i ON p.imagen_id=i.codigo
-            INNER JOIN productos_categorias pc ON pc.producto_id=p.codigo
-            INNER JOIN categorias c ON pc.categoria_id=c.codigo
-            WHERE p.eliminado=false AND c.eliminado=false
-        ");
+    p.*, 
+    i.codigo AS 'i_codigo',
+    i.nombre AS 'i_nombre',
+    i.extension AS 'i_extension',
+    c.nombre AS 'c_nombre'
+    FROM productos p
+    LEFT JOIN imagenes i ON p.imagen_id = i.codigo
+    LEFT JOIN productos_categorias pc ON pc.producto_id = p.codigo
+    LEFT JOIN categorias c ON pc.categoria_id = c.codigo
+    WHERE p.eliminado = false
+");
 
-        $stmt->execute();
+$stmt->execute();
 
-        $resultado = $stmt->get_result();
+$resultado = $stmt->get_result();
 
-        while ($producto = $resultado->fetch_assoc()) {
-            
-            if (!empty($producto["i_codigo"])) {
-                $imagen = $producto["i_nombre"] . "-" . $producto["i_codigo"] . $producto["i_extension"];
-                
-                if (file_exists("../public/images/$imagen")) {
-                    $producto["imagen"] = "../public/images/$imagen";
-                } else {
-                    $producto["imagen"] = "null";
-                }
-
-            }
-
-            unset($producto["i_codigo"], $producto["i_nombre"], $producto["i_extension"]);
-            $productos[] = $producto;
+while ($producto = $resultado->fetch_assoc()) {
+    
+    if (!empty($producto["i_codigo"])) {
+        $imagen = $producto["i_nombre"] . "-" . $producto["i_codigo"] . $producto["i_extension"];
+        
+        if (file_exists("../public/images/$imagen")) {
+            $producto["imagen"] = "../public/images/$imagen";
+        } else {
+            $producto["imagen"] = "null";
         }
+    }
+
+    unset($producto["i_codigo"], $producto["i_nombre"], $producto["i_extension"]);
+    $productos[] = $producto;
+}
+
 
     } else {
 
