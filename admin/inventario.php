@@ -23,9 +23,9 @@
             c.nombre as 'c_nombre'
             FROM productos p
             LEFT JOIN imagenes i ON p.imagen_id=i.codigo
-            INNER JOIN productos_categorias pc ON pc.producto_id=p.codigo
-            INNER JOIN categorias c ON pc.categoria_id=c.codigo
-            WHERE p.eliminado=false AND c.eliminado=false
+            LEFT JOIN productos_categorias pc ON pc.producto_id=p.codigo
+            LEFT JOIN categorias c ON pc.categoria_id=c.codigo
+            WHERE p.eliminado=false
         ");
 
         $stmt->execute();
@@ -40,7 +40,7 @@
                 if (file_exists("../public/images/$imagen")) {
                     $producto["imagen"] = "../public/images/$imagen";
                 } else {
-                    $producto["imagen"] = "null";
+                    $producto["imagen"] = "";
                 }
 
             }
@@ -51,13 +51,41 @@
 
     } else {
 
-    /* $stmt = $mysql->prepare("SELECT 
-        p.*
-        FROM productos p
-        LEFT JOIN imagenes i ON p.imagen_id=i.codigo
-    ");
-    */
-        
+        $stmt = $mysql->prepare("SELECT 
+            p.*, 
+            i.codigo as 'i_codigo',
+            i.nombre as 'i_nombre',
+            i.extension as 'i_extension',
+            c.nombre as 'c_nombre'
+            FROM productos p
+            LEFT JOIN imagenes i ON p.imagen_id=i.codigo
+            LEFT JOIN productos_categorias pc ON pc.producto_id=p.codigo
+            LEFT JOIN categorias c ON pc.categoria_id=c.codigo
+            WHERE p.eliminado=false AND c.codigo=?
+        ");
+
+        $stmt->bind_param("i", $categoria);
+        $stmt->execute();
+
+        $resultado = $stmt->get_result();
+
+        while ($producto = $resultado->fetch_assoc()) {
+            
+            if (!empty($producto["i_codigo"])) {
+                $imagen = $producto["i_nombre"] . "-" . $producto["i_codigo"] . $producto["i_extension"];
+                
+                if (file_exists("../public/images/$imagen")) {
+                    $producto["imagen"] = "../public/images/$imagen";
+                } else {
+                    $producto["imagen"] = "";
+                }
+
+            }
+
+            unset($producto["i_codigo"], $producto["i_nombre"], $producto["i_extension"]);
+            $productos[] = $producto;
+        }
+    
     }
 
 ?>
@@ -148,7 +176,6 @@
                                 <?php } ?>
                             </tbody>
                         </table>
-                        <div><?php //print_r($productos) ?></div>
                     </div>
                 </div>
             </div>
@@ -213,5 +240,18 @@
 </html>
 
 <?php
+
+    if ($_SERVER["REQUEST_METHOD"] != "POST") {
+        exit;
+    }
+
+    $accion = $_POST["accion"] ?? null;
+    $codigo = $_GET["codigo"];
+
+    if (empty($accion)) {
+        exit;
+    }
+
+    
 
 ?>
