@@ -64,7 +64,7 @@
                 </section>
             </div>
             <div class="about-us">
-                <h1>Sobre nosotros</h1>
+                <h1>Acerca de nostros</h1>
                 <section>
                     <h2>Empresa</h2>
                     <p>Nombre: URUCODE</p>
