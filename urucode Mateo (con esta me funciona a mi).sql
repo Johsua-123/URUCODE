@@ -72,13 +72,13 @@ CREATE TABLE `cuotas` (
 -- Estructura de tabla para la tabla `imagenes`
 --
 
-CREATE TABLE `imagenes` (
-  `codigo` int(11) NOT NULL,
-  `nombre` text DEFAULT NULL,
-  `enlace` text DEFAULT NULL,
-  `eliminado` tinyint(1) DEFAULT 0,
-  `fecha_creacion` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+create table imagenes (
+    codigo integer auto_increment primary key,
+    nombre text,
+    extension enum (".png", ".jpg", ".jpeg", ".webp"),
+    eliminado boolean default false,
+    fecha_creacion datetime
+);
 
 -- --------------------------------------------------------
 
