@@ -10,6 +10,7 @@ $productos_result = [];
 if (isset($_GET['search']) && !empty($_GET['search'])) {
     $busqueda = $mysql->real_escape_string($_GET['search']);
     $productos_result = $mysql->query("
+    
         SELECT productos.*, CONCAT(imagenes.nombre, imagenes.extension) AS imagen_enlace 
         FROM productos 
         LEFT JOIN imagenes ON productos.imagen_id = imagenes.codigo
@@ -89,7 +90,6 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
 
             </div>
             <div class="pagination">
-                <!-- Aquí podrías agregar botones de paginación -->
             </div>
         </div>
     </main>
