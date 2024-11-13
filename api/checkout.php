@@ -11,14 +11,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $city = $_POST['city'];
     $state = $_POST['state'];
     $phone = $_POST['phone'];
-    $productCode = $_POST['productCode']; 
+    $productCode = $_POST['productCode'];
     $quantity = 1; // Cantidad por defecto
-    $paymentMethod = $_POST['paymentMethod']; 
+    $paymentMethod = $_POST['paymentMethod'];
     $userId = $_SESSION['user_id']; // Asume que el usuario ha iniciado sesión y su ID está en la sesión
 
     $mysql->begin_transaction();
 
     try {
+        // Obtener los detalles del producto
         $stmt = $mysql->prepare("SELECT nombre, precio_venta FROM productos WHERE codigo = ?");
         $stmt->bind_param("i", $productCode);
         $stmt->execute();
@@ -34,20 +35,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $subtotal = $unitPrice * $quantity;
 
         // Insertar en la tabla ordenes
-        $stmt = $mysql->prepare("INSERT INTO ordenes (subtotal, usuario_id, fecha_creacion, fecha_actualizacion) VALUES (?, ?, NOW(), NOW())");
-        $stmt->bind_param("di", $subtotal, $userId);
-        $stmt->execute();
-        $orderId = $mysql->insert_id;
+        $stmt = $mysql->prepare("INSERT INTO ordenes (
+            usuario_id, nombre, apellido, email, direccion, ciudad, departamento,
+            telefono, codigo_producto, cantidad, metodo_pago, precio_unitario, subtotal, estado_pago, fecha_creacion, fecha_actualizacion
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pendiente', NOW(), NOW())");
 
-        // Insertar en la tabla ordenes_detalles
-        $stmt = $mysql->prepare("INSERT INTO ordenes_detalles (precio, item_id, cantidad, orden_id, subtotal, item_tipo, fecha_creacion, fecha_actualizacion) VALUES (?, ?, ?, ?, ?, 'producto', NOW(), NOW())");
-        $stmt->bind_param("diiii", $unitPrice, $productCode, $quantity, $orderId, $subtotal);
-        $stmt->execute();
+        $stmt->bind_param(
+            "isssssssiiiidd",
+            $userId, $firstName, $lastName, $email, $address, $city, $state, $phone,
+            $productCode, $quantity, $paymentMethod, $unitPrice, $subtotal
+        );
 
-        // Insertar en la tabla pagos
-        $stmt = $mysql->prepare("INSERT INTO pagos (estado, metodo, orden_id, usuario_id, fecha_creacion, fecha_actualizacion) VALUES ('pendiente', ?, ?, ?, NOW(), NOW())");
-        $stmt->bind_param("sii", $paymentMethod, $orderId, $userId);
-        $stmt->execute();
+        if (!$stmt->execute()) {
+            throw new Exception("Error al insertar en ordenes: " . $stmt->error);
+        }
 
         $mysql->commit();
 
@@ -73,6 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 confirmButtonText: 'Cerrar'
             });
         </script>";
+        error_log("Error: " . $e->getMessage());
     }
 
     $stmt->close();
@@ -80,4 +82,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 } else {
     echo "Acceso no autorizado.";
 }
-?>
