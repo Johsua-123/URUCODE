@@ -17,13 +17,12 @@
         c.nombre AS 'categoria',
         i.codigo AS 'i.codigo',
         i.nombre AS 'i.nombre',
-        i.enlace AS 'i.extension'
+        i.extension AS 'i.extension'
         FROM productos p
         LEFT JOIN imagenes i ON p.imagen_id=i.codigo
         LEFT JOIN productos_categorias pc ON pc.producto_id=p.codigo
         LEFT JOIN categorias c ON pc.categoria_id=c.codigo
         WHERE p.eliminado=false
-
     ";
 
     if (!empty($categoria)) {
@@ -107,7 +106,7 @@
                                     <th>Nombre</th>
                                     <th>Imagen</th>
                                     <th>Cantidad</th>
-                                    <th>Precio Venta</th>
+                                    <th>Precio</th>
                                     <th>Marca</th>
                                     <th>Modelo</th>
                                     <th>Categorías</th>
@@ -171,11 +170,11 @@
                 </div>
                 <div>
                     <label for="cantidad">Cantidad</label>
-                    <input type="number" id="cantidad" name="cantidad" required>
+                    <input type="number" id="cantidad" name="cantidad" value="1" required>
                 </div>
                 <div>
                     <label for="precio">Precio Venta</label>
-                    <input type="number" id="precio" name="precio" required>
+                    <input type="number" id="precio" name="precio" value="0.0" required>
                 </div>
                 <div>
                     <label for="marca">Marca</label>
