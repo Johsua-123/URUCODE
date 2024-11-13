@@ -1,9 +1,8 @@
 <?php
-session_start();
-$location = "tienda";
 
-define("URUCODE", true);
-require 'api/mysql.php';
+    session_start();
+    $location = "tienda";
+    require 'api/mysql.php';
 
 if (isset($_GET['codigo'])) {
     $product_code = $_GET['codigo'];
@@ -12,11 +11,6 @@ if (isset($_GET['codigo'])) {
     $username = "duenio";
     $password = "duenio";
     $dbname = "urucode";
-
-    $mysql = new mysqli($servername, $username, $password, $dbname);
-    if ($mysql->connect_error) {
-        die("Error de conexión a la base de datos: " . $mysql->connect_error);
-    }
 
     $stmt = $mysql->prepare("SELECT * FROM productos WHERE codigo = ?");
     $stmt->bind_param("i", $product_code);
@@ -33,7 +27,7 @@ if (isset($_GET['codigo'])) {
         $imagen = $result->fetch_assoc();
         $imagen_url = $imagen ? 'public/images/' . $imagen['nombre'] : 'https://via.placeholder.com/150';
 
-        // Obtener la categoría del producto
+        // categoría del producto
         $stmt = $mysql->prepare("SELECT categorias.nombre AS categoria_nombre FROM categorias 
                                  JOIN productos_categorias ON categorias.codigo = productos_categorias.categoria_id 
                                  WHERE productos_categorias.producto_id = ?");
@@ -48,12 +42,11 @@ if (isset($_GET['codigo'])) {
         exit;
     }
 
-    $stmt->close();
-    $mysql->close();
-} else {
-    echo "Código de producto no especificado.";
-    exit;
-}
+    } else {
+        echo "Código de producto no especificado.";
+        exit;
+    }
+
 ?>
 
 <!DOCTYPE html>
