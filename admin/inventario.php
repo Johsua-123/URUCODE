@@ -13,146 +13,44 @@
     $categoria = $_GET["categoria"] ?? null;
     $productos = [];
 
-    if (empty($categoria)) {
+    $consulta = "SELECT p.*, 
+        c.nombre AS 'categoria',
+        i.codigo AS 'i.codigo',
+        i.nombre AS 'i.nombre',
+        i.extension AS 'i.extension'
+        FROM productos p
+        LEFT JOIN imagenes i ON p.imagen_id=i.codigo
+        LEFT JOIN productos_categorias pc ON pc.producto_id=p.codigo
+        LEFT JOIN categorias c ON pc.categoria_id=c.codigo
+        WHERE p.eliminado=false
 
-        $stmt = $mysql->prepare("SELECT 
-            p.*, 
-            i.codigo as 'i_codigo',
-            i.nombre as 'i_nombre',
-            i.extension as 'i_extension',
-            c.nombre as 'c_nombre'
-            FROM productos p
-            LEFT JOIN imagenes i ON p.imagen_id=i.codigo
-            LEFT JOIN productos_categorias pc ON pc.producto_id=p.codigo
-            LEFT JOIN categorias c ON pc.categoria_id=c.codigo
-            WHERE p.eliminado=false
-        ");
+    ";
 
-        $stmt->execute();
-
-        $resultado = $stmt->get_result();
-
-        while ($producto = $resultado->fetch_assoc()) {
-            
-            if (!empty($producto["i_codigo"])) {
-                $imagen = $producto["i_nombre"] . "-" . $producto["i_codigo"] . $producto["i_extension"];
-                
-                if (file_exists("../public/images/$imagen")) {
-                    $producto["imagen"] = "../public/images/$imagen";
-                } else {
-                    $producto["imagen"] = "";
-                }
-
-            }
-
-            unset($producto["i_codigo"], $producto["i_nombre"], $producto["i_extension"]);
-            $productos[] = $producto;
-        }
-
-    } else {
-
-        $stmt = $mysql->prepare("SELECT 
-            p.*, 
-            i.codigo as 'i_codigo',
-            i.nombre as 'i_nombre',
-            i.extension as 'i_extension',
-            c.nombre as 'c_nombre'
-            FROM productos p
-            LEFT JOIN imagenes i ON p.imagen_id=i.codigo
-            LEFT JOIN productos_categorias pc ON pc.producto_id=p.codigo
-            LEFT JOIN categorias c ON pc.categoria_id=c.codigo
-            WHERE p.eliminado=false AND c.codigo=?
-        ");
-
-        $stmt->bind_param("i", $categoria);
-        $stmt->execute();
-
-        $resultado = $stmt->get_result();
-
-        while ($producto = $resultado->fetch_assoc()) {
-            
-            if (!empty($producto["i_codigo"])) {
-                $imagen = $producto["i_nombre"] . "-" . $producto["i_codigo"] . $producto["i_extension"];
-                
-                if (file_exists("../public/images/$imagen")) {
-                    $producto["imagen"] = "../public/images/$imagen";
-                } else {
-                    $producto["imagen"] = "";
-                }
-
-            }
-
-            unset($producto["i_codigo"], $producto["i_nombre"], $producto["i_extension"]);
-            $productos[] = $producto;
-        }
-    
+    if (!empty($categoria)) {
+        $consulta .= " AND c.codigo=$categoria";
     }
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        
-        $accion = $_POST["accion"] ?? null;
-        $codigo = $_GET["codigo"] ?? null;
-        
-        if (!empty($accion)) {
+    $stmt = $mysql->prepare($consulta);
 
-            if ($accion == "insertar") {
+    $stmt->execute();
 
-                $nombre = $_POST['nombre'];
-                $cantidad = $_POST['cantidad'];
-                $precio_venta = $_POST['precio'];
-                $marca = $_POST['marca'];
-                $modelo = $_POST['modelo'];
-                $descripcion = $_POST['descripcion'];
-                $categorias_seleccionadas = $_POST['categorias'] ?? [];
-                $fecha = date("Y-m-d H:i:s");
-        
-                $imagen = $_FILES['icono'];
-                $ruta = "../public/images/";
-                $imagen_id = null;
-        
-                if (!empty($imagen)) {
-        
-                    if ($imagen['error'] == UPLOAD_ERR_OK) {
-                
-                        $archivo = pathinfo($imagen['name']);
-                        $extension_img = strtolower($archivo["extension"]);
-                        $nombre_img = $archivo["filename"];
-                        
-                        $stmt = $mysql->prepare("INSERT INTO imagenes (nombre, extension, fecha_creacion) VALUES (?, ?, ?)");
-                        $stmt->bind_param("sss", $nombre_img, $extension_img, $fecha);
-        
-                        $stmt->execute();
-        
-                        $imagen_id = $stmt->insert_id;
-        
-                        move_uploaded_file($imagen["tmp_name"], "$ruta/$nombre_img-$imagen_id.$extension_img");
-        
-                    }
-        
-                }
-        
-                $stmt = $mysql->prepare("INSERT INTO productos (nombre, cantidad, precio_venta, marca, modelo, imagen_id, descripcion, fecha_creacion, fecha_actualizacion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                $stmt->bind_param("sidssisss", $nombre, $cantidad, $precio_venta, $marca, $modelo, $imagen_id, $descripcion, $fecha, $fecha);
-                $stmt->execute();
-                $producto_id = $stmt->insert_id;
-        
-                foreach ($categorias_seleccionadas as $categoria_id) {
-                    $stmt_categoria = $mysql->prepare("INSERT INTO productos_categorias (producto_id, categoria_id, fecha_creacion, fecha_actualizacion) VALUES (?, ?, ?, ?)");
-                    $stmt_categoria->bind_param("iiss", $producto_id, $categoria_id, $fecha, $fecha);
-                    $stmt_categoria->execute();
-                }
-        
-            } else if ($accion == "edicion") {
+    $resultado = $stmt->get_result();
 
+    while ($producto = $resultado->fetch_assoc()) {
 
-
-            } else if ($accion == "eliminar") {
-
+        if (!empty($producto["i.codigo"])) {
+            $imagen = $producto["i.nombre"] . "-" . $producto["i.codigo"] . $producto["i.extension"];
+            
+            if (file_exists("../public/images/$imagen")) {
+                $producto["imagen"] = "../public/images/$imagen";
+            } else {
+                $producto["imagen"] = "";
             }
-
         }
-        $stmt->close();
-        $mysql->close();
+
+        unset($producto["i.codigo"], $producto["i.nombre"], $producto["i.extension"]);
+        $productos[] = $producto;
+
     }
 
 ?>
@@ -226,7 +124,7 @@
                                         <td><?php echo $producto['nombre']; ?></td>
                                         <td>
                                             <?php if (isset($producto['imagen'])) { ?>
-                                                <img src="<?php echo $producto['imagen']; ?>" alt="Ícono" width="50">
+                                                <img src="<?php echo $producto['imagen']; ?>" alt="imagen del producto" width="50">
                                             <?php } else { ?>
                                                 No disponible
                                             <?php } ?>
@@ -235,7 +133,7 @@
                                         <td><?php echo $producto['precio_venta']; ?></td>
                                         <td><?php echo $producto['marca']; ?></td>
                                         <td><?php echo $producto['modelo']; ?></td>
-                                        <td><?php echo $producto['c_nombre']; ?></td>
+                                        <td><?php echo $producto['categoria']; ?></td>
                                         <td><?php echo $producto['descripcion']; ?></td>
                                         <td><?php echo $producto['fecha_creacion']; ?></td>
                                         <td><?php echo $producto['fecha_actualizacion']; ?></td>
