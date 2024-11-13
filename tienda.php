@@ -65,7 +65,7 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-DF773N72G0"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
+        function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
         gtag('config', 'G-DF773N72G0');
     </script>
@@ -113,26 +113,24 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
                 <?php while ($producto = $productos_result->fetch_assoc()): ?>
                     <div class="product-card">
                         <div class="product-image">
-                            <img src="<?php echo $producto['imagen_enlace'] ? 'public/images/' . htmlspecialchars($producto['imagen_enlace']) : 'https://via.placeholder.com/150'; ?>" 
-                                alt="<?php echo htmlspecialchars($producto['nombre']); ?>">
+                            <img src="<?php echo $imagen_url; ?>" alt="<?php echo htmlspecialchars($producto['nombre']); ?>">
                         </div>
                         <div class="product-info">
                             <h3 class="product-name"><?php echo htmlspecialchars($producto['nombre']); ?></h3>
                             <p class="product-price">US$<?php echo htmlspecialchars($producto['precio_venta']); ?></p>
                         </div>
                         <div class="product-action">
-                            <a href="product-visualizer.php?codigo=<?php echo htmlspecialchars($producto['codigo']); ?>" class="btn-view" aria-label="Ver detalles de <?php echo htmlspecialchars($producto['nombre']); ?>">Ver Detalle</a>
+                            <a href="product-visualizer.php?codigo=<?php echo htmlspecialchars($producto['codigo']); ?>" class="btn-view">Ver Detalle</a>
                         </div>
                     </div>
-                <?php endwhile; ?>
-            <?php else: ?>
-                <p>No se encontraron productos.</p>
-            <?php endif; ?>
+                <?php } ?>
+
+            </div>
+            <div class="pagination">
+            </div>
         </div>
-        <div class="pagination"></div>
-    </div>
-</main>
-<?php include "reusables/footer.php"; ?>
+    </main>
+    <?php include "reusables/footer.php" ?>
 </body>
 </html>
 
