@@ -31,7 +31,6 @@
         exit;
     }
 
-    define("URUCODE", true);
     require "mysql.php";
 
     $query = mysqli_query($mysql, "SELECT * FROM usuarios WHERE email='$email'");

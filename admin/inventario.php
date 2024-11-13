@@ -1,78 +1,67 @@
 <?php 
-session_start();
 
-if (!isset($_SESSION["code"])) {
-    header("Location: ../index.php");
-    exit;
-}
+    session_start();
 
-$location = "inventario";
-
-$servername = "localhost";
-$username = "duenio";
-$password = "duenio";
-$dbname = "urucode";
-
-$mysql = new mysqli($servername, $username, $password, $dbname);
-if ($mysql->connect_error) {
-    die("Error de conexión a la base de datos: " . $mysql->connect_error);
-}
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nombre'])) {
-    $nombre = $_POST['nombre'];
-    $cantidad = $_POST['cantidad'];
-    $precio_venta = $_POST['precio_venta'];
-    $marca = $_POST['marca'];
-    $modelo = $_POST['modelo'];
-    $descripcion = $_POST['descripcion'];
-    $categorias_seleccionadas = $_POST['categorias'] ?? [];
-    $fecha_creacion = date("Y-m-d H:i:s");
-    $fecha_actualizacion = date("Y-m-d H:i:s");
-
-    $imagen = $_FILES['icono'];
-    $imagen_id = null;
-    if ($imagen['error'] == UPLOAD_ERR_OK) {
-        $nombre_imagen = basename($imagen['name']);
-        $ruta_imagen = "../public/images/" . $nombre_imagen;
-        move_uploaded_file($imagen['tmp_name'], $ruta_imagen);
-
-        $stmt_imagen = $mysql->prepare("INSERT INTO imagenes (nombre, fecha_creacion) VALUES (?, ?)");
-        $tipo = pathinfo($ruta_imagen, PATHINFO_EXTENSION);
-        $stmt_imagen->bind_param("ss", $ruta_imagen, $fecha_creacion);
-        $stmt_imagen->execute();
-        $imagen_id = $stmt_imagen->insert_id;
-        $stmt_imagen->close();
+    if (!isset($_SESSION["code"])) {
+        header("Location: ../index.php");
+        exit;
     }
 
-    $stmt = $mysql->prepare("INSERT INTO productos (nombre, cantidad, precio_venta, marca, modelo, imagen_id, descripcion, fecha_creacion, fecha_actualizacion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("sidssisss", $nombre, $cantidad, $precio_venta, $marca, $modelo, $imagen_id, $descripcion, $fecha_creacion, $fecha_actualizacion);
-    $stmt->execute();
-    $producto_id = $stmt->insert_id;
-    $stmt->close();
+    $location = "inventario";
+    require "../api/mysql.php";
 
-    foreach ($categorias_seleccionadas as $categoria_id) {
-        $stmt_categoria = $mysql->prepare("INSERT INTO productos_categorias (producto_id, categoria_id, fecha_creacion, fecha_actualizacion) VALUES (?, ?, ?, ?)");
-        $stmt_categoria->bind_param("iiss", $producto_id, $categoria_id, $fecha_creacion, $fecha_actualizacion);
-        $stmt_categoria->execute();
-        $stmt_categoria->close();
+    $categoria = $_GET["categoria"] ?? null;
+    $productos = [];
+
+    if (empty($categoria)) {
+
+        $stmt = $mysql->prepare("SELECT 
+            p.*, 
+            i.codigo as 'i_codigo',
+            i.nombre as 'i_nombre',
+            i.extension as 'i_extension',
+            c.nombre as 'c_nombre'
+            FROM productos p
+            LEFT JOIN imagenes i ON p.imagen_id=i.codigo
+            INNER JOIN productos_categorias pc ON pc.producto_id=p.codigo
+            INNER JOIN categorias c ON pc.categoria_id=c.codigo
+            WHERE p.eliminado=false AND c.eliminado=false
+        ");
+
+        $stmt->execute();
+
+        $resultado = $stmt->get_result();
+
+        while ($producto = $resultado->fetch_assoc()) {
+            
+            if (!empty($producto["i_codigo"])) {
+                $imagen = $producto["i_nombre"] . "-" . $producto["i_codigo"] . $producto["i_extension"];
+                
+                if (file_exists("../public/images/$imagen")) {
+
+                }
+
+                $producto["imagen"] = $imagen;
+            }
+
+            unset($producto["i_codigo"], $producto["i_nombre"], $producto["i_tipo"]);
+            $productos[] = $producto;
+        }
+
+
+
+
+    } else {
+
+    /* $stmt = $mysql->prepare("SELECT 
+        p.*
+        FROM productos p
+        LEFT JOIN imagenes i ON p.imagen_id=i.codigo
+    ");
+    */
+        
     }
-}
 
-$selected_categoria_id = $_GET['categoria'] ?? null;
-
-$query = "
-    SELECT p.codigo, p.nombre, p.cantidad, p.precio_venta, p.marca, p.modelo, p.descripcion, p.fecha_creacion, p.fecha_actualizacion, i.nombre AS imagen_nombre, GROUP_CONCAT(c.nombre SEPARATOR ', ') AS categorias
-    FROM productos p
-    LEFT JOIN imagenes i ON p.imagen_id = i.codigo
-    LEFT JOIN productos_categorias pc ON p.codigo = pc.producto_id
-    LEFT JOIN categorias c ON pc.categoria_id = c.codigo";
-
-if ($selected_categoria_id) {
-    $query .= " WHERE pc.categoria_id = " . intval($selected_categoria_id);
-}
-
-$query .= " GROUP BY p.codigo";
-$result = $mysql->query($query);
 ?>
 
 <!DOCTYPE html>
@@ -106,11 +95,16 @@ $result = $mysql->query($query);
                         <select name="categoria" id="categoria" onchange="this.form.submit()">
                             <option value="">Todas</option>
                             <?php
-                            $categorias_result = $mysql->query("SELECT codigo, nombre FROM categorias");
-                            while ($categoria = $categorias_result->fetch_assoc()) {
-                                $selected = ($categoria['codigo'] == $selected_categoria_id) ? 'selected' : '';
-                                echo '<option value="'.$categoria['codigo'].'" '.$selected.'>' . htmlspecialchars($categoria['nombre']) . '</option>';
+
+                            $stmt = $mysql->prepare("SELECT codigo, nombre FROM categorias");
+                            $stmt->execute();
+                            $categorias = $stmt->get_result();
+    
+                            while ($fila = $categorias->fetch_assoc()) {
+                                $seleccion = ($fila['codigo'] == $categoria) ? 'selected' : '';
+                                echo '<option value="'. $fila['codigo'].'" '. $seleccion .'>' . $fila['nombre'] . '</option>';
                             }
+
                             ?>
                         </select>
                     </form>
@@ -131,28 +125,32 @@ $result = $mysql->query($query);
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php while ($producto = $result->fetch_assoc()) { ?>
+
+                                <?php foreach ($productos as $producto) { ?>
                                     <tr>
-                                        <td><?php echo htmlspecialchars($producto['nombre']); ?></td>
+                                        <td><?php echo $producto['nombre']; ?></td>
                                         <td>
-                                            <?php if ($producto['imagen_nombre']) { ?>
-                                                <img src="<?php echo htmlspecialchars($producto['imagen_nombre']); ?>" alt="Ícono" width="50">
+                                            <?php /* if ($producto['imagen']) { ?>
+                                                <img src="<?php echo $producto['imagen']; ?>" alt="Ícono" width="50">
                                             <?php } else { ?>
                                                 No disponible
-                                            <?php } ?>
+                                            <?php } */ ?>
                                         </td>
-                                        <td><?php echo htmlspecialchars($producto['cantidad']); ?></td>
-                                        <td><?php echo htmlspecialchars($producto['precio_venta']); ?></td>
-                                        <td><?php echo htmlspecialchars($producto['marca']); ?></td>
-                                        <td><?php echo htmlspecialchars($producto['modelo']); ?></td>
-                                        <td><?php echo htmlspecialchars($producto['categorias']); ?></td>
-                                        <td><?php echo htmlspecialchars($producto['descripcion']); ?></td>
-                                        <td><?php echo htmlspecialchars($producto['fecha_creacion']); ?></td>
-                                        <td><?php echo htmlspecialchars($producto['fecha_actualizacion']); ?></td>
+
+                                        <td><?php echo $producto['cantidad']; ?></td>
+                                        <td><?php echo $producto['precio_venta']; ?></td>
+                                        <td><?php echo $producto['marca']; ?></td>
+                                        <td><?php echo $producto['modelo']; ?></td>
+                                        <td><?php echo $producto['c_nombre']; ?></td>
+                                        <td><?php echo $producto['descripcion']; ?></td>
+                                        <td><?php echo $producto['fecha_creacion']; ?></td>
+                                        <td><?php echo $producto['fecha_actualizacion']; ?></td>
+
                                     </tr>
                                 <?php } ?>
                             </tbody>
                         </table>
+                        <div><?php print_r($productos) ?></div>
                     </div>
                 </div>
             </div>
@@ -195,10 +193,16 @@ $result = $mysql->query($query);
                     <label for="categorias">Categorías</label>
                     <select name="categorias[]" multiple>
                         <?php
-                        $categorias_result = $mysql->query("SELECT codigo, nombre FROM categorias");
-                        while ($categoria = $categorias_result->fetch_assoc()) {
-                            echo '<option value="'.$categoria['codigo'].'">' . htmlspecialchars($categoria['nombre']) . '</option>';
-                        }
+                            
+                            $stmt = $mysql->prepare("SELECT codigo, nombre FROM categorias WHERE eliminado=false");
+                            $stmt->execute();
+
+                            $resultado = $stmt->get_result();
+                            
+                            while ($categoria = $resultado->fetch_assoc()) {
+                                echo '<option value="'. $categoria['codigo'] .'">' . $categoria['nombre'] . '</option>';
+                            }
+
                         ?>
                     </select>
                 </div>
@@ -210,4 +214,6 @@ $result = $mysql->query($query);
 </body>
 </html>
 
-<?php $mysql->close(); ?>
+<?php
+
+?>
