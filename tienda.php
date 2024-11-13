@@ -2,7 +2,19 @@
 session_start();
 $location = "tienda";
 
+define("URUCODE", true);
 require 'api/mysql.php';
+
+$servername = "localhost";
+$username = "duenio";
+$password = "duenio";
+$dbname = "urucode";
+
+// Conexión a la base de datos
+$mysql = new mysqli($servername, $username, $password, $dbname);
+if ($mysql->connect_error) {
+    die("Error de conexión a la base de datos: " . $mysql->connect_error);
+}
 
 // Función para obtener categorías
 function obtenerCategorias($conexion) {
@@ -13,7 +25,7 @@ function obtenerCategorias($conexion) {
 // Función para obtener productos
 function obtenerProductos($conexion, $busqueda = null) {
     $query = "
-        SELECT productos.*, imagenes.enlace AS imagen_enlace 
+        SELECT productos.*, imagenes.nombre AS nombre 
         FROM productos 
         LEFT JOIN imagenes ON productos.imagen_id = imagenes.codigo
         WHERE productos.en_venta = 1";
@@ -37,25 +49,8 @@ function obtenerProductos($conexion, $busqueda = null) {
 $categorias = obtenerCategorias($mysql);
 
 $productos_result = [];
-if (isset($_GET['search']) && !empty($_GET['search'])) {
-    $busqueda = $mysql->real_escape_string($_GET['search']);
-    $productos_result = $mysql->query("
-        SELECT productos.*, imagenes.enlace AS imagen_enlace 
-        FROM productos 
-        LEFT JOIN imagenes ON productos.imagen_id = imagenes.codigo
-        WHERE productos.en_venta = 1 AND (productos.nombre LIKE '%$busqueda%' 
-        OR productos.marca LIKE '%$busqueda%' 
-        OR productos.modelo LIKE '%$busqueda%' 
-        OR productos.descripcion LIKE '%$busqueda%')
-    ");
-} else {
-    $productos_result = $mysql->query("
-        SELECT productos.*, imagenes.nombre AS imagen_enlace 
-        FROM productos 
-        LEFT JOIN imagenes ON productos.imagen_id = imagenes.codigo
-        WHERE productos.en_venta = 1
-    ");
-}
+$busqueda = isset($_GET['search']) ? trim($_GET['search']) : null;
+$productos_result = obtenerProductos($mysql, $busqueda);
 ?>
 
 <!DOCTYPE html>
@@ -81,6 +76,7 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
 <body>
 <?php include "reusables/navbar.php"; ?>
 <main>
+    <!-- Sidebar -->
     <div class="sidebar">
         <h2>Todas las Categorías</h2>
         <ul class="category-list-shop">
@@ -98,6 +94,7 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
         </ul>
     </div>
 
+    <!-- Filter Bar -->
     <div class="filter-bar">
         <label for="ordenar">Ordenar por:</label>
         <select id="ordenar">
@@ -106,6 +103,7 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
         </select>
     </div>
 
+    <!-- Products Section -->
     <div class="main-products">
         <div class="product-items">
             <?php if ($productos_result->num_rows > 0): ?>

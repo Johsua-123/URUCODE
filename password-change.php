@@ -1,12 +1,9 @@
 
 <?php 
-    
     session_start();
-    
-    if (isset($_SESSION["code"]) && isset($_SESSION["email"]) && isset($_SESSION["username"])) {
-        header("Location: index.php");
+    if (!isset($_SESSION["code"])){
+        header("Location: settings.php");
     }
-
 ?>
 
 <!DOCTYPE html>
@@ -23,34 +20,31 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="public/icons/logo.png" type="image/x-icon">
         <link rel="stylesheet" href="assets/styles/module.css">
-        <link rel="stylesheet" href="assets/styles/auth.css">
+        <link rel="stylesheet" href="assets/styles/password.css">
         <script src="assets/scripts/auth/signin.js"></script>
-        <title>Inicio Sesión | Errea</title>
+        <title>Cambiar Contraseña | Errea</title>
     </head>
     <body>
         <div class="main-container">
         <div class="container">
-            <form id="signin" class="card" method="POST">
+            <form id="signin" class="card" method="POST" action="api/password.php">
                 <div class="card-header">
-                    <h1>Inicio de sesión</h1>
+                    <h1>Cambiar Contraseña</h1>
                 </div>
                 <div class="card-items">
                     <div>
-                        <label for="email">Correo electrónico</label>
-                        <input id="email" type="text" name="email" placeholder="ejemplo@gmail.com" autocomplete="off">
+                        <label for="email">Contraseña actual</label>
+                        <input id="password_a" type="text" name="password_a" placeholder="********" autocomplete="off">
                     </div>
                     <div>
-                        <label for="password">Contraseña</label>
-                        <input id="password" type="password" name="password" placeholder="********" autocomplete="off">
+                        <label for="password">Contraseña nueva</label>
+                        <input id="password_n" type="password" name="password_n" placeholder="********" autocomplete="off">
                     </div>
                 </div>
-                <div class="card-footer">
-                    <div class="card-footer_text">
-                        <p>¿No tienes una cuenta?</p>
-                        <a href="signup.php">Regístrate</a>
-                    </div>
-                    <div>
-                        <button id="iniciar" type="submit">Iniciar</button>
+                    <div class="card-footer">
+                        <div>
+                            <button id="iniciar" type="submit">Cambiar Contraseña</button>
+                        </div>
                     </div>
                 </div>
             </form>

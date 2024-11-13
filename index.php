@@ -1,29 +1,34 @@
 <?php
-session_start();
-$location = "index";
-require 'api/mysql.php';
 
-// productos destacados
-$stmt_destacados = $mysql->prepare("SELECT productos.*, imagenes.nombre AS imagen_nombre 
-                                    FROM productos 
-                                    LEFT JOIN imagenes ON productos.imagen_id = imagenes.codigo 
-                                    LEFT JOIN productos_categorias ON productos.codigo = productos_categorias.producto_id 
-                                    LEFT JOIN categorias ON productos_categorias.categoria_id = categorias.codigo 
-                                    WHERE productos.en_venta = true AND categorias.nombre = 'Destacados'");
-$stmt_destacados->execute();
-$productos_destacados = $stmt_destacados->get_result();
-$stmt_destacados->close();
+    session_start();
 
-// productos en oferta
-$stmt_ofertas = $mysql->prepare("SELECT productos.*, imagenes.nombre AS imagen_nombre 
-                                 FROM productos 
-                                 LEFT JOIN imagenes ON productos.imagen_id = imagenes.codigo 
-                                 LEFT JOIN productos_categorias ON productos.codigo = productos_categorias.producto_id 
-                                 LEFT JOIN categorias ON productos_categorias.categoria_id = categorias.codigo 
-                                 WHERE productos.en_venta = true AND categorias.nombre = 'Ofertas'");
-$stmt_ofertas->execute();
-$productos_ofertas = $stmt_ofertas->get_result();
-$stmt_ofertas->close();
+    $location = "inicio";
+
+    define("URUCODE", true);
+    require 'api/mysql.php';
+
+    // Consulta para productos destacados
+    $stmt_destacados = $mysql->prepare("SELECT productos.*, imagenes.nombre AS imagen_nombre 
+                                        FROM productos 
+                                        LEFT JOIN imagenes ON productos.imagen_id = imagenes.codigo 
+                                        LEFT JOIN productos_categorias ON productos.codigo = productos_categorias.producto_id 
+                                        LEFT JOIN categorias ON productos_categorias.categoria_id = categorias.codigo 
+                                        WHERE productos.en_venta = true AND categorias.nombre = 'Destacados'");
+
+        $stmt_destacados->execute();
+        $productos_destacados = $stmt_destacados->get_result();
+
+        // Consulta para productos en oferta
+        $stmt_ofertas = $mysql->prepare("SELECT productos.*, imagenes.nombre AS imagen_nombre 
+                                        FROM productos 
+                                        LEFT JOIN imagenes ON productos.imagen_id = imagenes.codigo 
+                                        LEFT JOIN productos_categorias ON productos.codigo = productos_categorias.producto_id 
+                                        LEFT JOIN categorias ON productos_categorias.categoria_id = categorias.codigo 
+                                        WHERE productos.en_venta = true AND categorias.nombre = 'Ofertas'");
+
+        $stmt_ofertas->execute();
+        $productos_ofertas = $stmt_ofertas->get_result();
+
 ?>
 
 <!DOCTYPE html>
@@ -45,7 +50,6 @@ $stmt_ofertas->close();
     <link rel="stylesheet" href="assets/styles/master.css">
     <script src="assets/scripts/navbar.js"></script>
     <script src="assets/scripts/slider.js"></script>
-    
     <title>Inicio | Errea</title>
 </head>
 <body>
@@ -90,6 +94,8 @@ $stmt_ofertas->close();
             <div class="product-items">
                 <?php while ($producto = $productos_ofertas->fetch_assoc()) { 
                  $imagen_url = $producto['imagen_nombre'] ? 'public/images/' . urlencode($producto['imagen_nombre']) : 'https://via.placeholder.com/100x100?text=Imagen+del+Producto';
+
+
                 ?>
                     <div class="product-card">
                         <div class="card-header">
