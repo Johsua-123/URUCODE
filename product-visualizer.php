@@ -27,7 +27,7 @@ if (isset($_GET['codigo'])) {
         $imagen = $result->fetch_assoc();
         $imagen_url = $imagen ? 'public/images/' . $imagen['nombre'] : 'https://via.placeholder.com/150';
 
-        // categoría del producto
+        //categoría del producto
         $stmt = $mysql->prepare("SELECT categorias.nombre AS categoria_nombre FROM categorias 
                                  JOIN productos_categorias ON categorias.codigo = productos_categorias.categoria_id 
                                  WHERE productos_categorias.producto_id = ?");
