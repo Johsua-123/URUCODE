@@ -70,8 +70,11 @@ if (isset($_GET['codigo'])) {
         <div class="web-path">
             <p>CARRITO > CHECKOUT > FINALIZAR COMPRA</p>
         </div>
-
-        <div class="container">
+        <form method="POST" action="api/checkout.php">
+    <input type="hidden" name="productCode" value="<?php echo $product_code; ?>">
+    <input type="hidden" name="amount" value="<?php echo $producto['precio_venta']; ?>">
+    <input type="hidden" name="quantity" value="1"> <!-- Campo quantity añadido -->
+    <div class="container">
         <div class="row">
             <div class="column">
                 <div class="card">
@@ -81,42 +84,42 @@ if (isset($_GET['codigo'])) {
                     <div class="card-body">
                         <div class="form-group">
                             <label for="firstName">Nombre<span class="text-danger">*</span></label>
-                            <input type="text" id="firstName" required>
+                            <input type="text" id="firstName" name="firstName" required>
                         </div>
                         <div class="form-group">
                             <label for="lastName">Apellido<span class="text-danger">*</span></label>
-                            <input type="text" id="lastName" required>
+                            <input type="text" id="lastName" name="lastName" required>
                         </div>
                         <div class="form-group">
                             <label for="idNumber">Documento de identidad<span class="text-danger">*</span></label>
-                            <input type="text" id="idNumber" required>
+                            <input type="text" id="idNumber" name="idNumber" required>
                         </div>
                         <div class="form-group">
                             <label for="country">País / Región</label>
-                            <input type="text" id="country" value="Uruguay" readonly>
+                            <input type="text" id="country" name="country" value="Uruguay" readonly>
                         </div>
                         <div class="form-group">
                             <label for="address">Dirección de la calle<span class="text-danger">*</span></label>
-                            <input type="text" id="address" placeholder="Número de casa y nombre de la calle" required>
+                            <input type="text" id="address" name="address" placeholder="Número de casa y nombre de la calle" required>
                         </div>
                         <div class="form-group">
-                            <input type="text" placeholder="Apartamento, habitación, etc. (opcional)">
+                            <input type="text" name="apartment" placeholder="Apartamento, habitación, etc. (opcional)">
                         </div>
                         <div class="form-group">
                             <label for="city">Ciudad<span class="text-danger">*</span></label>
-                            <input type="text" id="city" required>
+                            <input type="text" id="city" name="city" required>
                         </div>
                         <div class="form-group">
                             <label for="state">Departamento<span class="text-danger">*</span></label>
-                            <input type="text" id="state" value="Montevideo" readonly>
+                            <input type="text" id="state" name="state" value="Montevideo" readonly>
                         </div>
                         <div class="form-group">
                             <label for="phone">Teléfono<span class="text-danger">*</span></label>
-                            <input type="tel" id="phone" required>
+                            <input type="tel" id="phone" name="phone" required>
                         </div>
                         <div class="form-group">
                             <label for="email">Dirección de correo electrónico<span class="text-danger">*</span></label>
-                            <input type="email" id="email" required>
+                            <input type="email" id="email" name="email" required>
                         </div>
                     </div>
                 </div>
@@ -128,7 +131,7 @@ if (isset($_GET['codigo'])) {
                         <h4>Tu Pedido</h4>
                     </div>
                     <div class="card-body">
-                    <p><?php echo isset($producto['nombre']) ? htmlspecialchars($producto['nombre']) : 'Producto no encontrado'; ?></p>
+                        <p><?php echo isset($producto['nombre']) ? htmlspecialchars($producto['nombre']) : 'Producto no encontrado'; ?></p>
                         <p><strong>Descripción:</strong></p>
                         <p><?php echo isset($producto['descripcion']) ? htmlspecialchars($producto['descripcion']) : 'Descripción no disponible'; ?></p>
                         <p><strong>Precio:</strong></p>
@@ -144,15 +147,15 @@ if (isset($_GET['codigo'])) {
                         </div>
                         <div class="form-group">
                             <label for="pickupName">Nombre de quien retira</label>
-                            <input type="text" id="pickupName">
+                            <input type="text" id="pickupName" name="pickupName">
                         </div>
                         <div class="form-group">
                             <label for="pickupId">Cédula de quien retira</label>
-                            <input type="text" id="pickupId">
+                            <input type="text" id="pickupId" name="pickupId">
                         </div>
                         <div class="form-check">
                             <input type="radio" name="shipping" id="montevideoFlex" value="montevideoFlex" class="form-check-input">
-                            <label for="montevideoFlex" class="form-check-label">Envio a todo el pais - GRATIS</label>
+                            <label for="montevideoFlex" class="form-check-label">Envío a todo el país - GRATIS</label>
                         </div>
                         <hr>
                         <p><strong>Total:</strong> <span class="float-end">$<?php echo isset($producto['precio_venta']) ? htmlspecialchars($producto['precio_venta']) : '0.00'; ?></span></p>
@@ -167,27 +170,52 @@ if (isset($_GET['codigo'])) {
                         </div>
                         <hr>
                         <div class="form-check">
-                            <input type="checkbox" id="termsConditions" class="form-check-input" required>
+                            <input type="checkbox" id="termsConditions" name="termsConditions" class="form-check-input" required>
                             <label for="termsConditions" class="form-check-label">He leído y estoy de acuerdo con los <a href="#">términos y condiciones de la web</a>.</label>
                         </div>
-                        <button class="btn btn-primary btn-lg btn-block" id="placeOrder">REALIZAR EL PEDIDO</button>
+                        <button type="submit" class="btn btn-primary btn-lg btn-block" id="placeOrder">REALIZAR EL PEDIDO</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</form>
+
     </main>
     <?php include "reusables/footer.php" ?>
+
     <script>
-        document.getElementById("placeOrder").addEventListener("click", function() {
-    Swal.fire({
-        title: '¡Gracias por tu compra!',
-        text: 'Tu pedido ha sido realizado con éxito.',
-        icon: 'success',
-        confirmButtonText: 'Cerrar'
+    document.getElementById("placeOrder").addEventListener("click", function(event) {
+        event.preventDefault();
+
+        let firstName = document.getElementById("firstName").value.trim();
+        let lastName = document.getElementById("lastName").value.trim();
+        let idNumber = document.getElementById("idNumber").value.trim();
+        let address = document.getElementById("address").value.trim();
+        let city = document.getElementById("city").value.trim();
+        let phone = document.getElementById("phone").value.trim();
+        let email = document.getElementById("email").value.trim();
+        let termsConditions = document.getElementById("termsConditions").checked;
+
+        if (firstName && lastName && idNumber && address && city && phone && email && termsConditions) {
+            Swal.fire({
+                title: '¡Gracias por tu compra!',
+                text: 'Tu pedido ha sido realizado con éxito.',
+                icon: 'success',
+                confirmButtonText: 'Cerrar'
+            }).then(() => {
+                document.querySelector("form").submit();
+            });
+        } else {
+            Swal.fire({
+                title: 'Error',
+                text: 'Hubo un error al completar la transacción. Por favor, verifica que todos los campos estén completos.',
+                icon: 'error',
+                confirmButtonText: 'Cerrar'
+            });
+        }
     });
-});
-    </script>
+</script>
 </body>
 </html>
 
