@@ -1,94 +1,75 @@
-<?php
+<?php 
 session_start();
-
-if (!isset($_SESSION['cart']) || !is_array($_SESSION['cart'])) {
-    $_SESSION['cart'] = []; 
-}
-
-if (count($_SESSION['cart']) === 0) {
-    echo "<p>No hay productos en el carrito.</p>";
-    exit;
-}
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DF773N72G0"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-DF773N72G0');
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carrito | Errea</title>
+    <link rel="shortcut icon" href="public/icons/logo.png" type="image/x-icon">
     <link rel="stylesheet" href="assets/styles/module.css">
     <link rel="stylesheet" href="assets/styles/navbar.css">
-    <link rel="stylesheet" href="admin/assets/styles/products.css">
+    <link rel="stylesheet" href="assets/styles/footer.css">
+    <link rel="stylesheet" href="assets/styles/cart.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="assets/scripts/navbar.js"></script>
 </head>
 <body>
-    <?php include "reusables/navbar.php"; ?>
-
-                    </header>
-                    <table class="accounts-table">
-                        <thead>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Ícono</th>
-                                <th>Precio</th>
-                                <th>Cantidad</th>
-                                <th>Subtotal</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            $total = 0;
-                            foreach ($_SESSION['cart'] as $item) {
-                                // Verificar que $item sea un array antes de intentar acceder a sus índices
-                                if (!is_array($item)) {
-                                    continue; // Saltar si $item no es un array
-                                }
-
-                                // Convertir precio y cantidad a números
-                                $precio = isset($item['precio']) ? (float)$item['precio'] : 0;
-                                $cantidad = isset($item['cantidad']) ? (int)$item['cantidad'] : 1;
-
-                                // Calcular subtotal
-                                $subtotal = $precio * $cantidad;
-                                $total += $subtotal;
-                            ?>
-                                <tr>
-                                    <td><?php echo htmlspecialchars($item['nombre']); ?></td>
-                                    <td>
-                                        <?php if (!empty($item['imagen_url'])) { ?>
-                                            <img src="<?php echo htmlspecialchars($item['imagen_url']); ?>" alt="Ícono" width="50">
-                                        <?php } else { ?>
-                                            No disponible
-                                        <?php } ?>
-                                    </td>
-                                    <td>US$<?php echo number_format($precio, 2); ?></td>
-                                    <td>
-                                        <input type="number" value="<?php echo $cantidad; ?>" min="1" style="width: 50px; text-align: center;">
-                                    </td>
-                                    <td>US$<?php echo number_format($subtotal, 2); ?></td>
-                                    <td>
-                                        <form method="post" action="remove_from_cart.php">
-                                            <input type="hidden" name="codigo" value="<?php echo htmlspecialchars($item['codigo']); ?>">
-                                            <button type="submit" class="delete-button">Eliminar</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            <?php } ?>
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <td colspan="4" style="text-align: right;"><strong>Total:</strong></td>
-                                <td colspan="2">US$<?php echo number_format($total, 2); ?></td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
-                <div>
-                    <button onclick="location.href='checkout.php'" class="btn btn-primary btn-lg">Finalizar compra</button>
+    <?php include "reusables/navbar.php" ?>
+    <main>
+        <div class="container">
+            <div class="cart">
+                <div class="product">
+                    <div class="product-info">
+                        <img src="notebook.png" alt="Notebook">
+                        <p>Notebook Aorus 15 MF-E7A143SH</p>
+                    </div>
+                    <div class="product-price">US$1,390.00</div>
+                    <div class="product-quantity">
+                        <button>-</button>
+                        <input type="text" value="1" style="width: 30px; text-align: center;">
+                        <button>+</button>
+                    </div>
+                    <div class="product-subtotal">US$1,390.00</div>
                 </div>
             </div>
-        </main>
-    </div>
+            <div class="summary">
+                <div class="summary-header"><h3>Totales del Carrito</h3></div>
+                <div class="summary-body">
+                    <p>Subtotal: <span>US$1,390.00</span></p>
+                    <p><strong>Envío</strong></p>
+                    <label><input type="radio" name="shipping" value="pickup" checked>Retiro en el local</label><br>
+                    <label><input type="radio" name="shipping" value="free">Envío - GRATIS</label><br>
+                    <p>Total: <span>US$1,390.00</span></p>
+                </div>
+                <div class="summary-footer">
+                    <button id="finalizePurchase" class="btn btn-primary btn-lg">Finalizar compra</button>
+                </div>
+            </div>
+        </div>
+    </main>
+    <?php include "reusables/footer.php" ?>
+
+    <script>
+        document.getElementById("finalizePurchase").addEventListener("click", function(event) {
+            event.preventDefault();
+
+            Swal.fire({
+                title: '¡Gracias por tu compra!',
+                text: 'Tu pedido ha sido realizado con éxito.',
+                icon: 'success',
+                confirmButtonText: 'Cerrar'
+            });
+        });
+    </script>
 </body>
 </html>
