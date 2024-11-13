@@ -19,7 +19,7 @@
             p.*, 
             i.codigo as 'i_codigo',
             i.nombre as 'i_nombre',
-            i.tipo as 'i_extension',
+            i.extension as 'i_extension',
             c.nombre as 'c_nombre'
             FROM productos p
             LEFT JOIN imagenes i ON p.imagen_id=i.codigo
