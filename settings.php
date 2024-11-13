@@ -24,31 +24,19 @@ session_start();
     <script src="assets/scripts/profile.js"></script>
     <title>Ajustes | Errea</title>
 </head>
+
 <body>
-    <?php include "reusables/navbar.php" ?>
+    <?php include "reusables/navbar.php"; ?>
     <main>
         <div class="settings">
-
             <div class="profile-section">
                 <div class="profile-header">
-                    <h1><?php echo $_SESSION["username"] ?? ""; ?></h1>
+                    <h1><?php echo $_SESSION["nombre"] ?? ""; ?></h1>
                 </div>
                 <div class="profile-items">
-                    <img class="<?php echo isset($_SESSION["image"]) ? "" : "hidden" ?>" src="<?php echo $_SESSION["image"] ?? ""; ?>" alt="imagen de perfil">
-                    <svg class="<?php echo (isset($_SESSION["code"]) && !isset($_SESSION["image"])) ? "" : "hidden" ?>" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24">
-                         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"></path>
-                    </svg>
-                </div>
-                <div class="profile-footer">
-                    <form id="image-upload" method="POST" enctype="multipart/form-data" action="./api/cargar_imagenes.php">
-                        <input name="image" type="file" hidden="true" accept=".jpeg, .jpg, .png" placeholder="example.png">
-                        <input name="action" type="text" hidden="true" value="profile">
-                        <div>
-                            <span class="hidden"></span>
-                            <button type="button" onclick="document.querySelector('input[name=image]').click();">Cargar imagen</button>
-                            <button type="submit">Subir</button>
-                         </div>
-                    </form>
+                    <img class="<?php echo isset($_SESSION["image"]) ? "" : "hidden"; ?>" src="<?php echo $_SESSION["image"] ?? ""; ?>" alt="imagen de perfil">
+                    <button type="button" onclick="document.querySelector('input[name=image]').click();">Cargar imagen</button>
+                    <button type="submit">Subir</button>
                 </div>
             </div>
 
@@ -56,37 +44,50 @@ session_start();
                 <div class="tab-section">
                     <div id="general" class="tab-body">
                         <h1>Perfil</h1>
-                        <form id="user" method="POST" action="password.php">
+                        <?php if (isset($_GET['mensaje'])): ?>
+    <?php if ($_GET['mensaje'] == 'actualizado'): ?>
+        <p class="success-message">Perfil actualizado exitosamente.</p>
+    <?php elseif ($_GET['mensaje'] == 'no_cambios'): ?>
+        <p class="info-message">No se realizaron cambios en el perfil.</p>
+    <?php elseif ($_GET['mensaje'] == 'error_envio'): ?>
+        <p class="error-message">Error al enviar el formulario.</p>
+    <?php elseif ($_GET['mensaje'] == 'error'): ?>
+        <p class="error-message">Error al actualizar el perfil.</p>
+    <?php endif; ?>
+<?php endif; ?>
+
+                        <form id="user" method="POST" action="actualizar_perfil.php">
                             <div>
-                                <label for="username">Nombre</label>
-                                <input id="username" name="username" type="text" value="<?php echo $_SESSION["username"] ?? "" ?>">
+                                <label for="nombre">Nombre</label>
+                                <input id="nombre" name="nombre" type="text" value="<?php echo $_SESSION["username"] ?? ""; ?>">
+                            </div>
+                            <div>
+                                <label for="apellido">Apellido</label>
+                                <input id="apellido" name="apellido" type="text" value="<?php echo $_SESSION["apellido"] ?? ""; ?>">
                             </div>
                             <div>
                                 <label for="email">Correo</label>
-                                <input id="email" name="email" type="text" value="<?php echo $_SESSION["email"] ?? "" ?>">
+                                <input id="email" name="email" type="email" value="<?php echo $_SESSION["email"] ?? ""; ?>" readonly>
                             </div>
-
-
-
-                            
-                            <h2>Cambiar Contraseña</h2>
-                            <form id="cambiar-contraseña" method="POST" action="password.php">
-                                <div>
-                                    <label for="contraseña_actual">Contraseña actual</label>
-                                    <input id="contraseña_actual" name="contraseña_actual" type="password" required>
-                                </div>
-                                <div>
-                                    <label for="nueva_contraseña">Nueva contraseña</label>
-                                    <input id="nueva_contraseña" name="nueva_contraseña" type="password" required>
-                                </div>
-                                <button type="submit">Cambiar Contraseña</button>
-                            </form>
+                            <div>
+                                <label for="telefono">Teléfono</label>
+                                <input id="telefono" name="telefono" type="text" value="<?php echo $_SESSION["telefono"] ?? ""; ?>">
+                            </div>
+                            <div>
+                                <label for="ubicacion">Ciudad</label>
+                                <input id="ubicacion" name="ubicacion" type="text" value="<?php echo $_SESSION["ubicacion"] ?? ""; ?>">
+                            </div>
+                            <div>
+                                <label for="direccion">Dirección</label>
+                                <input id="direccion" name="direccion" type="text" value="<?php echo $_SESSION["direccion"] ?? ""; ?>">
+                            </div>
+                            <button type="submit">Guardar Cambios</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
     </main>
-    <?php include "reusables/footer.php" ?>
+    <?php include "reusables/footer.php"; ?>
 </body>
 </html>
