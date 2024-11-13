@@ -8,7 +8,6 @@ function toggleModal() {
     }
 }
 
-// carga las categorías desde categorias.php
 function cargarCategorias() {
     fetch('categorias.php')
         .then(response => response.json())
@@ -17,7 +16,6 @@ function cargarCategorias() {
             container.innerHTML = '';
 
             categorias.forEach(categoria => {
-                // Crear checkbox categoría
                 const checkbox = document.createElement('input');
                 checkbox.type = 'checkbox';
                 checkbox.name = 'categorias[]';
