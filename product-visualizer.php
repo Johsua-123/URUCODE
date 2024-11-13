@@ -33,11 +33,7 @@ if (isset($_GET['codigo'])) {
         $imagen = $result->fetch_assoc();
         $imagen_url = $imagen ? 'public/images/' . $imagen['nombre'] : 'https://via.placeholder.com/150';
 
-<<<<<<< HEAD
         // Obtener la categoría del producto
-=======
-        // categoría del producto
->>>>>>> parent of 26f5b23 (cambios)
         $stmt = $mysql->prepare("SELECT categorias.nombre AS categoria_nombre FROM categorias 
                                  JOIN productos_categorias ON categorias.codigo = productos_categorias.categoria_id 
                                  WHERE productos_categorias.producto_id = ?");

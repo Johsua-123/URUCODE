@@ -50,7 +50,7 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
     ");
 } else {
     $productos_result = $mysql->query("
-        SELECT productos.*, imagenes.enlace AS imagen_enlace 
+        SELECT productos.*, imagenes.nombre AS imagen_enlace 
         FROM productos 
         LEFT JOIN imagenes ON productos.imagen_id = imagenes.codigo
         WHERE productos.en_venta = 1
@@ -112,7 +112,7 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
                 <?php while ($producto = $productos_result->fetch_assoc()): ?>
                     <div class="product-card">
                         <div class="product-image">
-                            <img src="<?php echo htmlspecialchars($producto['imagen_enlace']); ?>" alt="<?php echo htmlspecialchars($producto['nombre']); ?>">
+                            <img src="<?php echo $imagen_url; ?>" alt="<?php echo htmlspecialchars($producto['nombre']); ?>">
                         </div>
                         <div class="product-info">
                             <h3 class="product-name"><?php echo htmlspecialchars($producto['nombre']); ?></h3>
@@ -122,17 +122,14 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
                             <a href="product-visualizer.php?codigo=<?php echo htmlspecialchars($producto['codigo']); ?>" class="btn-view">Ver Detalle</a>
                         </div>
                     </div>
-                <?php endwhile; ?>
-            <?php else: ?>
-                <p>No hay productos disponibles.</p>
-            <?php endif; ?>
+                <?php } ?>
+
+            </div>
+            <div class="pagination">
+            </div>
         </div>
-        <div class="pagination">
-            <!-- Paginación aquí si es necesaria -->
-        </div>
-    </div>
-</main>
-<?php include "reusables/footer.php"; ?>
+    </main>
+    <?php include "reusables/footer.php" ?>
 </body>
 </html>
 
