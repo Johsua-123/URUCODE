@@ -118,7 +118,7 @@
                         $extension_img = strtolower($archivo["extension"]);
                         $nombre_img = $archivo["filename"];
                         
-                        $stmt = $mysql->prepare("INSERT INTO imagenes (nombre, tipo, fecha_creacion) VALUES (?, ?, ?)");
+                        $stmt = $mysql->prepare("INSERT INTO imagenes (nombre, extension, fecha_creacion) VALUES (?, ?, ?)");
                         $stmt->bind_param("sss", $nombre_img, $extension_img, $fecha);
         
                         $stmt->execute();
