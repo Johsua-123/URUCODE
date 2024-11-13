@@ -3,16 +3,15 @@ session_start();
 require 'mysql.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $usuario_id = $_SESSION['code']; // Asumiendo que el ID de usuario está almacenado en la sesión
+    $usuario_id = $_SESSION['code']; 
     $item_id = $_POST['codigoProducto'];
     $cantidad = $_POST['cantidadProducto'];
     $precio_unitario = $_POST['precioProducto'];
     $subtotal = $cantidad * $precio_unitario;
-    $estado = "Pendiente"; // Puedes ajustar esto según la lógica de tu aplicación
+    $estado = "Pendiente"; 
     $direccion = $_POST['direccionCliente'];
-    $item_tipo = $_POST['tipoItem']; // Obtener el tipo de ítem
+    $item_tipo = $_POST['tipoItem']; 
 
-    // Verificar que el item_id existe en la tabla correspondiente
     if ($item_tipo == "productos") {
         $stmt = $mysql->prepare("SELECT COUNT(*) FROM productos WHERE codigo = ?");
     } else if ($item_tipo == "Servicio") {

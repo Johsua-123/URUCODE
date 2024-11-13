@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
 const cardFooter = document.createElement('div');
 cardFooter.classList.add('card-footer');
 const detalleBtn = document.createElement('a');
-detalleBtn.href = `product-visualizer.php?codigo=${producto.codigo}`; // Asegúrate de usar 'codigo'
+detalleBtn.href = `product-visualizer.php?codigo=${producto.codigo}`; 
 detalleBtn.textContent = "Ver Detalle";
 cardFooter.appendChild(detalleBtn);
 
