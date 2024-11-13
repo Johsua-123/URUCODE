@@ -38,7 +38,19 @@
 
     while ($producto = $resultado->fetch_assoc()) {
 
+        if (!empty($producto["i.codigo"])) {
+            $imagen = $producto["i.nombre"] . "-" . $producto["i.codigo"] . $producto["i.extension"];
+            
+            if (file_exists("../public/images/$imagen")) {
+                $producto["imagen"] = "../public/images/$imagen";
+            } else {
+                $producto["imagen"] = "";
+            }
+        }
+
+        unset($producto["i.codigo"], $producto["i.nombre"], $producto["i.extension"]);
         $productos[] = $producto;
+
     }
 
 ?>
@@ -112,7 +124,7 @@
                                         <td><?php echo $producto['nombre']; ?></td>
                                         <td>
                                             <?php if (isset($producto['imagen'])) { ?>
-                                                <img src="<?php echo $producto['imagen']; ?>" alt="Ícono" width="50">
+                                                <img src="<?php echo $producto['imagen']; ?>" alt="imagen del producto" width="50">
                                             <?php } else { ?>
                                                 No disponible
                                             <?php } ?>
