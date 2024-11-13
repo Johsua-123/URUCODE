@@ -28,7 +28,6 @@ if (isset($_GET['codigo'])) {
         $imagen = $result->fetch_assoc();
         $imagen_url = $imagen ? 'public/images/' . $imagen['nombre'] : 'https://via.placeholder.com/150';
 
-        // Obtener la categoría del producto
         $stmt = $mysql->prepare("SELECT categorias.nombre AS categoria_nombre FROM categorias 
                                  JOIN productos_categorias ON categorias.codigo = productos_categorias.categoria_id 
                                  WHERE productos_categorias.producto_id = ?");
@@ -49,7 +48,6 @@ if (isset($_GET['codigo'])) {
     }
 
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -83,9 +81,19 @@ if (isset($_GET['codigo'])) {
             </div>
             <div class="product-info">
                 <h1><?php echo htmlspecialchars($producto['nombre']); ?></h1>
-                <H2>US$<?php echo htmlspecialchars($producto['precio_venta']); ?></H2>
+                <h2>US$<?php echo htmlspecialchars($producto['precio_venta']); ?></h2>
                 <p><?php echo htmlspecialchars($producto['descripcion']); ?></p>
+                
                 <a href="checkout.php?codigo=<?php echo $product_code; ?>">COMPRAR</a>
+
+                <form action="cart.php" method="POST" style="display: inline;">
+    <input type="hidden" name="codigo" value="<?php echo $product_code; ?>">
+    <input type="hidden" name="nombre" value="<?php echo htmlspecialchars($producto['nombre']); ?>">
+    <input type="hidden" name="precio" value="<?php echo htmlspecialchars($producto['precio_venta']); ?>">
+    <input type="hidden" name="descripcion" value="<?php echo htmlspecialchars($producto['descripcion']); ?>">
+    <input type="hidden" name="imagen_url" value="<?php echo htmlspecialchars($imagen_url); ?>">
+    <button type="submit">AÑADIR AL CARRITO</button>
+</form>
             </div>
         </div>
         <div class="product-images">
