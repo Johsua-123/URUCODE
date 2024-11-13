@@ -91,6 +91,7 @@ create table mensajes (
 create table productos_categorias (
     producto_id integer,
     categoria_id integer,
+    eliminado boolean default false, 
     fecha_creacion datetime,
     fecha_actualizacion datetime
 );
