@@ -38,18 +38,16 @@
                 $imagen = $producto["i_nombre"] . "-" . $producto["i_codigo"] . $producto["i_extension"];
                 
                 if (file_exists("../public/images/$imagen")) {
-
+                    $producto["imagen"] = "../public/images/$imagen";
+                } else {
+                    $producto["imagen"] = "null";
                 }
 
-                $producto["imagen"] = $imagen;
             }
 
-            unset($producto["i_codigo"], $producto["i_nombre"], $producto["i_tipo"]);
+            unset($producto["i_codigo"], $producto["i_nombre"], $producto["i_extension"]);
             $productos[] = $producto;
         }
-
-
-
 
     } else {
 
@@ -112,8 +110,9 @@
                         <table>
                             <thead>
                                 <tr>
+                                    <th>Codigo</th>
                                     <th>Nombre</th>
-                                    <th>Ícono</th>
+                                    <th>Imagen</th>
                                     <th>Cantidad</th>
                                     <th>Precio Venta</th>
                                     <th>Marca</th>
@@ -128,15 +127,15 @@
 
                                 <?php foreach ($productos as $producto) { ?>
                                     <tr>
+                                        <td><?php echo $producto['codigo']; ?></td>
                                         <td><?php echo $producto['nombre']; ?></td>
                                         <td>
-                                            <?php /* if ($producto['imagen']) { ?>
+                                            <?php if (isset($producto['imagen'])) { ?>
                                                 <img src="<?php echo $producto['imagen']; ?>" alt="Ícono" width="50">
                                             <?php } else { ?>
                                                 No disponible
-                                            <?php } */ ?>
+                                            <?php } ?>
                                         </td>
-
                                         <td><?php echo $producto['cantidad']; ?></td>
                                         <td><?php echo $producto['precio_venta']; ?></td>
                                         <td><?php echo $producto['marca']; ?></td>
@@ -145,12 +144,11 @@
                                         <td><?php echo $producto['descripcion']; ?></td>
                                         <td><?php echo $producto['fecha_creacion']; ?></td>
                                         <td><?php echo $producto['fecha_actualizacion']; ?></td>
-
                                     </tr>
                                 <?php } ?>
                             </tbody>
                         </table>
-                        <div><?php print_r($productos) ?></div>
+                        <div><?php //print_r($productos) ?></div>
                     </div>
                 </div>
             </div>
