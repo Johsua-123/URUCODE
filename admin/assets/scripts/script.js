@@ -1,4 +1,3 @@
-// agrega un hover al item selecconado en la lista {} <>
 let list = document.querySelectorAll(".navigation li");
 
 function activeLink() {

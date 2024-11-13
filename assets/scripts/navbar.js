@@ -8,19 +8,16 @@ document.addEventListener('DOMContentLoaded', function() {
         menu.classList.toggle('hidden');
     }
 
-    // Toggle category dropdown
     categoryDropdown.addEventListener('click', function(event) {
         toggleDropdown(categoryDropdownMenu);
         event.stopPropagation();
     });
 
-    // Toggle profile dropdown
     profileDropdown.addEventListener('click', function(event) {
         toggleDropdown(profileDropdownMenu);
         event.stopPropagation();
     });
 
-    // Close both dropdowns when clicking outside
     document.addEventListener('click', function(event) {
         if (!categoryDropdown.contains(event.target)) {
             categoryDropdownMenu.classList.add('hidden');
