@@ -1,21 +1,13 @@
 <?php 
 session_start();
 
+require 'api/mysql.php';
+
 if (isset($_GET['codigo'])) {
-    $product_code = $_GET['codigo'];
-
-    $servername = "localhost";
-    $username = "duenio";
-    $password = "duenio";
-    $dbname = "urucode";
-
-    $mysql = new mysqli($servername, $username, $password, $dbname);
-    if ($mysql->connect_error) {
-        die("Error de conexión a la base de datos: " . $mysql->connect_error);
-    }
+    $codigoProducto = $_GET['codigo'];
 
     $stmt = $mysql->prepare("SELECT * FROM productos WHERE codigo = ?");
-    $stmt->bind_param("i", $product_code);
+    $stmt->bind_param("i", $codigoProducto);
     $stmt->execute();
     $result = $stmt->get_result();
     $producto = $result->fetch_assoc();
@@ -28,7 +20,10 @@ if (isset($_GET['codigo'])) {
         $result = $stmt->get_result();
         $imagen = $result->fetch_assoc();
 
-        $imagen_url = $imagen ? 'ruta/a/imagenes/' . $imagen['nombre'] : 'https://via.placeholder.com/150';
+        $imagenProducto = $imagen ? 'ruta/a/imagenes/' . $imagen['nombre'] : 'https://via.placeholder.com/150';
+        $nombreProducto = $producto['nombre'];
+        $descripcionProducto = $producto['descripcion'];
+        $precioProducto = $producto['precio_venta'];
     } else {
         echo "Producto no encontrado.";
         exit;
@@ -41,6 +36,7 @@ if (isset($_GET['codigo'])) {
     exit;
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -59,7 +55,6 @@ if (isset($_GET['codigo'])) {
     <link rel="stylesheet" href="assets/styles/navbar.css">
     <link rel="stylesheet" href="assets/styles/footer.css">
     <link rel="stylesheet" href="assets/styles/checkout.css">
-    <script src="assets/scripts/checkout.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="assets/scripts/navbar.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.14.5/dist/sweetalert2.all.min.js"></script>
@@ -70,10 +65,11 @@ if (isset($_GET['codigo'])) {
         <div class="web-path">
             <p>CARRITO > CHECKOUT > FINALIZAR COMPRA</p>
         </div>
-        <form method="POST" action="api/checkout.php">
-    <input type="hidden" name="productCode" value="<?php echo $product_code; ?>">
-    <input type="hidden" name="amount" value="<?php echo $producto['precio_venta']; ?>">
-    <input type="hidden" name="quantity" value="1"> <!-- Campo quantity añadido -->
+        <form method="POST" action="checkout-2.php">
+    <input type="hidden" name="codigoProducto" value="<?php echo $codigoProducto; ?>">
+    <input type="hidden" name="precioProducto" value="<?php echo $producto['precio_venta'] ?? $servicio['precio']; ?>">
+    <input type="hidden" name="cantidadProducto" value="1"> 
+    <input type="hidden" name="tipoItem" value="productos"> 
     <div class="container">
         <div class="row">
             <div class="column">
@@ -83,43 +79,64 @@ if (isset($_GET['codigo'])) {
                     </div>
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="firstName">Nombre<span class="text-danger">*</span></label>
-                            <input type="text" id="firstName" name="firstName" required>
+                            <label for="nombreCliente">Nombre<span class="text-danger">*</span></label>
+                            <input type="text" id="nombreCliente" name="nombreCliente" required>
                         </div>
                         <div class="form-group">
-                            <label for="lastName">Apellido<span class="text-danger">*</span></label>
-                            <input type="text" id="lastName" name="lastName" required>
+                            <label for="apellidoCliente">Apellido<span class="text-danger">*</span></label>
+                            <input type="text" id="apellidoCliente" name="apellidoCliente" required>
                         </div>
                         <div class="form-group">
-                            <label for="idNumber">Documento de identidad<span class="text-danger">*</span></label>
-                            <input type="text" id="idNumber" name="idNumber" required>
+                            <label for="documentoCliente">Documento de identidad<span class="text-danger">*</span></label>
+                            <input type="text" id="documentoCliente" name="documentoCliente" required>
                         </div>
                         <div class="form-group">
-                            <label for="country">País / Región</label>
-                            <input type="text" id="country" name="country" value="Uruguay" readonly>
+                            <label for="paisCliente">País / Región</label>
+                            <input type="text" id="paisCliente" name="paisCliente" value="Uruguay" readonly>
                         </div>
                         <div class="form-group">
-                            <label for="address">Dirección de la calle<span class="text-danger">*</span></label>
-                            <input type="text" id="address" name="address" placeholder="Número de casa y nombre de la calle" required>
+                            <label for="direccionCliente">Dirección de la calle<span class="text-danger">*</span></label>
+                            <input type="text" id="direccionCliente" name="direccionCliente" placeholder="Número de casa y nombre de la calle" required>
                         </div>
                         <div class="form-group">
-                            <input type="text" name="apartment" placeholder="Apartamento, habitación, etc. (opcional)">
+                            <input type="text" name="apartamentoCliente" placeholder="Apartamento, habitación, etc. (opcional)">
                         </div>
                         <div class="form-group">
-                            <label for="city">Ciudad<span class="text-danger">*</span></label>
-                            <input type="text" id="city" name="city" required>
+                            <label for="ciudadCliente">Ciudad<span class="text-danger">*</span></label>
+                            <input type="text" id="ciudadCliente" name="ciudadCliente" required>
                         </div>
                         <div class="form-group">
-                            <label for="state">Departamento<span class="text-danger">*</span></label>
-                            <input type="text" id="state" name="state" value="Montevideo" readonly>
+                            <label for="departamentoCliente">Departamento<span class="text-danger">*</span></label>
+                            <select id="departamentoCliente" name="departamentoCliente" required>
+                                <option value="" disabled selected>Selecciona un departamento</option>
+                                <option value="Artigas">Artigas</option>
+                                <option value="Canelones">Canelones</option>
+                                <option value="Cerro Largo">Cerro Largo</option>
+                                <option value="Colonia">Colonia</option>
+                                <option value="Durazno">Durazno</option>
+                                <option value="Flores">Flores</option>
+                                <option value="Florida">Florida</option>
+                                <option value="Lavalleja">Lavalleja</option>
+                                <option value="Maldonado">Maldonado</option>
+                                <option value="Montevideo">Montevideo</option>
+                                <option value="Paysandú">Paysandú</option>
+                                <option value="Río Negro">Río Negro</option>
+                                <option value="Rivera">Rivera</option>
+                                <option value="Rocha">Rocha</option>
+                                <option value="Salto">Salto</option>
+                                <option value="San José">San José</option>
+                                <option value="Soriano">Soriano</option>
+                                <option value="Tacuarembó">Tacuarembó</option>
+                                <option value="Treinta y Tres">Treinta y Tres</option>
+                            </select>
                         </div>
                         <div class="form-group">
-                            <label for="phone">Teléfono<span class="text-danger">*</span></label>
-                            <input type="tel" id="phone" name="phone" required>
+                            <label for="telefonoCliente">Teléfono<span class="text-danger">*</span></label>
+                            <input type="tel" id="telefonoCliente" name="telefonoCliente" required>
                         </div>
                         <div class="form-group">
-                            <label for="email">Dirección de correo electrónico<span class="text-danger">*</span></label>
-                            <input type="email" id="email" name="email" required>
+                            <label for="emailCliente">Dirección de correo electrónico<span class="text-danger">*</span></label>
+                            <input type="email" id="emailCliente" name="emailCliente" required>
                         </div>
                     </div>
                 </div>
@@ -130,91 +147,57 @@ if (isset($_GET['codigo'])) {
                         <h4>Tu Pedido</h4>
                     </div>
                     <div class="card-body">
-                        <p><?php echo isset($producto['nombre']) ? htmlspecialchars($producto['nombre']) : 'Producto no encontrado'; ?></p>
+                        <p><?php echo isset($nombreProducto) ? htmlspecialchars($nombreProducto) : 'Producto no encontrado'; ?></p>
                         <p><strong>Descripción:</strong></p>
-                        <p><?php echo isset($producto['descripcion']) ? htmlspecialchars($producto['descripcion']) : 'Descripción no disponible'; ?></p>
+                        <p><?php echo isset($descripcionProducto) ? htmlspecialchars($descripcionProducto) : 'Descripción no disponible'; ?></p>
                         <p><strong>Precio:</strong></p>
-                        <p>$<?php echo isset($producto['precio_venta']) ? htmlspecialchars($producto['precio_venta']) : 'Precio no disponible'; ?></p>
+                        <p>$<?php echo isset($precioProducto) ? htmlspecialchars($precioProducto) : 'Precio no disponible'; ?></p>
                         <p><strong>Imagen:</strong></p>
-                        <img src="<?php echo $imagen_url; ?>" alt="Imagen del producto">
+                        <img src="<?php echo $imagenProducto; ?>" alt="Imagen del producto">
                         <hr>
-                        <p><strong>Subtotal:</strong>$<?php echo isset($producto['precio_venta']) ? htmlspecialchars($producto['precio_venta']) : '0.00'; ?></p>
+                        <p><strong>Subtotal:</strong>$<?php echo isset($precioProducto) ? htmlspecialchars($precioProducto) : '0.00'; ?></p>
                         <p><strong>Envío</strong></p>
                         <div class="form-check">
-                            <input type="radio" name="shipping" id="pickup" value="pickup" class="form-check-input" checked>
-                            <label for="pickup" class="form-check-label">Retiro en el local</label>
+                            <input type="radio" name="tipoEnvio" id="retiroLocal" value="retiroLocal" class="form-check-input" checked>
+                            <label for="retiroLocal" class="form-check-label">Retiro en el local</label>
                         </div>
                         <div class="form-group">
-                            <label for="pickupName">Nombre de quien retira</label>
-                            <input type="text" id="pickupName" name="pickupName">
+                            <label for="nombreRetiro">Nombre de quien retira</label>
+                            <input type="text" id="nombreRetiro" name="nombreRetiro">
                         </div>
                         <div class="form-group">
-                            <label for="pickupId">Cédula de quien retira</label>
-                            <input type="text" id="pickupId" name="pickupId">
+                            <label for="cedulaRetiro">Cédula de quien retira</label>
+                            <input type="text" id="cedulaRetiro" name="cedulaRetiro">
                         </div>
                         <div class="form-check">
-                            <input type="radio" name="shipping" id="montevideoFlex" value="montevideoFlex" class="form-check-input">
-                            <label for="montevideoFlex" class="form-check-label">Envío a todo el país - GRATIS</label>
+                            <input type="radio" name="tipoEnvio" id="envioFlex" value="envioFlex" class="form-check-input">
+                            <label for="envioFlex" class="form-check-label">Envío a todo el país - GRATIS</label>
                         </div>
                         <hr>
-                        <p><strong>Total:</strong> <span class="float-end">$<?php echo isset($producto['precio_venta']) ? htmlspecialchars($producto['precio_venta']) : '0.00'; ?></span></p>
+                        <p><strong>Total:</strong> <span class="float-end">$<?php echo isset($precioProducto) ? htmlspecialchars($precioProducto) : '0.00'; ?></span></p>
                         <p><strong>Métodos de pago</strong></p>
                         <div class="form-check">
-                            <input type="radio" name="paymentMethod" id="bankTransfer" value="bankTransfer" class="form-check-input">
-                            <label for="bankTransfer" class="form-check-label">Transferencia bancaria</label>
+                            <input type="radio" name="metodoPago" id="transferenciaBancaria" value="transferenciaBancaria" class="form-check-input">
+                            <label for="transferenciaBancaria" class="form-check-label">Transferencia bancaria</label>
                         </div>
                         <div class="form-check">
-                            <input type="radio" name="paymentMethod" id="redpagos" value="redpagos" class="form-check-input">
+                            <input type="radio" name="metodoPago" id="redpagos" value="redpagos" class="form-check-input">
                             <label for="redpagos" class="form-check-label">Abitab / Redpagos</label>
                         </div>
                         <hr>
                         <div class="form-check">
-                            <input type="checkbox" id="termsConditions" name="termsConditions" class="form-check-input" required>
-                            <label for="termsConditions" class="form-check-label">He leído y estoy de acuerdo con los <a href="#">términos y condiciones de la web</a>.</label>
+                            <input type="checkbox" id="terminosCondiciones" name="terminosCondiciones" class="form-check-input" required>
+                            <label for="terminosCondiciones" class="form-check-label">He leído y estoy de acuerdo con los términos y condiciones de la web</a>.</label>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-lg btn-block" id="placeOrder">REALIZAR EL PEDIDO</button>
+                        <button type="submit" class="btn btn-primary btn-lg btn-block" id="realizarPedido">REALIZAR EL PEDIDO</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </form>
-
     </main>
     <?php include "reusables/footer.php" ?>
-
-    <script>
-    document.getElementById("placeOrder").addEventListener("click", function(event) {
-        event.preventDefault();
-
-        let firstName = document.getElementById("firstName").value.trim();
-        let lastName = document.getElementById("lastName").value.trim();
-        let idNumber = document.getElementById("idNumber").value.trim();
-        let address = document.getElementById("address").value.trim();
-        let city = document.getElementById("city").value.trim();
-        let phone = document.getElementById("phone").value.trim();
-        let email = document.getElementById("email").value.trim();
-        let termsConditions = document.getElementById("termsConditions").checked;
-
-        if (firstName && lastName && idNumber && address && city && phone && email && termsConditions) {
-            Swal.fire({
-                title: '¡Gracias por tu compra!',
-                text: 'Tu pedido ha sido realizado con éxito.',
-                icon: 'success',
-                confirmButtonText: 'Cerrar'
-            }).then(() => {
-                document.querySelector("form").submit();
-            });
-        } else {
-            Swal.fire({
-                title: 'Error',
-                text: 'Hubo un error al completar la transacción. Por favor, verifica que todos los campos estén completos.',
-                icon: 'error',
-                confirmButtonText: 'Cerrar'
-            });
-        }
-    });
-</script>
 </body>
 </html>
 
