@@ -17,7 +17,7 @@
         c.nombre AS 'categoria',
         i.codigo AS 'i.codigo',
         i.nombre AS 'i.nombre',
-        i.extension AS 'i.extension'
+        i.enlace AS 'i.extension'
         FROM productos p
         LEFT JOIN imagenes i ON p.imagen_id=i.codigo
         LEFT JOIN productos_categorias pc ON pc.producto_id=p.codigo

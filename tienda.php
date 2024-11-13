@@ -11,7 +11,7 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
     $busqueda = $mysql->real_escape_string($_GET['search']);
     $productos_result = $mysql->query("
     
-        SELECT productos.*, CONCAT(imagenes.nombre, imagenes.extension) AS imagen_enlace 
+        SELECT productos.*, CONCAT(imagenes.nombre, imagenes.enlace) AS imagen_enlace 
         FROM productos 
         LEFT JOIN imagenes ON productos.imagen_id = imagenes.codigo
         WHERE productos.en_venta = 1 AND (productos.nombre LIKE '%$busqueda%' 
@@ -21,7 +21,7 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
     ");
 } else {
     $productos_result = $mysql->query("
-        SELECT productos.*, CONCAT(imagenes.nombre, imagenes.extension) AS imagen_extension
+        SELECT productos.*, CONCAT(imagenes.nombre, imagenes.enlace) AS imagen_extension
         FROM productos 
         LEFT JOIN imagenes ON productos.imagen_id = imagenes.codigo
         WHERE productos.en_venta = 1

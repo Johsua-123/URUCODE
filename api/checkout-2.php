@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'api/mysql.php';
+require 'mysql.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $usuario_id = $_SESSION['code']; // Asumiendo que el ID de usuario está almacenado en la sesión
@@ -33,13 +33,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
 
-    // Preparar y ejecutar la consulta de inserción
     $stmt = $mysql->prepare("INSERT INTO ordenes (usuario_id, item_id, cantidad, precio_unitario, subtotal, estado, fecha_creacion, fecha_actualizacion, direccion, item_tipo) VALUES (?, ?, ?, ?, ?, ?, NOW(), NOW(), ?, ?)");
     $stmt->bind_param("iiiddsss", $usuario_id, $item_id, $cantidad, $precio_unitario, $subtotal, $estado, $direccion, $item_tipo);
 
     if($item_tipo == "productos"){
         if ($stmt->execute()) {
-        header("Location: tienda.php");
+        header("Location: ../tienda.php");
     } else {
         echo "Error: " . $stmt->error;
     }
