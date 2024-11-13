@@ -7,7 +7,7 @@
     define("URUCODE", true);
     require 'api/mysql.php';
 
-    // Consulta para productos destacados
+    //productos destacados
     $stmt_destacados = $mysql->prepare("SELECT productos.*, imagenes.nombre AS imagen_nombre 
                                         FROM productos 
                                         LEFT JOIN imagenes ON productos.imagen_id = imagenes.codigo 
@@ -18,7 +18,7 @@
         $stmt_destacados->execute();
         $productos_destacados = $stmt_destacados->get_result();
 
-        // Consulta para productos en oferta
+        // productos en oferta
         $stmt_ofertas = $mysql->prepare("SELECT productos.*, imagenes.nombre AS imagen_nombre 
                                         FROM productos 
                                         LEFT JOIN imagenes ON productos.imagen_id = imagenes.codigo 
