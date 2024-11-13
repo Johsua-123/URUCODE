@@ -28,7 +28,7 @@ session_start();
     <?php include "reusables/navbar.php" ?>
     <main>
         <div class="settings">
-            <!-- Sección de perfil -->
+
             <div class="profile-section">
                 <div class="profile-header">
                     <h1><?php echo $_SESSION["username"] ?? ""; ?></h1>
@@ -52,23 +52,23 @@ session_start();
                 </div>
             </div>
 
-            <!-- Sección de contenido -->
             <div class="content-section">
                 <div class="tab-section">
                     <div id="general" class="tab-body">
                         <h1>Perfil</h1>
                         <form id="user" method="POST" action="password.php">
-                            <!-- Nombre -->
                             <div>
                                 <label for="username">Nombre</label>
                                 <input id="username" name="username" type="text" value="<?php echo $_SESSION["username"] ?? "" ?>">
                             </div>
-                            <!-- Correo -->
                             <div>
                                 <label for="email">Correo</label>
                                 <input id="email" name="email" type="text" value="<?php echo $_SESSION["email"] ?? "" ?>">
                             </div>
-                            <!-- Sección de cambio de contraseña -->
+
+
+
+                            
                             <h2>Cambiar Contraseña</h2>
                             <form id="cambiar-contraseña" method="POST" action="password.php">
                                 <div>
@@ -81,7 +81,6 @@ session_start();
                                 </div>
                                 <button type="submit">Cambiar Contraseña</button>
                             </form>
-                            <!-- Fin del formulario de cambio de contraseña -->
                         </form>
                     </div>
                 </div>

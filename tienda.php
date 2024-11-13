@@ -1,18 +1,8 @@
 <?php 
 session_start();
 $location = "tienda";
-
 require 'api/mysql.php';
 
-$servername = "localhost";
-$username = "duenio";
-$password = "duenio";
-$dbname = "urucode";
-
-$mysql = new mysqli($servername, $username, $password, $dbname);
-if ($mysql->connect_error) {
-    die("Error de conexión a la base de datos: " . $mysql->connect_error);
-}
 
 $result = $mysql->query("SELECT * FROM categorias");
 
