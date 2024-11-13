@@ -8,7 +8,6 @@
 
     $location = "mensajes";
 
-    define("URUCODE", true);
     require "../api/mysql.php";
 
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["codigo"])) {

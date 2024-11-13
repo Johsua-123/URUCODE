@@ -29,7 +29,7 @@
             <h1>Empresa</h1>
             <div>
                 <a href="public/Manual.pdf""">Manual de uso</a>
-                <a href="about-us.php">Sobre nostros</a>
+                <a href="about-us.php">Sobre nosotros</a>
                 <a href="preguntas.php">Preguntas Frecuentes</a>
                 <a href="garantia.php">Políticas de garantía </a>
                 <a href="privacidad.php">Privacidad </a>
