@@ -113,7 +113,6 @@
                                     <th>Descripción</th>
                                     <th>Fecha Creación</th>
                                     <th>Fecha Actualización</th>
-                                    <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
