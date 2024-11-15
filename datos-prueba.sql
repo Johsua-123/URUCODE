@@ -1,23 +1,46 @@
+INSERT INTO `categorias` (`codigo`, `nombre`, `eliminado`, `fecha_creacion`, `fecha_actualizacion`) VALUES
+(1, 'Celulares', 0, NULL, NULL),
+(2, 'Tablets', 0, NULL, NULL),
+(4, 'Destacados', 0, '2024-11-13 21:10:45', '2024-11-13 21:10:45'),
+(5, 'Ofertas', 0, '2024-11-13 21:10:45', '2024-11-13 21:10:45'),
+(6, 'Computadoras y Laptops', 0, '2024-11-13 21:10:45', '2024-11-13 21:10:45'),
+(7, 'Componentes de PC', 0, '2024-11-13 21:10:45', '2024-11-13 21:10:45'),
+(8, 'Periféricos', 0, '2024-11-13 21:10:45', '2024-11-13 21:10:45'),
+(9, 'Software y Licencias', 0, '2024-11-13 21:10:45', '2024-11-13 21:10:45'),
+(10, 'Accesorios de Oficina', 0, '2024-11-13 21:10:45', '2024-11-13 21:10:45'),
+(11, 'Redes y Conectividad', 0, '2024-11-13 21:10:45', '2024-11-13 21:10:45'),
+(12, 'Almacenamiento', 0, '2024-11-13 21:10:45', '2024-11-13 21:10:45'),
+(13, 'Servicios de Reparación y Soporte Técnico', 0, '2024-11-13 21:10:45', '2024-11-13 21:10:45');
 
-INSERT INTO productos (nombre, marca, modelo, cantidad, en_venta, eliminado, imagen_id, descripcion, precio_venta, fecha_creacion, fecha_actualizacion) VALUES
-('Lenovo ThinkPad X1 Carbon', 'Lenovo', 'X1 Carbon', 10, 1, 0, 1, 'Portátil ligero y potente', 1500.00, NOW(), NOW()),
-('Dell XPS 13', 'Dell', 'XPS 13', 15, 1, 0, 2, 'Portátil con pantalla infinita', 1400.00, NOW(), NOW()),
-('Apple MacBook Pro', 'Apple', 'MacBook Pro', 8, 1, 0, 1, 'Portátil para profesionales', 2000.00, NOW(), NOW()),
-('HP Spectre x360', 'HP', 'Spectre x360', 12, 1, 0, 1, 'Portátil convertible', 1300.00, NOW(), NOW()),
-('Asus ROG Strix', 'Asus', 'ROG Strix', 7, 1, 0, 2, 'Portátil para gaming', 1800.00, NOW(), NOW()),
-('Acer Aspire 5', 'Acer', 'Aspire 5', 20, 1, 0, 3, 'Portátil asequible y potente', 700.00, NOW(), NOW()),
-('MSI Gaming Laptop', 'MSI', 'Gaming Laptop', 5, 1, 0, 3, 'Portátil para juegos', 1700.00, NOW(), NOW()),
-('Samsung Odyssey G9', 'Samsung', 'Odyssey G9', 10, 1, 0, 3, 'Monitor ultra ancho', 1300.00, NOW(), NOW()),
-('LG UltraGear', 'LG', 'UltraGear', 8, 1, 0, 1, 'Monitor para gaming', 1000.00, NOW(), NOW()),
-('Dell UltraSharp', 'Dell', 'UltraSharp', 12, 1, 0, 1, 'Monitor profesional', 900.00, NOW(), NOW()),
-('HP Omen Monitor', 'HP', 'Omen Monitor', 10, 1, 0, 1, 'Monitor para juegos', 950.00, NOW(), NOW()),
-('Corsair K95 RGB', 'Corsair', 'K95 RGB', 25, 1, 0, 2, 'Teclado mecánico RGB', 200.00, NOW(), NOW()),
-('Logitech G Pro', 'Logitech', 'G Pro', 30, 1, 0, 2, 'Teclado para gaming', 150.00, NOW(), NOW()),
-('Razer DeathAdder V2', 'Razer', 'DeathAdder V2', 40, 1, 0, 1, 'Ratón ergonómico para gaming', 70.00, NOW(), NOW()),
-('Microsoft Surface Mouse', 'Microsoft', 'Surface Mouse', 35, 1, 0, 1, 'Ratón para Surface', 80.00, NOW(), NOW()),
-('Canon PIXMA', 'Canon', 'PIXMA', 10, 1, 0, 2, 'Impresora multifunción', 150.00, NOW(), NOW()),
-('HP LaserJet', 'HP', 'LaserJet', 15, 1, 0, 3, 'Impresora láser', 200.00, NOW(), NOW()),
-('Seagate BarraCuda', 'Seagate', 'BarraCuda', 50, 1, 0, 2, 'Disco duro interno', 60.00, NOW(), NOW()),
-('Western Digital Blue', 'WD', 'Blue', 45, 1, 0, 3, 'Disco duro interno', 65.00, NOW(), NOW())
+INSERT INTO `imagenes` (`codigo`, `nombre`, `extension`, `eliminado`, `fecha_creacion`) VALUES
+(1, 'imagen', '.png', 0, NULL),
+(2, 'imagen', '.jpg', 0, NULL),
+(3, 'imagen', '.jpg', 0, NULL),
+(6, 'imagen-1', '.png', 0, '2024-11-14 01:12:47'),
+(7, 'imagen-1', '.png', 0, '2024-11-14 01:15:17'),
+(8, 'imagen-1', '.png', 0, '2024-11-14 01:16:09'),
+(9, 'imagen-2', '.jpg', 0, '2024-11-14 01:24:40'),
+(10, 'imagen-2', '.jpg', 0, '2024-11-14 01:26:33'),
+(11, 'imagen-2', '.jpg', 0, '2024-11-14 01:27:00'),
+(12, 'imagen-2', '.jpg', 0, '2024-11-14 01:29:56'),
+(13, 'imagen-2', '.jpg', 0, '2024-11-14 01:30:27'),
+(14, 'imagen-2', '.jpg', 0, '2024-11-14 01:30:48'),
+(15, 'imagen-3', '.jpg', 0, '2024-11-14 01:32:09');
 
+INSERT INTO `productos` (`codigo`, `nombre`, `marca`, `modelo`, `cantidad`, `en_venta`, `eliminado`, `imagen_id`, `descripcion`, `precio_venta`, `fecha_creacion`, `fecha_actualizacion`) VALUES
+(170, 'Iphone 15', 'Apple', 'Pro', 1, 1, 0, 6, 'Blanco', 1000, '2024-11-14 01:12:47', '2024-11-14 01:12:47'),
+(171, 'Iphone 14', 'Apple', 'Pro', 1, 1, 0, 7, '', 0, '2024-11-14 01:15:17', '2024-11-14 01:15:17'),
+(172, 'Iphone 13', 'Apple', 'Pro', 1, 1, 0, 8, '', 2000, '2024-11-14 01:16:09', '2024-11-14 01:16:09'),
+(176, 'Laptop Prop', 'Asus', '2022', 1, 1, 0, 12, 'Colo blanco', 5000, '2024-11-14 01:29:56', '2024-11-14 01:29:56'),
+(177, 'Laptop Pro 2', 'Asus', '2022', 5, 1, 0, 13, 'Colo amarillo', 1000, '2024-11-14 01:30:27', '2024-11-14 01:30:27'),
+(178, 'Laptop Pro 3', 'Asus', '2022', 100, 1, 0, 14, 'Color rojo', 1340, '2024-11-14 01:30:48', '2024-11-14 01:30:48'),
+(179, 'Teclado', 'Logitech', 'g203', 20, 1, 0, 15, 'Color blanco', 100, '2024-11-14 01:32:09', '2024-11-14 01:32:09');
 
+INSERT INTO `productos_categorias` (`producto_id`, `categoria_id`, `fecha_creacion`, `fecha_actualizacion`) VALUES
+(170, 5, '2024-11-14 01:12:47', '2024-11-14 01:12:47'),
+(171, 5, '2024-11-14 01:15:17', '2024-11-14 01:15:17'),
+(172, 5, '2024-11-14 01:16:09', '2024-11-14 01:16:09'),
+(176, 4, '2024-11-14 01:29:56', '2024-11-14 01:29:56'),
+(177, 4, '2024-11-14 01:30:27', '2024-11-14 01:30:27'),
+(178, 4, '2024-11-14 01:30:48', '2024-11-14 01:30:48'),
+(179, 8, '2024-11-14 01:32:09', '2024-11-14 01:32:09');
