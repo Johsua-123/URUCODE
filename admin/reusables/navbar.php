@@ -7,7 +7,7 @@
             </a>
         </div>
         <div class="navbar-route">
-            <a href="../index.php" class="boton-inicio">Volver a la Pagina de Inicio</a>
+            <a href="../index.php" class="boton-inicio">Regresar</a>
         </div>
         <div class="navbar-extra">
             <svg class="navbar-toggler" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24">

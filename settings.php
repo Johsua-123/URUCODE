@@ -1,5 +1,6 @@
+
 <?php
-session_start();
+    session_start();
 ?>
 
 <!DOCTYPE html>
@@ -12,10 +13,9 @@ session_start();
         gtag('js', new Date());
         gtag('config', 'G-DF773N72G0');
     </script>
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="public/icons/logo.png" type="image/x-icon">
+    <link rel="shortcut icon" href="public/icons/errea.png" type="image/x-icon">
     <link rel="stylesheet" href="assets/styles/module.css">
     <link rel="stylesheet" href="assets/styles/navbar.css">
     <link rel="stylesheet" href="assets/styles/footer.css">

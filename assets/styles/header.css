@@ -1,0 +1,20 @@
+
+.current-path {
+    gap: 5px;
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    color: var(--color-black);
+    border-bottom: 1px var(--color-blue) solid;
+}
+
+.current-path a {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    color: var(--color-black);
+}
+
+.current-path a {
+    font-size: 18px;
+}

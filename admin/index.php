@@ -1,12 +1,15 @@
 <?php 
-    session_start();
+   
+   session_start();
 
     if (!isset($_SESSION["code"])) {
         header("Location: ../index.php");
-        exit();
     }
 
-    $location = "index";
+    
+
+    $location = "inicio";
+
 ?>
 
 <!DOCTYPE html>
@@ -14,11 +17,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../public/icons/errea.png" type="image/x-icon">
     <link rel="stylesheet" href="assets/styles/module.css">
     <link rel="stylesheet" href="assets/styles/navbar.css">
     <link rel="stylesheet" href="assets/styles/sidebar.css">
     <link rel="stylesheet" href="assets/styles/graficas.css">
-    <title>Inicio| Errea Admin</title>
+    <title>Inicio | Errea Admin</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -44,7 +48,6 @@
                 <p>Traffico Total</p>
             </div>
         </header>
-
         <section class="section">
             <div class="box full-width">
                 <h2>Usuarios Registrados</h2>
@@ -66,9 +69,6 @@
                     <li>01e4dsa - Johsua Hartwig - $43.95</li>
                     <li>51034szv - Juan Cruz- $123.50</li>
                 </ul>
-            </div>
-            <div class="box full-width">
-                <h2>ERREA ADMIN</h2>
             </div>
         </section>
     </div>

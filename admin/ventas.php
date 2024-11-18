@@ -1,67 +1,75 @@
 <?php 
-session_start();
+    session_start();
 
-if (!isset($_SESSION["code"])) {
-    header("Location: ../index.php");
-    exit();
-}
-$location = "ventas";
-
-require '../api/mysql.php';
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST['completar'])) {
-        $orden_id = $_POST['orden_id'];
-
-        $stmt = $mysql->prepare("UPDATE ordenes SET estado = 'completado' WHERE codigo = ?");
-        $stmt->bind_param("i", $orden_id);
-
-        if ($stmt->execute()) {
-            $mensaje = "La orden ha sido marcada como completada.";
-        } else {
-            $error = "Error: " . $stmt->error;
-        }
-
-        $stmt->close();
-    } elseif (isset($_POST['eliminar'])) {
-        $orden_id = $_POST['orden_id'];
-
-        $stmt = $mysql->prepare("DELETE FROM ordenes WHERE codigo = ?");
-        $stmt->bind_param("i", $orden_id);
-
-        if ($stmt->execute()) {
-            $mensaje = "La orden ha sido eliminada.";
-        } else {
-            $error = "Error: " . $stmt->error;
-        }
-
-        $stmt->close();
+    if (!isset($_SESSION["code"])) {
+        header("Location: ../index.php");
     }
 
-    header("Location: ventas.php");
-    exit();
-}
+    $roles = ["dueño", "supervisor", "admin", "empleado"];
 
-$stmt = $mysql->prepare("SELECT o.*, p.nombre AS producto_nombre, u.nombre AS comprador_nombre, u.email AS comprador_email
-                         FROM ordenes o 
-                         JOIN productos p ON o.item_id = p.codigo
-                         JOIN usuarios u ON o.usuario_id = u.codigo");
-$stmt->execute();
-$result = $stmt->get_result();
-$ordenes = $result->fetch_all(MYSQLI_ASSOC);
-$stmt->close();
-$mysql->close();
+
+
+    $location = "ventas";
+
+    require '../api/mysql.php';
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if (isset($_POST['completar'])) {
+            $orden_id = $_POST['orden_id'];
+
+            $stmt = $mysql->prepare("UPDATE ordenes SET estado = 'completado' WHERE codigo = ?");
+            $stmt->bind_param("i", $orden_id);
+
+            if ($stmt->execute()) {
+                $mensaje = "La orden ha sido marcada como completada.";
+            } else {
+                $error = "Error: " . $stmt->error;
+            }
+
+            $stmt->close();
+        } elseif (isset($_POST['eliminar'])) {
+            $orden_id = $_POST['orden_id'];
+
+            $stmt = $mysql->prepare("DELETE FROM ordenes WHERE codigo = ?");
+            $stmt->bind_param("i", $orden_id);
+
+            if ($stmt->execute()) {
+                $mensaje = "La orden ha sido eliminada.";
+            } else {
+                $error = "Error: " . $stmt->error;
+            }
+
+            $stmt->close();
+        }
+
+        header("Location: ventas.php");
+
+    }
+
+    $stmt = $mysql->prepare(
+"SELECT o.*, p.nombre AS producto, u.nombre AS comprador, u.email AS email
+        FROM ordenes o 
+        JOIN productos p ON o.item_id = p.codigo
+        JOIN usuarios u ON o.usuario_id = u.codigo"
+    );
+
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $ordenes = $result->fetch_all(MYSQLI_ASSOC);
+
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <link rel="shortcut icon" href="../public/icons/errea.png" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="assets/styles/module.css">
     <link rel="stylesheet" href="assets/styles/navbar.css">
     <link rel="stylesheet" href="assets/styles/sidebar.css">
     <link rel="stylesheet" href="assets/styles/products.css">
-    <title>Inventario | Errea Admin</title>
+    <title>Ventas | Errea Admin</title>
 </head>
 <body>
     <?php include "reusables/sidebar.php"; ?>
@@ -92,16 +100,16 @@ $mysql->close();
                 <tbody>
                     <?php foreach ($ordenes as $orden): ?>
                         <tr>
-                            <td><?php echo htmlspecialchars($orden['producto_nombre']); ?></td>
-                            <td><?php echo htmlspecialchars($orden['comprador_nombre']); ?></td>
+                            <td><?php $orden['producto_nombre']; ?></td>
+                            <td><?php $orden['comprador_nombre']; ?></td>
                             <td>
-                                <p>Email: <?php echo htmlspecialchars($orden['comprador_email']); ?></p>
+                                <p>Email: <?php $orden['comprador_email']; ?></p>
                             </td>
-                            <td><?php echo htmlspecialchars($orden['direccion']); ?></td>
-                            <td><?php echo htmlspecialchars($orden['precio_unitario']); ?></td>
-                            <td><?php echo htmlspecialchars($orden['subtotal']); ?></td>
-                            <td><?php echo htmlspecialchars($orden['fecha_creacion']); ?></td>
-                            <td><?php echo htmlspecialchars($orden['estado']); ?></td>
+                            <td><?php $orden['direccion']; ?></td>
+                            <td><?php $orden['precio_unitario']; ?></td>
+                            <td><?php $orden['subtotal']; ?></td>
+                            <td><?php $orden['fecha_creacion']; ?></td>
+                            <td><?php $orden['estado']; ?></td>
                             <td>
                                 <form method="POST" action="" style="display:inline-block;">
                                     <input type="hidden" name="orden_id" value="<?php echo $orden['codigo']; ?>">

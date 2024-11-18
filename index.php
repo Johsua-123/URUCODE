@@ -4,28 +4,65 @@
 
     $location = "inicio";
 
-    define("URUCODE", true);
     require 'api/mysql.php';
 
-    $stmt_destacados = $mysql->prepare("SELECT productos.*, imagenes.nombre AS imagen_nombre 
-                                        FROM productos 
-                                        LEFT JOIN imagenes ON productos.imagen_id = imagenes.codigo 
-                                        LEFT JOIN productos_categorias ON productos.codigo = productos_categorias.producto_id 
-                                        LEFT JOIN categorias ON productos_categorias.categoria_id = categorias.codigo 
-                                        WHERE productos.en_venta = true AND categorias.nombre = 'Destacados'");
+    $stmt = $mysql->prepare("SELECT 
+        p.*,
+        i.codigo AS 'i.codigo',
+        i.nombre AS 'i.nombre',
+        i.extension AS 'i.extension'
+        FROM productos p
+        LEFT JOIN imagenes i ON p.imagen_id=i.codigo 
+        LEFT JOIN productos_categorias pc ON pc.producto_id=p.codigo 
+        LEFT JOIN categorias c ON pc.categoria_id=c.codigo 
+        WHERE p.en_venta=true AND c.nombre='Destacados'
+    ");
 
-        $stmt_destacados->execute();
-        $productos_destacados = $stmt_destacados->get_result();
+    $stmt->execute();
+    $resultado = $stmt->get_result();
+    $destacados = [];
 
-        $stmt_ofertas = $mysql->prepare("SELECT productos.*, imagenes.nombre AS imagen_nombre 
-                                        FROM productos 
-                                        LEFT JOIN imagenes ON productos.imagen_id = imagenes.codigo 
-                                        LEFT JOIN productos_categorias ON productos.codigo = productos_categorias.producto_id 
-                                        LEFT JOIN categorias ON productos_categorias.categoria_id = categorias.codigo 
-                                        WHERE productos.en_venta = true AND categorias.nombre = 'Ofertas'");
+    while ($producto = $resultado->fetch_assoc()) {
+        if (!empty($producto["i.codigo"])) {
+            $imagen = $producto["i.nombre"] . "-" . $producto["i.codigo"] . $producto["i.extension"];
+            if (file_exists("public/images/$imagen")) {
+                $producto["imagen"] = "public/images/$imagen";
+            } else {
+                $producto["imagen"] = "";
+            }
+        }
+        unset($producto["i.codigo"], $producto["i.nombre"], $producto["i.extension"]);
+        $destacados[] = $producto;
+    }
+    
+    $stmt = $mysql->prepare("SELECT 
+        p.*,
+        i.codigo AS 'i.codigo',
+        i.nombre AS 'i.nombre',
+        i.extension AS 'i.extension'
+        FROM productos p
+        LEFT JOIN imagenes i ON p.imagen_id=i.codigo 
+        LEFT JOIN productos_categorias pc ON pc.producto_id=p.codigo 
+        LEFT JOIN categorias c ON pc.categoria_id=c.codigo 
+        WHERE p.en_venta=true AND c.nombre='Destacados'
+    ");
 
-        $stmt_ofertas->execute();
-        $productos_ofertas = $stmt_ofertas->get_result();
+    $stmt->execute();
+    $resultado = $stmt->get_result();
+    $ofertas = [];
+
+    while ($producto = $resultado->fetch_assoc()) {
+        if (!empty($producto["i.codigo"])) {
+            $imagen = $producto["i.nombre"] . "-" . $producto["i.codigo"] . $producto["i.extension"];
+            if (file_exists("public/images/$imagen")) {
+                $producto["imagen"] = "public/images/$imagen";
+            } else {
+                $producto["imagen"] = "";
+            }
+        }
+        unset($producto["i.codigo"], $producto["i.nombre"], $producto["i.extension"]);
+        $ofertas[] = $producto;
+    }
 
 ?>
 
@@ -41,7 +78,7 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="public/icons/logo.png" type="image/x-icon">
+    <link rel="shortcut icon" href="public/icons/errea.png" type="image/x-icon">
     <link rel="stylesheet" href="assets/styles/module.css">
     <link rel="stylesheet" href="assets/styles/navbar.css">
     <link rel="stylesheet" href="assets/styles/footer.css">
@@ -65,20 +102,17 @@
         <div class="main-products">
             <h1>Destacados</h1>
             <div class="product-items">
-                <?php while ($producto = $productos_destacados->fetch_assoc()) { 
-                    $imagen_url = $producto['imagen_nombre'] ? 'public/images/' . $producto['imagen_nombre'] : 'https://via.placeholder.com/100x100?text=Imagen+del+Producto'; 
-                ?>
+                <?php foreach ($destacados as $producto) { ?>
                     <div class="product-card">
                         <div class="card-header">
-                            <img src="<?php echo htmlspecialchars($imagen_url); ?>" alt="<?php echo htmlspecialchars($producto['nombre']); ?>">
+                            <img src="<?php echo $producto["imagen"] ?>" alt="<?php echo $producto["nombre"]; ?>">
                         </div>
-                        
                         <div class="card-items">
-                            <h1><?php echo htmlspecialchars($producto['nombre']); ?></h1>
-                            <h2>U$S <?php echo htmlspecialchars($producto['precio_venta']); ?></h2>
+                            <h1><?php echo $producto["nombre"]; ?></h1>
+                            <h2>U$S <?php echo $producto["precio_venta"]; ?></h2>
                         </div>
                         <div class="card-footer">
-                            <a href="product-visualizer.php?codigo=<?php echo htmlspecialchars($producto['codigo']); ?>">Ver detalles</a>
+                            <a href="product-visualizer.php?codigo=<?php echo $producto["codigo"]; ?>">Ver detalles</a>
                         </div>
                     </div>
                 <?php } ?>
@@ -90,21 +124,17 @@
         <div class="main-products">
             <h1>Ofertas</h1>
             <div class="product-items">
-                <?php while ($producto = $productos_ofertas->fetch_assoc()) { 
-                 $imagen_url = $producto['imagen_nombre'] ? 'public/images/' . urlencode($producto['imagen_nombre']) : 'https://via.placeholder.com/100x100?text=Imagen+del+Producto';
-
-
-                ?>
+                <?php foreach ($ofertas as $producto) { ?>
                     <div class="product-card">
                         <div class="card-header">
-                            <img src="<?php echo htmlspecialchars($imagen_url); ?>" alt="<?php echo htmlspecialchars($producto['nombre']); ?>">
+                            <img src="<?php echo $producto["imagen"] ?>" alt="<?php echo $producto["nombre"]; ?>">
                         </div>
                         <div class="card-items">
-                            <h1><?php echo htmlspecialchars($producto['nombre']); ?></h1>
-                            <h2>U$S <?php echo htmlspecialchars($producto['precio_venta']); ?></h2>
+                            <h1><?php echo $producto["nombre"]; ?></h1>
+                            <h2>U$S <?php echo $producto["precio_venta"]; ?></h2>
                         </div>
                         <div class="card-footer">
-                            <a href="product-visualizer.php?codigo=<?php echo htmlspecialchars($producto['codigo']); ?>">Ver detalles</a>
+                            <a href="product-visualizer.php?codigo=<?php echo $producto["codigo"]; ?>">Ver detalles</a>
                         </div>
                     </div>
                 <?php } ?>

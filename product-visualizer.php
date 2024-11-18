@@ -1,115 +1,148 @@
 <?php
 
     session_start();
+
     $location = "tienda";
 
-    require 'api/mysql.php';
+    require "api/mysql.php";
 
-if (isset($_GET['codigo'])) {
-    $product_code = $_GET['codigo'];
+    $codigo = $_GET["codigo"] ?? null;
 
-    $servername = "localhost";
-    $username = "duenio";
-    $password = "duenio";
-    $dbname = "urucode";
+    $stmt = $mysql->prepare("SELECT 
+        p.* ,
+        c.codigo AS 'c.codigo',
+        c.nombre AS 'c.nombre',
+        i.codigo AS 'i.codigo',
+        i.nombre AS 'i.nombre',
+        i.extension AS 'i.extension'
+        FROM productos p
+        LEFT JOIN imagenes i ON p.imagen_id=i.codigo
+        LEFT JOIN productos_categorias pc ON pc.producto_id=p.codigo
+        LEFT JOIN categorias c ON pc.categoria_id=c.codigo
+        WHERE p.codigo=?
+    ");
 
-    $stmt = $mysql->prepare("SELECT * FROM productos WHERE codigo = ?");
-    $stmt->bind_param("i", $product_code);
+    $stmt->bind_param("i", $codigo);
     $stmt->execute();
+
     $result = $stmt->get_result();
     $producto = $result->fetch_assoc();
 
-    if ($producto) {
-        $imagen_id = $producto['imagen_id'];
-        $stmt = $mysql->prepare("SELECT nombre FROM imagenes WHERE codigo = ?");
-        $stmt->bind_param("i", $imagen_id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $imagen = $result->fetch_assoc();
-        $imagen_url = $imagen ? 'public/images/' . $imagen['nombre'] : 'https://via.placeholder.com/150';
+    $categoria = "%{$producto['c.nombre']}%";
+    $nombre = "%{$producto['nombre']}%";
+    $modelo = "%{$producto['modelo']}%";
+    $marca = "%{$producto['marca']}%";
 
-        $stmt = $mysql->prepare("SELECT categorias.nombre AS categoria_nombre FROM categorias 
-                                 JOIN productos_categorias ON categorias.codigo = productos_categorias.categoria_id 
-                                 WHERE productos_categorias.producto_id = ?");
-        $stmt->bind_param("i", $product_code);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $categoria = $result->fetch_assoc();
-        $categoria_nombre = $categoria ? $categoria['categoria_nombre'] : 'Categoría no encontrada';
+    $stmt = $mysql->prepare("SELECT
+        p.*,
+        c.nombre AS 'c.nombre',
+        i.codigo AS 'i.cdogio',
+        i.nombre AS 'i.nombre',
+        i.extension AS 'i.extension'
+        FROM productos p
+        LEFT JOIN imagenes i ON p.imagen_id=i.codigo
+        LEFT JOIN productos_categorias pc ON pc.producto_id=p.codigo
+        LEFT JOIN categorias c ON pc.categoria_id=c.codigo
+        WHERE c.nombre LIKE ? OR p.nombre LIKE ? OR p.modelo LIKE ? OR p.marca LIKE ? AND p.en_venta=true AND p.cantidad > 0 AND p.eliminado=false
+        LIMIT 0, 5
+    ");
 
-    } else {
-        echo "Producto no encontrado.";
-        exit;
-    }
+    $stmt->bind_param("ssss", $categoria, $nombre, $modelo, $marca);
+    $stmt->execute();
 
-    } else {
-        echo "Código de producto no especificado.";
-        exit;
+    $resultado = $stmt->get_result();
+    $productos = [];
+
+    while ($fila = $resultado->fetch_assoc()) {
+        $productos[] = $fila;
     }
 
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DF773N72G0"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-DF773N72G0');
-    </script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Producto | Errea</title>
-    <link rel="shortcut icon" href="public/icons/logo.png" type="image/x-icon">
-    <link rel="stylesheet" href="assets/styles/module.css">
-    <link rel="stylesheet" href="assets/styles/navbar.css">
-    <link rel="stylesheet" href="assets/styles/footer.css">
-    <link rel="stylesheet" href="assets/styles/product-visualizer.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="assets/scripts/navbar.js"></script>
-</head>
-<body>
-    <?php include "reusables/navbar.php" ?>
-    <main>
-        <div class="web-path">
-            <p>HOME > TIENDA > <?php echo htmlspecialchars($categoria_nombre); ?> > <?php echo htmlspecialchars($producto['nombre']); ?></p>
-        </div>
-        <div class="product">
-            <div class="product-image">
-                <img src="<?php echo htmlspecialchars($imagen_url); ?>" alt="<?php echo htmlspecialchars($producto['nombre']); ?>">
+    <head>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-DF773N72G0"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-DF773N72G0');
+        </script>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="public/icons/errea.png" type="image/x-icon">
+        <link rel="stylesheet" href="assets/styles/module.css">
+        <link rel="stylesheet" href="assets/styles/navbar.css">
+        <link rel="stylesheet" href="assets/styles/footer.css">
+        <link rel="stylesheet" href="assets/styles/header.css">
+        <link rel="stylesheet" href="assets/styles/product-visualizer.css">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="assets/scripts/navbar.js"></script>
+        <title> <?php echo $producto["nombre"] ?? "No encontrado"; ?> | Errea</title>
+    </head>
+    <body>
+        <?php include "reusables/navbar.php" ?>
+        <main>
+            <?php require "reusables/header.php"; ?>
+            <div class="productos">
+                <div class="producto">
+                    <div class="producto-imagen">
+                        <img src="<?php echo $producto["imagen"] ?? "public/images/imagen-vacia.png"; ?>" alt="<?php echo $producto["nombre"] ?? "imagen producto"; ?>">
+                    </div>
+                    <div class="producto-info">
+                        <div class="producto-titulo">
+                            <h1><?php echo $producto["nombre"] ?? ""; ?></h1>
+                            <h2>US$<?php echo $producto["precio_venta"] ?? ""; ?></h2>
+                        </div>
+                        
+                        <div class="producto-detalles">
+                            <span>
+                                <p>Disponbilidad:</p>
+                                <?php echo $producto["cantidad"] ?? ""; ?>
+                            </span>
+                            <span>
+                                <p>Categoria:</p> 
+                                <?php echo $producto["c.nombre"] ?? ""; ?>
+                            </span>
+                        </div>
+                        
+                        <div class="botones">
+                            <a href="checkout.php?producto=<?php echo $producto["codigo"] ?? ""; ?>">COMPRAR</a>
+                            <form class="carrito" action="cart.php" method="POST">
+                                <input type="hidden" name="codigo" value="<?php echo $producto["codigo"] ?? ""; ?>">
+                                <input type="hidden" name="nombre" value="<?php echo $producto["nombre"] ?? ""; ?>">
+                                <input type="hidden" name="imagen" value="<?php echo $producto["imagen"] ?? ""; ?>">
+                                <input type="hidden" name="precio" value="<?php echo $producto["precio_venta"] ?? ""; ?>">
+                                <input type="hidden" name="descripcion" value="<?php echo $producto["descripcion"] ?? ""; ?>">
+                                <button type="submit">AÑADIR AL CARRITO</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="producto-descripcion <?php echo empty($producto["descripcion"]) ? "hidden" : "" ?>">
+                    <h1>DESCRIPCIÓN</h1>
+                    <p><?php echo $producto["descripcion"] ?? ""; ?></p>
+                </div>
+                <div class="productos-relacionados <?php echo empty($productos) ? "hidden" : "" ?>">
+                    <h1>PRODUCTOS RELACIONADOS</h1>
+                    <div class="productos-items">
+                        <?php foreach ($productos as $producto) { ?>
+                            <div class="producto-relacionado">
+                                <img src="<?php echo $producto["imagen"] ?? "public/images/imagen-vacia.png" ?>" alt="<?php echo $producto["nombre"]; ?>">
+                                <div class="producto-header">
+                                    <h1><?php echo $producto["nombre"] ?? "" ?></h1>
+                                    <h3>US$<?php echo $producto["precio_venta"] ?? "" ?></h3>
+                                </div>
+                                <div class="producto-footer">
+                                    <a href="producto.php?producto=<?php echo $producto["codigo"] ?? ""; ?>">Ver detalles</a>
+                                </div>
+                            </div>
+                        <?php } ?>
+                    </div>
+                </div>
             </div>
-            <div class="product-info">
-                <h1><?php echo htmlspecialchars($producto['nombre']); ?></h1>
-                <h2>US$<?php echo htmlspecialchars($producto['precio_venta']); ?></h2>
-                <p><?php echo htmlspecialchars($producto['descripcion']); ?></p>
-                
-                <a href="checkout.php?codigo=<?php echo $product_code; ?>">COMPRAR</a>
-
-                <form action="cart.php" method="POST" style="display: inline;">
-    <input type="hidden" name="codigo" value="<?php echo $product_code; ?>">
-    <input type="hidden" name="nombre" value="<?php echo htmlspecialchars($producto['nombre']); ?>">
-    <input type="hidden" name="precio" value="<?php echo htmlspecialchars($producto['precio_venta']); ?>">
-    <input type="hidden" name="descripcion" value="<?php echo htmlspecialchars($producto['descripcion']); ?>">
-    <input type="hidden" name="imagen_url" value="<?php echo htmlspecialchars($imagen_url); ?>">
-    <button type="submit">AÑADIR AL CARRITO</button>
-</form>
-            </div>
-        </div>
-        <div class="product-images">
-            <img src="<?php echo htmlspecialchars($imagen_url); ?>" alt="<?php echo htmlspecialchars($producto['nombre']); ?>">
-        </div>
-        <div class="product-description">
-            <h1>DESCRIPCIÓN</h1>
-            <p><?php echo htmlspecialchars($producto['descripcion']); ?></p>
-        </div>
-        <div class="related-products">
-            <h1>PRODUCTOS RELACIONADOS</h1>
-            <div class="related-products_images">
-                <img src="<?php echo htmlspecialchars($imagen_url); ?>" alt="<?php echo htmlspecialchars($producto['nombre']); ?>">
-            </div>
-        </div>
-    </main>
-    <?php include "reusables/footer.php" ?>
-</body>
+        </main>
+        <?php include "reusables/footer.php"; ?>
+    </body>
 </html>

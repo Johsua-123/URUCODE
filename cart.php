@@ -1,6 +1,8 @@
+
 <?php 
-session_start();
+    session_start();
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -14,13 +16,13 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carrito | Errea</title>
-    <link rel="shortcut icon" href="public/icons/logo.png" type="image/x-icon">
+    <link rel="shortcut icon" href="public/icons/errea.png" type="image/x-icon">
     <link rel="stylesheet" href="assets/styles/module.css">
     <link rel="stylesheet" href="assets/styles/navbar.css">
     <link rel="stylesheet" href="assets/styles/footer.css">
     <link rel="stylesheet" href="assets/styles/cart.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="assets/scripts/navbar.js"></script>
 </head>
 <body>
@@ -126,6 +128,7 @@ session_start();
                 icon: 'success',
                 confirmButtonText: 'Cerrar'
             });
+            
         });
     </script>
 </body>

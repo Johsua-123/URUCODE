@@ -6,7 +6,7 @@
         </a>
     </header>
     <footer>
-        <a href="index.php" class="<?php echo $location == "index" ? "sidebar-active" : "" ?>">Inicio</a>
+        <a href="index.php" class="<?php echo $location == "inicio" ? "sidebar-active" : "" ?>">Inicio</a>
         <a href="tienda.php" class="<?php echo $location == "tienda" ? "sidebar-active" : "" ?>">Tienda</a>
         <a href="ventas.php" class="<?php echo $location == "ventas" ? "sidebar-active" : "" ?>">Ventas</a>
         <a href="cuentas.php" class="<?php echo $location == "cuentas" ? "sidebar-active" : "" ?>">Cuentas</a>

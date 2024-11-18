@@ -3,7 +3,7 @@
     
     session_start();
     
-    if (isset($_SESSION["code"]) && isset($_SESSION["email"]) && isset($_SESSION["username"])) {
+    if (isset($_SESSION["code"])) {
         header("Location: index.php");
     }
 
@@ -21,7 +21,7 @@
         </script>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="shortcut icon" href="public/icons/logo.png" type="image/x-icon">
+        <link rel="shortcut icon" href="public/icons/errea.png" type="image/x-icon">
         <link rel="stylesheet" href="assets/styles/module.css">
         <link rel="stylesheet" href="assets/styles/auth.css">
         <script src="assets/scripts/auth/signin.js"></script>

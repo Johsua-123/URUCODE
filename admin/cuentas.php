@@ -1,25 +1,26 @@
 <?php
-session_start();
+    session_start();
 
-if (!isset($_SESSION["code"])) {
-    header("Location: ../index.php");
-    exit();
-}
+    if (!isset($_SESSION["code"])) {
+        header("Location: ../index.php");
+        exit();
+    }
 
-$location = "cuentas";
+    $location = "cuentas";
 
-define("URUCODE", true);
-require "../api/mysql.php";
+    require "../api/mysql.php";
 
-$stmt = $mysql->prepare("SELECT * FROM usuarios ORDER BY nombre");
-$stmt->execute();
-$resultado = $stmt->get_result();
+    $stmt = $mysql->prepare("SELECT * FROM usuarios WHERE eliminado=false ORDER BY codigo");
+    $stmt->execute();
+    $resultado = $stmt->get_result();
+
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <link rel="shortcut icon" href="../public/icons/errea.png" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="assets/styles/module.css">
     <link rel="stylesheet" href="assets/styles/navbar.css">
@@ -45,17 +46,17 @@ $resultado = $stmt->get_result();
                     <th>Teléfono</th>
                     <th>Fecha de Creación</th>
                 </tr>
-                <?php while($fila = $resultado->fetch_assoc()): ?>
+                <?php while($usuario = $resultado->fetch_assoc()): ?>
                 <tr>
-                    <td><?php echo htmlspecialchars($fila["codigo"]); ?></td>
-                    <td><?php echo htmlspecialchars($fila["rol"]); ?></td>
-                    <td><?php echo htmlspecialchars($fila["email"]); ?></td>
-                    <td><?php echo htmlspecialchars($fila["nombre"]); ?></td>
-                    <td><?php echo htmlspecialchars($fila["apellido"]); ?></td>
-                    <td><?php echo htmlspecialchars($fila["ubicacion"]); ?></td>
-                    <td><?php echo htmlspecialchars($fila["direccion"]); ?></td>
-                    <td><?php echo htmlspecialchars($fila["telefono"]); ?></td>
-                    <td><?php echo htmlspecialchars($fila["fecha_creacion"]); ?></td>
+                    <td><?php echo $usuario["codigo"]; ?></td>
+                    <td><?php echo $usuario["rol"]; ?></td>
+                    <td><?php echo $usuario["email"]; ?></td>
+                    <td><?php echo $usuario["nombre"]; ?></td>
+                    <td><?php echo $usuario["apellido"]; ?></td>
+                    <td><?php echo $usuario["ubicacion"]; ?></td>
+                    <td><?php echo $usuario["direccion"]; ?></td>
+                    <td><?php echo $usuario["telefono"]; ?></td>
+                    <td><?php echo $usuario["fecha_creacion"]; ?></td>
                 </tr>
                 <?php endwhile; ?>
             </table>
