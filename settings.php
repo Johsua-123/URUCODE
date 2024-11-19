@@ -1,4 +1,3 @@
-
 <?php
     session_start();
 ?>
@@ -29,32 +28,21 @@
     <?php include "reusables/navbar.php"; ?>
     <main>
         <div class="settings">
-            <div class="profile-section">
-                <div class="profile-header">
-                    <h1><?php echo $_SESSION["nombre"] ?? ""; ?></h1>
-                </div>
-                <div class="profile-items">
-                    <img class="<?php echo isset($_SESSION["image"]) ? "" : "hidden"; ?>" src="<?php echo $_SESSION["image"] ?? ""; ?>" alt="imagen de perfil">
-                    <button type="button" onclick="document.querySelector('input[name=image]').click();">Cargar imagen</button>
-                    <button type="submit">Subir</button>
-                </div>
-            </div>
-
             <div class="content-section">
                 <div class="tab-section">
                     <div id="general" class="tab-body">
                         <h1>Perfil</h1>
                         <?php if (isset($_GET['mensaje'])): ?>
-    <?php if ($_GET['mensaje'] == 'actualizado'): ?>
-        <p class="success-message">Perfil actualizado exitosamente.</p>
-    <?php elseif ($_GET['mensaje'] == 'no_cambios'): ?>
-        <p class="info-message">No se realizaron cambios en el perfil.</p>
-    <?php elseif ($_GET['mensaje'] == 'error_envio'): ?>
-        <p class="error-message">Error al enviar el formulario.</p>
-    <?php elseif ($_GET['mensaje'] == 'error'): ?>
-        <p class="error-message">Error al actualizar el perfil.</p>
-    <?php endif; ?>
-<?php endif; ?>
+                            <?php if ($_GET['mensaje'] == 'actualizado'): ?>
+                                <p class="success-message">Perfil actualizado exitosamente.</p>
+                            <?php elseif ($_GET['mensaje'] == 'no_cambios'): ?>
+                                <p class="info-message">No se realizaron cambios en el perfil.</p>
+                            <?php elseif ($_GET['mensaje'] == 'error_envio'): ?>
+                                <p class="error-message">Error al enviar el formulario.</p>
+                            <?php elseif ($_GET['mensaje'] == 'error'): ?>
+                                <p class="error-message">Error al actualizar el perfil.</p>
+                            <?php endif; ?>
+                        <?php endif; ?>
 
                         <form id="user" method="POST" action="actualizar_perfil.php">
                             <div>
