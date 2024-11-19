@@ -6,49 +6,33 @@ body {
     padding: 0;
 }
 
-.navbar {
-    position: fixed; 
-    margin-left: 300px;
-    width: calc(100% - 300px);
-    background-color: var(--color-blue);
-}
-
 .container {
     margin-top: 50px;
     padding: 20px;
 }
-.header, .section {
+
+.section {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
 }
-.header .box, .section .box {
+
+.section .box {
     background-color: #2a2a3c;
     padding: 20px;
     margin: 10px;
     border-radius: 5px;
     flex: 1 1 calc(33.333% - 40px);
 }
-.header .box {
-    flex: 1 1 calc(16.666% - 40px);
-}
-.chart {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-}
-.chart .box {
-    flex: 1 1 calc(50% - 40px);
-}
+
 .full-width {
     flex: 1 1 100%;
 }
-.small-box {
-    flex: 1 1 calc(25% - 40px);
-}
+
 .box h2 {
     margin: 0 0 10px;
 }
-.chart .box canvas {
+
+.box canvas {
     width: 100%;
 }

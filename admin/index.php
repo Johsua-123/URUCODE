@@ -1,30 +1,64 @@
-<?php 
-   
-   session_start();
+<?php
+session_start();
 
-   require '../api/mysql.php';
+require '../api/mysql.php';
 
-    if (!isset($_SESSION["code"])) {
-        header("Location: ../index.php");
-    }
+// Consulta para obtener actividad de usuarios por fecha
+$stmtUsuarios = $mysql->prepare("
+    SELECT DATE(fecha_creacion) AS fecha, COUNT(*) AS cantidad
+    FROM usuarios
+    GROUP BY DATE(fecha_creacion)
+    ORDER BY fecha ASC
+");
+$stmtUsuarios->execute();
+$resultadoUsuarios = $stmtUsuarios->get_result();
+$actividadesUsuarios = [];
 
-    
+while ($fila = $resultadoUsuarios->fetch_assoc()) {
+    $actividadesUsuarios[] = $fila;
+}
 
-    $location = "inicio";
+// Formatear datos para Chart.js
+$fechasUsuarios = array_map(fn($a) => $a['fecha'], $actividadesUsuarios);
+$cantidadesUsuarios = array_map(fn($a) => $a['cantidad'], $actividadesUsuarios);
 
-    $stmt = $mysql->prepare("SELECT rol FROM usuarios WHERE codigo = ?");
-    $stmt->bind_param("s", $_SESSION["code"]);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $user = $result->fetch_assoc();
+// Consulta para obtener actividad de ordene
+$stmtOrdenes = $mysql->prepare("
+    SELECT DATE(fecha_creacion) AS fecha, COUNT(*) AS cantidad
+    FROM ordenes
+    GROUP BY DATE(fecha_creacion)
+    ORDER BY fecha ASC
+");
+$stmtOrdenes->execute();
+$resultadoOrdenes = $stmtOrdenes->get_result();
+$actividadesOrdenes = [];
 
-    if (!$user || ($user["rol"] !== "dueño" && $user["rol"] !== "supervisor" && $user["rol"] !== "admin" && $user["rol"] !== "empleado")) {
-        header("Location: ../index.php");
-        exit();
-    }
+while ($fila = $resultadoOrdenes->fetch_assoc()) {
+    $actividadesOrdenes[] = $fila;
+}
 
-    $stmt->close();
+// Formatear datos para Chart.js
+$fechasOrdenes = array_map(fn($o) => $o['fecha'], $actividadesOrdenes);
+$cantidadesOrdenes = array_map(fn($o) => $o['cantidad'], $actividadesOrdenes);
 
+// Consulta para obtener categorías con más productos
+$stmtCategorias = $mysql->prepare("
+    SELECT c.nombre AS categoria, COUNT(pc.producto_id) AS cantidad
+    FROM categorias c
+    LEFT JOIN productos_categorias pc ON c.codigo = pc.categoria_id
+    GROUP BY c.codigo, c.nombre
+    ORDER BY cantidad DESC
+");
+$stmtCategorias->execute();
+$resultadoCategorias = $stmtCategorias->get_result();
+$categoriasProductos = [];
+
+while ($fila = $resultadoCategorias->fetch_assoc()) {
+    $categoriasProductos[] = $fila;
+}
+
+$nombresCategorias = array_map(fn($c) => $c['categoria'], $categoriasProductos);
+$cantidadesCategorias = array_map(fn($c) => $c['cantidad'], $categoriasProductos);
 ?>
 
 <!DOCTYPE html>
@@ -37,98 +71,138 @@
     <link rel="stylesheet" href="assets/styles/navbar.css">
     <link rel="stylesheet" href="assets/styles/sidebar.css">
     <link rel="stylesheet" href="assets/styles/graficas.css">
-    <title>Inicio | Errea Admin</title>
+    <title>Dashboard | Errea</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <?php include "reusables/sidebar.php"; ?>
-        <?php include "reusables/navbar.php"; ?>
-        <main>
+    <?php include "reusables/navbar.php"; ?>
+
+    <main>
         <div class="container">
-        <header class="header">
-            <div class="box">
-                <h2>12,361</h2>
-                <p>Emails Enviados</p>
-            </div>
-            <div class="box">
-                <h2>431,225</h2>
-                <p>Ventas Totales</p>
-            </div>
-            <div class="box">
-                <h2>32,441</h2>
-                <p>Nuevos Clientes</p>
-            </div>
-            <div class="box">
-                <h2>1,325,134</h2>
-                <p>Trafico Total</p>
-            </div>
-        </header>
-        <section class="section">
-            <div class="box full-width">
-                <h2>Usuarios Registrados</h2>
-                <canvas id="revenueChart"></canvas>
-            </div>
-            <div class="box small-box">
-                <h2>Ingresos Por Servicios</h2>
-                <canvas id="campaignChart"></canvas>
-            </div>
-            <div class="box small-box">
-                <h2>Cantidad De Ventas</h2>
-                <canvas id="salesChart"></canvas>
-            </div>
-            <div class="box full-width">
-                <h2>Transaciones Recientes</h2>
-                <ul>
-                    <li>01e4dsa - Facundo Bisio - $43.95</li>
-                    <li>0315dsaa - Mateo Severo - $133.45</li>
-                    <li>01e4dsa - Johsua Hartwig - $43.95</li>
-                    <li>51034szv - Juan Cruz- $123.50</li>
-                </ul>
-            </div>
-        </section>
-    </div>
+            <section class="section">
+                <div class="box full-width">
+                    <h2>Usuarios Registrados por Fecha</h2>
+                    <canvas id="usuariosChart"></canvas>
+                </div>
+                <div class="box full-width">
+                    <h2>Órdenes Registradas por Fecha</h2>
+                    <canvas id="ordenesChart"></canvas>
+                </div>
+                <div class="box full-width">
+                    <h2>Productos por Categoría</h2>
+                    <canvas id="categoriasChart"></canvas>
+                </div>
+            </section>
+        </div>
+    </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        var ctxRevenue = document.getElementById('revenueChart').getContext('2d');
-        var revenueChart = new Chart(ctxRevenue, {
-            type: 'line',
-            data: {
-                labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-                datasets: [{
-                    label: 'Registros',
-                    data: [300, 200, 400, 300, 200, 100, 500],
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1
-                }]
-            }
-        });
+        
+        const dataUsuarios = {
+            labels: <?php echo json_encode($fechasUsuarios); ?>,
+            datasets: [{
+                label: 'Usuarios registrados por fecha',
+                data: <?php echo json_encode($cantidadesUsuarios); ?>,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        };
 
-        var ctxCampaign = document.getElementById('campaignChart').getContext('2d');
-        var campaignChart = new Chart(ctxCampaign, {
-            type: 'doughnut',
-            data: {
-                labels: ['Venta de Hardware', 'Soporte Tecnico', 'Consultoria', 'Desarrolo de Software', 'Mantenimiento'],
-                datasets: [{
-                    data: [15942, 8023, 3883, 10932, 13821],
-                    backgroundColor: ['rgba(75, 192, 192, 1)', 'rgba(255, 99, 132, 1)', 'rgba(255, 23, 221, 1)', 'rgba(321, 23, 2, 1)', 'rgba(2, 99, 132, 1)']
-                }]
-            }
-        });
-
-        var ctxSales = document.getElementById('salesChart').getContext('2d');
-        var salesChart = new Chart(ctxSales, {
+        const configUsuarios = {
             type: 'bar',
-            data: {
-                labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-                datasets: [{
-                    label: 'Ventas',
-                    data: [2000, 4000, 8000, 16000, 20000, 30000, 35000, 36000, 38000, 42000, 50000, 70000],
-                    backgroundColor: 'rgba(153, 102, 255, 1)'
-                }]
+            data: dataUsuarios,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                    },
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
             }
-        });
+        };
 
+        const usuariosChart = new Chart(
+            document.getElementById('usuariosChart'),
+            configUsuarios
+        );
+
+        const dataOrdenes = {
+            labels: <?php echo json_encode($fechasOrdenes); ?>,
+            datasets: [{
+                label: 'Órdenes registradas por fecha',
+                data: <?php echo json_encode($cantidadesOrdenes); ?>,
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1
+            }]
+        };
+
+        const configOrdenes = {
+            type: 'line',
+            data: dataOrdenes,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                    },
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        };
+
+        const ordenesChart = new Chart(
+            document.getElementById('ordenesChart'),
+            configOrdenes
+        );
+
+        const dataCategorias = {
+            labels: <?php echo json_encode($nombresCategorias); ?>,
+            datasets: [{
+                label: 'Productos por categoría',
+                data: <?php echo json_encode($cantidadesCategorias); ?>,
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        };
+
+        const configCategorias = {
+            type: 'bar',
+            data: dataCategorias,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                    },
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        };
+
+        const categoriasChart = new Chart(
+            document.getElementById('categoriasChart'),
+            configCategorias
+        );
     </script>
 </body>
 </html>

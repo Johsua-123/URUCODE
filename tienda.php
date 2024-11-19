@@ -3,30 +3,35 @@ session_start();
 $location = "tienda";
 require 'api/mysql.php';
 
-
 $result = $mysql->query("SELECT * FROM categorias");
 
 $productos_result = [];
+$orden = isset($_GET['orden']) ? $_GET['orden'] : null;
+$search_query = "";
+
+
+$order_by = "productos.precio_venta ASC"; 
+if ($orden === "precioAltoBajo") {
+    $order_by = "productos.precio_venta DESC";
+}
+
+// Filtro 
 if (isset($_GET['search']) && !empty($_GET['search'])) {
     $busqueda = $mysql->real_escape_string($_GET['search']);
-    $productos_result = $mysql->query("
-    
-        SELECT productos.*, CONCAT(imagenes.nombre, '-', imagenes.codigo, imagenes.extension) AS imagen
-        FROM productos 
-        LEFT JOIN imagenes ON productos.imagen_id = imagenes.codigo
-        WHERE productos.en_venta = 1 AND (productos.nombre LIKE '%$busqueda%' 
-        OR productos.marca LIKE '%$busqueda%' 
-        OR productos.modelo LIKE '%$busqueda%' 
-        OR productos.descripcion LIKE '%$busqueda%')
-    ");
-} else {
-    $productos_result = $mysql->query("
-        SELECT productos.*, CONCAT(imagenes.nombre, '-', imagenes.codigo, imagenes.extension) AS imagen
-        FROM productos 
-        LEFT JOIN imagenes ON productos.imagen_id = imagenes.codigo
-        WHERE productos.en_venta = 1
-    ");
+    $search_query = "AND (productos.nombre LIKE '%$busqueda%' 
+                      OR productos.marca LIKE '%$busqueda%' 
+                      OR productos.modelo LIKE '%$busqueda%' 
+                      OR productos.descripcion LIKE '%$busqueda%')";
 }
+
+// consulta
+$productos_result = $mysql->query("
+    SELECT productos.*, CONCAT(imagenes.nombre, '-', imagenes.codigo, imagenes.extension) AS imagen
+    FROM productos 
+    LEFT JOIN imagenes ON productos.imagen_id = imagenes.codigo
+    WHERE productos.en_venta = 1 $search_query
+    ORDER BY $order_by
+");
 ?>
 
 <!DOCTYPE html>
@@ -62,11 +67,16 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
         </div>
 
         <div class="filter-bar">
-            <label for="ordenar">Ordenar por:</label>
-            <select id="ordenar">
-                <option value="precioBajoAlto" <?php echo isset($orden) && $orden === 'precioBajoAlto' ? 'selected' : ''; ?>>Precio: Bajo a Alto</option>
-                <option value="precioAltoBajo" <?php echo isset($orden) && $orden === 'precioAltoBajo' ? 'selected' : ''; ?>>Precio: Alto a Bajo</option>
-            </select>
+            <form method="GET" action="tienda.php">
+                <label for="ordenar">Ordenar por:</label>
+                <select id="ordenar" name="orden" onchange="this.form.submit()">
+                    <option value="precioBajoAlto" <?php echo $orden === 'precioBajoAlto' ? 'selected' : ''; ?>>Precio: Bajo a Alto</option>
+                    <option value="precioAltoBajo" <?php echo $orden === 'precioAltoBajo' ? 'selected' : ''; ?>>Precio: Alto a Bajo</option>
+                </select>
+                <?php if (isset($_GET['search'])) { ?>
+                    <input type="hidden" name="search" value="<?php echo htmlspecialchars($_GET['search']); ?>">
+                <?php } ?>
+            </form>
         </div>
 
         <div class="main-products">
