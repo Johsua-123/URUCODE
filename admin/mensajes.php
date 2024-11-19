@@ -10,6 +10,19 @@
 
     require "../api/mysql.php";
 
+    $stmt = $mysql->prepare("SELECT rol FROM usuarios WHERE codigo = ?");
+    $stmt->bind_param("s", $_SESSION["code"]);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $user = $result->fetch_assoc();
+
+    if (!$user || ($user["rol"] !== "dueño" && $user["rol"] !== "supervisor" && $user["rol"] !== "admin" && $user["rol"] !== "empleado")) {
+        header("Location: index.php");
+        exit();
+    }
+
+    $stmt->close();
+
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["codigo"])) {
         $codigo = $_POST["codigo"];
         $stmt = $mysql->prepare("UPDATE mensajes SET leido=true WHERE codigo=?");

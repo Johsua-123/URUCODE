@@ -10,6 +10,19 @@
 
     require "../api/mysql.php";
 
+$stmt = $mysql->prepare("SELECT rol FROM usuarios WHERE codigo = ?");
+$stmt->bind_param("s", $_SESSION["code"]);
+$stmt->execute();
+$result = $stmt->get_result();
+$user = $result->fetch_assoc();
+
+if (!$user || ($user["rol"] !== "dueño" && $user["rol"] !== "supervisor")) {
+    header("Location: index.php");
+    exit();
+}
+
+$stmt->close();
+
     $stmt = $mysql->prepare("SELECT * FROM usuarios WHERE eliminado=false ORDER BY codigo");
     $stmt->execute();
     $resultado = $stmt->get_result();

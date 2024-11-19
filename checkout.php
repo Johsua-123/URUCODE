@@ -3,8 +3,8 @@ session_start();
 
 require 'api/mysql.php';
 
-if (isset($_GET['codigo'])) {
-    $codigoProducto = $_GET['codigo'];
+if (isset($_GET["codigo"])) {
+    $codigoProducto = $_GET["codigo"];
 
     $stmt = $mysql->prepare("SELECT * FROM productos WHERE codigo = ?");
     $stmt->bind_param("i", $codigoProducto);

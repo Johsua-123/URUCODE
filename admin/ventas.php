@@ -13,6 +13,19 @@
 
     require '../api/mysql.php';
 
+    $stmt = $mysql->prepare("SELECT rol FROM usuarios WHERE codigo = ?");
+    $stmt->bind_param("s", $_SESSION["code"]);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $user = $result->fetch_assoc();
+
+    if (!$user || ($user["rol"] !== "dueño" && $user["rol"] !== "supervisor")) {
+        header("Location: index.php");
+        exit();
+    }
+
+    $stmt->close();
+
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (isset($_POST['completar'])) {
             $orden_id = $_POST['orden_id'];
@@ -100,16 +113,17 @@
                 <tbody>
                     <?php foreach ($ordenes as $orden): ?>
                         <tr>
-                            <td><?php $orden['producto_nombre']; ?></td>
-                            <td><?php $orden['comprador_nombre']; ?></td>
-                            <td>
-                                <p>Email: <?php $orden['comprador_email']; ?></p>
-                            </td>
-                            <td><?php $orden['direccion']; ?></td>
-                            <td><?php $orden['precio_unitario']; ?></td>
-                            <td><?php $orden['subtotal']; ?></td>
-                            <td><?php $orden['fecha_creacion']; ?></td>
-                            <td><?php $orden['estado']; ?></td>
+                        <td><?php echo $orden['producto']; ?></td>
+                        <td><?php echo $orden['comprador']; ?></td>
+                        <td>
+                            <p>Email: <?php echo $orden['email']; ?></p>
+                        </td>
+                        <td><?php echo $orden['direccion']; ?></td>
+                        <td><?php echo $orden['precio_unitario']; ?></td>
+                        <td><?php echo $orden['subtotal']; ?></td>
+                        <td><?php echo $orden['fecha_creacion']; ?></td>
+                        <td><?php echo $orden['estado']; ?></td>
+
                             <td>
                                 <form method="POST" action="" style="display:inline-block;">
                                     <input type="hidden" name="orden_id" value="<?php echo $orden['codigo']; ?>">

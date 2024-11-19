@@ -2,6 +2,8 @@
    
    session_start();
 
+   require '../api/mysql.php';
+
     if (!isset($_SESSION["code"])) {
         header("Location: ../index.php");
     }
@@ -9,6 +11,19 @@
     
 
     $location = "inicio";
+
+    $stmt = $mysql->prepare("SELECT rol FROM usuarios WHERE codigo = ?");
+    $stmt->bind_param("s", $_SESSION["code"]);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $user = $result->fetch_assoc();
+
+    if (!$user || ($user["rol"] !== "dueño" && $user["rol"] !== "supervisor" && $user["rol"] !== "admin" && $user["rol"] !== "empleado")) {
+        header("Location: ../index.php");
+        exit();
+    }
+
+    $stmt->close();
 
 ?>
 
@@ -45,7 +60,7 @@
             </div>
             <div class="box">
                 <h2>1,325,134</h2>
-                <p>Traffico Total</p>
+                <p>Trafico Total</p>
             </div>
         </header>
         <section class="section">

@@ -26,7 +26,7 @@
                 <div class="dropdown-menu hidden">
                     <a href="settings.php">Ajustes</a>
                     
-                    <?php if (isset($_SESSION["role"]) && $_SESSION["role"] === "admin"): ?>
+                    <?php if (isset($_SESSION["role"]) && $_SESSION["role"] === "admin" || $_SESSION["role"] === "dueño" || $_SESSION["role"] === "supervisor" || $_SESSION["role"] === "empleado"): ?>
                         <a href="admin\index.php">Administración</a>
                     <?php endif; ?>
                     

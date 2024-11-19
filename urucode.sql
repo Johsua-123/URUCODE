@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 14-11-2024 a las 00:55:40
+-- Tiempo de generación: 19-11-2024 a las 01:23:56
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -35,13 +35,6 @@ CREATE TABLE `categorias` (
   `fecha_actualizacion` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `categorias`
---
-
-INSERT INTO `categorias` (`codigo`, `nombre`, `eliminado`, `fecha_creacion`, `fecha_actualizacion`) VALUES
-(1, 'Computadoras', 0, '2024-11-14 00:51:49', '2024-11-14 00:51:49');
-
 -- --------------------------------------------------------
 
 --
@@ -70,13 +63,6 @@ CREATE TABLE `imagenes` (
   `eliminado` tinyint(1) DEFAULT 0,
   `fecha_creacion` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `imagenes`
---
-
-INSERT INTO `imagenes` (`codigo`, `nombre`, `extension`, `eliminado`, `fecha_creacion`) VALUES
-(1, 'pcgamer', '.jpg', 0, '2024-11-14 00:52:22');
 
 -- --------------------------------------------------------
 
@@ -115,13 +101,6 @@ CREATE TABLE `ordenes` (
   `fecha_actualizacion` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `ordenes`
---
-
-INSERT INTO `ordenes` (`codigo`, `usuario_id`, `item_tipo`, `item_id`, `direccion`, `cantidad`, `precio_unitario`, `subtotal`, `estado`, `fecha_creacion`, `fecha_actualizacion`) VALUES
-(2, 1, '', 1, 'Invernizzi 549', 1, 900.00, 900.00, 'pendiente', '2024-11-13 20:55:00', '2024-11-13 20:55:00');
-
 -- --------------------------------------------------------
 
 --
@@ -143,13 +122,6 @@ CREATE TABLE `productos` (
   `fecha_actualizacion` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `productos`
---
-
-INSERT INTO `productos` (`codigo`, `nombre`, `marca`, `modelo`, `cantidad`, `en_venta`, `eliminado`, `imagen_id`, `descripcion`, `precio_venta`, `fecha_creacion`, `fecha_actualizacion`) VALUES
-(1, 'pc', 'compu', '3200', 1, 1, 0, 1, 'sdfg', 900, '2024-11-14 00:52:22', '2024-11-14 00:52:22');
-
 -- --------------------------------------------------------
 
 --
@@ -162,13 +134,6 @@ CREATE TABLE `productos_categorias` (
   `fecha_creacion` datetime DEFAULT NULL,
   `fecha_actualizacion` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `productos_categorias`
---
-
-INSERT INTO `productos_categorias` (`producto_id`, `categoria_id`, `fecha_creacion`, `fecha_actualizacion`) VALUES
-(1, 1, '2024-11-14 00:52:22', '2024-11-14 00:52:22');
 
 -- --------------------------------------------------------
 
@@ -215,7 +180,11 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`codigo`, `rol`, `email`, `nombre`, `apellido`, `telefono`, `ubicacion`, `direccion`, `verificado`, `imagen_id`, `contrasena`, `eliminado`, `fecha_creacion`, `fecha_actualizacion`) VALUES
-(1, 'usuario', 'papu@gmail.com', 'niji', NULL, NULL, NULL, NULL, 0, NULL, '$2y$10$GsSD/PqZxi8zfxfdv25GT.bPOBUwXN2KHH0KnQLJsTaiSVNNwp9ki', 0, '2024-11-14 00:50:38', '2024-11-14 00:50:38');
+(1, 'usuario', 'usuario@gmail.com', 'usuario', NULL, NULL, NULL, NULL, 0, NULL, '$2y$10$GsSD/PqZxi8zfxfdv25GT.bPOBUwXN2KHH0KnQLJsTaiSVNNwp9ki', 0, '2024-11-14 00:50:38', '2024-11-14 00:50:38'),
+(2, 'dueño', 'dueño@gmail.com', 'dueño', NULL, NULL, NULL, NULL, 0, NULL, '$2y$10$k/.fqcbAky0hch8jpRp8webLHhLLz3zprlS.BmNMy.AtsOBM9SYDK', 0, '2024-11-18 23:52:18', '2024-11-18 23:52:18'),
+(3, 'empleado', 'empleado@gmail.com', 'empleado', NULL, NULL, NULL, NULL, 0, NULL, '$2y$10$ffehjZRZ1yIOBaa5wS7FPu2YmE38wXjP5/RBJ2jw7EieETP77EoRq', 0, '2024-11-19 00:29:54', '2024-11-19 00:29:54'),
+(4, 'admin', 'admin@gmail.com', 'admin', NULL, NULL, NULL, NULL, 0, NULL, '$2y$10$vboQfmi3Q9GmE8865YoH8ef5tksxGVqimIVepVl0LoejgNRyGQ1I6', 0, '2024-11-19 00:30:09', '2024-11-19 00:30:09'),
+(5, 'supervisor', 'supervisor@gmail.com', 'supervisor', NULL, NULL, NULL, NULL, 0, NULL, '$2y$10$7UwoD/GjWmQKRJopNK6n3eHoZEIEd.pnZl26/YIwVyfq78xZIypZ2', 0, '2024-11-19 00:31:05', '2024-11-19 00:31:05');
 
 --
 -- Índices para tablas volcadas
@@ -307,7 +276,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `categorias`
 --
 ALTER TABLE `categorias`
-  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `codigos`
@@ -319,7 +288,7 @@ ALTER TABLE `codigos`
 -- AUTO_INCREMENT de la tabla `imagenes`
 --
 ALTER TABLE `imagenes`
-  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `mensajes`
@@ -331,13 +300,13 @@ ALTER TABLE `mensajes`
 -- AUTO_INCREMENT de la tabla `ordenes`
 --
 ALTER TABLE `ordenes`
-  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `servicios`
@@ -349,7 +318,7 @@ ALTER TABLE `servicios`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Restricciones para tablas volcadas
