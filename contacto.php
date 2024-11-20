@@ -1,37 +1,41 @@
 <?php
-    session_start();
+session_start();
 
-    $message = ""; 
-    $location = "contacto";
+$message = ""; 
+$location = "contacto";
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        
-        define("URUCODE", true);
-        require "api/mysql.php";
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    require "api/mysql.php";
 
-        $email = $_POST['email'];
-        $nombre = $_POST['nombre'];
-        $asunto = $_POST['asunto'];
-        $mensaje = $_POST['mensaje'];
-        $fecha = date('Y-m-d H:i:s');
+    $email = $_POST['email'] ?? "";
+    $nombre = $_POST['nombre'] ?? "";
+    $asunto = $_POST['asunto'] ?? "";
+    $mensaje = $_POST['mensaje'] ?? "";
+    $fecha = date('Y-m-d H:i:s');
 
-        $stmt = $mysql->prepare("INSERT INTO mensajes (email, nombre, asunto, mensaje, fecha_creacion) VALUES (?, ?, ?, ?, ?)");
-        $stmt->bind_param("sssss", $email, $nombre, $asunto, $mensaje, $fecha);
-
-        if ($stmt->execute()) {
-            $_SESSION['message'] = "Mensaje enviado correctamente.";
-        } else {
-            $_SESSION['message'] = "Error al enviar el mensaje: " . $mysql->error;
-        }
-        
-        header("Location: contacto.php");
-        exit();
+    if (guardarMensaje($mysql, $email, $nombre, $asunto, $mensaje, $fecha)) {
+        $_SESSION['message'] = "Mensaje enviado correctamente.";
+    } else {
+        $_SESSION['message'] = "Error al enviar el mensaje: " . $mysql->error;
     }
 
-    if (!empty($_SESSION['message'])) {
-        $message = $_SESSION['message'];
-        unset($_SESSION['message']);
-    }
+    header("Location: contacto.php");
+    exit();
+}
+
+if (!empty($_SESSION['message'])) {
+    $message = $_SESSION['message'];
+    unset($_SESSION['message']);
+}
+
+function guardarMensaje($mysql, $email, $nombre, $asunto, $mensaje, $fecha) {
+    $stmt = $mysql->prepare("
+        INSERT INTO mensajes (email, nombre, asunto, mensaje, fecha_creacion) 
+        VALUES (?, ?, ?, ?, ?)
+    ");
+    $stmt->bind_param("sssss", $email, $nombre, $asunto, $mensaje, $fecha);
+    return $stmt->execute();
+}
 ?>
 
 <!DOCTYPE html>

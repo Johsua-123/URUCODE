@@ -1,27 +1,21 @@
 <?php
 session_start();
-
 $location = "tienda";
-
 require "api/mysql.php";
 
-// Obtener todas las categorías
 $stmt = $mysql->prepare("SELECT * FROM categorias WHERE eliminado = false");
 $stmt->execute();
 $categorias = $stmt->get_result();
 
-// Obtener parámetros de orden, búsqueda y categoría
 $order = $_GET["order"] ?? null;
 $query = $_GET["query"] ?? null;
 $categoria = $_GET["categoria"] ?? null;
 
 $productos = [];
 
-// Determinar orden de productos
-$orden = $order === "precioAltoBajo" ? "DESC" : "ASC"; // Predeterminado: precio bajo a alto
+$orden = $order === "precioAltoBajo" ? "DESC" : "ASC"; 
 $columnaOrden = "p.precio_venta";
 
-// Construir consulta SQL base
 $sql = "SELECT 
         p.*, 
         i.codigo AS 'i.codigo',
@@ -36,7 +30,6 @@ $sql = "SELECT
 $params = [];
 $tipos = "";
 
-// Agregar filtros si hay búsqueda o categoría
 if (!empty($query)) {
     $sql .= " AND (p.nombre LIKE ? OR p.modelo LIKE ? OR p.marca LIKE ? OR p.descripcion LIKE ?)";
     $busqueda = "%$query%";
@@ -50,12 +43,10 @@ if (!empty($categoria)) {
     $tipos .= "s";
 }
 
-// Agregar orden al final de la consulta
 $sql .= " ORDER BY $columnaOrden $orden";
 
 $stmt = $mysql->prepare($sql);
 
-// Asociar parámetros si los hay
 if (!empty($params)) {
     $stmt->bind_param($tipos, ...$params);
 }
@@ -63,7 +54,6 @@ if (!empty($params)) {
 $stmt->execute();
 $resultado = $stmt->get_result();
 
-// Procesar los productos obtenidos
 while ($producto = $resultado->fetch_assoc()) {
     $imagen = "public/images/imagen-vacia.png";
     if (!empty($producto["i.codigo"])) {
