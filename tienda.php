@@ -97,7 +97,6 @@ $productos_result = $mysql->query("
                         </div>
                     </div>
                 <?php } ?>
-
             </div>
             <div class="pagination">
             </div>

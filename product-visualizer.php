@@ -110,13 +110,16 @@
                         <div class="botones">
                             <a href="checkout.php?codigo=<?php echo $producto["codigo"] ?? ""; ?>">COMPRAR</a>
                             <form class="carrito" action="cart.php" method="POST">
-                                <input type="hidden" name="codigo" value="<?php echo $producto["codigo"] ?? ""; ?>">
-                                <input type="hidden" name="nombre" value="<?php echo $producto["nombre"] ?? ""; ?>">
-                                <input type="hidden" name="imagen" value="<?php echo $producto["imagen"] ?? ""; ?>">
-                                <input type="hidden" name="precio" value="<?php echo $producto["precio_venta"] ?? ""; ?>">
-                                <input type="hidden" name="descripcion" value="<?php echo $producto["descripcion"] ?? ""; ?>">
-                                <button type="submit">AÑADIR AL CARRITO</button>
-                            </form>
+    <input type="hidden" name="codigo" value="<?php echo htmlspecialchars($producto["codigo"] ?? ""); ?>">
+    <input type="hidden" name="nombre" value="<?php echo htmlspecialchars($producto["nombre"] ?? ""); ?>">
+    <input type="hidden" name="precio" value="<?php echo htmlspecialchars($producto["precio_venta"] ?? ""); ?>">
+    <input type="hidden" name="descripcion" value="<?php echo htmlspecialchars($producto["descripcion"] ?? ""); ?>">
+    <input type="hidden" name="accion" value="agregar">
+    <button type="submit">AÑADIR AL CARRITO</button>
+</form>
+
+
+
                         </div>
                     </div>
                 </div>

@@ -1,6 +1,55 @@
+<?php
+session_start();
 
-<?php 
-    session_start();
+if (!isset($_SESSION['cart'])) {
+    $_SESSION['cart'] = [];
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $accion = $_POST['accion'] ?? null;
+
+    if ($accion === 'agregar') {
+        $codigo = $_POST['codigo'] ?? null;
+        $nombre = $_POST['nombre'] ?? null;
+        $precio = isset($_POST['precio']) ? (float)$_POST['precio'] : null;
+        $descripcion = $_POST['descripcion'] ?? null;
+
+        if ($codigo && $nombre && $precio !== null) {
+            $producto_encontrado = false;
+
+            foreach ($_SESSION['cart'] as &$producto) {
+                if ($producto['codigo'] === $codigo) {
+                    $producto['cantidad']++;
+                    $producto_encontrado = true;
+                    break;
+                }
+            }
+
+            if (!$producto_encontrado) {
+                $_SESSION['cart'][] = [
+                    'codigo' => $codigo,
+                    'nombre' => $nombre,
+                    'precio' => $precio,
+                    'descripcion' => $descripcion,
+                    'cantidad' => 1,
+                ];
+            }
+        }
+    } elseif ($accion === 'reiniciar') {
+        $_SESSION['cart'] = [];
+    }
+}
+
+function calcular_total($cart) {
+    $total = 0;
+    foreach ($cart as $producto) {
+        $total += $producto['precio'] * $producto['cantidad'];
+    }
+    return $total;
+}
+
+$cart_items = $_SESSION['cart'];
+$total = calcular_total($cart_items);
 ?>
 
 <!DOCTYPE html>
@@ -26,110 +75,48 @@
     <script src="assets/scripts/navbar.js"></script>
 </head>
 <body>
-    <?php include "reusables/navbar.php" ?>
+    <?php include "reusables/navbar.php"; ?>
+
     <main>
         <div class="container">
-            <div class="cart">
-                <div class="product">
-                    <div class="product-info">
-                        <img src="notebook.png" alt="Notebook">
-                        <p>Notebook Aorus 15 MF-E7A143SH</p>
-                    </div>
-                    <div class="product-price">US$1,390.00</div>
-                    <div class="product-quantity">
-                        <button>-</button>
-                        <input type="text" value="1" style="width: 30px; text-align: center;">
-                        <button>+</button>
-                    </div>
-                    <div class="product-subtotal">US$1,390.00</div>
-                </div>
+            <h1>Carrito de Compras</h1>
 
-                <div class="product">
-                    <div class="product-info">
-                        <img src="monitor.png" alt="Monitor">
-                        <p>Monitor Viewsonic VX3418-2KC</p>
-                    </div>
-                    <div class="product-price">US$625.00</div>
-                    <div class="product-quantity">
-                        <button>-</button>
-                        <input type="text" value="1" style="width: 30px; text-align: center;">
-                        <button>+</button>
-                    </div>
-                    <div class="product-subtotal">US$625.00</div>
-                </div>
+            <?php if (empty($cart_items)) { ?>
+                <p>Tu carrito está vacío.</p>
+            <?php } else { ?>
+                <div class="cart">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Precio</th>
+                                <th>Cantidad</th>
+                                <th>Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($cart_items as $producto) { ?>
+                                <tr>
+                                    <td><?php echo htmlspecialchars($producto['nombre']); ?></td>
+                                    <td>US$<?php echo number_format($producto['precio'], 2); ?></td>
+                                    <td><?php echo $producto['cantidad']; ?></td>
+                                    <td>US$<?php echo number_format($producto['precio'] * $producto['cantidad'], 2); ?></td>
+                                </tr>
+                            <?php } ?>
+                        </tbody>
+                    </table>
+                    <p><strong>Total:</strong> US$<?php echo number_format($total, 2); ?></p>
 
-                <div class="product">
-                    <div class="product-info">
-                        <img src="teclado.png" alt="Teclado">
-                        <p>Teclado Mecánico Corsair K95 RGB</p>
-                    </div>
-                    <div class="product-price">US$199.00</div>
-                    <div class="product-quantity">
-                        <button>-</button>
-                        <input type="text" value="1" style="width: 30px; text-align: center;">
-                        <button>+</button>
-                    </div>
-                    <div class="product-subtotal">US$199.00</div>
+                    <form action="cart.php" method="POST">
+                        <input type="hidden" name="accion" value="reiniciar">
+                        <button type="submit" class="btn btn-danger">Reiniciar Carrito</button>
+                    </form>
                 </div>
+            <?php } ?>
 
-                <div class="product">
-                    <div class="product-info">
-                        <img src="mouse.png" alt="Mouse">
-                        <p>Mouse Logitech MX Master 3</p>
-                    </div>
-                    <div class="product-price">US$99.00</div>
-                    <div class="product-quantity">
-                        <button>-</button>
-                        <input type="text" value="1" style="width: 30px; text-align: center;">
-                        <button>+</button>
-                    </div>
-                    <div class="product-subtotal">US$99.00</div>
-                </div>
-
-                <div class="product">
-                    <div class="product-info">
-                        <img src="audifonos.png" alt="Audífonos">
-                        <p>Audífonos Sony WH-1000XM4</p>
-                    </div>
-                    <div class="product-price">US$349.00</div>
-                    <div class="product-quantity">
-                        <button>-</button>
-                        <input type="text" value="1" style="width: 30px; text-align: center;">
-                        <button>+</button>
-                    </div>
-                    <div class="product-subtotal">US$349.00</div>
-                </div>
-            </div>
-
-            <div class="summary">
-                <div class="summary-header"><h3>Totales del Carrito</h3></div>
-                <div class="summary-body">
-                    <p>Subtotal: <span>US$2,662.00</span></p>
-                    <p><strong>Envío</strong></p>
-                    <label><input type="radio" name="shipping" value="pickup" checked>Retiro en el local</label><br>
-                    <label><input type="radio" name="shipping" value="free">Envío - GRATIS</label><br>
-                    <p>Total: <span>US$2,662.00</span></p>
-                </div>
-                <div class="summary-footer">
-                    <button id="finalizePurchase" class="btn btn-primary btn-lg">Finalizar compra</button>
-                </div>
-            </div>
+            <a href="tienda.php" class="btn btn-primary">Seguir comprando</a>
         </div>
     </main>
-    <?php include "reusables/footer.php" ?>
-
-    <script>
-        document.getElementById("finalizePurchase").addEventListener("click", function(event) {
-            event.preventDefault();
-
-            Swal.fire({
-                title: '¡Gracias por tu compra!',
-                text: 'Tu pedido ha sido realizado con éxito.',
-                icon: 'success',
-                confirmButtonText: 'Cerrar'
-            });
-            
-        });
-    </script>
+    <?php include "reusables/footer.php"; ?>
 </body>
 </html>

@@ -169,20 +169,11 @@ if (isset($_GET["codigo"])) {
                             <label for="cedulaRetiro">Cédula de quien retira</label>
                             <input type="text" id="cedulaRetiro" name="cedulaRetiro">
                         </div>
-                        <div class="form-check">
-                            <input type="radio" name="tipoEnvio" id="envioFlex" value="envioFlex" class="form-check-input">
-                            <label for="envioFlex" class="form-check-label">Envío a todo el país - GRATIS</label>
+                       
                         </div>
                         <hr>
                         <p><strong>Total:</strong> <span class="float-end">$<?php echo isset($precioProducto) ? htmlspecialchars($precioProducto) : '0.00'; ?></span></p>
-                        <p><strong>Métodos de pago</strong></p>
-                        <div class="form-check">
-                            <input type="radio" name="metodoPago" id="transferenciaBancaria" value="transferenciaBancaria" class="form-check-input">
-                            <label for="transferenciaBancaria" class="form-check-label">Transferencia bancaria</label>
-                        </div>
-                        <div class="form-check">
-                            <input type="radio" name="metodoPago" id="redpagos" value="redpagos" class="form-check-input">
-                            <label for="redpagos" class="form-check-label">Abitab / Redpagos</label>
+                        
                         </div>
                         <hr>
                         <div class="form-check">

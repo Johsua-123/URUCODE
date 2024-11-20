@@ -34,14 +34,8 @@
                         <h1>Perfil</h1>
                         <?php if (isset($_GET['mensaje'])): ?>
                             <?php if ($_GET['mensaje'] == 'actualizado'): ?>
-                                <p class="success-message">Perfil actualizado exitosamente.</p>
-                            <?php elseif ($_GET['mensaje'] == 'no_cambios'): ?>
-                                <p class="info-message">No se realizaron cambios en el perfil.</p>
-                            <?php elseif ($_GET['mensaje'] == 'error_envio'): ?>
-                                <p class="error-message">Error al enviar el formulario.</p>
-                            <?php elseif ($_GET['mensaje'] == 'error'): ?>
-                                <p class="error-message">Error al actualizar el perfil.</p>
-                            <?php endif; ?>
+                                <p class="success-message">Perfil actualizado!</p>
+                                <?php endif; ?>
                         <?php endif; ?>
 
                         <form id="user" method="POST" action="actualizar_perfil.php">

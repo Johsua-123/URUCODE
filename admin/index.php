@@ -3,7 +3,7 @@ session_start();
 
 require '../api/mysql.php';
 
-// Consulta para obtener actividad de usuarios por fecha
+//actividad de usuarios por fecha
 $stmtUsuarios = $mysql->prepare("
     SELECT DATE(fecha_creacion) AS fecha, COUNT(*) AS cantidad
     FROM usuarios
