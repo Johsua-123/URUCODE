@@ -50,7 +50,7 @@
             $productos[] = $producto;
         }
 
-   }
+    }
 
 ?>
 
@@ -80,8 +80,10 @@
             <div class="sidebar">
                 <h2>Todas las Categorías</h2>
                 <ul class="category-list-shop">
-                    <?php while ($categoria = $result->fetch_assoc()) { ?>
-                        <li><a href="#" data-category="<?php echo $categoria['nombre']; ?>"><?php echo $categoria["nombre"]; ?></a></li>
+                    <?php while ($categoria = $categorias->fetch_assoc()) { ?>
+                        <li>
+                            <a href="tienda.php?categoria=<?php echo $categoria["nombre"] ?? ""; ?>"><?php echo $categoria["nombre"] ?? ""; ?></a>
+                        </li>
                     <?php } ?>
                 </ul>
             </div>
@@ -89,8 +91,8 @@
                 <form method="GET" action="tienda.php">
                     <label for="ordenar">Ordenar por:</label>
                     <select id="ordenar" name="orden" onchange="this.form.submit()">
-                        <option value="precioBajoAlto" <?php echo $orden === 'precioBajoAlto' ? 'selected' : ''; ?>>Precio: Bajo a Alto</option>
-                        <option value="precioAltoBajo" <?php echo $orden === 'precioAltoBajo' ? 'selected' : ''; ?>>Precio: Alto a Bajo</option>
+                        <option value="precioBajoAlto" <?php echo $order == 'precioBajoAlto' ? 'selected' : ''; ?>>Precio: Bajo a Alto</option>
+                        <option value="precioAltoBajo" <?php echo $order == 'precioAltoBajo' ? 'selected' : ''; ?>>Precio: Alto a Bajo</option>
                     </select>
                     <?php if (isset($_GET["query"])) { ?>
                         <input type="hidden" name="query" value="<?php echo $_GET["query"]; ?>">
@@ -102,35 +104,17 @@
                 <?php foreach ($productos as $producto) { ?>
                     <div class="product-card">
                         <div class="product-image">
-                            <img src="<?php echo $producto["imagen"] ?? "public/images/imagen-vacia.png"; ?>" alt="<?php echo $producto["nombre"]; ?>">
+                            <img src="<?php echo $producto["imagen"] ?? "public/images/imagen-vacia.png"; ?>" alt="<?php echo $producto["nombre"] ?? "imagen del producto"; ?>">
                         </div>
                         <div class="product-info">
-                            <h3 class="product-name"><?php echo $producto["nombre"]; ?></h3>
-                            <p class="product-price">US$<?php echo $producto["precio_venta"]; ?></p>
+                            <h3 class="product-name"><?php echo $producto["nombre"] ?? ""; ?></h3>
+                            <p class="product-price">US$<?php echo $producto["precio_venta"] ?? ""; ?></p>
                         </div>
                         <div class="product-action">
-                            <a href="visualizar.php?codigo=<?php echo $producto["codigo"]; ?>" class="btn-view">Ver Detalle</a>
+                            <a href="visualizar.php?producto=<?php echo $producto["codigo"] ?? ""; ?>" class="btn-view">Ver Detalle</a>
                         </div>
                     </div>
                 <?php } ?>
-            </div>
-            <div class="filter-bar">
-                <form method="GET" action="tienda.php">
-                    <label for="ordenar">Ordenar por:</label>
-                    <select id="ordenar" name="order" onchange="this.form.submit()">
-                        <option value="precioBajoAlto" <?php echo $orden == "precioBajoAlto" ? "selected" : ""; ?>>Precio: Bajo a Alto</option>
-                        <option value="precioAltoBajo" <?php echo $orden == "precioAltoBajo" ? "selected" : ""; ?>>Precio: Alto a Bajo</option>
-                    </select>
-                    <input type="hidden" name="query" value="<?php echo $_GET["query"] ?? ""; ?>">
-                </form>
-            </div>
-
-            <div class="main-products">
-                <div class="product-items">
-
-                </div>
-                <div class="pagination">
-                </div>
             </div>
         </main>
         <?php include "reusables/footer.php" ?>
