@@ -54,7 +54,7 @@ if (isset($_GET["codigo"])) {
     <link rel="stylesheet" href="assets/styles/module.css">
     <link rel="stylesheet" href="assets/styles/navbar.css">
     <link rel="stylesheet" href="assets/styles/footer.css">
-    <link rel="stylesheet" href="assets/styles/checkout.css">
+    <link rel="stylesheet" href="assets/styles/compra.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="assets/scripts/navbar.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.14.5/dist/sweetalert2.all.min.js"></script>

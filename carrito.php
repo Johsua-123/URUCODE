@@ -69,7 +69,7 @@ $total = calcular_total($cart_items);
     <link rel="stylesheet" href="assets/styles/module.css">
     <link rel="stylesheet" href="assets/styles/navbar.css">
     <link rel="stylesheet" href="assets/styles/footer.css">
-    <link rel="stylesheet" href="assets/styles/cart.css">
+    <link rel="stylesheet" href="assets/styles/carrito.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="assets/scripts/navbar.js"></script>
