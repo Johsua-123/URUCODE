@@ -5,23 +5,31 @@ $location = "tienda";
 
 require "api/mysql.php";
 
+// Obtener todas las categorías
 $stmt = $mysql->prepare("SELECT * FROM categorias WHERE eliminado = false");
 $stmt->execute();
 $categorias = $stmt->get_result();
 
+// Obtener parámetros de orden, búsqueda y categoría
 $order = $_GET["order"] ?? null;
 $query = $_GET["query"] ?? null;
 $categoria = $_GET["categoria"] ?? null;
 
 $productos = [];
 
-$orden = "ASC";
-$columnaOrden = "p.precio_venta";
+$orden = "ASC"; // Por defecto: menor a mayor precio
+$columnaOrden = "p.precio_venta"; // Columna por defecto para ordenar
 
-if (!empty($order) && $order == "precioAltoBajo") {
-    $orden = "DESC";
+// Configurar el orden según el parámetro 'order'
+if (!empty($order)) {
+    if ($order == "precioAltoBajo") {
+        $orden = "DESC";
+    } elseif ($order == "precioBajoAlto") {
+        $orden = "ASC";
+    }
 }
 
+// Construir consulta SQL base
 $sql = "SELECT 
         p.*, 
         i.codigo AS 'i.codigo',
@@ -51,10 +59,12 @@ if (!empty($categoria)) {
     $tipos .= "s";
 }
 
+// Agregar el orden al final de la consulta
 $sql .= " ORDER BY $columnaOrden $orden";
 
 $stmt = $mysql->prepare($sql);
 
+// Asociar parámetros si los hay
 if (!empty($params)) {
     $stmt->bind_param($tipos, ...$params);
 }
@@ -62,6 +72,7 @@ if (!empty($params)) {
 $stmt->execute();
 $resultado = $stmt->get_result();
 
+// Procesar los productos obtenidos
 while ($producto = $resultado->fetch_assoc()) {
     if (!empty($producto["i.codigo"])) {
         $imagen = $producto["i.nombre"] . "-" . $producto["i.codigo"] . $producto["i.extension"];
@@ -71,7 +82,6 @@ while ($producto = $resultado->fetch_assoc()) {
     $productos[] = $producto;
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="es">
@@ -109,33 +119,37 @@ while ($producto = $resultado->fetch_assoc()) {
             <div class="filter-bar">
                 <form method="GET" action="tienda.php">
                     <label for="ordenar">Ordenar por:</label>
-                    <select id="ordenar" name="orden" onchange="this.form.submit()">
-                        <option value="precioBajoAlto" <?php echo $order == 'precioBajoAlto' ? 'selected' : ''; ?>>Precio: Bajo a Alto</option>
+                    <select id="ordenar" name="order" onchange="this.form.submit()">
+                        <option value="precioBajoAlto" <?php echo !$order || $order == 'precioBajoAlto' ? 'selected' : ''; ?>>Precio: Bajo a Alto</option>
                         <option value="precioAltoBajo" <?php echo $order == 'precioAltoBajo' ? 'selected' : ''; ?>>Precio: Alto a Bajo</option>
                     </select>
                     <?php if (isset($_GET["query"])) { ?>
                         <input type="hidden" name="query" value="<?php echo $_GET["query"]; ?>">
                     <?php } ?>
+                    <?php if (isset($_GET["categoria"])) { ?>
+                        <input type="hidden" name="categoria" value="<?php echo $_GET["categoria"]; ?>">
+                    <?php } ?>
                 </form>
             </div>
-        <div class="main-products">
-            <div class="product-items">
-                <?php foreach ($productos as $producto) { ?>
-                    <div class="product-card">
-                        <div class="product-image">
-                            <img src="<?php echo $producto["imagen"] ?? "public/images/imagen-vacia.png"; ?>" alt="<?php echo $producto["nombre"] ?? "imagen del producto"; ?>">
+            <div class="main-products">
+                <div class="product-items">
+                    <?php foreach ($productos as $producto) { ?>
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="<?php echo $producto["imagen"] ?? "public/images/imagen-vacia.png"; ?>" alt="<?php echo $producto["nombre"] ?? "imagen del producto"; ?>">
+                            </div>
+                            <div class="product-info">
+                                <h3 class="product-name"><?php echo $producto["nombre"] ?? ""; ?></h3>
+                                <p class="product-price">US$<?php echo $producto["precio_venta"] ?? ""; ?></p>
+                            </div>
+                            <div class="product-action">
+                                <a href="visualizar.php?producto=<?php echo $producto["codigo"] ?? ""; ?>" class="btn-view">Ver Detalle</a>
+                            </div>
                         </div>
-                        <div class="product-info">
-                            <h3 class="product-name"><?php echo $producto["nombre"] ?? ""; ?></h3>
-                            <p class="product-price">US$<?php echo $producto["precio_venta"] ?? ""; ?></p>
-                        </div>
-                        <div class="product-action">
-                            <a href="visualizar.php?producto=<?php echo $producto["codigo"] ?? ""; ?>" class="btn-view">Ver Detalle</a>
-                        </div>
-                    </div>
-                <?php } ?>
+                    <?php } ?>
+                </div>
             </div>
         </main>
-        <?php include "reusables/footer.php" ?>
+        <?php include "reusables/footer.php"; ?>
     </body>
 </html>
