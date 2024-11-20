@@ -1,69 +1,69 @@
 <?php
-session_start();
+    session_start();
 
-$location = "inicio";
+    $location = "inicio";
 
-require 'api/mysql.php';
+    require 'api/mysql.php';
 
-// Consulta para "Destacados"
-$stmt = $mysql->prepare("SELECT 
-    p.*,
-    i.codigo AS 'i.codigo',
-    i.nombre AS 'i.nombre',
-    i.extension AS 'i.extension'
-    FROM productos p
-    LEFT JOIN imagenes i ON p.imagen_id=i.codigo 
-    LEFT JOIN productos_categorias pc ON pc.producto_id=p.codigo 
-    LEFT JOIN categorias c ON pc.categoria_id=c.codigo 
-    WHERE p.en_venta=true AND c.nombre='Destacados'
-");
+    // Consulta para "Destacados"
+    $stmt = $mysql->prepare("SELECT 
+        p.*,
+        i.codigo AS 'i.codigo',
+        i.nombre AS 'i.nombre',
+        i.extension AS 'i.extension'
+        FROM productos p
+        LEFT JOIN imagenes i ON p.imagen_id=i.codigo 
+        LEFT JOIN productos_categorias pc ON pc.producto_id=p.codigo 
+        LEFT JOIN categorias c ON pc.categoria_id=c.codigo 
+        WHERE p.en_venta=true AND c.nombre='Destacados'
+    ");
 
-$stmt->execute();
-$resultado = $stmt->get_result();
-$destacados = [];
+    $stmt->execute();
+    $resultado = $stmt->get_result();
+    $destacados = [];
 
-while ($producto = $resultado->fetch_assoc()) {
-    if (!empty($producto["i.codigo"])) {
-        $imagen = $producto["i.nombre"] . "-" . $producto["i.codigo"] . $producto["i.extension"];
-        if (file_exists("public/images/$imagen")) {
-            $producto["imagen"] = "public/images/$imagen";
-        } else {
-            $producto["imagen"] = "";
+    while ($producto = $resultado->fetch_assoc()) {
+        if (!empty($producto["i.codigo"])) {
+            $imagen = $producto["i.nombre"] . "-" . $producto["i.codigo"] . $producto["i.extension"];
+            if (file_exists("public/images/$imagen")) {
+                $producto["imagen"] = "public/images/$imagen";
+            } else {
+                $producto["imagen"] = "";
+            }
         }
+        unset($producto["i.codigo"], $producto["i.nombre"], $producto["i.extension"]);
+        $destacados[] = $producto;
     }
-    unset($producto["i.codigo"], $producto["i.nombre"], $producto["i.extension"]);
-    $destacados[] = $producto;
-}
 
-// Consulta para "Ofertas"
-$stmt = $mysql->prepare("SELECT 
-    p.*,
-    i.codigo AS 'i.codigo',
-    i.nombre AS 'i.nombre',
-    i.extension AS 'i.extension'
-    FROM productos p
-    LEFT JOIN imagenes i ON p.imagen_id=i.codigo 
-    LEFT JOIN productos_categorias pc ON pc.producto_id=p.codigo 
-    LEFT JOIN categorias c ON pc.categoria_id=c.codigo 
-    WHERE p.en_venta=true AND c.nombre='Ofertas'
-");
+    // Consulta para "Ofertas"
+    $stmt = $mysql->prepare("SELECT 
+        p.*,
+        i.codigo AS 'i.codigo',
+        i.nombre AS 'i.nombre',
+        i.extension AS 'i.extension'
+        FROM productos p
+        LEFT JOIN imagenes i ON p.imagen_id=i.codigo 
+        LEFT JOIN productos_categorias pc ON pc.producto_id=p.codigo 
+        LEFT JOIN categorias c ON pc.categoria_id=c.codigo 
+        WHERE p.en_venta=true AND c.nombre='Ofertas'
+    ");
 
-$stmt->execute();
-$resultado = $stmt->get_result();
-$ofertas = [];
+    $stmt->execute();
+    $resultado = $stmt->get_result();
+    $ofertas = [];
 
-while ($producto = $resultado->fetch_assoc()) {
-    if (!empty($producto["i.codigo"])) {
-        $imagen = $producto["i.nombre"] . "-" . $producto["i.codigo"] . $producto["i.extension"];
-        if (file_exists("public/images/$imagen")) {
-            $producto["imagen"] = "public/images/$imagen";
-        } else {
-            $producto["imagen"] = "";
+    while ($producto = $resultado->fetch_assoc()) {
+        if (!empty($producto["i.codigo"])) {
+            $imagen = $producto["i.nombre"] . "-" . $producto["i.codigo"] . $producto["i.extension"];
+            if (file_exists("public/images/$imagen")) {
+                $producto["imagen"] = "public/images/$imagen";
+            } else {
+                $producto["imagen"] = "";
+            }
         }
+        unset($producto["i.codigo"], $producto["i.nombre"], $producto["i.extension"]);
+        $ofertas[] = $producto;
     }
-    unset($producto["i.codigo"], $producto["i.nombre"], $producto["i.extension"]);
-    $ofertas[] = $producto;
-}
 
 ?>
 
@@ -113,7 +113,7 @@ while ($producto = $resultado->fetch_assoc()) {
                             <h2>U$S <?php echo $producto["precio_venta"]; ?></h2>
                         </div>
                         <div class="card-footer">
-                            <a href="product-visualizer.php?codigo=<?php echo $producto["codigo"]; ?>">Ver detalles</a>
+                            <a href="ver-product.php?producto=<?php echo $producto["codigo"]; ?>">Ver detalles</a>
                         </div>
                     </div>
                 <?php } ?>
@@ -135,7 +135,7 @@ while ($producto = $resultado->fetch_assoc()) {
                             <h2>U$S <?php echo $producto["precio_venta"]; ?></h2>
                         </div>
                         <div class="card-footer">
-                            <a href="product-visualizer.php?codigo=<?php echo $producto["codigo"]; ?>">Ver detalles</a>
+                            <a href="ver-producto.php?producto=<?php echo $producto["codigo"]; ?>">Ver detalles</a>
                         </div>
                     </div>
                 <?php } ?>
