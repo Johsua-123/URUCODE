@@ -107,7 +107,7 @@ $total = calcular_total($cart_items);
                     </table>
                     <p><strong>Total:</strong> US$<?php echo number_format($total, 2); ?></p>
 
-                    <form action="cart.php" method="POST">
+                    <form action="carrito.php" method="POST">
                         <input type="hidden" name="accion" value="reiniciar">
                         <button type="submit" class="btn btn-danger">Reiniciar Carrito</button>
                     </form>

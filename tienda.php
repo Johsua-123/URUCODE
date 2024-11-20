@@ -1,58 +1,77 @@
-<?php 
+<?php
+session_start();
 
-    session_start();
+$location = "tienda";
 
-    $location = "tienda";
+require "api/mysql.php";
 
-    require "api/mysql.php";
+$stmt = $mysql->prepare("SELECT * FROM categorias WHERE eliminado = false");
+$stmt->execute();
+$categorias = $stmt->get_result();
 
-    $stmt = $mysql->prepare("SELECT * FROM categorias WHERE eliminado=false");
-    $stmt->execute();
-    $categorias = $stmt->get_result();
+$order = $_GET["order"] ?? null;
+$query = $_GET["query"] ?? null;
+$categoria = $_GET["categoria"] ?? null;
 
-    $order = $_GET["order"] ?? null;
-    $query = $_GET["query"] ?? null;
+$productos = [];
 
-    $productos = [];
+$orden = "ASC";
+$columnaOrden = "p.precio_venta";
 
-    if (!empty($query)) {
-    
-        $orden = "ASC";
+if (!empty($order) && $order == "precioAltoBajo") {
+    $orden = "DESC";
+}
 
-        if (!empty($order) && $order == "precioAltoBajo") {
-            $orden = "DESC";
-        }
+$sql = "SELECT 
+        p.*, 
+        i.codigo AS 'i.codigo',
+        i.nombre AS 'i.nombre',
+        i.extension AS 'i.extension'
+        FROM productos p
+        LEFT JOIN imagenes i ON p.imagen_id = i.codigo
+        LEFT JOIN productos_categorias pc ON pc.producto_id = p.codigo
+        LEFT JOIN categorias c ON pc.categoria_id = c.codigo
+        WHERE p.en_venta = true AND p.eliminado = false";
 
-        $stmt = $mysql->prepare("SELECT 
-            p.*
-            i.codigo AS 'i.codigo',
-            i.nombre AS 'i.nombre',
-            i.extension AS 'i.extension'
-            FROM productos p
-            LEFT JOIN imagenes i ON productos.imagen_id=i.codigo
-            WHERE p.en_venta=true AND p.eliminado=false
-            AND (p.nombre LIKE ? OR p.modelo LIKE ? OR p.marca LIKE ? OR p.descripcion LIKE ?)
-            ORDER BY $orden
-        ");
+$params = [];
+$tipos = "";
 
-        $busqueda = "%$query%";
-        $stmt->bind_param("ssss", $busqueda, $busqueda, $busqueda, $busqueda);
+// Agregar filtro de búsqueda si se proporciona un query
+if (!empty($query)) {
+    $sql .= " AND (p.nombre LIKE ? OR p.modelo LIKE ? OR p.marca LIKE ? OR p.descripcion LIKE ?)";
+    $busqueda = "%$query%";
+    $params = array_merge($params, [$busqueda, $busqueda, $busqueda, $busqueda]);
+    $tipos .= "ssss";
+}
 
-        $stmt->execute();
-        $resultado = $stmt->get_result();
+// Agregar filtro de categoría si se proporciona una categoría
+if (!empty($categoria)) {
+    $sql .= " AND c.nombre = ?";
+    $params[] = $categoria;
+    $tipos .= "s";
+}
 
-        while ($producto = $resultado->fetch_assoc()) {
-            if (!empty($producto["i.codigo"])) {
-                $imagen = $producto["i.nombre"] . "-" . $producto["i.codigo"] . $producto["i.extension"];
-                $producto["imagen"] = file_exists("public/images/$imagen") ? "public/images/$imagen" : "public/images/imagen-vacia.png";
-            }
-            unset($producto["i.codigo"], $producto["i.nombre"], $producto["i.extension"]);
-            $productos[] = $producto;
-        }
+$sql .= " ORDER BY $columnaOrden $orden";
 
+$stmt = $mysql->prepare($sql);
+
+if (!empty($params)) {
+    $stmt->bind_param($tipos, ...$params);
+}
+
+$stmt->execute();
+$resultado = $stmt->get_result();
+
+while ($producto = $resultado->fetch_assoc()) {
+    if (!empty($producto["i.codigo"])) {
+        $imagen = $producto["i.nombre"] . "-" . $producto["i.codigo"] . $producto["i.extension"];
+        $producto["imagen"] = file_exists("public/images/$imagen") ? "public/images/$imagen" : "public/images/imagen-vacia.png";
     }
-
+    unset($producto["i.codigo"], $producto["i.nombre"], $producto["i.extension"]);
+    $productos[] = $producto;
+}
 ?>
+
 
 <!DOCTYPE html>
 <html lang="es">

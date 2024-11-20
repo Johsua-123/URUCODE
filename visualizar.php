@@ -117,7 +117,7 @@
                         </div>
                         <div class="botones">
                             <a href="compra.php?codigo=<?php echo $producto["codigo"] ?? ""; ?>">COMPRAR</a>
-                            <form class="carrito" action="cart.php" method="POST">
+                            <form class="carrito" action="carrito.php" method="POST">
                                 <input type="hidden" name="codigo" value="<?php echo $producto["codigo"] ?? ""; ?>">
                                 <input type="hidden" name="nombre" value="<?php echo $producto["nombre"] ?? ""; ?>">
                                 <input type="hidden" name="precio" value="<?php echo $producto["precio_venta"] ?? ""; ?>">
