@@ -17,17 +17,9 @@ $categoria = $_GET["categoria"] ?? null;
 
 $productos = [];
 
-$orden = "ASC"; // Por defecto: menor a mayor precio
-$columnaOrden = "p.precio_venta"; // Columna por defecto para ordenar
-
-// Configurar el orden según el parámetro 'order'
-if (!empty($order)) {
-    if ($order == "precioAltoBajo") {
-        $orden = "DESC";
-    } elseif ($order == "precioBajoAlto") {
-        $orden = "ASC";
-    }
-}
+// Determinar orden de productos
+$orden = $order === "precioAltoBajo" ? "DESC" : "ASC"; // Predeterminado: precio bajo a alto
+$columnaOrden = "p.precio_venta";
 
 // Construir consulta SQL base
 $sql = "SELECT 
@@ -44,7 +36,7 @@ $sql = "SELECT
 $params = [];
 $tipos = "";
 
-// Agregar filtro de búsqueda si se proporciona un query
+// Agregar filtros si hay búsqueda o categoría
 if (!empty($query)) {
     $sql .= " AND (p.nombre LIKE ? OR p.modelo LIKE ? OR p.marca LIKE ? OR p.descripcion LIKE ?)";
     $busqueda = "%$query%";
@@ -52,14 +44,13 @@ if (!empty($query)) {
     $tipos .= "ssss";
 }
 
-// Agregar filtro de categoría si se proporciona una categoría
 if (!empty($categoria)) {
     $sql .= " AND c.nombre = ?";
     $params[] = $categoria;
     $tipos .= "s";
 }
 
-// Agregar el orden al final de la consulta
+// Agregar orden al final de la consulta
 $sql .= " ORDER BY $columnaOrden $orden";
 
 $stmt = $mysql->prepare($sql);
@@ -74,10 +65,15 @@ $resultado = $stmt->get_result();
 
 // Procesar los productos obtenidos
 while ($producto = $resultado->fetch_assoc()) {
+    $imagen = "public/images/imagen-vacia.png";
     if (!empty($producto["i.codigo"])) {
-        $imagen = $producto["i.nombre"] . "-" . $producto["i.codigo"] . $producto["i.extension"];
-        $producto["imagen"] = file_exists("public/images/$imagen") ? "public/images/$imagen" : "public/images/imagen-vacia.png";
+        $rutaImagen = "public/images/{$producto['i.nombre']}-{$producto['i.codigo']}{$producto['i.extension']}";
+        if (file_exists($rutaImagen)) {
+            $imagen = $rutaImagen;
+        }
     }
+    $producto["imagen"] = $imagen;
+
     unset($producto["i.codigo"], $producto["i.nombre"], $producto["i.extension"]);
     $productos[] = $producto;
 }

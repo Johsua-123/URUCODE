@@ -1,72 +1,67 @@
 <?php
 
-    session_start();
+session_start();
 
-    $location = "tienda";
+$location = "tienda";
 
-    require "api/mysql.php";
+require "api/mysql.php";
 
-    $codigo = $_GET["producto"] ?? null;
+$codigo = $_GET["producto"] ?? null;
 
-    $stmt = $mysql->prepare("SELECT 
-        p.* ,
-        c.codigo AS 'c.codigo',
-        c.nombre AS 'c.nombre',
-        i.codigo AS 'i.codigo',
-        i.nombre AS 'i.nombre',
-        i.extension AS 'i.extension'
-        FROM productos p
-        LEFT JOIN imagenes i ON p.imagen_id=i.codigo
-        LEFT JOIN productos_categorias pc ON pc.producto_id=p.codigo
-        LEFT JOIN categorias c ON pc.categoria_id=c.codigo
-        WHERE p.codigo=?
-    ");
+// Función para obtener la imagen de un producto
+function obtenerImagen($nombre, $codigo, $extension) {
+    $imagen = "$nombre-$codigo$extension";
+    return file_exists("public/images/$imagen") ? "public/images/$imagen" : "public/images/imagen-vacia.png";
+}
 
-    $stmt->bind_param("i", $codigo);
-    $stmt->execute();
+// Consulta combinada para obtener el producto principal y productos relacionados
+$stmt = $mysql->prepare("SELECT 
+    p.*, 
+    c.nombre AS 'categoria_nombre',
+    i.codigo AS 'imagen_codigo',
+    i.nombre AS 'imagen_nombre',
+    i.extension AS 'imagen_extension'
+FROM productos p
+LEFT JOIN imagenes i ON p.imagen_id = i.codigo
+LEFT JOIN productos_categorias pc ON pc.producto_id = p.codigo
+LEFT JOIN categorias c ON pc.categoria_id = c.codigo
+WHERE p.codigo = ? OR (
+    c.nombre LIKE ? OR 
+    p.nombre LIKE ? OR 
+    p.modelo LIKE ? OR 
+    p.marca LIKE ?
+) AND p.en_venta = true AND p.cantidad > 0 AND p.eliminado = false
+LIMIT 0, 6");
 
-    $result = $stmt->get_result();
-    $producto = $result->fetch_assoc();
+$categoria = "%{$codigo}%";
+$nombre = "%{$codigo}%";
+$modelo = "%{$codigo}%";
+$marca = "%{$codigo}%";
 
-    if (!empty($producto["i.codigo"])) {
-        $imagen = $producto["i.nombre"] . "-" . $producto["i.codigo"] . $producto["i.extension"];
-        $producto["imagen"] = file_exists("public/images/$imagen") ? "public/images/$imagen" : "public/images/imagen-vacia.png";
-        unset($producto["i.codigo"], $producto["i.nombre"], $producto["i.extension"]);
+$stmt->bind_param("sssss", $codigo, $categoria, $nombre, $modelo, $marca);
+$stmt->execute();
+
+$resultado = $stmt->get_result();
+
+$productos = [];
+$producto = [];
+
+// Separar el producto principal y los relacionados
+while ($fila = $resultado->fetch_assoc()) {
+    if (!empty($fila["imagen_codigo"])) {
+        $fila["imagen"] = obtenerImagen($fila["imagen_nombre"], $fila["imagen_codigo"], $fila["imagen_extension"]);
+    } else {
+        $fila["imagen"] = "public/images/imagen-vacia.png";
     }
 
-    $categoria = "%{$producto['c.nombre']}%";
-    $nombre = "%{$producto['nombre']}%";
-    $modelo = "%{$producto['modelo']}%";
-    $marca = "%{$producto['marca']}%";
+    unset($fila["imagen_codigo"], $fila["imagen_nombre"], $fila["imagen_extension"]);
 
-    $stmt = $mysql->prepare("SELECT
-        p.*,
-        c.nombre AS 'c.nombre',
-        i.codigo AS 'i.cdogio',
-        i.nombre AS 'i.nombre',
-        i.extension AS 'i.extension'
-        FROM productos p
-        LEFT JOIN imagenes i ON p.imagen_id=i.codigo
-        LEFT JOIN productos_categorias pc ON pc.producto_id=p.codigo
-        LEFT JOIN categorias c ON pc.categoria_id=c.codigo
-        WHERE c.nombre LIKE ? OR p.nombre LIKE ? OR p.modelo LIKE ? OR p.marca LIKE ? AND p.en_venta=true AND p.cantidad > 0 AND p.eliminado=false
-        LIMIT 0, 5
-    ");
-
-    $stmt->bind_param("ssss", $categoria, $nombre, $modelo, $marca);
-    $stmt->execute();
-
-    $resultado = $stmt->get_result();
-    $productos = [];
-
-    while ($fila = $resultado->fetch_assoc()) {
-        if (!empty($producto["i.codigo"])) {
-            $imagen = $producto["i.nombre"] . "-" . $producto["i.codigo"] . $producto["i.extension"];
-            $producto["imagen"] = file_exists("public/images/$imagen") ? "public/images/$imagen" : "public/images/imagen-vacia.png";
-        }
-        unset($producto["i.codigo"], $producto["i.nombre"], $producto["i.extension"]);
+    if ($fila["codigo"] == $codigo) {
+        $producto = $fila;
+    } else {
         $productos[] = $fila;
     }
+}
 
 ?>
 
@@ -92,13 +87,13 @@
         <title> <?php echo $producto["nombre"] ?? "No encontrado"; ?> | Errea</title>
     </head>
     <body>
-        <?php include "reusables/navbar.php" ?>
+        <?php include "reusables/navbar.php"; ?>
         <main>
             <?php require "reusables/header.php"; ?>
             <div class="productos">
                 <div class="producto">
                     <div class="producto-imagen">
-                        <img src="<?php echo $producto["imagen"] ?? "public/images/imagen-vacia.png"; ?>" alt="<?php echo $producto["nombre"] ?? "imagen del producto"; ?>">
+                        <img src="<?php echo $producto["imagen"]; ?>" alt="<?php echo $producto["nombre"] ?? "imagen del producto"; ?>">
                     </div>
                     <div class="producto-info">
                         <div class="producto-titulo">
@@ -111,8 +106,8 @@
                                 <?php echo $producto["cantidad"] ?? ""; ?>
                             </span>
                             <span>
-                                <p>Categoria:</p> 
-                                <?php echo $producto["c.nombre"] ?? ""; ?>
+                                <p>Categoría:</p> 
+                                <?php echo $producto["categoria_nombre"] ?? ""; ?>
                             </span>
                         </div>
                         <div class="botones">
@@ -128,22 +123,22 @@
                         </div>
                     </div>
                 </div>
-                <div class="producto-descripcion <?php echo empty($producto["descripcion"]) ? "hidden" : "" ?>">
+                <div class="producto-descripcion <?php echo empty($producto["descripcion"]) ? "hidden" : ""; ?>">
                     <h1>DESCRIPCIÓN</h1>
                     <p><?php echo $producto["descripcion"] ?? ""; ?></p>
                 </div>
-                <div class="productos-relacionados <?php echo empty($productos) ? "hidden" : "" ?>">
+                <div class="productos-relacionados <?php echo empty($productos) ? "hidden" : ""; ?>">
                     <h1>PRODUCTOS RELACIONADOS</h1>
                     <div class="productos-items">
-                        <?php foreach ($productos as $producto) { ?>
+                        <?php foreach ($productos as $relacionado) { ?>
                             <div class="producto-relacionado">
-                                <img src="<?php echo $producto["imagen"] ?? "public/images/imagen-vacia.png" ?>" alt="<?php echo $producto["nombre"] ?? "imagen del producto"; ?>">
+                                <img src="<?php echo $relacionado["imagen"]; ?>" alt="<?php echo $relacionado["nombre"] ?? "imagen del producto"; ?>">
                                 <div class="producto-header">
-                                    <h1><?php echo $producto["nombre"] ?? "" ?></h1>
-                                    <h3>US$<?php echo $producto["precio_venta"] ?? "" ?></h3>
+                                    <h1><?php echo $relacionado["nombre"] ?? ""; ?></h1>
+                                    <h3>US$<?php echo $relacionado["precio_venta"] ?? ""; ?></h3>
                                 </div>
                                 <div class="producto-footer">
-                                    <a href="visualizar.php?producto=<?php echo $producto["codigo"] ?? ""; ?>">Ver detalles</a>
+                                    <a href="visualizar.php?producto=<?php echo $relacionado["codigo"] ?? ""; ?>">Ver detalles</a>
                                 </div>
                             </div>
                         <?php } ?>
