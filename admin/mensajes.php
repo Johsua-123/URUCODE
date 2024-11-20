@@ -1,38 +1,50 @@
 <?php 
+session_start();
 
-    session_start();
+if (!isset($_SESSION["code"])) {
+    header("Location: ../index.php");
+    exit();
+}
 
-    if (!isset($_SESSION["code"])) {
-        header("Location: ../index.php");
+$roles = ["dueño", "supervisor", "admin", "empleado"];
+
+$location = "mensajes";
+
+require '../api/mysql.php';
+
+$stmt = $mysql->prepare("SELECT rol FROM usuarios WHERE codigo = ?");
+$stmt->bind_param("s", $_SESSION["code"]);
+$stmt->execute();
+$result = $stmt->get_result();
+$user = $result->fetch_assoc();
+
+if (!$user || ($user["rol"] !== "dueño" && $user["rol"] !== "supervisor")) {
+    header("Location: index.php");
+    exit();
+}
+
+$stmt->close();
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["marcar_leido"])) {
+    $mensaje_id = $_POST["mensaje_id"];
+    
+    $stmt = $mysql->prepare("UPDATE mensajes SET leido = 1 WHERE codigo = ?");
+    $stmt->bind_param("i", $mensaje_id);
+    if ($stmt->execute()) {
+        $mensaje = "El mensaje ha sido marcado como leído.";
+    } else {
+        $error = "Error: " . $stmt->error;
     }
-
-    $location = "mensajes";
-
-    require "../api/mysql.php";
-
-    $stmt = $mysql->prepare("SELECT rol FROM usuarios WHERE codigo = ?");
-    $stmt->bind_param("s", $_SESSION["code"]);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $user = $result->fetch_assoc();
-
-    if (!$user || ($user["rol"] !== "dueño" && $user["rol"] !== "supervisor" && $user["rol"] !== "admin" && $user["rol"] !== "empleado")) {
-        header("Location: index.php");
-        exit();
-    }
-
+    
     $stmt->close();
+    header("Location: mensajes.php");
+    exit();
+}
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["codigo"])) {
-        $codigo = $_POST["codigo"];
-        $stmt = $mysql->prepare("UPDATE mensajes SET leido=true WHERE codigo=?");
-        $stmt->bind_param("i", $codigo);
-        $stmt->execute();
-    }
-
-    $stmt = $mysql->prepare("SELECT * FROM mensajes ORDER BY fecha_creacion DESC");
-    $stmt->execute();
-    $result = $stmt->get_result();
+$stmt = $mysql->prepare("SELECT * FROM mensajes ORDER BY fecha_creacion DESC");
+$stmt->execute();
+$result = $stmt->get_result();
+$mensajes = $result->fetch_all(MYSQLI_ASSOC);
 
 ?>
 
@@ -45,54 +57,60 @@
     <link rel="stylesheet" href="assets/styles/module.css">
     <link rel="stylesheet" href="assets/styles/navbar.css">
     <link rel="stylesheet" href="assets/styles/sidebar.css">
-    <link rel="stylesheet" href="assets/styles/products.css"> 
+    <link rel="stylesheet" href="assets/styles/products.css">
+    <script>
+        function confirmDelete() {
+            return confirm('¿Estás seguro que quieres marcar este mensaje como leído?');
+        }
+    </script>
     <title>Mensajes | Errea Admin</title>
 </head>
 <body>
     <?php include "reusables/sidebar.php"; ?>
     <div class="container">
         <?php include "reusables/navbar.php"; ?>
-        <main>
-            <h1>Mensajes de contacto</h1>
-            <div class="table-container">
-                <table class="messages-table">
-                    <thead>
+        <main style="padding-left: 10px">
+            <h1>Mensajes</h1>
+            <?php if (isset($mensaje)): ?>
+                <div class="alert alert-success"><?php echo $mensaje; ?></div>
+            <?php endif; ?>
+            <?php if (isset($error)): ?>
+                <div class="alert alert-danger"><?php echo $error; ?></div>
+            <?php endif; ?>
+            <table class="accounts-table">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Asunto</th>
+                        <th>Mensaje</th>
+                        <th>Fecha</th>
+                        <th>Leído</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($mensajes as $mensaje): ?>
                         <tr>
-                            <th>Codigo</th>
-                            <th>Email</th>
-                            <th>Nombre</th>
-                            <th>Estado</th>
-                            <th>Mensaje</th>
-                            <th>Fecha</th>
-                            <th>Acciones</th>
+                            <td><?php echo $mensaje['nombre']; ?></td>
+                            <td><?php echo $mensaje['email']; ?></td>
+                            <td><?php echo $mensaje['asunto']; ?></td>
+                            <td><?php echo $mensaje['mensaje']; ?></td>
+                            <td><?php echo $mensaje['fecha_creacion']; ?></td>
+                            <td><?php echo $mensaje['leido'] ? 'Sí' : 'No'; ?></td>
+                            <td>
+                                <?php if (!$mensaje['leido']): ?>
+                                    <form method="POST" action="" style="display:inline-block;" onsubmit="return confirmDelete();">
+                                        <input type="hidden" name="mensaje_id" value="<?php echo $mensaje['codigo']; ?>">
+                                        <button type="submit" name="marcar_leido" class="btn btn-success">Marcar como leído</button>
+                                    </form>
+                                <?php endif; ?>
+                                <a href="https://mail.google.com/mail/u/0/?view=cm&fs=1&to=<?php echo $mensaje['email']; ?>&su=Re: <?php echo urlencode($mensaje['asunto']); ?>" target="_blank" class="btn btn-primary">Responder</a>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <?php if ($result->num_rows > 0): ?>
-                            <?php while ($row = $result->fetch_assoc()): ?>
-                                <tr>
-                                    <td><?php echo $row['codigo']; ?></td>
-                                    <td><?php echo $row['email']; ?></td>
-                                    <td><?php echo $row['nombre']; ?></td>
-                                    <td><?php echo $row["leido"] ? "leido" : "no leido" ?></td>
-                                    <td><?php echo $row['mensaje']; ?></td>
-                                    <td><?php echo date("d-m-Y H:i", strtotime($row['fecha_creacion'])); ?></td>
-                                    <td>
-                                        <form method="post" onsubmit="return confirm('¿Estas seguro que queres marcar como leido este mensaje?');">
-                                            <input type="hidden" name="codigo" value="<?php echo $row['codigo']; ?>">
-                                            <button type="submit" class="delete-button">Leido</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            <?php endwhile; ?>
-                        <?php else: ?>
-                            <tr>
-                                <td colspan="6">No hay mensajes disponibles</td>
-                            </tr>
-                        <?php endif; ?>
-                    </tbody>
-                </table>
-            </div>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
         </main>
     </div>
 </body>

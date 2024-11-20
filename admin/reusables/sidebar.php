@@ -1,5 +1,4 @@
 <?php
-// Obtener información del usuario autenticado
 $stmt = $mysql->prepare("SELECT rol FROM usuarios WHERE codigo = ?");
 $stmt->bind_param("s", $_SESSION["code"]);
 $stmt->execute();
