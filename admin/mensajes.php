@@ -53,7 +53,7 @@
     <div class="container">
         <?php include "reusables/navbar.php"; ?>
         <main>
-            <h1>Mensajes de Contacto</h1>
+            <h1>Mensajes de contacto</h1>
             <div class="table-container">
                 <table class="messages-table">
                     <thead>
