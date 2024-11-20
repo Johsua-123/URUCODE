@@ -106,14 +106,14 @@
                 <?php foreach ($destacados as $producto) { ?>
                     <div class="product-card">
                         <div class="card-header">
-                            <img src="<?php echo $producto["imagen"] ?>" alt="<?php echo $producto["nombre"]; ?>">
+                            <img src="<?php echo $producto["imagen"] ?? "public/images/imagen-vacia.png" ?>" alt="<?php echo $producto["nombre"]; ?>">
                         </div>
                         <div class="card-items">
                             <h1><?php echo $producto["nombre"]; ?></h1>
                             <h2>U$S <?php echo $producto["precio_venta"]; ?></h2>
                         </div>
                         <div class="card-footer">
-                            <a href="ver-product.php?producto=<?php echo $producto["codigo"]; ?>">Ver detalles</a>
+                            <a href="visualizar.php?codigo=<?php echo $producto["codigo"]; ?>">Ver detalles</a>
                         </div>
                     </div>
                 <?php } ?>
@@ -135,7 +135,7 @@
                             <h2>U$S <?php echo $producto["precio_venta"]; ?></h2>
                         </div>
                         <div class="card-footer">
-                            <a href="ver-producto.php?producto=<?php echo $producto["codigo"]; ?>">Ver detalles</a>
+                            <a href="visualizar.php?producto=<?php echo $producto["codigo"]; ?>">Ver detalles</a>
                         </div>
                     </div>
                 <?php } ?>

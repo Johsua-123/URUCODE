@@ -62,11 +62,7 @@
     while ($fila = $resultado->fetch_assoc()) {
         if (!empty($producto["i.codigo"])) {
             $imagen = $producto["i.nombre"] . "-" . $producto["i.codigo"] . $producto["i.extension"];
-            if (file_exists("public/images/$imagen")) {
-                $producto["imagen"] = "public/images/$imagen";
-            } else {
-                $producto["imagen"] = "";
-            }
+            $producto["imagen"] = file_exists("public/images/$imagen") ? "public/images/$imagen" : "public/images/imagen-vacia.png";
         }
         unset($producto["i.codigo"], $producto["i.nombre"], $producto["i.extension"]);
         $productos[] = $fila;
@@ -91,8 +87,7 @@
         <link rel="stylesheet" href="assets/styles/navbar.css">
         <link rel="stylesheet" href="assets/styles/footer.css">
         <link rel="stylesheet" href="assets/styles/header.css">
-        <link rel="stylesheet" href="assets/styles/product-visualizer.css">
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <link rel="stylesheet" href="assets/styles/visualizar.css">
         <script src="assets/scripts/navbar.js"></script>
         <title> <?php echo $producto["nombre"] ?? "No encontrado"; ?> | Errea</title>
     </head>
@@ -103,14 +98,13 @@
             <div class="productos">
                 <div class="producto">
                     <div class="producto-imagen">
-                        <img src="<?php echo $producto["imagen"] ?? "public/images/imagen-vacia.png"; ?>" alt="<?php echo $producto["nombre"] ?? "imagen producto"; ?>">
+                        <img src="<?php echo $producto["imagen"] ?? "public/images/imagen-vacia.png"; ?>" alt="<?php echo $producto["nombre"] ?? "imagen del producto"; ?>">
                     </div>
                     <div class="producto-info">
                         <div class="producto-titulo">
                             <h1><?php echo $producto["nombre"] ?? ""; ?></h1>
                             <h2>US$<?php echo $producto["precio_venta"] ?? ""; ?></h2>
                         </div>
-                        
                         <div class="producto-detalles">
                             <span>
                                 <p>Disponbilidad:</p>
@@ -121,7 +115,6 @@
                                 <?php echo $producto["c.nombre"] ?? ""; ?>
                             </span>
                         </div>
-                        
                         <div class="botones">
                             <a href="checkout.php?codigo=<?php echo $producto["codigo"] ?? ""; ?>">COMPRAR</a>
                             <form class="carrito" action="cart.php" method="POST">
