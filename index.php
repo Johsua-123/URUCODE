@@ -113,7 +113,7 @@
                             <h2>U$S <?php echo $producto["precio_venta"]; ?></h2>
                         </div>
                         <div class="card-footer">
-                            <a href="visualizar.php?codigo=<?php echo $producto["codigo"]; ?>">Ver detalles</a>
+                            <a href="visualizar.php?producto=<?php echo $producto["codigo"]; ?>">Ver detalles</a>
                         </div>
                     </div>
                 <?php } ?>
