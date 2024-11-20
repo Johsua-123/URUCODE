@@ -93,7 +93,7 @@ $productos_result = $mysql->query("
                             <p class="product-price">US$<?php echo htmlspecialchars($producto['precio_venta']); ?></p>
                         </div>
                         <div class="product-action">
-                            <a href="product-visualizer.php?codigo=<?php echo htmlspecialchars($producto['codigo']); ?>" class="btn-view">Ver Detalle</a>
+                            <a href="visualizar.php?codigo=<?php echo htmlspecialchars($producto['codigo']); ?>" class="btn-view">Ver Detalle</a>
                         </div>
                     </div>
                 <?php } ?>

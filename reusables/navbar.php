@@ -24,7 +24,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"></path>
                 </svg>
                 <div class="dropdown-menu hidden">
-                    <a href="settings.php">Ajustes</a>
+                    <a href="ajustes.php">Ajustes</a>
                     
                     <?php if (isset($_SESSION["role"]) && $_SESSION["role"] === "admin" || $_SESSION["role"] === "dueño" || $_SESSION["role"] === "supervisor" || $_SESSION["role"] === "empleado"): ?>
                         <a href="admin\index.php">Administración</a>
@@ -37,7 +37,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
             </svg>
             <div class="cart-section dropdown">
-    <a href="cart.php">
+    <a href="carrito.php">
         <svg fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312" />
         </svg>
