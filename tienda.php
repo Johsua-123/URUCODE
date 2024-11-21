@@ -12,6 +12,20 @@ $query = $_GET["query"] ?? null;
 $categoria = $_GET["categoria"] ?? null;
 
 $productos = [];
+if (isset($_GET['search']) && !empty($_GET['search'])) {
+    $busqueda = $mysql->real_escape_string($_GET['search']);
+    $productos = $mysql->query("
+        SELECT productos.*, imagenes.extension AS imagen_extension 
+        FROM productos 
+        LEFT JOIN imagenes ON productos.imagen_id = imagenes.codigo
+        WHERE productos.en_venta = 1 AND (productos.nombre LIKE '%$busqueda%' 
+        OR productos.marca LIKE '%$busqueda%' 
+        OR productos.modelo LIKE '%$busqueda%' 
+        OR productos.descripcion LIKE '%$busqueda%')
+    ");
+} else {
+    
+
 
 $orden = $order === "precioAltoBajo" ? "DESC" : "ASC"; 
 $columnaOrden = "p.precio_venta";
@@ -66,6 +80,7 @@ while ($producto = $resultado->fetch_assoc()) {
 
     unset($producto["i.codigo"], $producto["i.nombre"], $producto["i.extension"]);
     $productos[] = $producto;
+}
 }
 ?>
 

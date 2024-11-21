@@ -1,14 +1,10 @@
 <?php
-$conexion = new mysqli("localhost", "duenio", "duenio", "urucode");
-
-if ($conexion->connect_error) {
-    die("Error de conexión: " . $conexion->connect_error);
-}
+require 'mysql.php';
 
 $resultado = [];
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET' && !empty($_GET["search"])) {
-    $busqueda = $conexion->real_escape_string($_GET['search']);
+    $busqueda = $mysql->real_escape_string($_GET['search']);
     $buscar = "
         SELECT productos.*, CONCAT(imagenes.nombre, imagenes.extension) AS imagen_enlace
         FROM productos
@@ -20,6 +16,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && !empty($_GET["search"])) {
             productos.descripcion LIKE '%$busqueda%'
         )
     ";
-    $resultado = mysqli_query($conexion, $buscar);
+    $resultado = mysqli_query($mysql, $buscar);
 }
 ?>
