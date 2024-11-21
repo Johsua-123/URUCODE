@@ -1,13 +1,11 @@
 <?php 
     
     session_start();
-
     if (!isset($_SESSION["code"])) {
         header("Location: ../index.php");
     }
 
     $location = "categorias";
-
     require "../api/mysql.php";
 
     $stmt = $mysql->prepare("SELECT rol FROM usuarios WHERE codigo = ?");
@@ -22,7 +20,6 @@
     }
 
     $stmt->close();
-
     if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST["nombre"])) {
         $nombre = $_POST['nombre'];
         $fecha = date("Y-m-d H:i:s");
