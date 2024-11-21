@@ -10,56 +10,64 @@ $categorias = $stmt->get_result();
 $order = $_GET["order"] ?? null;
 $query = $_GET["query"] ?? null;
 $categoria = $_GET["categoria"] ?? null;
+$page = $_GET["page"] ?? 1;
+$productos_por_pagina = 12;
+$offset = ($page - 1) * $productos_por_pagina;
 
 $productos = [];
-if (isset($_GET['search']) && !empty($_GET['search'])) {
-    $busqueda = $mysql->real_escape_string($_GET['search']);
-    $productos = $mysql->query("
-        SELECT productos.*, imagenes.extension AS imagen_extension 
-        FROM productos 
-        LEFT JOIN imagenes ON productos.imagen_id = imagenes.codigo
-        WHERE productos.en_venta = 1 AND (productos.nombre LIKE '%$busqueda%' 
-        OR productos.marca LIKE '%$busqueda%' 
-        OR productos.modelo LIKE '%$busqueda%' 
-        OR productos.descripcion LIKE '%$busqueda%')
-    ");
-} else {
-    
-
+$productos_total = 0;
 
 $orden = $order === "precioAltoBajo" ? "DESC" : "ASC"; 
 $columnaOrden = "p.precio_venta";
 
-$sql = "SELECT 
-        p.*, 
-        i.codigo AS 'i.codigo',
-        i.nombre AS 'i.nombre',
-        i.extension AS 'i.extension'
-        FROM productos p
-        LEFT JOIN imagenes i ON p.imagen_id = i.codigo
-        LEFT JOIN productos_categorias pc ON pc.producto_id = p.codigo
-        LEFT JOIN categorias c ON pc.categoria_id = c.codigo
-        WHERE p.en_venta = true AND p.eliminado = false";
+$sql_base = "FROM productos p
+             LEFT JOIN imagenes i ON p.imagen_id = i.codigo
+             LEFT JOIN productos_categorias pc ON pc.producto_id = p.codigo
+             LEFT JOIN categorias c ON pc.categoria_id = c.codigo
+             WHERE p.en_venta = true AND p.eliminado = false";
 
 $params = [];
 $tipos = "";
 
 if (!empty($query)) {
-    $sql .= " AND (p.nombre LIKE ? OR p.modelo LIKE ? OR p.marca LIKE ? OR p.descripcion LIKE ?)";
+    $sql_base .= " AND (p.nombre LIKE ? OR p.modelo LIKE ? OR p.marca LIKE ? OR p.descripcion LIKE ?)";
     $busqueda = "%$query%";
     $params = array_merge($params, [$busqueda, $busqueda, $busqueda, $busqueda]);
     $tipos .= "ssss";
 }
 
 if (!empty($categoria)) {
-    $sql .= " AND c.nombre = ?";
+    $sql_base .= " AND c.nombre = ?";
     $params[] = $categoria;
     $tipos .= "s";
 }
 
-$sql .= " ORDER BY $columnaOrden $orden";
+// Obtiene el total de productos
+$sql_count = "SELECT COUNT(*) AS total $sql_base";
+$stmt = $mysql->prepare($sql_count);
 
-$stmt = $mysql->prepare($sql);
+if (!empty($params)) {
+    $stmt->bind_param($tipos, ...$params);
+}
+
+$stmt->execute();
+$resultado = $stmt->get_result();
+$row = $resultado->fetch_assoc();
+$productos_total = $row['total'];
+
+// Calcula el número total de páginas
+$total_paginas = ceil($productos_total / $productos_por_pagina);
+
+// Obtiene los productos de la página actual
+$sql_productos = "SELECT 
+                   p.*, 
+                   i.codigo AS 'i_codigo',
+                   i.nombre AS 'i_nombre',
+                   i.extension AS 'i_extension'
+                   $sql_base
+                   ORDER BY $columnaOrden $orden
+                   LIMIT $productos_por_pagina OFFSET $offset";
+$stmt = $mysql->prepare($sql_productos);
 
 if (!empty($params)) {
     $stmt->bind_param($tipos, ...$params);
@@ -70,17 +78,15 @@ $resultado = $stmt->get_result();
 
 while ($producto = $resultado->fetch_assoc()) {
     $imagen = "public/images/imagen-vacia.png";
-    if (!empty($producto["i.codigo"])) {
-        $rutaImagen = "public/images/{$producto['i.nombre']}-{$producto['i.codigo']}{$producto['i.extension']}";
+    if (!empty($producto["i_codigo"])) {
+        $rutaImagen = "public/images/{$producto['i_nombre']}-{$producto['i_codigo']}{$producto['i_extension']}";
         if (file_exists($rutaImagen)) {
             $imagen = $rutaImagen;
         }
     }
     $producto["imagen"] = $imagen;
-
-    unset($producto["i.codigo"], $producto["i.nombre"], $producto["i.extension"]);
+    unset($producto["i_codigo"], $producto["i_nombre"], $producto["i_extension"]);
     $productos[] = $producto;
-}
 }
 ?>
 
@@ -147,6 +153,11 @@ while ($producto = $resultado->fetch_assoc()) {
                                 <a href="visualizar.php?producto=<?php echo $producto["codigo"] ?? ""; ?>" class="btn-view">Ver Detalle</a>
                             </div>
                         </div>
+                    <?php } ?>
+                </div>
+                <div class="pagination">
+                    <?php for ($i = 1; $i <= $total_paginas; $i++) { ?>
+                        <a href="tienda.php?page=<?php echo $i; ?>" class="<?php echo $i == $page ? 'active' : ''; ?>"><?php echo $i; ?></a>
                     <?php } ?>
                 </div>
             </div>

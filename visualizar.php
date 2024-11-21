@@ -1,11 +1,8 @@
 <?php
 
 session_start();
-
 $location = "tienda";
-
 require "api/mysql.php";
-
 $codigo = $_GET["producto"] ?? null;
 
 // Función para obtener la imagen de un producto
@@ -33,6 +30,7 @@ WHERE p.codigo = ? OR (
 ) AND p.en_venta = true AND p.cantidad > 0 AND p.eliminado = false
 LIMIT 0, 6");
 
+// Configura los parametros de busqueda y ejecuta la consulta
 $categoria = "%{$codigo}%";
 $nombre = "%{$codigo}%";
 $modelo = "%{$codigo}%";

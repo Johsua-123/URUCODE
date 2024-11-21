@@ -66,7 +66,6 @@
 <body>
     <?php include "reusables/navbar.php"; ?>
     <main>
-        <!-- Slider -->
         <div class="slider">
             <div id="slider" class="slides">
                 <img src="public/banners/slider-1.png" alt="slider image 1">
@@ -76,7 +75,6 @@
                 <img src="public/banners/slider-5.png" alt="slider image 5">
             </div>
         </div>
-        <!-- Productos Destacados -->
         <section class="main-products">
             <h1>Destacados</h1>
             <div class="product-items">
@@ -99,7 +97,6 @@
                 <img src="public/banners/cuotas.png" alt="#">
             </div>
         </section>
-            <!-- Productos en Oferta -->
             <section class="main-products">
                 <h1>Ofertas</h1>
                 <div class="product-items">

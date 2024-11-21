@@ -105,7 +105,9 @@ $mensajes = $result->fetch_all(MYSQLI_ASSOC);
                                         <button type="submit" name="marcar_leido" class="btn btn-success">Marcar como leído</button>
                                     </form>
                                 <?php endif; ?>
-                                <a href="https://mail.google.com/mail/u/0/?view=cm&fs=1&to=<?php echo $mensaje['email']; ?>&su=Re: <?php echo urlencode($mensaje['asunto']); ?>" target="_blank" class="btn btn-primary">Responder</a>
+                                <a href="https://mail.google.com/mail/u/0/?view=cm&fs=1&to=<?php
+                                 echo $mensaje['email'];?>
+                                 &su=Re: <?php echo urlencode($mensaje['asunto']); ?>" target="_blank" class="btn btn-primary">Responder</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
