@@ -18,7 +18,7 @@ $stmt->execute();
 $result = $stmt->get_result();
 $user = $result->fetch_assoc();
 
-if (!$user || ($user["rol"] !== "dueño" && $user["rol"] !== "supervisor")) {
+if (!$user || ($user["rol"] !== "dueño" && $user["rol"] !== "supervisor" && $user["rol"] !== "admin" && $user["rol"] !== "empleado")) {
     header("Location: index.php");
     exit();
 }
