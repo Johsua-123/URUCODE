@@ -1,31 +1,8 @@
--- phpMyAdmin SQL Dump
--- version 5.2.1
--- https://www.phpmyadmin.net/
---
--- Servidor: 127.0.0.1
--- Tiempo de generación: 19-11-2024 a las 01:23:56
--- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Base de datos: `urucode`
---
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `categorias`
---
 
 CREATE TABLE `categorias` (
   `codigo` int(11) NOT NULL,
@@ -34,12 +11,6 @@ CREATE TABLE `categorias` (
   `fecha_creacion` datetime DEFAULT NULL,
   `fecha_actualizacion` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `codigos`
---
 
 CREATE TABLE `codigos` (
   `codigo` int(11) NOT NULL,
@@ -50,12 +21,6 @@ CREATE TABLE `codigos` (
   `fecha_actualizacion` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `imagenes`
---
-
 CREATE TABLE `imagenes` (
   `codigo` int(11) NOT NULL,
   `nombre` text DEFAULT NULL,
@@ -64,11 +29,6 @@ CREATE TABLE `imagenes` (
   `fecha_creacion` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `mensajes`
---
 
 CREATE TABLE `mensajes` (
   `codigo` int(11) NOT NULL,
@@ -80,12 +40,6 @@ CREATE TABLE `mensajes` (
   `fecha_creacion` datetime DEFAULT NULL,
   `fecha_actualizacion` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `ordenes`
---
 
 CREATE TABLE `ordenes` (
   `codigo` int(11) NOT NULL,
@@ -101,11 +55,6 @@ CREATE TABLE `ordenes` (
   `fecha_actualizacion` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `productos`
---
 
 CREATE TABLE `productos` (
   `codigo` int(11) NOT NULL,
@@ -122,11 +71,6 @@ CREATE TABLE `productos` (
   `fecha_actualizacion` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `productos_categorias`
---
 
 CREATE TABLE `productos_categorias` (
   `producto_id` int(11) NOT NULL,
@@ -135,28 +79,6 @@ CREATE TABLE `productos_categorias` (
   `fecha_actualizacion` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `servicios`
---
-
-CREATE TABLE `servicios` (
-  `codigo` int(11) NOT NULL,
-  `nombre` varchar(150) DEFAULT NULL,
-  `precio` decimal(10,0) DEFAULT NULL,
-  `eliminado` tinyint(1) DEFAULT 0,
-  `imagen_id` int(11) DEFAULT NULL,
-  `descripcion` text DEFAULT NULL,
-  `fecha_creacion` datetime DEFAULT NULL,
-  `fecha_actualizacion` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `usuarios`
---
 
 CREATE TABLE `usuarios` (
   `codigo` int(11) NOT NULL,
@@ -175,9 +97,6 @@ CREATE TABLE `usuarios` (
   `fecha_actualizacion` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `usuarios`
---
 
 INSERT INTO `usuarios` (`codigo`, `rol`, `email`, `nombre`, `apellido`, `telefono`, `ubicacion`, `direccion`, `verificado`, `imagen_id`, `contrasena`, `eliminado`, `fecha_creacion`, `fecha_actualizacion`) VALUES
 (1, 'usuario', 'usuario@gmail.com', 'usuario', NULL, NULL, NULL, NULL, 0, NULL, '$2y$10$GsSD/PqZxi8zfxfdv25GT.bPOBUwXN2KHH0KnQLJsTaiSVNNwp9ki', 0, '2024-11-14 00:50:38', '2024-11-14 00:50:38'),
@@ -186,11 +105,7 @@ INSERT INTO `usuarios` (`codigo`, `rol`, `email`, `nombre`, `apellido`, `telefon
 (4, 'admin', 'admin@gmail.com', 'admin', NULL, NULL, NULL, NULL, 0, NULL, '$2y$10$vboQfmi3Q9GmE8865YoH8ef5tksxGVqimIVepVl0LoejgNRyGQ1I6', 0, '2024-11-19 00:30:09', '2024-11-19 00:30:09'),
 (5, 'supervisor', 'supervisor@gmail.com', 'supervisor', NULL, NULL, NULL, NULL, 0, NULL, '$2y$10$7UwoD/GjWmQKRJopNK6n3eHoZEIEd.pnZl26/YIwVyfq78xZIypZ2', 0, '2024-11-19 00:31:05', '2024-11-19 00:31:05');
 
---
--- Índices para tablas volcadas
---
 
---
 -- Indices de la tabla `categorias`
 --
 ALTER TABLE `categorias`
@@ -198,39 +113,39 @@ ALTER TABLE `categorias`
   ADD UNIQUE KEY `nombre` (`nombre`),
   ADD KEY `idx_eliminado` (`eliminado`);
 
---
+
 -- Indices de la tabla `codigos`
---
+
 ALTER TABLE `codigos`
   ADD PRIMARY KEY (`codigo`),
   ADD KEY `usuario_id` (`usuario_id`);
 
---
+
 -- Indices de la tabla `imagenes`
---
+
 ALTER TABLE `imagenes`
   ADD PRIMARY KEY (`codigo`),
   ADD KEY `idx_eliminado` (`eliminado`);
 
---
+
 -- Indices de la tabla `mensajes`
---
+
 ALTER TABLE `mensajes`
   ADD PRIMARY KEY (`codigo`),
   ADD KEY `idx_email` (`email`),
   ADD KEY `idx_nombre` (`nombre`);
 
---
+
 -- Indices de la tabla `ordenes`
---
+
 ALTER TABLE `ordenes`
   ADD PRIMARY KEY (`codigo`),
   ADD KEY `usuario_id` (`usuario_id`),
   ADD KEY `item_id` (`item_id`);
 
---
+
 -- Indices de la tabla `productos`
---
+
 ALTER TABLE `productos`
   ADD PRIMARY KEY (`codigo`),
   ADD UNIQUE KEY `nombre` (`nombre`),
@@ -239,16 +154,16 @@ ALTER TABLE `productos`
   ADD KEY `idx_precio` (`precio_venta`),
   ADD KEY `idx_eliminado` (`eliminado`);
 
---
+
 -- Indices de la tabla `productos_categorias`
---
+
 ALTER TABLE `productos_categorias`
   ADD PRIMARY KEY (`producto_id`,`categoria_id`),
   ADD KEY `categoria_id` (`categoria_id`);
 
---
+
 -- Indices de la tabla `servicios`
---
+
 ALTER TABLE `servicios`
   ADD PRIMARY KEY (`codigo`),
   ADD UNIQUE KEY `nombre` (`nombre`),
@@ -256,9 +171,9 @@ ALTER TABLE `servicios`
   ADD KEY `idx_precio` (`precio`),
   ADD KEY `idx_eliminado` (`eliminado`);
 
---
+
 -- Indices de la tabla `usuarios`
---
+
 ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`codigo`),
   ADD UNIQUE KEY `email` (`email`),
@@ -268,101 +183,95 @@ ALTER TABLE `usuarios`
   ADD KEY `idx_telefono` (`telefono`),
   ADD KEY `idx_eliminado` (`eliminado`);
 
---
--- AUTO_INCREMENT de las tablas volcadas
---
 
---
+-- AUTO_INCREMENT de las tablas volcadas
+
 -- AUTO_INCREMENT de la tabla `categorias`
---
+
 ALTER TABLE `categorias`
   MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
---
+
 -- AUTO_INCREMENT de la tabla `codigos`
---
+
 ALTER TABLE `codigos`
   MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT;
 
---
+
 -- AUTO_INCREMENT de la tabla `imagenes`
---
+
 ALTER TABLE `imagenes`
   MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
---
+
 -- AUTO_INCREMENT de la tabla `mensajes`
---
+
 ALTER TABLE `mensajes`
   MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT;
 
---
+
 -- AUTO_INCREMENT de la tabla `ordenes`
---
+
 ALTER TABLE `ordenes`
   MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
---
+
 -- AUTO_INCREMENT de la tabla `productos`
---
+
 ALTER TABLE `productos`
   MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
---
+
 -- AUTO_INCREMENT de la tabla `servicios`
---
+
 ALTER TABLE `servicios`
   MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT;
 
---
+
 -- AUTO_INCREMENT de la tabla `usuarios`
---
+
 ALTER TABLE `usuarios`
   MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
---
+
 -- Restricciones para tablas volcadas
---
+
 
 --
 -- Filtros para la tabla `codigos`
---
+
 ALTER TABLE `codigos`
   ADD CONSTRAINT `codigos_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `codigos` (`codigo`) ON UPDATE CASCADE;
 
---
+
 -- Filtros para la tabla `ordenes`
---
+
 ALTER TABLE `ordenes`
   ADD CONSTRAINT `ordenes_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`codigo`) ON UPDATE CASCADE,
   ADD CONSTRAINT `ordenes_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `productos` (`codigo`) ON UPDATE CASCADE;
 
---
+
 -- Filtros para la tabla `productos`
---
+
 ALTER TABLE `productos`
   ADD CONSTRAINT `productos_ibfk_1` FOREIGN KEY (`imagen_id`) REFERENCES `imagenes` (`codigo`) ON UPDATE CASCADE;
 
---
+
 -- Filtros para la tabla `productos_categorias`
---
+
 ALTER TABLE `productos_categorias`
   ADD CONSTRAINT `productos_categorias_ibfk_1` FOREIGN KEY (`producto_id`) REFERENCES `productos` (`codigo`) ON UPDATE CASCADE,
   ADD CONSTRAINT `productos_categorias_ibfk_2` FOREIGN KEY (`categoria_id`) REFERENCES `categorias` (`codigo`) ON UPDATE CASCADE;
 
---
+
 -- Filtros para la tabla `servicios`
---
+
 ALTER TABLE `servicios`
   ADD CONSTRAINT `servicios_ibfk_1` FOREIGN KEY (`imagen_id`) REFERENCES `imagenes` (`codigo`) ON UPDATE CASCADE;
 
---
+
 -- Filtros para la tabla `usuarios`
---
+
 ALTER TABLE `usuarios`
   ADD CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`imagen_id`) REFERENCES `imagenes` (`codigo`) ON UPDATE CASCADE;
 COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
