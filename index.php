@@ -1,50 +1,44 @@
 <?php
-session_start();
-$location = "inicio";
 
-require 'api/mysql.php';
+    session_start();
 
-// Función para obtener productos
-function obtenerProductos($mysql, $categoria) {
-    $stmt = $mysql->prepare("
-        SELECT 
+    $location = "inicio";
+
+    require "api/mysql.php";
+
+    function obtenerProductos($mysql, $categoria) {
+        $stmt = $mysql->prepare("SELECT 
             p.*,
             i.codigo AS 'i.codigo',
             i.nombre AS 'i.nombre',
             i.extension AS 'i.extension'
-        FROM productos p
-        LEFT JOIN imagenes i ON p.imagen_id = i.codigo 
-        LEFT JOIN productos_categorias pc ON pc.producto_id = p.codigo 
-        LEFT JOIN categorias c ON pc.categoria_id = c.codigo 
-        WHERE p.en_venta = true AND c.nombre = ?
-    ");
-    $stmt->bind_param("s", $categoria);
-    $stmt->execute();
-    $resultado = $stmt->get_result();
-    $productos = [];
+            FROM productos p
+            LEFT JOIN imagenes i ON p.imagen_id=i.codigo 
+            LEFT JOIN productos_categorias pc ON pc.producto_id=p.codigo 
+            LEFT JOIN categorias c ON pc.categoria_id=c.codigo 
+            WHERE p.en_venta=true AND p.eliminado=false AND c.nombre=? AND c.eliminado=false
+        ");
 
-    while ($producto = $resultado->fetch_assoc()) {
-        $producto["imagen"] = generarRutaImagen($producto);
-        unset($producto["i.codigo"], $producto["i.nombre"], $producto["i.extension"]);
-        $productos[] = $producto;
+        $stmt->bind_param("s", $categoria);
+        $stmt->execute();
+        
+        $resultado = $stmt->get_result();
+        $productos = [];
+
+        while ($producto = $resultado->fetch_assoc()) {
+            if (!empty($producto["i.codigo"])) {
+                $imagen = "public/images/" . $producto["i.nombre"] . "-" . $producto["i.codigo"] . $producto["i.extension"];
+                $producto["imagen"] = file_exists($imagen) ? $imagen : "public/images/imagen-vacia.png";
+            }
+            unset($producto["i.codigo"], $producto["i.nombre"], $producto["i.extension"]);
+            $productos[] = $producto;
+        }
+
+        return $productos;
     }
 
-    return $productos;
-}
-
-// Función para generar la ruta de la imagen
-function generarRutaImagen($producto) {
-    if (!empty($producto["i.codigo"])) {
-        $imagen = $producto["i.nombre"] . "-" . $producto["i.codigo"] . $producto["i.extension"];
-        $ruta = "public/images/$imagen";
-        return file_exists($ruta) ? $ruta : "";
-    }
-    return "";
-}
-
-// Obtener productos destacados y ofertas
-$destacados = obtenerProductos($mysql, "Destacados");
-$ofertas = obtenerProductos($mysql, "Ofertas");
+    $destacados = obtenerProductos($mysql, "Destacados");
+    $ofertas = obtenerProductos($mysql, "Ofertas");
 
 ?>
 
@@ -82,50 +76,50 @@ $ofertas = obtenerProductos($mysql, "Ofertas");
                 <img src="public/banners/slider-5.png" alt="slider image 5">
             </div>
         </div>
-
         <!-- Productos Destacados -->
         <section class="main-products">
             <h1>Destacados</h1>
             <div class="product-items">
-                <?php foreach ($destacados as $producto): ?>
-                    <?php incluirProducto($producto); ?>
-                <?php endforeach; ?>
+                <?php foreach ($destacados as $producto) { ?>
+                    <div class="product-card">
+                        <div class="card-header">
+                            <img src="<?php echo $producto["imagen"] ?? "public/images/imagen-vacia.png"; ?>" alt="<?php echo $producto["nombre"]; ?>">
+                        </div>
+                        <div class="card-items">
+                            <h1><?php echo $producto["nombre"]; ?></h1>
+                            <h2>U$S <?php echo $producto["precio_venta"]; ?></h2>
+                        </div>
+                        <div class="card-footer">
+                            <a href="visualizar.php?producto=<?php echo $producto["codigo"]; ?>">Ver detalles</a>
+                        </div>
+                    </div>
+                <?php } ?>
             </div>
             <div class="picture">
-                <img src="public/banners/12Cuotas_MiniBanner-v2-1024x123.png" alt="#">
+                <img src="public/banners/cuotas.png" alt="#">
             </div>
         </section>
-
-        <!-- Productos en Oferta -->
-        <section class="main-products">
-            <h1>Ofertas</h1>
-            <div class="product-items">
-                <?php foreach ($ofertas as $producto): ?>
-                    <?php incluirProducto($producto); ?>
-                <?php endforeach; ?>
-            </div>
-        </section>
-    </main>
-    <?php include "reusables/footer.php"; ?>
-</body>
+            <!-- Productos en Oferta -->
+            <section class="main-products">
+                <h1>Ofertas</h1>
+                <div class="product-items">
+                    <?php foreach ($ofertas as $producto) { ?>
+                        <div class="product-card">
+                            <div class="card-header">
+                                <img src="<?php echo $producto["imagen"] ?? "public/images/imagen-vacia.png"; ?>" alt="<?php echo $producto["nombre"]; ?>">
+                            </div>
+                            <div class="card-items">
+                                <h1><?php echo $producto["nombre"]; ?></h1>
+                                <h2>U$S <?php echo $producto["precio_venta"]; ?></h2>
+                            </div>
+                            <div class="card-footer">
+                                <a href="visualizar.php?producto=<?php echo $producto["codigo"]; ?>">Ver detalles</a>
+                            </div>
+                        </div>
+                    <?php } ?>
+                </div>
+            </section>
+        </main>
+        <?php include "reusables/footer.php"; ?>
+    </body>
 </html>
-
-<?php
-// Función para incluir un producto
-function incluirProducto($producto) {
-    ?>
-    <div class="product-card">
-        <div class="card-header">
-            <img src="<?php echo $producto["imagen"] ?: "public/images/imagen-vacia.png"; ?>" alt="<?php echo $producto["nombre"]; ?>">
-        </div>
-        <div class="card-items">
-            <h1><?php echo $producto["nombre"]; ?></h1>
-            <h2>U$S <?php echo $producto["precio_venta"]; ?></h2>
-        </div>
-        <div class="card-footer">
-            <a href="visualizar.php?producto=<?php echo $producto["codigo"]; ?>">Ver detalles</a>
-        </div>
-    </div>
-    <?php
-}
-?>
