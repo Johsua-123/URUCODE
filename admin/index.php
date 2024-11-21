@@ -3,6 +3,19 @@ session_start();
 
 require '../api/mysql.php';
 
+    $stmt = $mysql->prepare("SELECT rol FROM usuarios WHERE codigo = ?");
+    $stmt->bind_param("s", $_SESSION["code"]);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $user = $result->fetch_assoc();
+
+    if (!$user || ($user["rol"] !== "dueño" && $user["rol"] !== "supervisor" && $user["rol"] !== "admin" && $user["rol"] !== "empleado")) {
+        header("Location: ../index.php");
+        exit();
+    }
+
+    $stmt->close();
+
 //actividad de usuarios por fecha
 $stmtUsuarios = $mysql->prepare("
     SELECT DATE(fecha_creacion) AS fecha, COUNT(*) AS cantidad
