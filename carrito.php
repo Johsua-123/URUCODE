@@ -5,6 +5,33 @@ if (!isset($_SESSION['cart'])) {
     $_SESSION['cart'] = [];
 }
 
+function agregar_producto($codigo, $nombre, $precio, $descripcion) {
+    foreach ($_SESSION['cart'] as &$producto) {
+        if ($producto['codigo'] === $codigo) {
+            $producto['cantidad']++;
+            return;
+        }
+    }
+
+    $_SESSION['cart'][] = [
+        'codigo' => $codigo,
+        'nombre' => $nombre,
+        'precio' => $precio,
+        'descripcion' => $descripcion,
+        'cantidad' => 1,
+    ];
+}
+
+function reiniciar_carrito() {
+    $_SESSION['cart'] = [];
+}
+
+function calcular_total() {
+    return array_reduce($_SESSION['cart'], function ($total, $producto) {
+        return $total + $producto['precio'] * $producto['cantidad'];
+    }, 0);
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $accion = $_POST['accion'] ?? null;
 
@@ -15,53 +42,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $descripcion = $_POST['descripcion'] ?? null;
 
         if ($codigo && $nombre && $precio !== null) {
-            $producto_encontrado = false;
-
-            foreach ($_SESSION['cart'] as &$producto) {
-                if ($producto['codigo'] === $codigo) {
-                    $producto['cantidad']++;
-                    $producto_encontrado = true;
-                    break;
-                }
-            }
-
-            if (!$producto_encontrado) {
-                $_SESSION['cart'][] = [
-                    'codigo' => $codigo,
-                    'nombre' => $nombre,
-                    'precio' => $precio,
-                    'descripcion' => $descripcion,
-                    'cantidad' => 1,
-                ];
-            }
+            agregar_producto($codigo, $nombre, $precio, $descripcion);
         }
     } elseif ($accion === 'reiniciar') {
-        $_SESSION['cart'] = [];
+        reiniciar_carrito();
     }
 }
-
-function calcular_total($cart) {
-    $total = 0;
-    foreach ($cart as $producto) {
-        $total += $producto['precio'] * $producto['cantidad'];
-    }
-    return $total;
-}
-
 $cart_items = $_SESSION['cart'];
-$total = calcular_total($cart_items);
+$total = calcular_total();
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DF773N72G0"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-DF773N72G0');
-    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carrito | Errea</title>
@@ -97,15 +90,15 @@ $total = calcular_total($cart_items);
                         <tbody>
                             <?php foreach ($cart_items as $producto) { ?>
                                 <tr>
-                                    <td><?php echo htmlspecialchars($producto['nombre']); ?></td>
-                                    <td>US$<?php echo number_format($producto['precio'], 2); ?></td>
-                                    <td><?php echo $producto['cantidad']; ?></td>
-                                    <td>US$<?php echo number_format($producto['precio'] * $producto['cantidad'], 2); ?></td>
+                                    <td><?= htmlspecialchars($producto['nombre']); ?></td>
+                                    <td>US$<?= number_format($producto['precio'], 2); ?></td>
+                                    <td><?= $producto['cantidad']; ?></td>
+                                    <td>US$<?= number_format($producto['precio'] * $producto['cantidad'], 2); ?></td>
                                 </tr>
                             <?php } ?>
                         </tbody>
                     </table>
-                    <p><strong>Total:</strong> US$<?php echo number_format($total, 2); ?></p>
+                    <p><strong>Total:</strong> US$<?= number_format($total, 2); ?></p>
 
                     <form action="carrito.php" method="POST">
                         <input type="hidden" name="accion" value="reiniciar">
