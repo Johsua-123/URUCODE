@@ -1,93 +1,121 @@
 <?php
-session_start();
-$location = "tienda";
-require "api/mysql.php";
 
-$stmt = $mysql->prepare("SELECT * FROM categorias WHERE eliminado = false");
-$stmt->execute();
-$categorias = $stmt->get_result();
+    session_start();
 
-$order = $_GET["order"] ?? null;
-$query = $_GET["query"] ?? null;
-$categoria = $_GET["categoria"] ?? null;
-$page = $_GET["page"] ?? 1;
-$productos_por_pagina = 12;
-$offset = ($page - 1) * $productos_por_pagina;
+    $location = "tienda";
 
-$productos = [];
-$productos_total = 0;
+    require "api/mysql.php";
 
-$orden = $order === "precioAltoBajo" ? "DESC" : "ASC"; 
-$columnaOrden = "p.precio_venta";
+    $stmt = $mysql->prepare("SELECT 
+        c.codigo, c.nombre
+        FROM categorias c
+        JOIN productos_categorias pc ON pc.categoria_id=c.codigo
+        JOIN productos p ON pc.producto_id=p.codigo
+        WHERE c.eliminado=false AND p.eliminado=false AND p.en_venta=true
+        GROUP BY c.codigo
+    ");
 
-$sql_base = "FROM productos p
-             LEFT JOIN imagenes i ON p.imagen_id = i.codigo
-             LEFT JOIN productos_categorias pc ON pc.producto_id = p.codigo
-             LEFT JOIN categorias c ON pc.categoria_id = c.codigo
-             WHERE p.en_venta = true AND p.eliminado = false";
+    $stmt->execute();
+    $categorias = $stmt->get_result();
 
-$params = [];
-$tipos = "";
+    $productos = [];
 
-if (!empty($query)) {
-    $sql_base .= " AND (p.nombre LIKE ? OR p.modelo LIKE ? OR p.marca LIKE ? OR p.descripcion LIKE ?)";
-    $busqueda = "%$query%";
-    $params = array_merge($params, [$busqueda, $busqueda, $busqueda, $busqueda]);
-    $tipos .= "ssss";
-}
+    // datos recibidos 
+    $categoria = $_GET["categoria"] ?? null;
+    $buscar = $_GET["buscar"] ?? null;
+    $filtro = $_GET["filtro"] ?? null;
 
-if (!empty($categoria)) {
-    $sql_base .= " AND c.nombre = ?";
-    $params[] = $categoria;
-    $tipos .= "s";
-}
+    $_SESSION["categoria"] = $categoria;
+    $orden = "ASC";
+    $total = 0;
 
-// Obtiene el total de productos
-$sql_count = "SELECT COUNT(*) AS total $sql_base";
-$stmt = $mysql->prepare($sql_count);
-
-if (!empty($params)) {
-    $stmt->bind_param($tipos, ...$params);
-}
-
-$stmt->execute();
-$resultado = $stmt->get_result();
-$row = $resultado->fetch_assoc();
-$productos_total = $row['total'];
-
-// Calcula el número total de páginas
-$total_paginas = ceil($productos_total / $productos_por_pagina);
-
-// Obtiene los productos de la página actual
-$sql_productos = "SELECT 
-                   p.*, 
-                   i.codigo AS 'i_codigo',
-                   i.nombre AS 'i_nombre',
-                   i.extension AS 'i_extension'
-                   $sql_base
-                   ORDER BY $columnaOrden $orden
-                   LIMIT $productos_por_pagina OFFSET $offset";
-$stmt = $mysql->prepare($sql_productos);
-
-if (!empty($params)) {
-    $stmt->bind_param($tipos, ...$params);
-}
-
-$stmt->execute();
-$resultado = $stmt->get_result();
-
-while ($producto = $resultado->fetch_assoc()) {
-    $imagen = "public/images/imagen-vacia.png";
-    if (!empty($producto["i_codigo"])) {
-        $rutaImagen = "public/images/{$producto['i_nombre']}-{$producto['i_codigo']}{$producto['i_extension']}";
-        if (file_exists($rutaImagen)) {
-            $imagen = $rutaImagen;
-        }
+    // aplicamos filtros
+    if (!empty($filtro) && $filtro == "alto") {
+        $orden = "DESC";
     }
-    $producto["imagen"] = $imagen;
-    unset($producto["i_codigo"], $producto["i_nombre"], $producto["i_extension"]);
-    $productos[] = $producto;
-}
+
+    $consulta = "SELECT
+        COUNT(p.codigo) 'total'
+        FROM productos p
+        JOIN productos_categorias pc ON pc.producto_id=p.codigo
+        JOIN categorias c ON pc.categoria_id=c.codigo
+        WHERE p.en_venta=true AND p.eliminado=false AND c.eliminado=false
+    ";
+
+    $stmt = $mysql->prepare($consulta);
+    $stmt->execute();
+
+    $total = $stmt->get_result()->fetch_assoc()["total"];
+
+    // categoria seleccionada
+    if (!empty($categoria)) {
+
+        // contar productos
+        $consulta .= "AND c.codigo=?";
+        $stmt = $mysql->prepare($consulta);
+
+        $stmt->bind_param("i", $categoria);
+        $stmt->execute();
+
+        $total = $stmt->get_result()->fetch_assoc()["total"];
+        
+        // obtenemos productos
+        $stmt = $mysql->prepare("SELECT
+            p.codigo, p.nombre, p.precio_venta,
+            i.codigo AS 'i.codigo', i.nombre AS 'i.nombre', i.extension AS 'i.extension'
+            FROM productos p
+            JOIN imagenes i ON p.imagen_id=i.codigo
+            JOIN productos_categorias pc ON pc.producto_id=p.codigo
+            JOIN categorias c ON pc.categoria_id=c.codigo
+            WHERE p.en_venta=true AND p.eliminado=false AND c.eliminado=false AND c.codigo=?
+            ORDER BY p.precio_venta $orden
+        ");
+
+        $stmt->bind_param("i", $categoria);
+
+        $stmt->execute();
+        $resultado = $stmt->get_result();
+
+        // obtenemos resultados
+        while ($producto = $resultado->fetch_assoc()) {
+            if (!empty($producto["i.codigo"])) {
+                $imagen = "public/images/{$producto['i.nombre']}-{$producto['i.codigo']}{$producto['i.extension']}";
+                if (file_exists($imagen)) {
+                    $producto["imagen"] = $imagen;
+                }
+            }
+            unset($producto["i.codigo"], $producto["i.nombre"], $producto["i.extension"]);
+            $productos[] = $producto;
+        }
+
+    }
+
+    $stmt = $mysql->prepare("SELECT
+        p.codigo, p.nombre, p.precio_venta,
+        i.codigo AS 'i.codigo', i.nombre AS 'i.nombre', i.extension AS 'i.extension'
+        FROM productos p
+        JOIN imagenes i ON p.imagen_id=i.codigo
+        JOIN productos_categorias pc ON pc.producto_id=p.codigo
+        JOIN categorias c ON pc.categoria_id=c.codigo
+        WHERE p.en_venta=true AND p.eliminado=false AND c.eliminado=false
+        ORDER BY p.precio_venta $orden
+    ");
+
+    $stmt->execute();
+    $resultado = $stmt->get_result();
+
+    // obtenemos resultados
+    while ($producto = $resultado->fetch_assoc()) {
+        if (!empty($producto["i.codigo"])) {
+            $imagen = "public/images/{$producto['i.nombre']}-{$producto['i.codigo']}{$producto['i.extension']}";
+            if (file_exists($imagen)) {
+                $producto["imagen"] = $imagen;
+            }
+        }
+        unset($producto["i.codigo"], $producto["i.nombre"], $producto["i.extension"]);
+        $productos[] = $producto;
+    }
+
 ?>
 
 <!DOCTYPE html>
@@ -118,24 +146,19 @@ while ($producto = $resultado->fetch_assoc()) {
                 <ul class="category-list-shop">
                     <?php while ($categoria = $categorias->fetch_assoc()) { ?>
                         <li>
-                            <a href="tienda.php?categoria=<?php echo $categoria["nombre"] ?? ""; ?>"><?php echo $categoria["nombre"] ?? ""; ?></a>
+                            <a href="tienda.php?categoria=<?php echo $categoria["codigo"] ?? ""; ?>"><?php echo $categoria["nombre"] ?? ""; ?></a>
                         </li>
                     <?php } ?>
                 </ul>
             </div>
             <div class="filter-bar">
-                <form method="GET" action="tienda.php">
+                <form method="GET">
                     <label for="ordenar">Ordenar por:</label>
-                    <select id="ordenar" name="order" onchange="this.form.submit()">
-                        <option value="precioBajoAlto" <?php echo !$order || $order == 'precioBajoAlto' ? 'selected' : ''; ?>>Precio: Bajo a Alto</option>
-                        <option value="precioAltoBajo" <?php echo $order == 'precioAltoBajo' ? 'selected' : ''; ?>>Precio: Alto a Bajo</option>
+                    <input type="hidden" name="categoria" value="<?php echo $_SESSION["categoria"] ?? ""; ?>">
+                    <select id="ordenar" name="filtro" onchange="this.form.submit()">
+                        <option value="bajo" <?php echo $filtro == "bajo" ? "selected" : ""; ?>>Precio: Bajo a Alto</option>
+                        <option value="alto" <?php echo $filtro == "alto" ? "selected" : ""; ?>>Precio: Alto a Bajo</option>
                     </select>
-                    <?php if (isset($_GET["query"])) { ?>
-                        <input type="hidden" name="query" value="<?php echo $_GET["query"]; ?>">
-                    <?php } ?>
-                    <?php if (isset($_GET["categoria"])) { ?>
-                        <input type="hidden" name="categoria" value="<?php echo $_GET["categoria"]; ?>">
-                    <?php } ?>
                 </form>
             </div>
             <div class="main-products">
@@ -156,9 +179,7 @@ while ($producto = $resultado->fetch_assoc()) {
                     <?php } ?>
                 </div>
                 <div class="pagination">
-                    <?php for ($i = 1; $i <= $total_paginas; $i++) { ?>
-                        <a href="tienda.php?page=<?php echo $i; ?>" class="<?php echo $i == $page ? 'active' : ''; ?>"><?php echo $i; ?></a>
-                    <?php } ?>
+                    
                 </div>
             </div>
         </main>
