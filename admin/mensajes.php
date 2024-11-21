@@ -60,7 +60,7 @@ $mensajes = $result->fetch_all(MYSQLI_ASSOC);
     <link rel="stylesheet" href="assets/styles/products.css">
     <script>
         function confirmDelete() {
-            return confirm('¿Estás seguro que quieres marcar este mensaje como leído?');
+            return confirm('¿Estas seguro que quieres marcar este mensaje como leido?');
         }
     </script>
     <title>Mensajes | Errea Admin</title>

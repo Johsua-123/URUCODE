@@ -1,4 +1,3 @@
-
 function toggleModal() {
     const modal = document.getElementById("productModal");
     modal.classList.toggle("hidden");
@@ -16,17 +15,10 @@ function cargarCategorias() {
             container.innerHTML = '';
 
             categorias.forEach(categoria => {
-                const checkbox = document.createElement('input');
-                checkbox.type = 'checkbox';
-                checkbox.name = 'categorias[]';
-                checkbox.value = categoria.id;
-
-                const label = document.createElement('label');
-                label.textContent = categoria.nombre;
-
-                container.appendChild(checkbox);
-                container.appendChild(label);
-                container.appendChild(document.createElement('br'));
+                container.innerHTML += `
+                    <input type="checkbox" name="categorias[]" value="${categoria.id}">
+                    <label>${categoria.nombre}</label><br>
+                `;
             });
         })
         .catch(error => console.error("Error al cargar las categorías:", error));
