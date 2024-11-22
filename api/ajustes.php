@@ -10,6 +10,7 @@
         header("Location: $script");
     }
 
+    //recibe la información introducida en el formulario
     if ($_SERVER["REQUEST_METHOD"] != "POST") {
         header("Location: $script");
     }
@@ -21,6 +22,7 @@
     $direccion = $_POST["direccion"] ?? null;
     $fecha = date("Y-m-d H:i:s");
     
+    //actualiza la información del usuario con la introducida
     $stmt = $mysql->prepare("UPDATE usuarios SET nombre=?, apellido=?, telefono=?, ubicacion=?, direccion=?, fecha_actualizacion=? WHERE codigo=?");
     $stmt->bind_param("ssisssi", $nombre, $apellido, $telefono, $ubicacion, $direccion, $fecha);
 
