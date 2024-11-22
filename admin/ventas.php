@@ -29,10 +29,8 @@ function procesarAccion($mysql, $accion, $ordenId) {
     $stmt->bind_param("i", $ordenId);
     $ejecutado = $stmt->execute();
     $stmt->close();
-
     return $ejecutado ? "Acción realizada con éxito." : "Error: " . $mysql->error;
 }
-
 $rolUsuario = obtenerRolUsuario($mysql, $_SESSION["code"]);
 if (!$rolUsuario || !in_array($rolUsuario, $rolesPermitidos)) {
     header("Location: index.php");

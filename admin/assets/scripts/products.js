@@ -1,7 +1,6 @@
 function toggleModal() {
     const modal = document.getElementById("productModal");
     modal.classList.toggle("hidden");
-
     if (!modal.classList.contains("hidden")) {
         cargarCategorias();
     }
