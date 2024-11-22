@@ -1,4 +1,24 @@
 
+.ruta-actual {
+    gap: 5px;
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    color: var(--color-black);
+    border-bottom: 1px var(--color-blue) solid;
+}
+
+.ruta-actual a {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    color: var(--color-black);
+}
+
+.ruta-actual a {
+    font-size: 18px;
+}
+
 main {
     display: flex;
     display: flex;
