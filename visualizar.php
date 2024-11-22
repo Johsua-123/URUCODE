@@ -1,65 +1,68 @@
 <?php
 
-session_start();
-$location = "tienda";
-require "api/mysql.php";
-$codigo = $_GET["producto"] ?? null;
+    session_start();
 
-// Función para obtener la imagen de un producto
-function obtenerImagen($nombre, $codigo, $extension) {
-    $imagen = "$nombre-$codigo$extension";
-    return file_exists("public/images/$imagen") ? "public/images/$imagen" : "public/images/imagen-vacia.png";
-}
+    $location = "tienda";
 
-// Consulta combinada para obtener el producto principal y productos relacionados
-$stmt = $mysql->prepare("SELECT 
-    p.*, 
-    c.nombre AS 'categoria_nombre',
-    i.codigo AS 'imagen_codigo',
-    i.nombre AS 'imagen_nombre',
-    i.extension AS 'imagen_extension'
-FROM productos p
-LEFT JOIN imagenes i ON p.imagen_id = i.codigo
-LEFT JOIN productos_categorias pc ON pc.producto_id = p.codigo
-LEFT JOIN categorias c ON pc.categoria_id = c.codigo
-WHERE p.codigo = ? OR (
-    c.nombre LIKE ? OR 
-    p.nombre LIKE ? OR 
-    p.modelo LIKE ? OR 
-    p.marca LIKE ?
-) AND p.en_venta = true AND p.cantidad > 0 AND p.eliminado = false
-LIMIT 0, 6");
+    require "api/mysql.php";
+    
+    $codigo = $_GET["producto"] ?? null;
 
-// Configura los parametros de busqueda y ejecuta la consulta
-$categoria = "%{$codigo}%";
-$nombre = "%{$codigo}%";
-$modelo = "%{$codigo}%";
-$marca = "%{$codigo}%";
-
-$stmt->bind_param("sssss", $codigo, $categoria, $nombre, $modelo, $marca);
-$stmt->execute();
-
-$resultado = $stmt->get_result();
-
-$productos = [];
-$producto = [];
-
-// Separar el producto principal y los relacionados
-while ($fila = $resultado->fetch_assoc()) {
-    if (!empty($fila["imagen_codigo"])) {
-        $fila["imagen"] = obtenerImagen($fila["imagen_nombre"], $fila["imagen_codigo"], $fila["imagen_extension"]);
-    } else {
-        $fila["imagen"] = "public/images/imagen-vacia.png";
+    // Función para obtener la imagen de un producto
+    function obtenerImagen($nombre, $codigo, $extension) {
+        $imagen = "$nombre-$codigo$extension";
+        return file_exists("public/images/$imagen") ? "public/images/$imagen" : "public/images/imagen-vacia.png";
     }
 
-    unset($fila["imagen_codigo"], $fila["imagen_nombre"], $fila["imagen_extension"]);
+    // Consulta combinada para obtener el producto principal y productos relacionados
+    $stmt = $mysql->prepare("SELECT 
+        p.*, 
+        c.nombre AS 'categoria_nombre',
+        i.codigo AS 'imagen_codigo',
+        i.nombre AS 'imagen_nombre',
+        i.extension AS 'imagen_extension'
+    FROM productos p
+    LEFT JOIN imagenes i ON p.imagen_id = i.codigo
+    LEFT JOIN productos_categorias pc ON pc.producto_id = p.codigo
+    LEFT JOIN categorias c ON pc.categoria_id = c.codigo
+    WHERE p.codigo = ? OR (
+        c.nombre LIKE ? OR 
+        p.nombre LIKE ? OR 
+        p.modelo LIKE ? OR 
+        p.marca LIKE ?
+    ) AND p.en_venta = true AND p.cantidad > 0 AND p.eliminado = false
+    LIMIT 0, 6");
 
-    if ($fila["codigo"] == $codigo) {
-        $producto = $fila;
-    } else {
-        $productos[] = $fila;
+    // Configura los parametros de busqueda y ejecuta la consulta
+    $categoria = "%{$codigo}%";
+    $nombre = "%{$codigo}%";
+    $modelo = "%{$codigo}%";
+    $marca = "%{$codigo}%";
+
+    $stmt->bind_param("sssss", $codigo, $categoria, $nombre, $modelo, $marca);
+    $stmt->execute();
+
+    $resultado = $stmt->get_result();
+
+    $productos = [];
+    $producto = [];
+
+    // Separar el producto principal y los relacionados
+    while ($fila = $resultado->fetch_assoc()) {
+        if (!empty($fila["imagen_codigo"])) {
+            $fila["imagen"] = obtenerImagen($fila["imagen_nombre"], $fila["imagen_codigo"], $fila["imagen_extension"]);
+        } else {
+            $fila["imagen"] = "public/images/imagen-vacia.png";
+        }
+
+        unset($fila["imagen_codigo"], $fila["imagen_nombre"], $fila["imagen_extension"]);
+
+        if ($fila["codigo"] == $codigo) {
+            $producto = $fila;
+        } else {
+            $productos[] = $fila;
+        }
     }
-}
 
 ?>
 
@@ -96,7 +99,7 @@ while ($fila = $resultado->fetch_assoc()) {
                     <div class="producto-info">
                         <div class="producto-titulo">
                             <h1><?php echo $producto["nombre"] ?? ""; ?></h1>
-                            <h2>US$<?php echo $producto["precio_venta"] ?? ""; ?></h2>
+                            <h2>U$S <?php echo $producto["precio_venta"] ?? ""; ?></h2>
                         </div>
                         <div class="producto-detalles">
                             <span>
@@ -133,7 +136,7 @@ while ($fila = $resultado->fetch_assoc()) {
                                 <img src="<?php echo $relacionado["imagen"]; ?>" alt="<?php echo $relacionado["nombre"] ?? "imagen del producto"; ?>">
                                 <div class="producto-header">
                                     <h1><?php echo $relacionado["nombre"] ?? ""; ?></h1>
-                                    <h3>US$<?php echo $relacionado["precio_venta"] ?? ""; ?></h3>
+                                    <h3>U$S <?php echo $relacionado["precio_venta"] ?? ""; ?></h3>
                                 </div>
                                 <div class="producto-footer">
                                     <a href="visualizar.php?producto=<?php echo $relacionado["codigo"] ?? ""; ?>">Ver detalles</a>

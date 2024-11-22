@@ -17,6 +17,7 @@
             LEFT JOIN productos_categorias pc ON pc.producto_id=p.codigo 
             LEFT JOIN categorias c ON pc.categoria_id=c.codigo 
             WHERE p.en_venta=true AND p.eliminado=false AND c.nombre=? AND c.eliminado=false
+            ORDER BY p.precio_venta ASC
         ");
 
         $stmt->bind_param("s", $categoria);

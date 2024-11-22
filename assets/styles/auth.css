@@ -1,3 +1,4 @@
+
 .card {
     z-index: 0;
     width: 350px;
@@ -47,6 +48,10 @@
     background-color: var(--color-gray-100);
 }
 
+.card-items div input:focus {
+    border-radius: 10px #3F6CB2 solid;
+}
+
 .card-items div input::placeholder {
     color: var(--color-blue-100);
 }
@@ -93,7 +98,7 @@
 .card-footer div:nth-child(1) a {
     font-size: 18px;
     font-weight: 700;
-    color: #000000; 
+    color: var(--color-blue); 
 }
 
 .modal {
@@ -122,5 +127,5 @@
     padding: 10px 20px;
     border-radius: 10px;
     color: var(--color-blue-100);
-    background-color: var(--color-blue-100);
+    background-color: var(--color-blue);
 }

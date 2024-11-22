@@ -15,8 +15,8 @@ body {
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    font-family: sans-serif;
     color: var(--color-white);
+    font-family: Arial, sans-serif;
     background-color: var(--color-white);
 }
 
