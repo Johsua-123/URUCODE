@@ -1,66 +1,80 @@
 <?php 
+
     session_start();
+
     if (!isset($_SESSION["code"])) {
         header("Location: ../index.php");
     }
+
     require "../api/mysql.php";
+
     $location = "tienda";
-    $stmt = $mysql->prepare("SELECT rol FROM usuarios WHERE codigo = ?");
-    $stmt->bind_param("s", $_SESSION["code"]);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $user = $result->fetch_assoc();
-    if (!$user || ($user["rol"] !== "dueño" && $user["rol"] !== "supervisor" && $user["rol"] !== "admin" && $user["rol"] !== "empleado")) {
-        header("Location: index.php");
-        exit();
+
+    if ($_SESSION["role"] !== "dueño" && $_SESSION["role"] !== "supervisor" && $_SESSION["role"] !== "admin" && $_SESSION["role"] !== "empleado") {
+        header("Location: ../index.php");
     }
-    $stmt->close();
 
-    //al presionar el botón elimiar actualiza el atributo en_venta del producto y lo establece a 0, así eliminandolo de la tabla de productos en venta
-    if(isset($_POST["codigo"]) && is_numeric($_POST["codigo"])) { 
-        $codigo_a_eliminar = $_POST["codigo"]; 
-       $update_query = " 
-        UPDATE productos 
-        SET en_venta = 0, fecha_actualizacion='now()'
-        WHERE codigo = ? 
-        "; 
-        $stmt = $mysql->prepare($update_query); 
-        $stmt->bind_param("i", $codigo_a_eliminar); 
-        if($stmt->execute()){ 
-            echo "Producto con código $codigo_a_eliminar actualizado a en_venta = 0"; 
-        } else { 
-            echo "Error al actualizar el producto: " . $stmt->error; 
-        }
-        header("Location: tienda.php");
-        exit();
-        }
+    // datos recibidos
+    $fecha = date("Y-m-d H:i:s");
+    $codigo = $_POST["producto"] ?? null;
+    $productos = $_POST["productos"] ?? [];
 
-    //obtiene el producto seleccionado en el modal y establece su atributo en_venta a 1, haciendo que se muestre en la tabla
-    if(isset($_POST["productos"]) && is_array($_POST["productos"])){
-        $productos = $_POST["productos"];
+    // Eliminar una producto
+    if (!empty($codigo)) {
+
+        $stmt = $mysql->prepare("UPDATE productos SET en_venta=false, fecha_actualizacion='$fecha' WHERE codigo=?");
+        $stmt->bind_param("i", $codigo);
+
+        $stmt->execute();
+
+        header("tienda.php");
+
+    }
+
+    if (!empty($productos)) {
+
         foreach ($productos as $producto) {
-            list($codigo, $nombre_producto) = explode("|", $producto);
 
-            $update_query = "
-                UPDATE productos
-                SET en_venta = 1
-                WHERE codigo = ?
-            ";
-//ejecuta aca la consulta
-            $stmt = $mysql->prepare($update_query);
-            $stmt->bind_param("i", $codigo);
+            $stmt = $mysql->prepare("UPDATE productos SET en_venta=true, fecha_actualizacion='$fecha' WHERE codigo=?");
+            $stmt->bind_param("i", $producto);
 
-            if($stmt->execute()){
-                echo "Producto con código $codigo actualizado a en_venta = 1";
-            } else {
-                echo "Error al actualizar el producto: " . $stmt->error;
-            }
-            $stmt->close();
+            $stmt->execute();
+
         }
 
-        header("Location: tienda.php");
-        
+        header("tienda.php");
+
     }
+
+    $productos = [];
+
+    // Consulta para obtener productos en venta y sus relaciones
+    $stmt = $mysql->prepare("SELECT 
+        p.*, 
+        c.nombre AS 'categoria',
+        i.codigo AS 'i.codigo', i.nombre AS 'i.nombre', i.extension AS 'i.extension'
+        FROM productos p
+        LEFT JOIN imagenes i ON p.imagen_id=i.codigo
+        LEFT JOIN productos_categorias pc ON pc.producto_id=p.codigo
+        LEFT JOIN categorias c ON pc.categoria_id=c.codigo
+        WHERE p.en_venta=true AND p.eliminado=false AND p.cantidad > 0
+        ORDER BY p.fecha_actualizacion
+    ");
+
+    $stmt->execute();
+    $resultado = $stmt->get_result();
+
+    while ($producto = $resultado->fetch_assoc()) {
+        if (!empty($producto["i.codigo"])) {
+            $imagen = "../public/images/{$producto['i.nombre']}-{$producto['i.codigo']}{$producto['i.extension']}";
+            if (file_exists($imagen)) {
+                $producto["imagen"] = $imagen;
+            }
+        }
+        unset($producto["i.codigo"], $producto["i.nombre"], $producto["i.extension"]);
+        $productos[] = $producto;
+    }
+
 ?>
 
 <!DOCTYPE html>
@@ -107,40 +121,24 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php
-                         // Consulta para obtener productos en venta y sus relaciones
-
-                            $result = $mysql->query("
-                                SELECT p.*, GROUP_CONCAT(c.nombre SEPARATOR ', ') AS categorias, img.nombre AS imagen_nombre
-                                FROM productos p
-                                LEFT JOIN productos_categorias pc ON p.codigo = pc.producto_id
-                                LEFT JOIN categorias c ON pc.categoria_id = c.codigo
-                                LEFT JOIN imagenes img ON p.imagen_id = img.codigo
-                                WHERE p.en_venta = 1
-                                GROUP BY p.codigo
-                            ");
-                            while ($producto = $result->fetch_assoc()) { ?>
+                            <?php foreach ($productos as $producto) { ?>
                                 <tr>
                                     <td><?php echo $producto["nombre"]; ?></td>
                                     <td>
-                                        <?php if ($producto["imagen_nombre"]) { ?>
-                                            <img src="<?php echo $producto["imagen_nombre"]; ?>" alt="Ícono" width="50">
-                                        <?php } else { ?>
-                                            No disponible
-                                        <?php } ?>
+                                         <img height="50" src="<?php echo $producto["imagen"] ?? "public/images/imagen-vacia.png" ?>" alt="imagen del producto">
                                     </td>
                                     <td><?php echo $producto["cantidad"]; ?></td>
                                     <td><?php echo $producto["precio_venta"]; ?></td>
                                     <td><?php echo $producto["marca"]; ?></td>
                                     <td><?php echo $producto["modelo"]; ?></td>
-                                    <td><?php echo $producto["categorias"]; ?></td>
+                                    <td><?php echo $producto["categoria"]; ?></td>
                                     <td><?php echo $producto["descripcion"]; ?></td>
                                     <td><?php echo $producto["fecha_creacion"]; ?></td>
                                     <td><?php echo $producto["fecha_actualizacion"]; ?></td>
                                     <td>
                                         <!-- Formulario para eliminar producto -->
                                         <form method="post" onsubmit="return confirm('¿Estás seguro que quieres eliminar este producto de la lista?');">
-                                            <input type="hidden" name="codigo" value="<?php echo $producto["codigo"]; ?>">
+                                            <input type="hidden" name="producto" value="<?php echo $producto["codigo"]; ?>">
                                             <button type="submit" class="delete-button">Eliminar</button>
                                         </form>
                                     </td>
@@ -161,17 +159,17 @@
                     <label for="productos">Productos</label>
                     <select name="productos[]" multiple>
                         <?php
+                        
                             $stmt= $mysql->prepare("SELECT codigo, nombre FROM productos");
                             $stmt->execute();
 
                             $productos = $stmt->get_result();
 
                             // Genera una opción <option> para cada producto obtenido
-                            
                             while ($producto = $productos->fetch_assoc()) {
-                                echo '<option value="'.$producto["codigo"].'|'.$producto["nombre"].'">' . $producto["nombre"] . '</option>';
-                            }
                         ?>
+                        <option value="<?php echo $producto["codigo"] ?? "" ?>"><?php echo $producto["nombre"]; ?></option>
+                        <?php } ?>
                     </select>
                 </div>
                 <button type="submit">Agregar Producto</button>
@@ -181,4 +179,3 @@
     </div>
 </body>
 </html>
-
