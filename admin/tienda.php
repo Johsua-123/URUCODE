@@ -1,13 +1,9 @@
 <?php 
-
     session_start();
-
     if (!isset($_SESSION["code"])) {
         header("Location: ../index.php");
     }
-
     require "../api/mysql.php";
-
     $location = "tienda";
 
     $stmt = $mysql->prepare("SELECT rol FROM usuarios WHERE codigo = ?");
@@ -20,21 +16,18 @@
         header("Location: index.php");
         exit();
     }
-
     $stmt->close();
 
     if(isset($_POST['codigo']) && is_numeric($_POST['codigo'])) { 
         $codigo_a_eliminar = $_POST['codigo']; 
-        
+    
         $update_query = " 
         UPDATE productos 
-        SET en_venta = 0 
+        SET en_venta = 0, fecha_actualizacion='now()'
         WHERE codigo = ? 
         "; 
-        
         $stmt = $mysql->prepare($update_query); 
         $stmt->bind_param("i", $codigo_a_eliminar); 
-        
         if($stmt->execute()){ 
             echo "Producto con código $codigo_a_eliminar actualizado a en_venta = 0"; 
         } else { 

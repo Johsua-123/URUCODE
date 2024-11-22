@@ -2,7 +2,7 @@
 session_start();
 require '../api/mysql.php';
 
-// Verificar rol del usuario
+// Rol
 $stmt = $mysql->prepare("SELECT rol FROM usuarios WHERE codigo = ?");
 $stmt->bind_param("s", $_SESSION["code"]);
 $stmt->execute();

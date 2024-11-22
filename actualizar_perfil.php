@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION['ubicacion'] = $ubicacion;
         $_SESSION['direccion'] = $direccion;
 
-        header("Location: settings.php?mensaje=actualizado");
+        header("Location: ajustes.php?mensaje=actualizado");
         exit;
     } else {
         echo "Error al actualizar el perfil: " . $conexion->error;
