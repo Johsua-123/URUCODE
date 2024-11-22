@@ -3,6 +3,7 @@ require "mysql.php";
 
 $resultado = [];
 
+//recibe el texto introducido en la barra de busqueda y busca los productos que tengan alguna coincidencia en su nombre, marca, modelo o descripcion
 if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($_GET["search"])) {
     $busqueda = $mysql->real_escape_string($_GET["search"]);
     $buscar = "
