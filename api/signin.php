@@ -25,6 +25,7 @@
     $email = $_POST["email"];
     $password = $_POST["password"];
 
+    // Verifica si los campos están vacíos o contienen solo espacios
     if (empty(trim($email)) || empty(trim($password))) {
         echo json_encode([ "text" => "Debes completar todos los campos" ]);
         http_response_code(400);
@@ -33,6 +34,7 @@
 
     require "mysql.php";
 
+    // Realiza una consulta para buscar al usuario por su email
     $query = mysqli_query($mysql, "SELECT * FROM usuarios WHERE email='$email'");
     $users = [];
 
@@ -52,8 +54,10 @@
         exit;
     }
 
+    // Obtiene el primer usuario de los resultados (debe ser único)
     $user = $users[0];
 
+    // Verifica si la contraseña ingresada coincide con la almacenada en la base de datos
     if (!password_verify($password, $user["contrasena"])) {
         echo json_encode([ "text" => "Email o contraseña invalido" ]);
         http_response_code(401);
