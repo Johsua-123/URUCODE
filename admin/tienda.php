@@ -57,7 +57,7 @@
         LEFT JOIN imagenes i ON p.imagen_id=i.codigo
         LEFT JOIN productos_categorias pc ON pc.producto_id=p.codigo
         LEFT JOIN categorias c ON pc.categoria_id=c.codigo
-        WHERE p.en_venta=true AND p.eliminado=false AND p.cantidad > 0
+        WHERE p.en_venta=true AND p.cantidad > 0
         ORDER BY p.fecha_actualizacion
     ");
 
@@ -101,8 +101,7 @@
             <div class="users-table">
                 <div class="card">
                     <header>
-                        <h2>Agregar Producto</h2>
-                        <button type="button" onclick="toggleModal()">Agregar Producto</button>
+                        <button class="agregar" type="button" onclick="toggleModal()">Agregar Producto</button>
                     </header>
                     <table class="accounts-table">
                         <thead>

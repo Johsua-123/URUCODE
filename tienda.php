@@ -6,18 +6,6 @@
 
     require "api/mysql.php";
 
-    $stmt = $mysql->prepare("SELECT 
-        c.codigo, c.nombre
-        FROM categorias c
-        JOIN productos_categorias pc ON pc.categoria_id=c.codigo
-        JOIN productos p ON pc.producto_id=p.codigo
-        WHERE c.eliminado=false AND p.eliminado=false AND p.en_venta=true
-        GROUP BY c.codigo
-    ");
-
-    $stmt->execute();
-    $categorias1 = $stmt->get_result();
-
     $productos = [];
 
     // datos recibidos 
@@ -133,6 +121,43 @@
 
     }
 
+    if (!empty($buscar)) {
+
+        $consulta = "SELECT
+            p.codigo, p.nombre, p.precio_venta,
+            i.codigo AS 'i.codigo', i.nombre AS 'i.nombre', i.extension AS 'i.extension'
+            FROM productos p
+            JOIN imagenes i ON p.imagen_id=i.codigo
+            JOIN productos_categorias pc ON pc.producto_id=p.codigo
+            JOIN categorias c ON pc.categoria_id=c.codigo
+            WHERE p.en_venta=true AND p.eliminado=false AND c.eliminado=false
+        ";
+
+        if (!empty($categoria)) {
+            
+            $consulta .= "AND c.codigo=?";
+            $consulta .= " AND p.nombre LIKE '%$buscar%'";
+
+            $consulta .= "ORDER BY p.precio_venta $orden";
+            $stmt = $mysql->prepare($consulta);
+
+            $stmt->bind_param("i", $categoria);
+            $stmt->execute();
+
+        }
+        
+        if (empty($categoria)) {
+            
+            $consulta .= " AND p.nombre LIKE '%$buscar%' ";
+
+            $consulta .= " ORDER BY p.precio_venta $orden";
+            $stmt = $mysql->prepare($consulta);
+
+            $stmt->execute();
+
+        }
+
+    }
 
 ?>
 
@@ -162,7 +187,21 @@
             <div class="categorias">
                 <h2>Todas las Categorías</h2>
                 <div class="categorias-lista">
-                    <?php while ($categoria = $categorias1->fetch_assoc()) { ?>
+                    <?php 
+
+                        $stmt = $mysql->prepare("SELECT 
+                            c.codigo, c.nombre
+                            FROM categorias c
+                            JOIN productos_categorias pc ON pc.categoria_id=c.codigo
+                            JOIN productos p ON pc.producto_id=p.codigo
+                            WHERE c.eliminado=false AND p.eliminado=false AND p.en_venta=true
+                            GROUP BY c.codigo
+                        ");
+
+                        $stmt->execute();
+                        $resultado = $stmt->get_result();
+                    
+                        while ($categoria = $resultado->fetch_assoc()) { ?>
                         <a href="tienda.php?categoria=<?php echo $categoria["codigo"] ?? ""; ?>"><?php echo $categoria["nombre"] ?? ""; ?></a>
                     <?php } ?>
                 </div>

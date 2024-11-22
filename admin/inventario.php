@@ -52,14 +52,11 @@
             
             if (file_exists("../public/images/$imagen")) {
                 $producto["imagen"] = "../public/images/$imagen"; // Verifica si el archivo de la imagen existe en el servidor
-            } else {
-                $producto["imagen"] = "";
             }
         }
 
-    // Saca las claves intermedias no necesarias para la salida final
         unset($producto["i.codigo"], $producto["i.nombre"], $producto["i.extension"]);
-    // Agrega el producto procesado al array de productos
+        
         $productos[] = $producto;
 
     }
