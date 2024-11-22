@@ -15,22 +15,22 @@
     require "mysql.php";
 
     if ($accion == "insertar") {
-        $nombre = $_POST['nombre'];
-        $cantidad = $_POST['cantidad'];
-        $precio = $_POST['precio'];
-        $marca = $_POST['marca'];
-        $modelo = $_POST['modelo'];
-        $descripcion = $_POST['descripcion'];
-        $categorias = $_POST['categorias'] ?? [];
+        $nombre = $_POST["nombre"];
+        $cantidad = $_POST["cantidad"];
+        $precio = $_POST["precio"];
+        $marca = $_POST["marca"];
+        $modelo = $_POST["modelo"];
+        $descripcion = $_POST["descripcion"];
+        $categorias = $_POST["categorias"] ?? [];
         $fecha = date("Y-m-d H:i:s");
 
-        $imagen = $_FILES['icono'];
+        $imagen = $_FILES["icono"];
         $ruta = "../public/images/";
         $imagen_id = null;
 
         if (!empty($imagen)) {
-            if ($imagen['error'] == UPLOAD_ERR_OK) {
-                $archivo = pathinfo($imagen['name']);
+            if ($imagen["error"] == UPLOAD_ERR_OK) {
+                $archivo = pathinfo($imagen["name"]);
                 $extension_img = "." . $archivo["extension"];
                 $nombre_img = $archivo["filename"];
                 $stmt = $mysql->prepare("INSERT INTO imagenes (nombre, extension, fecha_creacion) VALUES (?, ?, ?)");

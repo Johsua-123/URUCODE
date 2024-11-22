@@ -4,36 +4,37 @@
 
 <!DOCTYPE html>
 <html lang="es">
-    <head>
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-DF773N72G0"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-DF773N72G0');
-        </script>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="shortcut icon" href="public/icons/errea.png" type="image/x-icon">
-        <link rel="stylesheet" href="assets/styles/module.css">
-        <link rel="stylesheet" href="assets/styles/navbar.css">
-        <link rel="stylesheet" href="assets/styles/footer.css">
-        <link rel="stylesheet" href="assets/styles/ajustes.css">
-        <script src="assets/scripts/navbar.js"></script>
-        <script src="assets/scripts/profile.js"></script>
-        <title>Ajustes | Errea</title>
-    </head>
-    <body>
-        <?php include "reusables/navbar.php"; ?>
-        <main>
-            <div class="settings">
-                <div class="content-section">
-                    <div class="tab-section">
-                        <div id="general" class="tab-body">
-                            <h1>Perfil</h1>
-                            <?php if (isset($_GET['mensaje'])): ?>
-                                <?php if ($_GET['mensaje'] == 'actualizado'): ?>
-                                    <p class="success-message">Perfil actualizado!</p>
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DF773N72G0"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag("js", new Date());
+        gtag("config", "G-DF773N72G0");
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="public/icons/errea.png" type="image/x-icon">
+    <link rel="stylesheet" href="assets/styles/module.css">
+    <link rel="stylesheet" href="assets/styles/navbar.css">
+    <link rel="stylesheet" href="assets/styles/footer.css">
+    <link rel="stylesheet" href="assets/styles/ajustes.css">
+    <script src="assets/scripts/navbar.js"></script>
+    <script src="assets/scripts/profile.js"></script>
+    <title>Ajustes | Errea</title>
+</head>
+
+<body>
+    <?php include "reusables/navbar.php"; ?>
+    <main>
+        <div class="settings">
+            <div class="content-section">
+                <div class="tab-section">
+                    <div id="general" class="tab-body">
+                        <h1>Perfil</h1>
+                        <?php if (isset($_GET["mensaje"])): ?>
+                            <?php if ($_GET["mensaje"] == "actualizado"): ?>
+                                <p class="success-message">Perfil actualizado!</p>
                                 <?php endif; ?>
                             <?php endif; ?>
                             <form id="user" method="POST" action="actualizar_perfil.php">

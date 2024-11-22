@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require 'api/mysql.php';
+require "api/mysql.php";
 
 if (isset($_GET["codigo"])) {
     $codigoProducto = $_GET["codigo"];
@@ -22,11 +22,11 @@ if (isset($_GET["codigo"])) {
         exit;
     }
 
-    $nombreProducto = $producto['nombre'];
-    $descripcionProducto = $producto['descripcion'];
-    $precioProducto = $producto['precio_venta'];
-    $imagenProducto = $producto['imagen'] 
-        ? "public/images/{$producto['imagen']}" 
+    $nombreProducto = $producto["nombre"];
+    $descripcionProducto = $producto["descripcion"];
+    $precioProducto = $producto["precio_venta"];
+    $imagenProducto = $producto["imagen"] 
+        ? "public/images/{$producto["imagen"]}" 
         : "https://via.placeholder.com/150";
 
     $stmt->close();
@@ -44,8 +44,8 @@ if (isset($_GET["codigo"])) {
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-DF773N72G0');
+        gtag("js", new Date());
+        gtag("config", "G-DF773N72G0");
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

@@ -2,9 +2,9 @@
 
     session_start();
 
-    require 'mysql.php'; 
+    require "mysql.php"; 
 
-    $pagina = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
+    $pagina = isset($_GET["pagina"]) ? (int)$_GET["pagina"] : 1;
     $productos_por_pagina = 16; 
     $offset = ($pagina - 1) * $productos_por_pagina;
 
@@ -20,20 +20,20 @@
     }
 
     foreach ($productos as &$producto) {
-        $imagen_id = $producto['imagen_id'];
+        $imagen_id = $producto["imagen_id"];
         $imagen_query = "SELECT nombre FROM imagenes WHERE codigo = $imagen_id LIMIT 1";
         $imagen_result = $mysql->query($imagen_query);
         
         if ($imagen_result && $imagen_row = $imagen_result->fetch_assoc()) {
-            $producto['nombre_imagen'] = $imagen_row['nombre']; 
+            $producto["nombre_imagen"] = $imagen_row["nombre"]; 
         } else {
-            $producto['nombre_imagen'] = null; 
+            $producto["nombre_imagen"] = null; 
         }
     }
 
     $total_query = "SELECT COUNT(*) as total FROM productos";
     $total_result = $mysql->query($total_query);
-    $total_productos = $total_result->fetch_assoc()['total'];
+    $total_productos = $total_result->fetch_assoc()["total"];
     $total_paginas = ceil($total_productos / $productos_por_pagina);
 
     if (empty($productos)) {

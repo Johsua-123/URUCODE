@@ -18,8 +18,8 @@
     }
     $stmt->close();
 
-    if(isset($_POST['codigo']) && is_numeric($_POST['codigo'])) { 
-        $codigo_a_eliminar = $_POST['codigo']; 
+    if(isset($_POST["codigo"]) && is_numeric($_POST["codigo"])) { 
+        $codigo_a_eliminar = $_POST["codigo"]; 
     
         $update_query = " 
         UPDATE productos 
@@ -37,10 +37,10 @@
         exit();
         }
 
-    if(isset($_POST['productos']) && is_array($_POST['productos'])){
-        $productos = $_POST['productos'];
+    if(isset($_POST["productos"]) && is_array($_POST["productos"])){
+        $productos = $_POST["productos"];
         foreach ($productos as $producto) {
-            list($codigo, $nombre_producto) = explode('|', $producto);
+            list($codigo, $nombre_producto) = explode("|", $producto);
 
             $update_query = "
                 UPDATE productos
@@ -120,25 +120,25 @@
                             ");
                             while ($producto = $result->fetch_assoc()) { ?>
                                 <tr>
-                                    <td><?php echo $producto['nombre']; ?></td>
+                                    <td><?php echo $producto["nombre"]; ?></td>
                                     <td>
-                                        <?php if ($producto['imagen_nombre']) { ?>
-                                            <img src="<?php echo $producto['imagen_nombre']; ?>" alt="Ícono" width="50">
+                                        <?php if ($producto["imagen_nombre"]) { ?>
+                                            <img src="<?php echo $producto["imagen_nombre"]; ?>" alt="Ícono" width="50">
                                         <?php } else { ?>
                                             No disponible
                                         <?php } ?>
                                     </td>
-                                    <td><?php echo $producto['cantidad']; ?></td>
-                                    <td><?php echo $producto['precio_venta']; ?></td>
-                                    <td><?php echo $producto['marca']; ?></td>
-                                    <td><?php echo $producto['modelo']; ?></td>
-                                    <td><?php echo $producto['categorias']; ?></td>
-                                    <td><?php echo $producto['descripcion']; ?></td>
-                                    <td><?php echo $producto['fecha_creacion']; ?></td>
-                                    <td><?php echo $producto['fecha_actualizacion']; ?></td>
+                                    <td><?php echo $producto["cantidad"]; ?></td>
+                                    <td><?php echo $producto["precio_venta"]; ?></td>
+                                    <td><?php echo $producto["marca"]; ?></td>
+                                    <td><?php echo $producto["modelo"]; ?></td>
+                                    <td><?php echo $producto["categorias"]; ?></td>
+                                    <td><?php echo $producto["descripcion"]; ?></td>
+                                    <td><?php echo $producto["fecha_creacion"]; ?></td>
+                                    <td><?php echo $producto["fecha_actualizacion"]; ?></td>
                                     <td>
                                         <form method="post" onsubmit="return confirm('¿Estás seguro que quieres eliminar este producto de la lista?');">
-                                            <input type="hidden" name="codigo" value="<?php echo $producto['codigo']; ?>">
+                                            <input type="hidden" name="codigo" value="<?php echo $producto["codigo"]; ?>">
                                             <button type="submit" class="delete-button">Eliminar</button>
                                         </form>
                                     </td>
@@ -164,7 +164,7 @@
                             $productos = $stmt->get_result();
 
                             while ($producto = $productos->fetch_assoc()) {
-                                echo '<option value="'.$producto['codigo'].'|'.$producto['nombre'].'">' . $producto['nombre'] . '</option>';
+                                echo '<option value="'.$producto["codigo"].'|'.$producto["nombre"].'">' . $producto["nombre"] . '</option>';
                             }
                         ?>
                     </select>
