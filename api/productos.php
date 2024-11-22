@@ -36,12 +36,14 @@
                 move_uploaded_file($imagen["tmp_name"], "$ruta/$nombre_img-$imagen_id$extension_img");
             }
         }
-
+        
+        //inserta la información en la tabla productos
         $stmt = $mysql->prepare("INSERT INTO productos (nombre, cantidad, precio_venta, marca, modelo, imagen_id, descripcion, fecha_creacion, fecha_actualizacion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("sidssisss", $nombre, $cantidad, $precio, $marca, $modelo, $imagen_id, $descripcion, $fecha, $fecha);
         $stmt->execute();
         $producto = $stmt->insert_id;
-
+        
+        //inserta los codigos del producto creado y la categoría seleccionada para relacionarlos
         foreach ($categorias as $categoria) {
             $stmt_categoria = $mysql->prepare("INSERT INTO productos_categorias (producto_id, categoria_id, fecha_creacion, fecha_actualizacion) VALUES (?, ?, ?, ?)");
             $stmt_categoria->bind_param("iiss", $producto, $categoria, $fecha, $fecha);
