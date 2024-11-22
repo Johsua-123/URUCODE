@@ -36,40 +36,39 @@
                             <?php if ($_GET["mensaje"] == "actualizado"): ?>
                                 <p class="success-message">Perfil actualizado!</p>
                                 <?php endif; ?>
-                        <?php endif; ?>
-
-                        <form id="user" method="POST" action="actualizar_perfil.php">
-                            <div>
-                                <label for="nombre">Nombre</label>
-                                <input id="nombre" name="nombre" type="text" value="<?php echo $_SESSION["username"] ?? ""; ?>">
-                            </div>
-                            <div>
-                                <label for="apellido">Apellido</label>
-                                <input id="apellido" name="apellido" type="text" value="<?php echo $_SESSION["apellido"] ?? ""; ?>">
-                            </div>
-                            <div>
-                                <label for="email">Correo</label>
-                                <input id="email" name="email" type="email" value="<?php echo $_SESSION["email"] ?? ""; ?>" readonly>
-                            </div>
-                            <div>
-                                <label for="telefono">Teléfono</label>
-                                <input id="telefono" name="telefono" type="text" value="<?php echo $_SESSION["telefono"] ?? ""; ?>">
-                            </div>
-                            <div>
-                                <label for="ubicacion">Ciudad</label>
-                                <input id="ubicacion" name="ubicacion" type="text" value="<?php echo $_SESSION["ubicacion"] ?? ""; ?>">
-                            </div>
-                            <div>
-                                <label for="direccion">Dirección</label>
-                                <input id="direccion" name="direccion" type="text" value="<?php echo $_SESSION["direccion"] ?? ""; ?>">
-                            </div>
-                            <button type="submit">Guardar Cambios</button>
-                        </form>
+                            <?php endif; ?>
+                            <form id="user" method="POST" action="actualizar_perfil.php">
+                                <div>
+                                    <label for="nombre">Nombre</label>
+                                    <input id="nombre" name="nombre" type="text" value="<?php echo $_SESSION["username"] ?? ""; ?>">
+                                </div>
+                                <div>
+                                    <label for="apellido">Apellido</label>
+                                    <input id="apellido" name="apellido" type="text" value="<?php echo $_SESSION["apellido"] ?? ""; ?>">
+                                </div>
+                                <div>
+                                    <label for="email">Correo</label>
+                                    <input id="email" name="email" type="email" value="<?php echo $_SESSION["email"] ?? ""; ?>">
+                                </div>
+                                <div>
+                                    <label for="telefono">Teléfono</label>
+                                    <input id="telefono" name="telefono" type="text" value="<?php echo $_SESSION["telefono"] ?? ""; ?>">
+                                </div>
+                                <div>
+                                    <label for="ubicacion">Ciudad</label>
+                                    <input id="ubicacion" name="ubicacion" type="text" value="<?php echo $_SESSION["ubicacion"] ?? ""; ?>">
+                                </div>
+                                <div>
+                                    <label for="direccion">Dirección</label>
+                                    <input id="direccion" name="direccion" type="text" value="<?php echo $_SESSION["direccion"] ?? ""; ?>">
+                                </div>
+                                <button type="submit">Guardar Cambios</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </main>
-    <?php include "reusables/footer.php"; ?>
-</body>
+        </main>
+        <?php include "reusables/footer.php"; ?>
+    </body>
 </html>

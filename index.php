@@ -59,7 +59,7 @@
     <link rel="stylesheet" href="assets/styles/module.css">
     <link rel="stylesheet" href="assets/styles/navbar.css">
     <link rel="stylesheet" href="assets/styles/footer.css">
-    <link rel="stylesheet" href="assets/styles/master.css">
+    <link rel="stylesheet" href="assets/styles/index.css">
     <script src="assets/scripts/navbar.js"></script>
     <script src="assets/scripts/slider.js"></script>
     <title>Inicio | Errea</title>
@@ -76,41 +76,41 @@
                 <img src="public/banners/slider-5.png" alt="slider image 5">
             </div>
         </div>
-        <section class="main-products">
+        <section class="productos-principales">
             <h1>Destacados</h1>
-            <div class="product-items">
+            <div class="productos">
                 <?php foreach ($destacados as $producto) { ?>
-                    <div class="product-card">
-                        <div class="card-header">
+                    <div class="producto">
+                        <div class="producto-header">
                             <img src="<?php echo $producto["imagen"] ?? "public/images/imagen-vacia.png"; ?>" alt="<?php echo $producto["nombre"]; ?>">
                         </div>
-                        <div class="card-items">
-                            <h1><?php echo $producto["nombre"]; ?></h1>
-                            <h2>U$S <?php echo $producto["precio_venta"]; ?></h2>
+                        <div class="producto-cuerpo">
+                            <span><?php echo $producto["nombre"]; ?></span>
+                            <span>U$S <?php echo $producto["precio_venta"]; ?></span>
                         </div>
-                        <div class="card-footer">
+                        <div class="producto-footer">
                             <a href="visualizar.php?producto=<?php echo $producto["codigo"]; ?>">Ver detalles</a>
                         </div>
                     </div>
                 <?php } ?>
             </div>
-            <div class="picture">
+            <div class="banner">
                 <img src="public/banners/cuotas.png" alt="#">
             </div>
         </section>
-            <section class="main-products">
+            <section class="productos-principales">
                 <h1>Ofertas</h1>
-                <div class="product-items">
+                <div class="productos">
                     <?php foreach ($ofertas as $producto) { ?>
-                        <div class="product-card">
-                            <div class="card-header">
+                        <div class="producto">
+                            <div class="producto-header">
                                 <img src="<?php echo $producto["imagen"] ?? "public/images/imagen-vacia.png"; ?>" alt="<?php echo $producto["nombre"]; ?>">
                             </div>
-                            <div class="card-items">
-                                <h1><?php echo $producto["nombre"]; ?></h1>
-                                <h2>U$S <?php echo $producto["precio_venta"]; ?></h2>
+                            <div class="producto-cuerpo">
+                                <span><?php echo $producto["nombre"]; ?></span>
+                                <span>U$S <?php echo $producto["precio_venta"]; ?></span>
                             </div>
-                            <div class="card-footer">
+                            <div class="producto-footer">
                                 <a href="visualizar.php?producto=<?php echo $producto["codigo"]; ?>">Ver detalles</a>
                             </div>
                         </div>

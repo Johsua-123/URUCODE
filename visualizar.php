@@ -7,60 +7,32 @@
     require "api/mysql.php";
     
     $codigo = $_GET["producto"] ?? null;
+    $producto = [];
 
-    // Función para obtener la imagen de un producto
-    function obtenerImagen($nombre, $codigo, $extension) {
-        $imagen = "$nombre-$codigo$extension";
-        return file_exists("public/images/$imagen") ? "public/images/$imagen" : "public/images/imagen-vacia.png";
-    }
-
-    // Consulta combinada para obtener el producto principal y productos relacionados
     $stmt = $mysql->prepare("SELECT 
-        p.*, 
-        c.nombre AS 'categoria_nombre',
-        i.codigo AS 'imagen_codigo',
-        i.nombre AS 'imagen_nombre',
-        i.extension AS 'imagen_extension'
-    FROM productos p
-    LEFT JOIN imagenes i ON p.imagen_id = i.codigo
-    LEFT JOIN productos_categorias pc ON pc.producto_id = p.codigo
-    LEFT JOIN categorias c ON pc.categoria_id = c.codigo
-    WHERE p.codigo = ? OR (
-        c.nombre LIKE ? OR 
-        p.nombre LIKE ? OR 
-        p.modelo LIKE ? OR 
-        p.marca LIKE ?
-    ) AND p.en_venta = true AND p.cantidad > 0 AND p.eliminado = false
-    LIMIT 0, 6");
+        p.* ,
+        c.codigo AS 'c.codigo',
+        c.nombre AS 'c.nombre',
+        i.codigo AS 'i.codigo',
+        i.nombre AS 'i.nombre',
+        i.extension AS 'i.extension'
+        FROM productos p
+        LEFT JOIN imagenes i ON p.imagen_id=i.codigo
+        LEFT JOIN productos_categorias pc ON pc.producto_id=p.codigo
+        LEFT JOIN categorias c ON pc.categoria_id=c.codigo
+        WHERE p.codigo=?
+    ");
 
-    // Configura los parametros de busqueda y ejecuta la consulta
-    $categoria = "%{$codigo}%";
-    $nombre = "%{$codigo}%";
-    $modelo = "%{$codigo}%";
-    $marca = "%{$codigo}%";
-
-    $stmt->bind_param("sssss", $codigo, $categoria, $nombre, $modelo, $marca);
+    $stmt->bind_param("i", $codigo);
     $stmt->execute();
 
     $resultado = $stmt->get_result();
+    $producto = $resultado->fetch_assoc();
 
-    $productos = [];
-    $producto = [];
-
-    // Separar el producto principal y los relacionados
-    while ($fila = $resultado->fetch_assoc()) {
-        if (!empty($fila["imagen_codigo"])) {
-            $fila["imagen"] = obtenerImagen($fila["imagen_nombre"], $fila["imagen_codigo"], $fila["imagen_extension"]);
-        } else {
-            $fila["imagen"] = "public/images/imagen-vacia.png";
-        }
-
-        unset($fila["imagen_codigo"], $fila["imagen_nombre"], $fila["imagen_extension"]);
-
-        if ($fila["codigo"] == $codigo) {
-            $producto = $fila;
-        } else {
-            $productos[] = $fila;
+    if (!empty($producto["i.codigo"])) {
+        $imagen = "public/images/{$producto['i.nombre']}-{$producto['i.codigo']}{$producto['i.extension']}";
+        if (file_exists($imagen)) {
+            $producto["imagen"] = $imagen;
         }
     }
 
@@ -127,23 +99,6 @@
                 <div class="producto-descripcion <?php echo empty($producto["descripcion"]) ? "hidden" : ""; ?>">
                     <h1>DESCRIPCIÓN</h1>
                     <p><?php echo $producto["descripcion"] ?? ""; ?></p>
-                </div>
-                <div class="productos-relacionados <?php echo empty($productos) ? "hidden" : ""; ?>">
-                    <h1>PRODUCTOS RELACIONADOS</h1>
-                    <div class="productos-items">
-                        <?php foreach ($productos as $relacionado) { ?>
-                            <div class="producto-relacionado">
-                                <img src="<?php echo $relacionado["imagen"]; ?>" alt="<?php echo $relacionado["nombre"] ?? "imagen del producto"; ?>">
-                                <div class="producto-header">
-                                    <h1><?php echo $relacionado["nombre"] ?? ""; ?></h1>
-                                    <h3>U$S <?php echo $relacionado["precio_venta"] ?? ""; ?></h3>
-                                </div>
-                                <div class="producto-footer">
-                                    <a href="visualizar.php?producto=<?php echo $relacionado["codigo"] ?? ""; ?>">Ver detalles</a>
-                                </div>
-                            </div>
-                        <?php } ?>
-                    </div>
                 </div>
             </div>
         </main>

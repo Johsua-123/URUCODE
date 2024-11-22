@@ -1,17 +1,36 @@
+
+<?php 
+
+    require "api/mysql.php";
+
+    $stmt = $mysql->prepare("SELECT 
+        c.codigo, c.nombre
+        FROM categorias c
+        JOIN productos_categorias pc ON pc.categoria_id=c.codigo
+        JOIN productos p ON pc.producto_id=p.codigo
+        WHERE c.eliminado=false AND p.eliminado=false AND p.en_venta=true
+        GROUP BY c.codigo
+    ");
+
+    $stmt->execute();
+    $categorias = $stmt->get_result();
+
+?>
+
 <header class="navbar">
     <div class="navbar-header">
         <a class="navbar-brand" href="index.php">
             <img src="public/icons/errea.png" alt="errea icon">
         </a>
         <div class="navbar-search">
-        <form id="search" method="GET" action="tienda.php">
-    <input type="text" name="search" placeholder="Buscar" autocomplete="off">
-    <button type="submit" name="enviar">
-        <svg fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"></path>
-        </svg>
-    </button>
-</form>
+            <form id="search" method="GET" action="tienda.php">
+                <input type="text" name="search" placeholder="Buscar" autocomplete="off">
+                <button type="submit" name="enviar">
+                    <svg fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"></path>
+                    </svg>
+                </button>
+            </form>
         </div>
         <div class="navbar-extras">
             <div class="navbar-auth <?php echo isset($_SESSION["code"]) ? "hidden" : "" ?>">
@@ -27,7 +46,7 @@
                     <a href="ajustes.php">Ajustes</a>
                     
                     <?php if (isset($_SESSION["role"]) && $_SESSION["role"] === "admin" || $_SESSION["role"] === "dueño" || $_SESSION["role"] === "supervisor" || $_SESSION["role"] === "empleado"): ?>
-                        <a href="admin\index.php">Administración</a>
+                        <a href="admin\index.php">Gestión</a>
                     <?php endif; ?>
                     
                     <a href="logout.php">Salir</a>
@@ -36,23 +55,12 @@
             <svg id="navbar" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
             </svg>
-            <div class="cart-section dropdown">
-    <a href="carrito.php">
-        <svg fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312" />
-        </svg>
-    </a>
-    <span class="cart-counter total-items">0</span>
-    <div class="dropdown-menu hidden">
-        <div class="cart-title">
-            <span class="total-items">0 Items</span>
-            <a href="">Ver detalles</a>
-        </div>
-        <div class="cart-items"></div>
-    </div>
-</div>
-                    <div class="cart-items"></div>
-                </div>
+            <div class="cart-section">
+                <a href="carrito.php">
+                    <svg fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312" />
+                    </svg>
+                </a>
             </div>
         </div>
     </div>
@@ -64,20 +72,11 @@
             <span>Categorías</span>
             <div class="dropdown-menu hidden">
                 <ul class="category-list">
-                    <li><a href="tienda.php">Ofertas </a></li>
-                    <li><a href="tienda.php">PC </a></li>
-                    <li><a href="tienda.php">Noteboocks</a></li>
-                    <li><a href="tienda.php">Consolas </a></li>
-                    <li><a href="tienda.php">Monitores </a></li>
-                    <li><a href="tienda.php">Tv </a></li>
-                    <li><a href="tienda.php">Smartwatch </a></li>
-                    <li><a href="tienda.php">Domotica </a></li>
-                    <li><a href="tienda.php">Componentes de pc </a></li>
-                    <li><a href="tienda.php">Streaming </a></li>
-                    <li><a href="tienda.php">Perifericos </a></li>
-                    <li><a href="tienda.php">Simuladores y Acceorios </a></li>
-                    <li><a href="tienda.php">Cables y Adaptadores </a></li>
-                    <li><a href="tienda.php">Otros </a></li>
+                    <?php while ($categoria = $categorias->fetch_assoc()) { ?>
+                        <li>
+                            <a href="tienda.php?categoria=<?php echo $categoria["codigo"] ?>"><?php echo $categoria["nombre"]; ?></a>
+                        </li>
+                    <?php } ?>
                 </ul>
             </div>
         </div>

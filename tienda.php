@@ -16,7 +16,7 @@
     ");
 
     $stmt->execute();
-    $categorias = $stmt->get_result();
+    $categorias1 = $stmt->get_result();
 
     $productos = [];
 
@@ -133,6 +133,7 @@
 
     }
 
+
 ?>
 
 <!DOCTYPE html>
@@ -161,7 +162,7 @@
             <div class="categorias">
                 <h2>Todas las Categorías</h2>
                 <div class="categorias-lista">
-                    <?php while ($categoria = $categorias->fetch_assoc()) { ?>
+                    <?php while ($categoria = $categorias1->fetch_assoc()) { ?>
                         <a href="tienda.php?categoria=<?php echo $categoria["codigo"] ?? ""; ?>"><?php echo $categoria["nombre"] ?? ""; ?></a>
                     <?php } ?>
                 </div>

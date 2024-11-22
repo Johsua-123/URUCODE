@@ -127,6 +127,7 @@ main {
 
 .tienda-footer a {
     font-size: 16px;
+    font-weight: 600;
     color: var(--color-blue);
 }
 
@@ -135,7 +136,5 @@ main {
     main {
         flex-direction: column;
     }
-
-
 
 }
