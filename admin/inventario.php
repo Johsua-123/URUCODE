@@ -105,8 +105,8 @@
                             $categorias = $stmt->get_result();
     
                             while ($fila = $categorias->fetch_assoc()) {
-                                $seleccion = ($fila['codigo'] == $categoria) ? 'selected' : '';
-                                echo '<option value="'. $fila['codigo'].'" '. $seleccion .'>' . $fila['nombre'] . '</option>';
+                                $seleccion = ($fila["codigo"] == $categoria) ? "selected" : "";
+                                echo '<option value="'. $fila["codigo"].'" '. $seleccion .'>' . $fila["nombre"] . '</option>';
                             }
 
                             ?>
@@ -133,23 +133,23 @@
 
                                 <?php foreach ($productos as $producto) { ?>
                                     <tr>
-                                        <td><?php echo $producto['codigo']; ?></td>
-                                        <td><?php echo $producto['nombre']; ?></td>
+                                        <td><?php echo $producto["codigo"]; ?></td>
+                                        <td><?php echo $producto["nombre"]; ?></td>
                                         <td>
-                                            <?php if (isset($producto['imagen'])) { ?>
-                                                <img src="<?php echo $producto['imagen']; ?>" alt="imagen del producto" width="50">
+                                            <?php if (isset($producto["imagen"])) { ?>
+                                                <img src="<?php echo $producto["imagen"]; ?>" alt="imagen del producto" width="50">
                                             <?php } else { ?>
                                                 No disponible
                                             <?php } ?>
                                         </td>
-                                        <td><?php echo $producto['cantidad']; ?></td>
-                                        <td><?php echo $producto['precio_venta']; ?></td>
-                                        <td><?php echo $producto['marca']; ?></td>
-                                        <td><?php echo $producto['modelo']; ?></td>
-                                        <td><?php echo $producto['categoria']; ?></td>
-                                        <td><?php echo $producto['descripcion']; ?></td>
-                                        <td><?php echo $producto['fecha_creacion']; ?></td>
-                                        <td><?php echo $producto['fecha_actualizacion']; ?></td>
+                                        <td><?php echo $producto["cantidad"]; ?></td>
+                                        <td><?php echo $producto["precio_venta"]; ?></td>
+                                        <td><?php echo $producto["marca"]; ?></td>
+                                        <td><?php echo $producto["modelo"]; ?></td>
+                                        <td><?php echo $producto["categoria"]; ?></td>
+                                        <td><?php echo $producto["descripcion"]; ?></td>
+                                        <td><?php echo $producto["fecha_creacion"]; ?></td>
+                                        <td><?php echo $producto["fecha_actualizacion"]; ?></td>
                                     </tr>
                                 <?php } ?>
                             </tbody>
@@ -204,7 +204,7 @@
                             $resultado = $stmt->get_result();
                             
                             while ($categoria = $resultado->fetch_assoc()) {
-                                echo '<option value="'. $categoria['codigo'] .'">' . $categoria['nombre'] . '</option>';
+                                echo '<option value="'. $categoria["codigo"] .'">' . $categoria["nombre"] . '</option>';
                             }
 
                         ?>

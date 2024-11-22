@@ -8,7 +8,7 @@ if (!isset($_SESSION["code"])) {
 
 $location = "ventas";
 $rolesPermitidos = ["dueño", "supervisor"];
-require '../api/mysql.php';
+require "../api/mysql.php";
 
 function obtenerRolUsuario($mysql, $codigoUsuario) {
     $stmt = $mysql->prepare("SELECT rol FROM usuarios WHERE codigo = ?");
@@ -17,11 +17,11 @@ function obtenerRolUsuario($mysql, $codigoUsuario) {
     $resultado = $stmt->get_result();
     $usuario = $resultado->fetch_assoc();
     $stmt->close();
-    return $usuario['rol'] ?? null;
+    return $usuario["rol"] ?? null;
 }
 
 function procesarAccion($mysql, $accion, $ordenId) {
-    $query = $accion === 'completar' 
+    $query = $accion === "completar" 
         ? "UPDATE ordenes SET estado = 'completado' WHERE codigo = ?" 
         : "DELETE FROM ordenes WHERE codigo = ?";
 
@@ -38,12 +38,12 @@ if (!$rolUsuario || !in_array($rolUsuario, $rolesPermitidos)) {
 }
 
 $mensaje = $error = null;
-if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['orden_id'])) {
-    $ordenId = intval($_POST['orden_id']);
-    if (isset($_POST['completar'])) {
-        $mensaje = procesarAccion($mysql, 'completar', $ordenId);
-    } elseif (isset($_POST['eliminar'])) {
-        $mensaje = procesarAccion($mysql, 'eliminar', $ordenId);
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["orden_id"])) {
+    $ordenId = intval($_POST["orden_id"]);
+    if (isset($_POST["completar"])) {
+        $mensaje = procesarAccion($mysql, "completar", $ordenId);
+    } elseif (isset($_POST["eliminar"])) {
+        $mensaje = procesarAccion($mysql, "eliminar", $ordenId);
     }
     header("Location: ventas.php");
     exit();
@@ -95,22 +95,22 @@ $stmt->close();
                 <tbody>
                     <?php foreach ($ordenes as $orden): ?>
                         <tr>
-                            <td><?= $orden['producto']; ?></td>
-                            <td><?= $orden['comprador']; ?></td>
+                            <td><?= $orden["producto"]; ?></td>
+                            <td><?= $orden["comprador"]; ?></td>
                             <td>
-                                <p>Email: <?= $orden['email']; ?></p>
+                                <p>Email: <?= $orden["email"]; ?></p>
                             </td>
-                            <td><?= $orden['direccion']; ?></td>
-                            <td><?= $orden['precio_unitario']; ?></td>
-                            <td><?= $orden['fecha_creacion']; ?></td>
-                            <td><?= $orden['estado']; ?></td>
+                            <td><?= $orden["direccion"]; ?></td>
+                            <td><?= $orden["precio_unitario"]; ?></td>
+                            <td><?= $orden["fecha_creacion"]; ?></td>
+                            <td><?= $orden["estado"]; ?></td>
                             <td>
                                 <form method="POST" action="" style="display:inline-block;">
-                                    <input type="hidden" name="orden_id" value="<?= $orden['codigo']; ?>">
+                                    <input type="hidden" name="orden_id" value="<?= $orden["codigo"]; ?>">
                                     <button type="submit" name="completar" class="btn btn-success">Marcar Completada</button>
                                 </form>
                                 <form method="POST" action="" style="display:inline-block;">
-                                    <input type="hidden" name="orden_id" value="<?= $orden['codigo']; ?>">
+                                    <input type="hidden" name="orden_id" value="<?= $orden["codigo"]; ?>">
                                     <button type="submit" name="eliminar" class="btn btn-danger">Eliminar</button>
                                 </form>
                             </td>

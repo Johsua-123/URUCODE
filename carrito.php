@@ -1,54 +1,54 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['cart'])) {
-    $_SESSION['cart'] = [];
+if (!isset($_SESSION["cart"])) {
+    $_SESSION["cart"] = [];
 }
 
 function agregar_producto($codigo, $nombre, $precio, $descripcion) {
-    foreach ($_SESSION['cart'] as &$producto) {
-        if ($producto['codigo'] === $codigo) {
-            $producto['cantidad']++;
+    foreach ($_SESSION["cart"] as &$producto) {
+        if ($producto["codigo"] === $codigo) {
+            $producto["cantidad"]++;
             return;
         }
     }
 
-    $_SESSION['cart'][] = [
-        'codigo' => $codigo,
-        'nombre' => $nombre,
-        'precio' => $precio,
-        'descripcion' => $descripcion,
-        'cantidad' => 1,
+    $_SESSION["cart"][] = [
+        "codigo" => $codigo,
+        "nombre" => $nombre,
+        "precio" => $precio,
+        "descripcion" => $descripcion,
+        "cantidad" => 1,
     ];
 }
 
 function reiniciar_carrito() {
-    $_SESSION['cart'] = [];
+    $_SESSION["cart"] = [];
 }
 
 function calcular_total() {
-    return array_reduce($_SESSION['cart'], function ($total, $producto) {
-        return $total + $producto['precio'] * $producto['cantidad'];
+    return array_reduce($_SESSION["cart"], function ($total, $producto) {
+        return $total + $producto["precio"] * $producto["cantidad"];
     }, 0);
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $accion = $_POST['accion'] ?? null;
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $accion = $_POST["accion"] ?? null;
 
-    if ($accion === 'agregar') {
-        $codigo = $_POST['codigo'] ?? null;
-        $nombre = $_POST['nombre'] ?? null;
-        $precio = isset($_POST['precio']) ? (float)$_POST['precio'] : null;
-        $descripcion = $_POST['descripcion'] ?? null;
+    if ($accion === "agregar") {
+        $codigo = $_POST["codigo"] ?? null;
+        $nombre = $_POST["nombre"] ?? null;
+        $precio = isset($_POST["precio"]) ? (float)$_POST["precio"] : null;
+        $descripcion = $_POST["descripcion"] ?? null;
 
         if ($codigo && $nombre && $precio !== null) {
             agregar_producto($codigo, $nombre, $precio, $descripcion);
         }
-    } elseif ($accion === 'reiniciar') {
+    } elseif ($accion === "reiniciar") {
         reiniciar_carrito();
     }
 }
-$cart_items = $_SESSION['cart'];
+$cart_items = $_SESSION["cart"];
 $total = calcular_total();
 ?>
 
@@ -90,10 +90,10 @@ $total = calcular_total();
                         <tbody>
                             <?php foreach ($cart_items as $producto) { ?>
                                 <tr>
-                                    <td><?= htmlspecialchars($producto['nombre']); ?></td>
-                                    <td>US$<?= number_format($producto['precio'], 2); ?></td>
-                                    <td><?= $producto['cantidad']; ?></td>
-                                    <td>US$<?= number_format($producto['precio'] * $producto['cantidad'], 2); ?></td>
+                                    <td><?= htmlspecialchars($producto["nombre"]); ?></td>
+                                    <td>US$<?= number_format($producto["precio"], 2); ?></td>
+                                    <td><?= $producto["cantidad"]; ?></td>
+                                    <td>US$<?= number_format($producto["precio"] * $producto["cantidad"], 2); ?></td>
                                 </tr>
                             <?php } ?>
                         </tbody>

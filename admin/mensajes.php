@@ -6,7 +6,7 @@ if (!isset($_SESSION["code"])) {
 }
 $roles = ["dueño", "supervisor", "admin", "empleado"];
 $location = "mensajes";
-require '../api/mysql.php';
+require "../api/mysql.php";
 
 $stmt = $mysql->prepare("SELECT rol FROM usuarios WHERE codigo = ?");
 $stmt->bind_param("s", $_SESSION["code"]);
@@ -56,7 +56,7 @@ $mensajes = $result->fetch_all(MYSQLI_ASSOC);
     <link rel="stylesheet" href="assets/styles/products.css">
     <script>
         function confirmDelete() {
-            return confirm('¿Estas seguro que quieres marcar este mensaje como leido?');
+            return confirm("¿Estas seguro que quieres marcar este mensaje como leido?");
         }
     </script>
     <title>Mensajes | Errea Admin</title>
@@ -88,22 +88,22 @@ $mensajes = $result->fetch_all(MYSQLI_ASSOC);
                 <tbody>
                     <?php foreach ($mensajes as $mensaje): ?>
                         <tr>
-                            <td><?php echo $mensaje['nombre']; ?></td>
-                            <td><?php echo $mensaje['email']; ?></td>
-                            <td><?php echo $mensaje['asunto']; ?></td>
-                            <td><?php echo $mensaje['mensaje']; ?></td>
-                            <td><?php echo $mensaje['fecha_creacion']; ?></td>
-                            <td><?php echo $mensaje['leido'] ? 'Sí' : 'No'; ?></td>
+                            <td><?php echo $mensaje["nombre"]; ?></td>
+                            <td><?php echo $mensaje["email"]; ?></td>
+                            <td><?php echo $mensaje["asunto"]; ?></td>
+                            <td><?php echo $mensaje["mensaje"]; ?></td>
+                            <td><?php echo $mensaje["fecha_creacion"]; ?></td>
+                            <td><?php echo $mensaje["leido"] ? "Sí" : "No"; ?></td>
                             <td>
-                                <?php if (!$mensaje['leido']): ?>
+                                <?php if (!$mensaje["leido"]): ?>
                                     <form method="POST" action="" style="display:inline-block;" onsubmit="return confirmDelete();">
-                                        <input type="hidden" name="mensaje_id" value="<?php echo $mensaje['codigo']; ?>">
+                                        <input type="hidden" name="mensaje_id" value="<?php echo $mensaje["codigo"]; ?>">
                                         <button type="submit" name="marcar_leido" class="btn btn-success">Marcar como leído</button>
                                     </form>
                                 <?php endif; ?>
                                 <a href="https://mail.google.com/mail/u/0/?view=cm&fs=1&to=<?php
-                                 echo $mensaje['email'];?>
-                                 &su=Re: <?php echo urlencode($mensaje['asunto']); ?>" target="_blank" class="btn btn-primary">Responder</a>
+                                 echo $mensaje["email"];?>
+                                 &su=Re: <?php echo urlencode($mensaje["asunto"]); ?>" target="_blank" class="btn btn-primary">Responder</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>

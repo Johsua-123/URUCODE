@@ -1,29 +1,29 @@
 <?php
 session_start();
-require '../api/mysql.php';
-
-// Rol
+require "../api/mysql.php";
 $stmt = $mysql->prepare("SELECT rol FROM usuarios WHERE codigo = ?");
 $stmt->bind_param("s", $_SESSION["code"]);
 $stmt->execute();
 $user = $stmt->get_result()->fetch_assoc();
 $stmt->close();
-
 if (!$user || !in_array($user["rol"], ["dueño", "supervisor", "admin", "empleado"])) {
     header("Location: ../index.php");
     exit();
 }
 
+//obtiene la fecha de creacion de los usuarios, cuenta la cantidad de estas y las agrupa segun la fecha en orden ascendente
 $actividadesUsuarios = $mysql->query("
     SELECT DATE(fecha_creacion) AS fecha, COUNT(*) AS cantidad 
     FROM usuarios GROUP BY DATE(fecha_creacion) ORDER BY fecha ASC
 ")->fetch_all(MYSQLI_ASSOC);
 
+//obtiene la fecha de creacion de las ordenes, cuenta la cantidad de estas y las agrupa segun la fecha en orden ascendente
 $actividadesOrdenes = $mysql->query("
     SELECT DATE(fecha_creacion) AS fecha, COUNT(*) AS cantidad 
     FROM ordenes GROUP BY DATE(fecha_creacion) ORDER BY fecha ASC
 ")->fetch_all(MYSQLI_ASSOC);
 
+//
 $categoriasProductos = $mysql->query("
     SELECT c.nombre AS categoria, COUNT(pc.producto_id) AS cantidad 
     FROM categorias c 
@@ -32,9 +32,9 @@ $categoriasProductos = $mysql->query("
 ")->fetch_all(MYSQLI_ASSOC);
 
 $data = [
-    'usuarios' => $actividadesUsuarios,
-    'ordenes' => $actividadesOrdenes,
-    'categorias' => $categoriasProductos
+    "usuarios" => $actividadesUsuarios,
+    "ordenes" => $actividadesOrdenes,
+    "categorias" => $categoriasProductos
 ];
 ?>
 <!DOCTYPE html>
@@ -77,7 +77,7 @@ $data = [
         const data = <?php echo json_encode($data); ?>;
 
         // Aca se crean las graficas
-        function crearGrafico(canvasId, labels, data, label, tipo = 'bar', color = 'rgba(75, 192, 192)') {
+        function crearGrafico(canvasId, labels, data, label, tipo = "bar", color = "rgba(75, 192, 192)") {
             new Chart(document.getElementById(canvasId), {
                 type: tipo,
                 data: {
@@ -85,8 +85,8 @@ $data = [
                     datasets: [{
                         label: label,
                         data: data,
-                        backgroundColor: `${color.replace(')', ', 0.2)')}`, 
-                        borderColor: `${color.replace(')', ', 1)')}`, 
+                        backgroundColor: `${color.replace(")", ", 0.2)")}`, 
+                        borderColor: `${color.replace(")", ", 1)")}`, 
                         borderWidth: 1
                     }]
                 },
@@ -95,24 +95,24 @@ $data = [
                     plugins: {
                         legend: {
                             labels: {
-                                color: '#fff' 
+                                color: "#fff" 
                             }
                         },
                         tooltip: {
-                            backgroundColor: '#2a2a3c', 
-                            titleColor: '#fff', 
-                            bodyColor: '#fff' 
+                            backgroundColor: "#2a2a3c", 
+                            titleColor: "#fff", 
+                            bodyColor: "#fff" 
                         }
                     },
                     scales: {
                         x: {
                             ticks: {
-                                color: '#fff' 
+                                color: "#fff" 
                             }
                         },
                         y: {
                             ticks: {
-                                color: '#fff'
+                                color: "#fff"
                             },
                             beginAtZero: true
                         }
@@ -122,28 +122,28 @@ $data = [
         }
 
         crearGrafico(
-            'usuariosChart',
+            "usuariosChart",
             data.usuarios.map(u => u.fecha),
             data.usuarios.map(u => u.cantidad),
-            'Usuarios registrados por fecha'
+            "Usuarios registrados por fecha"
         );
 
         crearGrafico(
-            'ordenesChart',
+            "ordenesChart",
             data.ordenes.map(o => o.fecha),
             data.ordenes.map(o => o.cantidad),
-            'Órdenes registradas por fecha',
-            'line',
-            'rgba(255, 99, 132)'
+            "Órdenes registradas por fecha",
+            "line",
+            "rgba(255, 99, 132)"
         );
 
         crearGrafico(
-            'categoriasChart',
+            "categoriasChart",
             data.categorias.map(c => c.categoria),
             data.categorias.map(c => c.cantidad),
-            'Productos por categoría',
-            'bar',
-            'rgba(54, 162, 235)'
+            "Productos por categoría",
+            "bar",
+            "rgba(54, 162, 235)"
         );
     </script>
 </body>

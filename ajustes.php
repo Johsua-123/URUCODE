@@ -9,8 +9,8 @@
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-DF773N72G0');
+        gtag("js", new Date());
+        gtag("config", "G-DF773N72G0");
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -32,8 +32,8 @@
                 <div class="tab-section">
                     <div id="general" class="tab-body">
                         <h1>Perfil</h1>
-                        <?php if (isset($_GET['mensaje'])): ?>
-                            <?php if ($_GET['mensaje'] == 'actualizado'): ?>
+                        <?php if (isset($_GET["mensaje"])): ?>
+                            <?php if ($_GET["mensaje"] == "actualizado"): ?>
                                 <p class="success-message">Perfil actualizado!</p>
                                 <?php endif; ?>
                         <?php endif; ?>

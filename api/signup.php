@@ -25,7 +25,7 @@
     $email = $_POST["email"];
     $username = $_POST["username"];
     $password = $_POST["password"];
-    $date = date('Y-m-d H:i:s');
+    $date = date("Y-m-d H:i:s");
 
     if (empty(trim($email)) || empty(trim($username)) || empty(trim($password))) {
         echo json_encode([ "text" => "Debes completar todos los campos" ]);

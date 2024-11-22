@@ -1,10 +1,10 @@
 <?php
-require 'mysql.php';
+require "mysql.php";
 
 $resultado = [];
 
-if ($_SERVER['REQUEST_METHOD'] == 'GET' && !empty($_GET["search"])) {
-    $busqueda = $mysql->real_escape_string($_GET['search']);
+if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($_GET["search"])) {
+    $busqueda = $mysql->real_escape_string($_GET["search"]);
     $buscar = "
         SELECT productos.*,
         FROM productos

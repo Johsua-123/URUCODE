@@ -4,10 +4,8 @@ if (!isset($_SESSION["code"])) {
     header("Location: ../index.php");
     exit();
 }
-
 require "../api/mysql.php";
-
-// Verificar rol del usuario
+// Verificar rol del usuario sino no permite entrar
 $stmt = $mysql->prepare("SELECT rol FROM usuarios WHERE codigo = ?");
 $stmt->bind_param("s", $_SESSION["code"]);
 $stmt->execute();
@@ -19,15 +17,18 @@ if (!$user || ($user["rol"] != "dueño" && $user["rol"] != "supervisor" && $user
     exit();
 }
 
-if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST["nombre"])) {
-    $nombre = $_POST['nombre'];
+//recibe el nombre de la categoría desde el formulario y la fecha actual y los asigna a variables
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["nombre"])) {
+    $nombre = $_POST["nombre"];
     $fecha = date("Y-m-d H:i:s");
 
+    //inserta la nueva categoria en la bd
     $stmt = $mysql->prepare("INSERT INTO categorias (nombre, fecha_creacion, fecha_actualizacion) VALUES (?, ?, ?)");
     $stmt->bind_param("sss", $nombre, $fecha, $fecha);
     $stmt->execute();
 }
 
+// obtiene todas las categorias no eliminadas de la base de datos
 $stmt = $mysql->prepare("SELECT * FROM categorias WHERE eliminado = false");
 $stmt->execute();
 $categorias = $stmt->get_result();
@@ -61,6 +62,7 @@ $categorias = $stmt->get_result();
                     </tr>
                 </thead>
                 <tbody>
+                     <!-- Muestra cada categoria en una fila de la tabla -->
                     <?php while ($categoria = $categorias->fetch_assoc()) { ?>
                         <tr>
                             <td><?php echo $categoria["codigo"]; ?></td>
@@ -73,6 +75,7 @@ $categorias = $stmt->get_result();
         </main>
     </div>
 
+     <!-- Modal para agregar una nueva cat -->
     <div id="categoryModal" class="modal hidden">
         <div class="modal-content">
             <h2>Agregar Categoría</h2>

@@ -1,16 +1,16 @@
 <?php
 session_start();
-require 'mysql.php';
+require "mysql.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $usuario_id = $_SESSION['code']; 
-    $item_id = $_POST['codigoProducto'];
-    $cantidad = $_POST['cantidadProducto'];
-    $precio_unitario = $_POST['precioProducto'];
+    $usuario_id = $_SESSION["code"]; 
+    $item_id = $_POST["codigoProducto"];
+    $cantidad = $_POST["cantidadProducto"];
+    $precio_unitario = $_POST["precioProducto"];
     $subtotal = $cantidad * $precio_unitario;
     $estado = "Pendiente"; 
-    $direccion = $_POST['direccionCliente'];
-    $item_tipo = $_POST['tipoItem']; 
+    $direccion = $_POST["direccionCliente"];
+    $item_tipo = $_POST["tipoItem"]; 
 
     if ($item_tipo == "productos") {
         $stmt = $mysql->prepare("SELECT COUNT(*) FROM productos WHERE codigo = ?");
