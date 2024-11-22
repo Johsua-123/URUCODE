@@ -5,23 +5,21 @@
     }
     require "../api/mysql.php";
     $location = "tienda";
-
     $stmt = $mysql->prepare("SELECT rol FROM usuarios WHERE codigo = ?");
     $stmt->bind_param("s", $_SESSION["code"]);
     $stmt->execute();
     $result = $stmt->get_result();
     $user = $result->fetch_assoc();
-
     if (!$user || ($user["rol"] !== "dueño" && $user["rol"] !== "supervisor" && $user["rol"] !== "admin" && $user["rol"] !== "empleado")) {
         header("Location: index.php");
         exit();
     }
     $stmt->close();
 
+    //al presionar el botón elimiar actualiza el atributo en_venta del producto y lo establece a 0, así eliminandolo de la tabla de productos en venta
     if(isset($_POST["codigo"]) && is_numeric($_POST["codigo"])) { 
         $codigo_a_eliminar = $_POST["codigo"]; 
-    
-        $update_query = " 
+       $update_query = " 
         UPDATE productos 
         SET en_venta = 0, fecha_actualizacion='now()'
         WHERE codigo = ? 
@@ -37,6 +35,7 @@
         exit();
         }
 
+    //obtiene el producto seleccionado en el modal y establece su atributo en_venta a 1, haciendo que se muestre en la tabla
     if(isset($_POST["productos"]) && is_array($_POST["productos"])){
         $productos = $_POST["productos"];
         foreach ($productos as $producto) {
@@ -47,7 +46,7 @@
                 SET en_venta = 1
                 WHERE codigo = ?
             ";
-
+//ejecuta aca la consulta
             $stmt = $mysql->prepare($update_query);
             $stmt->bind_param("i", $codigo);
 
@@ -109,6 +108,8 @@
                         </thead>
                         <tbody>
                             <?php
+                         // Consulta para obtener productos en venta y sus relaciones
+
                             $result = $mysql->query("
                                 SELECT p.*, GROUP_CONCAT(c.nombre SEPARATOR ', ') AS categorias, img.nombre AS imagen_nombre
                                 FROM productos p
@@ -137,6 +138,7 @@
                                     <td><?php echo $producto["fecha_creacion"]; ?></td>
                                     <td><?php echo $producto["fecha_actualizacion"]; ?></td>
                                     <td>
+                                        <!-- Formulario para eliminar producto -->
                                         <form method="post" onsubmit="return confirm('¿Estás seguro que quieres eliminar este producto de la lista?');">
                                             <input type="hidden" name="codigo" value="<?php echo $producto["codigo"]; ?>">
                                             <button type="submit" class="delete-button">Eliminar</button>
@@ -154,6 +156,7 @@
         <div class="modal-content">
             <h2>Agregar Producto</h2>
             <form action="tienda.php" method="POST">
+                <!-- Envia los datos a tienda princiapl -->
                 <div>
                     <label for="productos">Productos</label>
                     <select name="productos[]" multiple>
@@ -163,6 +166,8 @@
 
                             $productos = $stmt->get_result();
 
+                            // Genera una opción <option> para cada producto obtenido
+                            
                             while ($producto = $productos->fetch_assoc()) {
                                 echo '<option value="'.$producto["codigo"].'|'.$producto["nombre"].'">' . $producto["nombre"] . '</option>';
                             }

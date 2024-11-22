@@ -54,6 +54,7 @@ $stmt->close();
                     <th>Teléfono</th>
                     <th>Fecha de Creación</th>
                 </tr>
+                 <!-- Mostrar cada usuario en una fila -->
                 <?php while($usuario = $resultado->fetch_assoc()): ?>
                 <tr>
                     <td><?php echo $usuario["codigo"]; ?></td>

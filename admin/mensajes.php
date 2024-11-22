@@ -7,20 +7,18 @@ if (!isset($_SESSION["code"])) {
 $roles = ["dueño", "supervisor", "admin", "empleado"];
 $location = "mensajes";
 require "../api/mysql.php";
-
 $stmt = $mysql->prepare("SELECT rol FROM usuarios WHERE codigo = ?");
 $stmt->bind_param("s", $_SESSION["code"]);
 $stmt->execute();
 $result = $stmt->get_result();
 $user = $result->fetch_assoc();
-
-
 if (!$user || ($user["rol"] !== "dueño" && $user["rol"] !== "supervisor" && $user["rol"] !== "admin" && $user["rol"] !== "empleado")) {
     header("Location: index.php");
     exit();
 }
 $stmt->close();
 
+//cuando el botón de marcar como leído es presionado esta consulta actualiza el atributo leído a 1 para establecer ese mensaje como uno que ya se leyó
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["marcar_leido"])) {
     $mensaje_id = $_POST["mensaje_id"];
     
@@ -37,6 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["marcar_leido"])) {
     exit();
 }
 
+//obtiene todos los mensajes ordenados por su fecha de creación en orden descendente
 $stmt = $mysql->prepare("SELECT * FROM mensajes ORDER BY fecha_creacion DESC");
 $stmt->execute();
 $result = $stmt->get_result();
@@ -86,6 +85,7 @@ $mensajes = $result->fetch_all(MYSQLI_ASSOC);
                     </tr>
                 </thead>
                 <tbody>
+                    <!-- Recorre los mensajes obtenidos -->
                     <?php foreach ($mensajes as $mensaje): ?>
                         <tr>
                             <td><?php echo $mensaje["nombre"]; ?></td>
@@ -100,6 +100,7 @@ $mensajes = $result->fetch_all(MYSQLI_ASSOC);
                                         <input type="hidden" name="mensaje_id" value="<?php echo $mensaje["codigo"]; ?>">
                                         <button type="submit" name="marcar_leido" class="btn btn-success">Marcar como leído</button>
                                     </form>
+                                     <!--responder vía Gmail -->
                                 <?php endif; ?>
                                 <a href="https://mail.google.com/mail/u/0/?view=cm&fs=1&to=<?php
                                  echo $mensaje["email"];?>

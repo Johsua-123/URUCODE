@@ -1,19 +1,14 @@
-
 <?php 
-
+// Verifica si el método de solicitud es POST y si la acción está definida
     $script = $_GET["script"] ?? null;
     $accion = $_POST["accion"] ?? null;
-
     if ($_SERVER["REQUEST_METHOD"] != "POST") {
         header("Location: $script");
     }
-
     if (empty($accion)) {
         header("Location: $script");
     }
-
     require "mysql.php";
-
     if ($accion == "insertar") {
         $nombre = $_POST["nombre"];
         $cantidad = $_POST["cantidad"];
@@ -23,14 +18,15 @@
         $descripcion = $_POST["descripcion"];
         $categorias = $_POST["categorias"] ?? [];
         $fecha = date("Y-m-d H:i:s");
-
+        
+   // Manejo de imagen subida
         $imagen = $_FILES["icono"];
         $ruta = "../public/images/";
         $imagen_id = null;
 
         if (!empty($imagen)) {
             if ($imagen["error"] == UPLOAD_ERR_OK) {
-                $archivo = pathinfo($imagen["name"]);
+                $archivo = pathinfo($imagen['name']);
                 $extension_img = "." . $archivo["extension"];
                 $nombre_img = $archivo["filename"];
                 $stmt = $mysql->prepare("INSERT INTO imagenes (nombre, extension, fecha_creacion) VALUES (?, ?, ?)");

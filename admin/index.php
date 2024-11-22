@@ -23,7 +23,7 @@ $actividadesOrdenes = $mysql->query("
     FROM ordenes GROUP BY DATE(fecha_creacion) ORDER BY fecha ASC
 ")->fetch_all(MYSQLI_ASSOC);
 
-//
+//obtiene el nombre de las categorías y cuenta la cantidad de productos que hay asociados a cada una, agrupa segun el codigo de la categoría y ordena según la cantidad de forma descendente
 $categoriasProductos = $mysql->query("
     SELECT c.nombre AS categoria, COUNT(pc.producto_id) AS cantidad 
     FROM categorias c 

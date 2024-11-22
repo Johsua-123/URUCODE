@@ -1,12 +1,10 @@
 <?php 
-
+// se ve si el usuario tiene una sesion iniciada
     session_start();
-
     if (!isset($_SESSION["code"])) {
         header("Location: ../index.php");
         exit;
     }
-
     $location = "inventario";
     require "../api/mysql.php";
 
@@ -15,17 +13,16 @@
     $stmt->execute();
     $result = $stmt->get_result();
     $user = $result->fetch_assoc();
-
     if (!$user || ($user["rol"] !== "dueño" && $user["rol"] !== "supervisor" && $user["rol"] !== "admin")) {
         header("Location: index.php");
         exit();
     }
-
     $stmt->close();
-
+// almacena la cat seleccionada
     $categoria = $_GET["categoria"] ?? null;
     $productos = [];
 
+// Consulta para obtener productos y su informacion relacionada
     $consulta = "SELECT p.*, 
         c.nombre AS 'categoria',
         i.codigo AS 'i.codigo',
@@ -37,30 +34,32 @@
         LEFT JOIN categorias c ON pc.categoria_id=c.codigo
         WHERE p.eliminado=false
     ";
-
+// Si se selecciona una cat, agrega un filtro a la consulta
     if (!empty($categoria)) {
         $consulta .= " AND c.codigo=$categoria";
     }
-
+// Prepara y ejecuta la consulta
     $stmt = $mysql->prepare($consulta);
-
     $stmt->execute();
-
     $resultado = $stmt->get_result();
 
+    // Procesa cada producto obtenido de la base de datos
     while ($producto = $resultado->fetch_assoc()) {
 
+        // Verifica si el producto tiene una imagen asociada
         if (!empty($producto["i.codigo"])) {
             $imagen = $producto["i.nombre"] . "-" . $producto["i.codigo"] . $producto["i.extension"];
             
             if (file_exists("../public/images/$imagen")) {
-                $producto["imagen"] = "../public/images/$imagen";
+                $producto["imagen"] = "../public/images/$imagen"; // Verifica si el archivo de la imagen existe en el servidor
             } else {
                 $producto["imagen"] = "";
             }
         }
 
+    // Saca las claves intermedias no necesarias para la salida final
         unset($producto["i.codigo"], $producto["i.nombre"], $producto["i.extension"]);
+    // Agrega el producto procesado al array de productos
         $productos[] = $producto;
 
     }
@@ -99,11 +98,11 @@
                         <select name="categoria" id="categoria" onchange="this.form.submit()">
                             <option value="">Todas</option>
                             <?php
-
+// Obtiene la lista de categorías disponibles
                             $stmt = $mysql->prepare("SELECT codigo, nombre FROM categorias");
                             $stmt->execute();
                             $categorias = $stmt->get_result();
-    
+    // Selecciona la categoría seleccionada
                             while ($fila = $categorias->fetch_assoc()) {
                                 $seleccion = ($fila["codigo"] == $categoria) ? "selected" : "";
                                 echo '<option value="'. $fila["codigo"].'" '. $seleccion .'>' . $fila["nombre"] . '</option>';
@@ -159,7 +158,7 @@
             </div>
         </main>
     </div>
-
+ <!-- Modal para agregar productos -->
     <div id="productModal" class="modal hidden">
         <div class="modal-content">
             <h2>Agregar Nuevo Producto</h2>
